@@ -1,157 +1,341 @@
 <!DOCTYPE html>
-<html lang="tr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>7/24 Nöbetçi YM Diş Kliniği | Bağcılar, İstanbul</title>
-<meta name="description" content="7/24 Nöbetçi YM Diş Kliniği - Bağcılar/İstanbul. Dolgu, kanal tedavisi, implant, diş beyazlatma ve daha fazlası. Tel: 0541 732 43 76">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦷</text></svg>">
+<html lang="tr"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>7/24 Nöbetçi YM Diş Kliniği — Bağcılar</title>
+<meta name="description" content="7/24 Nöbetçi YM Diş Kliniği — Kirazlı, Mevlana Cd. No:47 — Bağcılar / İstanbul. Şikâyetiniz için telefonla ya da WhatsApp üzerinden ulaşabilirsiniz. Her gün 24 saat açıktır. 0541 732 43 76">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b1119" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="7/24 Nöbetçi YM Diş Kliniği">
+<meta property="og:description" content="Bağcılar Kirazlı’da ağız ve diş sağlığı kliniği. Şikâyetiniz için telefonla ya da WhatsApp üzerinden ulaşabilirsiniz.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ymdisklinigi.com/">
+<meta property="og:locale" content="tr_TR">
+<link rel="canonical" href="https://ymdisklinigi.com/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Dentist","name":"7/24 Nöbetçi YM Diş Kliniği",
+"url":"https://ymdisklinigi.com/","telephone":"+905417324376",
+"address":{"@type":"PostalAddress","streetAddress":"Kirazlı, Mevlana Cd. No:47",
+"addressLocality":"Bağcılar","addressRegion":"İstanbul","postalCode":"34000","addressCountry":"TR"},
+"openingHoursSpecification":{"@type":"OpeningHoursSpecification",
+"dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+"opens":"00:00","closes":"23:59"},
+"aggregateRating":{"@type":"AggregateRating","ratingValue":"5.0","reviewCount":"8"}}
+</script>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-    color: #1a2b33;
-    background: #f7fbfc;
-    line-height: 1.6;
+  /* --- jeton sistemi ---------------------------------------------------
+     Renk: kagit / kat / murekkep / gri / cizgi / tek petrol-lacivert vurgu.
+     Vurgu SADECE baglanti ve eylem dugmelerinde gorunur; baska hicbir yerde
+     renk yok. Kurumsal his efektten degil bu kisitlamadan geliyor. */
+  :root{
+    --kagit:#ffffff;
+    --kat:#f5f7f9;
+    --murekkep:#0e1b26;
+    --gri:#5a6b78;
+    --soluk:#8595a1;
+    --cizgi:#e3e8ec;
+    --vurgu:#0f3d56;
+    --vurgu-koyu:#0a2c40;
+    --baslik:"Archivo","Segoe UI",system-ui,-apple-system,sans-serif;
+    --metin:"IBM Plex Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+    --tek:"IBM Plex Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
   }
-  .ust-serit {
-    background: #0e6b74;
-    color: #fff;
-    text-align: center;
-    padding: 8px 16px;
-    font-size: 0.95rem;
+  /* Gece surumu bir "ek ozellik" degil: 24 saat acik bir klinigin sitesini
+     insanlar gercekten gece 3'te aciyor. */
+  @media (prefers-color-scheme: dark){
+    :root{--kagit:#0b1119;--kat:#111a24;--murekkep:#eef3f7;--gri:#93a4b1;
+          --soluk:#6e8090;--cizgi:#1e2a36;--vurgu:#6ab5d6;--vurgu-koyu:#8ac8e3}
   }
-  header {
-    background: linear-gradient(160deg, #e8f6f8 0%, #f7fbfc 70%);
-    padding: 64px 24px 48px;
-    text-align: center;
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--kagit);color:var(--gri);
+    font:16px/1.68 var(--metin);
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .sar{max-width:1000px;margin:0 auto;padding:0 30px}
+  @media (max-width:640px){.sar{padding:0 20px}}
+  a{color:inherit}
+  .ikon{flex:0 0 auto}
+  :focus-visible{outline:2px solid var(--vurgu);outline-offset:3px;border-radius:3px}
+
+  /* --- ust serit (yapiskan): telefon HER ZAMAN ekranda --- */
+  .serit{position:sticky;top:0;z-index:30;background:var(--kagit);
+    border-bottom:1px solid var(--cizgi)}
+  .serit .sar{display:flex;align-items:center;justify-content:space-between;
+    gap:16px;height:62px}
+  .marka{display:flex;flex-direction:column;line-height:1.2;text-decoration:none}
+  .marka b{font-family:var(--baslik);font-size:16px;font-weight:700;
+    color:var(--murekkep);letter-spacing:-.015em}
+  .marka span{font-family:var(--tek);font-size:10.5px;color:var(--soluk);
+    letter-spacing:.13em;margin-top:4px}
+  .serit-tel{display:flex;align-items:center;gap:8px;text-decoration:none;
+    color:var(--vurgu);font-weight:600;font-size:16px;white-space:nowrap;
+    font-variant-numeric:tabular-nums}
+  .serit-tel:hover{text-decoration:underline;text-underline-offset:4px}
+  @media (max-width:400px){.serit-tel{font-size:15px}.marka b{font-size:15px}}
+
+  /* --- giris --- */
+  .giris{padding:70px 0 58px;border-bottom:1px solid var(--cizgi)}
+  @media (max-width:640px){.giris{padding:40px 0 40px}}
+  /* Baslik kunye niteliginde ve uzun; 3 satirda dengeli kirilsin diye
+     olcu 15ch/56px'ten 19ch/46px'e cekildi. */
+  h1{margin:0 0 22px;font-family:var(--baslik);font-weight:800;
+    color:var(--murekkep);font-size:clamp(30px,4.6vw,46px);line-height:1.12;
+    letter-spacing:-.032em;max-width:19ch;text-wrap:balance}
+  .giris-ozet{margin:0 0 34px;font-size:17.5px;line-height:1.62;max-width:50ch}
+  .eylem{display:flex;gap:10px;flex-wrap:wrap}
+  .dugme{display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    text-decoration:none;font-weight:600;font-size:16px;padding:15px 24px;
+    border-radius:4px;border:1px solid transparent;
+    transition:background .16s,border-color .16s,color .16s}
+  .birincil{background:var(--vurgu);color:#fff;font-variant-numeric:tabular-nums;
+    letter-spacing:.01em}
+  .birincil:hover{background:var(--vurgu-koyu)}
+  @media (prefers-color-scheme: dark){
+    .birincil{color:#06202e}
+    .birincil:hover{background:var(--vurgu-koyu)}
   }
-  .logo { font-size: 3rem; }
-  h1 {
-    font-size: clamp(1.6rem, 4vw, 2.4rem);
-    color: #0e6b74;
-    margin-top: 8px;
+  .ikincil{border-color:var(--cizgi);color:var(--murekkep);background:var(--kagit)}
+  .ikincil:hover{border-color:var(--murekkep)}
+
+  .kanit{display:flex;gap:30px;flex-wrap:wrap;margin-top:40px;padding-top:24px;
+    border-top:1px solid var(--cizgi)}
+  .kanit div{display:flex;align-items:center;gap:9px;font-size:14px;
+    color:var(--soluk)}
+  .kanit b{color:var(--murekkep);font-weight:600}
+  .kanit .ikon{color:var(--soluk)}
+
+  /* --- bolumler --- */
+  section{padding:66px 0}
+  @media (max-width:640px){section{padding:46px 0}}
+  .bolum-basi{margin-bottom:8px}
+  h2{margin:0 0 10px;font-family:var(--baslik);color:var(--murekkep);
+    font-weight:700;font-size:clamp(23px,2.8vw,29px);letter-spacing:-.028em}
+  .bolum-basi p{margin:0 0 30px;color:var(--gri);font-size:16.5px;max-width:56ch}
+
+  /* --- IMZA OGE: hasta sorulari --------------------------------------
+     Her satir, WhatsApp'i o soru yazili halde acar. Satirin TAMAMI
+     tiklanabilir (mobilde parmak hedefi buyuk olsun diye). */
+  .sorular{border-top:1px solid var(--cizgi)}
+  .soru{display:flex;align-items:center;justify-content:space-between;gap:18px;
+    padding:17px 2px;border-bottom:1px solid var(--cizgi);text-decoration:none;
+    color:var(--murekkep);font-size:17px;font-weight:500;line-height:1.4;
+    transition:color .15s,padding-left .15s}
+  .soru .ikon{color:var(--soluk);transition:transform .18s,color .15s}
+  .soru:hover{color:var(--vurgu);padding-left:8px}
+  .soru:hover .ikon{color:var(--vurgu);transform:translateX(3px)}
+  .soru-alt{margin:22px 0 0;font-size:15px;color:var(--soluk)}
+  .soru-alt a{color:var(--vurgu);font-weight:600;text-decoration:none}
+  .soru-alt a:hover{text-decoration:underline;text-underline-offset:3px}
+  @media (max-width:640px){.soru{font-size:16px;padding:15px 2px}}
+
+  /* --- kategori DIZINI (kart degil) --- */
+  .dizin{border-top:1px solid var(--cizgi)}
+  .dizin-satir{display:grid;grid-template-columns:minmax(190px,6fr) 10fr;
+    gap:20px 44px;padding:21px 0;border-bottom:1px solid var(--cizgi);
+    align-items:start}
+  .dizin-satir h3{margin:0;font-family:var(--baslik);font-size:18.5px;
+    font-weight:600;color:var(--murekkep);letter-spacing:-.02em;line-height:1.28}
+  .dizin-satir p{margin:0;color:var(--gri);font-size:15.5px;line-height:1.62;
+    max-width:54ch}
+  @media (max-width:640px){
+    .dizin-satir{grid-template-columns:1fr;gap:5px;padding:17px 0}
+    .dizin-satir p{font-size:15px}
   }
-  .alt-baslik {
-    font-size: 1.1rem;
-    color: #40606b;
-    margin-top: 8px;
+
+  /* --- gece aramasi + cagri --- */
+  .gece{background:var(--kat);border:1px solid var(--cizgi);border-radius:4px;
+    padding:34px 36px;display:grid;grid-template-columns:minmax(190px,6fr) 10fr;
+    gap:20px 44px;align-items:start}
+  .gece h2{margin:0;font-size:22px}
+  .gece p{margin:0 0 20px;font-size:16px;line-height:1.66;max-width:54ch}
+  .gece p:last-child{margin-bottom:0}
+  @media (max-width:640px){
+    .gece{grid-template-columns:1fr;gap:14px;padding:26px 22px}
   }
-  .tel-buton {
-    display: inline-block;
-    margin-top: 24px;
-    background: #0e6b74;
-    color: #fff;
-    text-decoration: none;
-    font-size: 1.2rem;
-    font-weight: 600;
-    padding: 14px 32px;
-    border-radius: 999px;
-    box-shadow: 0 4px 14px rgba(14, 107, 116, 0.3);
+
+  /* --- iletisim --- */
+  .kunye{border-top:1px solid var(--cizgi)}
+  .kunye-satir{display:grid;grid-template-columns:minmax(150px,4fr) 12fr;
+    gap:8px 44px;padding:18px 0;border-bottom:1px solid var(--cizgi);
+    align-items:baseline}
+  .kunye-etiket{font-family:var(--tek);color:var(--soluk);font-size:11px;
+    letter-spacing:.13em}
+  .kunye-deger{color:var(--murekkep);font-size:16.5px;font-weight:500}
+  .kunye-deger a{color:var(--vurgu);text-decoration:none;font-weight:600}
+  .kunye-deger .sade{color:var(--gri);font-weight:400;text-decoration:underline;
+    text-underline-offset:3px}
+  .kunye-deger a:hover{text-decoration:underline;text-underline-offset:3px}
+  @media (max-width:640px){.kunye-satir{grid-template-columns:1fr;gap:3px}}
+
+  footer{border-top:1px solid var(--cizgi);padding:36px 0 44px}
+  footer .sar{display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap}
+  footer p{margin:0;font-size:13.5px;line-height:1.7;color:var(--soluk);
+    max-width:46ch}
+  footer b{color:var(--murekkep);font-weight:600;font-family:var(--baslik)}
+
+  /* --- mobil sabit arama serdi --- */
+  .sabit{position:fixed;left:0;right:0;bottom:0;z-index:40;display:none;gap:9px;
+    padding:11px 20px calc(11px + env(safe-area-inset-bottom));
+    background:var(--kagit);border-top:1px solid var(--cizgi)}
+  .sabit .dugme{flex:1}
+  @media (max-width:720px){
+    .sabit{display:flex}
+    body{padding-bottom:86px}
+    .eylem .dugme{flex:1 1 100%}
   }
-  .tel-buton:hover { background: #0a555c; }
-  main { max-width: 900px; margin: 0 auto; padding: 24px; }
-  section { margin: 48px 0; }
-  h2 {
-    color: #0e6b74;
-    font-size: 1.5rem;
-    margin-bottom: 16px;
-    border-bottom: 3px solid #bfe4e8;
-    display: inline-block;
-    padding-bottom: 4px;
-  }
-  .hizmetler {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 12px;
-    list-style: none;
-  }
-  .hizmetler li {
-    background: #fff;
-    border: 1px solid #d8ecef;
-    border-radius: 10px;
-    padding: 14px 16px;
-  }
-  .iletisim-kutu {
-    background: #fff;
-    border: 1px solid #d8ecef;
-    border-radius: 12px;
-    padding: 24px;
-  }
-  .iletisim-kutu p { margin: 8px 0; font-size: 1.05rem; }
-  .iletisim-kutu a { color: #0e6b74; font-weight: 600; }
-  .harita {
-    width: 100%;
-    height: 320px;
-    border: 0;
-    border-radius: 12px;
-    margin-top: 16px;
-  }
-  footer {
-    text-align: center;
-    padding: 32px 16px;
-    color: #67818a;
-    font-size: 0.9rem;
-    border-top: 1px solid #d8ecef;
-    margin-top: 48px;
+
+  /* --- tek orkestre an: giris satirlari sirayla belirir --- */
+  @keyframes yuksel{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+  .js .sirali>*{animation:yuksel .5s cubic-bezier(.2,.7,.3,1) both}
+  .js .sirali>*:nth-child(1){animation-delay:.03s}
+  .js .sirali>*:nth-child(2){animation-delay:.09s}
+  .js .sirali>*:nth-child(3){animation-delay:.15s}
+  .js .sirali>*:nth-child(4){animation-delay:.21s}
+  .js .sirali>*:nth-child(5){animation-delay:.27s}
+  @media (prefers-reduced-motion: reduce){
+    .js .sirali>*{animation:none}
+    *{transition:none!important}
   }
 </style>
-</head>
-<body>
+<script>document.documentElement.className="js";</script>
+</head><body>
 
-<div class="ust-serit">Kliniğimiz çok yakında hizmetinizde olacak — bilgi için bizi arayabilirsiniz.</div>
+<div class="serit"><div class="sar">
+  <a class="marka" href="/"><b>YM Diş Kliniği</b><span>BAĞCILAR · KİRAZLI</span></a>
+  <a class="serit-tel" href="tel:+905417324376"><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 5.5 5.5L16 12l4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4 6.2 2 2 0 0 1 6 4V3Z"/></svg><span>0541 732 43 76</span></a>
+</div></div>
 
-<header>
-  <div class="logo">🦷</div>
-  <h1>7/24 Nöbetçi YM Diş Kliniği</h1>
-  <p class="alt-baslik">Bağcılar / İstanbul &bull; Diş Hekimi Yunus Emre Çetin</p>
-  <a class="tel-buton" href="tel:+905417324376">📞 0541 732 43 76</a>
-</header>
+<header class="giris"><div class="sar sirali">
+  <h1>Bağcılar Kirazlı’da ağız ve diş sağlığı kliniği.</h1>
+  <p class="giris-ozet">Diş hekimliğinin tüm alanlarında hizmet
+     verilmektedir. Şikâyetiniz ve merak ettikleriniz için telefonla ya da
+     WhatsApp üzerinden ulaşabilirsiniz.</p>
+  <div class="eylem">
+    <a class="dugme birincil" href="tel:+905417324376"><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 5.5 5.5L16 12l4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4 6.2 2 2 0 0 1 6 4V3Z"/></svg>0541 732 43 76</a>
+    <a class="dugme ikincil" href="https://wa.me/905417324376"><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7.5 7.5 0 0 1-11 6.6L4.5 20l1.4-4.4A7.5 7.5 0 1 1 20 12Z"/></svg> WhatsApp’tan yazın</a>
+  </div>
+  <div class="kanit">
+    <div><svg class="ikon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.8"/></svg><span>Her gün <b>24 saat</b></span></div>
+    <div><svg class="ikon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span><b>Kirazlı</b> Metro yakını</span></div>
+    <div><svg class="ikon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 4 2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4L4.2 9.7l5.4-.8L12 4Z"/></svg><span>Google’da <b>5,0</b> · 8 değerlendirme</span></div>
+  </div>
+</div></header>
 
 <main>
-  <section>
-    <h2>Hakkımızda</h2>
-    <p>
-      7/24 Nöbetçi YM Diş Kliniği, İstanbul Bağcılar'da, metroya yürüme
-      mesafesinde merkezi bir konumda kurulmuş yeni nesil bir diş kliniğidir.
-      Modern ekipmanlarımız ve hasta odaklı yaklaşımımızla, ağız ve diş
-      sağlığınız için güvenilir bir adres olmayı hedefliyoruz. Kliniğimiz
-      çok yakında kapılarını açıyor.
-    </p>
-  </section>
 
-  <section>
-    <h2>Hizmetlerimiz</h2>
-    <ul class="hizmetler">
-      <li>🦷 Diş Dolgusu</li>
-      <li>🦷 Kanal Tedavisi</li>
-      <li>🦷 Diş Çekimi</li>
-      <li>🦷 Diş Taşı Temizliği</li>
-      <li>🦷 Diş Beyazlatma</li>
-      <li>🦷 İmplant</li>
-      <li>🦷 Protez ve Kaplama</li>
-      <li>🦷 Ortodonti (Diş Teli)</li>
-      <li>🦷 Çocuk Diş Hekimliği</li>
-    </ul>
-  </section>
+<section><div class="sar">
+  <div class="bolum-basi">
+    <h2>Merak ettikleriniz</h2>
+    <p>Aşağıdaki sorulardan birini seçtiğinizde WhatsApp yazışması o soruyla
+       başlar. Dilerseniz kendi sorunuzu da yazabilirsiniz.</p>
+  </div>
+  <div class="sorular">
+    <a class="soru" href="https://wa.me/905417324376?text=Di%C5%9Fim%20a%C4%9Fr%C4%B1yor%2C%20en%20erken%20ne%20zaman%20gelebilirim%3F"><span>Dişim ağrıyor, en erken ne zaman gelebilirim?</span><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></svg></a>
+    <a class="soru" href="https://wa.me/905417324376?text=Gece%20de%20gelebilir%20miyim%3F"><span>Gece de gelebilir miyim?</span><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></svg></a>
+    <a class="soru" href="https://wa.me/905417324376?text=Randevu%20almam%20gerekiyor%20mu%3F"><span>Randevu almam gerekiyor mu?</span><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></svg></a>
+    <a class="soru" href="https://wa.me/905417324376?text=Di%C5%9Fetlerim%20kan%C4%B1yor%2C%20muayene%20gerekir%20mi%3F"><span>Dişetlerim kanıyor, muayene gerekir mi?</span><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></svg></a>
+    <a class="soru" href="https://wa.me/905417324376?text=%C3%87ocu%C4%9Fum%20i%C3%A7in%20randevu%20alabilir%20miyim%3F"><span>Çocuğum için randevu alabilir miyim?</span><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></svg></a>
+    <a class="soru" href="https://wa.me/905417324376?text=K%C4%B1r%C4%B1lan%20di%C5%9Fim%20i%C3%A7in%20ne%20yap%C4%B1labilir%3F"><span>Kırılan dişim için ne yapılabilir?</span><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></svg></a>
+  </div>
+  <p class="soru-alt">Telefonla görüşmeyi tercih ederseniz
+     <a href="tel:+905417324376">0541 732 43 76</a> numarasından ulaşabilirsiniz.</p>
+</div></section>
 
-  <section>
-    <h2>İletişim ve Konum</h2>
-    <div class="iletisim-kutu">
-      <p><strong>Adres:</strong> Kirazlı Mah., Mevlana Cad. No:47, 34000 Bağcılar / İstanbul</p>
-      <p><strong>Telefon:</strong> <a href="tel:+905417324376">0541 732 43 76</a></p>
-      <p><strong>Ulaşım:</strong> Kirazlı metro istasyonuna yürüme mesafesindedir.</p>
-      <iframe class="harita" loading="lazy"
-        src="https://www.google.com/maps?q=41.034264,28.8429051&hl=tr&z=16&output=embed"
-        title="YM Diş Kliniği Konum"></iframe>
+<section style="padding-top:0"><div class="sar">
+  <div class="bolum-basi">
+    <h2>Tedavi alanları</h2>
+    <p>Aşağıdaki alanların tamamında tedavi uygulanmaktadır. Durumunuza
+       hangi tedavinin uygun olduğu, muayene sonrasında hekiminiz
+       tarafından belirlenir.</p>
+  </div>
+  <div class="dizin">
+    <div class="dizin-satir">
+      <h3>Genel Diş Tedavisi</h3>
+      <p>Çürük dolgusu, diş taşı temizliği ve beyazlatma gibi koruyucu ve estetik uygulamalar.</p>
     </div>
-  </section>
+    <div class="dizin-satir">
+      <h3>Kanal Tedavisi</h3>
+      <p>Diş özüne ulaşan çürük ve iltihaplarda dişin çekilmeden korunmasına yönelik tedaviler.</p>
+    </div>
+    <div class="dizin-satir">
+      <h3>Ağız ve Diş Cerrahisi</h3>
+      <p>Diş çekimi, gömülü diş operasyonları, implant ve ağız içi cerrahi girişimler.</p>
+    </div>
+    <div class="dizin-satir">
+      <h3>Protez ve Kaplama</h3>
+      <p>Eksik ya da aşınmış dişlerin kaplama, köprü ve protezlerle yeniden kazandırılması.</p>
+    </div>
+    <div class="dizin-satir">
+      <h3>Dişeti Tedavisi</h3>
+      <p>Dişeti kanaması, çekilmesi ve sallanan dişlere yönelik periodontal tedaviler.</p>
+    </div>
+    <div class="dizin-satir">
+      <h3>Ortodonti ve Çene Eklemi</h3>
+      <p>Diş teli, şeffaf plak, gece plağı ve çene eklemi (TME) tedavileri.</p>
+    </div>
+    <div class="dizin-satir">
+      <h3>Çocuk Diş Hekimliği</h3>
+      <p>Süt dişi tedavileri ve çürüğü önlemeye yönelik koruyucu uygulamalar.</p>
+    </div>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="sar">
+  <div class="gece">
+    <h2>Bize ulaştığınızda</h2>
+    <div>
+      <p>Telefonu, klinikte o an görevli olan ekibimiz yanıtlar. Şikâyetinizi
+         dinler; hemen gelmenizin gerekip gerekmediğini, gerekiyorsa sizi
+         hangi saatte bekleyeceğimizi bildiririz. Geç saatlerde de aynı
+         şekilde ulaşabilirsiniz.</p>
+      <p>Muayene öncesinde merak ettiklerinizi telefonla da iletebilirsiniz.</p>
+      <div class="eylem">
+        <a class="dugme birincil" href="tel:+905417324376"><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 5.5 5.5L16 12l4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4 6.2 2 2 0 0 1 6 4V3Z"/></svg>0541 732 43 76</a>
+        <a class="dugme ikincil" href="https://wa.me/905417324376"><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7.5 7.5 0 0 1-11 6.6L4.5 20l1.4-4.4A7.5 7.5 0 1 1 20 12Z"/></svg> WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="sar">
+  <div class="bolum-basi"><h2>İletişim</h2></div>
+  <div class="kunye">
+    <div class="kunye-satir">
+      <div class="kunye-etiket">TELEFON</div>
+      <div class="kunye-deger"><a href="tel:+905417324376">0541 732 43 76</a></div>
+    </div>
+    <div class="kunye-satir">
+      <div class="kunye-etiket">WHATSAPP</div>
+      <div class="kunye-deger"><a href="https://wa.me/905417324376">Mesaj gönderin</a></div>
+    </div>
+    <div class="kunye-satir">
+      <div class="kunye-etiket">ADRES</div>
+      <div class="kunye-deger">Kirazlı, Mevlana Cd. No:47, 34000 Bağcılar / İstanbul<br>
+        <a class="sade" href="https://maps.app.goo.gl/wwZDJGP13zxdpB5ZA">Google Haritalar’da görüntüle</a></div>
+    </div>
+    <div class="kunye-satir">
+      <div class="kunye-etiket">ÇALIŞMA SAATLERİ</div>
+      <div class="kunye-deger">Her gün, 24 saat</div>
+    </div>
+  </div>
+</div></section>
+
 </main>
 
-<footer>
-  <p>© 2026 7/24 Nöbetçi YM Diş Kliniği — Diş Hekimi Yunus Emre Çetin</p>
-  <p>Kirazlı Mah., Mevlana Cad. No:47, Bağcılar / İstanbul &bull; 0541 732 43 76</p>
-</footer>
+<footer><div class="sar">
+  <p><b>7/24 Nöbetçi YM Diş Kliniği</b><br>Kirazlı, Mevlana Cd. No:47, 34000 Bağcılar / İstanbul<br>
+     <a href="tel:+905417324376" style="color:var(--vurgu);text-decoration:none">0541 732 43 76</a></p>
+  <p>Bu sitede yer alan bilgiler genel bilgilendirme amaçlıdır ve hekim
+     muayenesinin yerine geçmez. Şikâyetiniz için kliniğimize başvurunuz.</p>
+</div></footer>
 
-</body>
-</html>
+<div class="sabit">
+  <a class="dugme birincil" href="tel:+905417324376"><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 5.5 5.5L16 12l4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4 6.2 2 2 0 0 1 6 4V3Z"/></svg> Ara</a>
+  <a class="dugme ikincil" href="https://wa.me/905417324376"><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7.5 7.5 0 0 1-11 6.6L4.5 20l1.4-4.4A7.5 7.5 0 1 1 20 12Z"/></svg> WhatsApp</a>
+</div>
+
+</body></html>

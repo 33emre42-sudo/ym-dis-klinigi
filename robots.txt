@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ymdisklinigi.com/sitemap.xml
