@@ -26,130 +26,248 @@
 "opens":"00:00","closes":"23:59"}}
 </script>
 <style>
-  /* --- jeton sistemi ---------------------------------------------------
-     Renk: kagit / kat / murekkep / gri / cizgi / tek petrol-lacivert vurgu.
-     Vurgu SADECE baglanti ve eylem dugmelerinde gorunur; baska hicbir yerde
-     renk yok. Kurumsal his efektten degil bu kisitlamadan geliyor. */
+  /* =====================================================================
+     V2 — "leftflow" tasarim dilinden esinlenme (30 Tem 2026):
+     koyu-oncelikli premium his, cam paneller, hap butonlar, kayan serit,
+     gradient vurgu, glow. ICERIK ve mevzuat sinirlari degismedi.
+     Isik/koyu tema OS tercihine uyar; koyu taraf vitrindir. */
   :root{
-    --kagit:#ffffff;
-    --kat:#f5f7f9;
-    --murekkep:#0e1b26;
-    --gri:#5a6b78;
-    --soluk:#8595a1;
-    --cizgi:#e3e8ec;
-    --vurgu:#0f3d56;
-    --vurgu-koyu:#0a2c40;
+    --kagit:#f6f8fa;
+    --kat:#ffffff;
+    --murekkep:#0c1a26;
+    --gri:#51626f;
+    --soluk:#7e8fa0;
+    --cizgi:#e2e8ee;
+    --vurgu:#0e6a8f;
+    --vurgu2:#0f9db1;
+    --glow:rgba(14,106,143,.20);
     --baslik:"Archivo","Segoe UI",system-ui,-apple-system,sans-serif;
     --metin:"IBM Plex Sans","Segoe UI",system-ui,-apple-system,sans-serif;
     --tek:"IBM Plex Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
   }
-  /* Gece surumu bir "ek ozellik" degil: 24 saat acik bir klinigin sitesini
-     insanlar gercekten gece 3'te aciyor. */
   @media (prefers-color-scheme: dark){
-    :root{--kagit:#0b1119;--kat:#111a24;--murekkep:#eef3f7;--gri:#93a4b1;
-          --soluk:#6e8090;--cizgi:#1e2a36;--vurgu:#6ab5d6;--vurgu-koyu:#8ac8e3}
+    :root{--kagit:#070d15;--kat:#0d1520;--murekkep:#ecf3f8;--gri:#9aacba;
+          --soluk:#67798a;--cizgi:#1d2937;--vurgu:#57c8ea;--vurgu2:#7ce0d3;
+          --glow:rgba(87,200,234,.16)}
   }
   *{box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
   body{margin:0;background:var(--kagit);color:var(--gri);
-    font:16px/1.68 var(--metin);
+    font:16px/1.7 var(--metin);
     -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
-  .sar{max-width:1000px;margin:0 auto;padding:0 30px}
+  /* koyu temada sahneye derinlik veren sabit isiltilar */
+  @media (prefers-color-scheme: dark){
+    body{background:
+      radial-gradient(900px 480px at 85% -80px, rgba(87,200,234,.07), transparent 60%),
+      radial-gradient(700px 420px at -10% 30%, rgba(124,224,211,.05), transparent 60%),
+      var(--kagit)}
+  }
+  .sar{max-width:1060px;margin:0 auto;padding:0 30px}
   @media (max-width:640px){.sar{padding:0 20px}}
   a{color:inherit}
   .ikon{flex:0 0 auto}
-  :focus-visible{outline:2px solid var(--vurgu);outline-offset:3px;border-radius:3px}
+  :focus-visible{outline:2px solid var(--vurgu);outline-offset:3px;border-radius:6px}
 
-  /* --- ust serit (yapiskan): telefon HER ZAMAN ekranda --- */
-  .serit{position:sticky;top:0;z-index:30;background:var(--kagit);
-    border-bottom:1px solid var(--cizgi)}
+  /* --- ust serit: cam, yapiskan --- */
+  .serit{position:sticky;top:0;z-index:30;
+    background:color-mix(in srgb, var(--kagit) 80%, transparent);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--cizgi);transition:box-shadow .25s}
+  .serit.kaydi{box-shadow:0 10px 30px -18px var(--glow),0 1px 0 var(--cizgi)}
   .serit .sar{display:flex;align-items:center;justify-content:space-between;
-    gap:16px;height:62px}
+    gap:16px;height:64px}
   .marka{display:flex;flex-direction:column;line-height:1.2;text-decoration:none}
-  .marka b{font-family:var(--baslik);font-size:16px;font-weight:700;
+  .marka b{font-family:var(--baslik);font-size:16.5px;font-weight:800;
     color:var(--murekkep);letter-spacing:-.015em}
   .marka span{font-family:var(--tek);font-size:10.5px;color:var(--soluk);
-    letter-spacing:.13em;margin-top:4px}
-  .serit-tel{display:flex;align-items:center;gap:8px;text-decoration:none;
-    color:var(--vurgu);font-weight:600;font-size:16px;white-space:nowrap;
-    font-variant-numeric:tabular-nums}
-  .serit-tel:hover{text-decoration:underline;text-underline-offset:4px}
-  @media (max-width:400px){.serit-tel{font-size:15px}.marka b{font-size:15px}}
+    letter-spacing:.14em;margin-top:4px}
+  .serit-tel{display:flex;align-items:center;gap:9px;text-decoration:none;
+    color:var(--murekkep);font-weight:600;font-size:15px;white-space:nowrap;
+    font-variant-numeric:tabular-nums;padding:9px 18px;border-radius:999px;
+    border:1px solid var(--cizgi);background:var(--kat);
+    transition:border-color .18s,transform .18s,box-shadow .2s}
+  .serit-tel:hover{border-color:var(--vurgu);transform:translateY(-1px);
+    box-shadow:0 8px 22px -14px var(--glow)}
+  .serit-tel .ikon{color:var(--vurgu)}
+  @media (max-width:400px){.serit-tel{font-size:14px;padding:8px 13px}.marka b{font-size:15px}}
 
   /* --- giris --- */
-  .giris{padding:70px 0 58px;border-bottom:1px solid var(--cizgi)}
-  @media (max-width:640px){.giris{padding:40px 0 40px}}
-  /* Baslik kunye niteliginde ve uzun; 3 satirda dengeli kirilsin diye
-     olcu 15ch/56px'ten 19ch/46px'e cekildi. */
+  .giris{padding:84px 0 64px;border-bottom:1px solid var(--cizgi);
+    position:relative;overflow:hidden}
+  @media (max-width:640px){.giris{padding:46px 0 44px}}
+  .giris-izgara{display:grid;grid-template-columns:minmax(0,1fr);gap:48px;
+    align-items:center}
   h1{margin:0 0 22px;font-family:var(--baslik);font-weight:800;
-    color:var(--murekkep);font-size:clamp(30px,4.6vw,46px);line-height:1.12;
-    letter-spacing:-.032em;max-width:19ch;text-wrap:balance}
-  .giris-ozet{margin:0 0 34px;font-size:17.5px;line-height:1.62;max-width:50ch}
-  .eylem{display:flex;gap:10px;flex-wrap:wrap}
+    color:var(--murekkep);font-size:clamp(32px,5vw,54px);line-height:1.07;
+    letter-spacing:-.035em;max-width:19ch;text-wrap:balance}
+  h1 .vurgulu{background:linear-gradient(92deg,var(--vurgu),var(--vurgu2));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .giris-ozet{margin:0 0 36px;font-size:17.5px;line-height:1.66;max-width:50ch}
+  .eylem{display:flex;gap:11px;flex-wrap:wrap}
   .dugme{display:inline-flex;align-items:center;justify-content:center;gap:9px;
-    text-decoration:none;font-weight:600;font-size:16px;padding:15px 24px;
-    border-radius:4px;border:1px solid transparent;
-    transition:background .16s,border-color .16s,color .16s}
-  .birincil{background:var(--vurgu);color:#fff;font-variant-numeric:tabular-nums;
-    letter-spacing:.01em}
-  .birincil:hover{background:var(--vurgu-koyu)}
-  @media (prefers-color-scheme: dark){
-    .birincil{color:#06202e}
-    .birincil:hover{background:var(--vurgu-koyu)}
-  }
-  .ikincil{border-color:var(--cizgi);color:var(--murekkep);background:var(--kagit)}
-  .ikincil:hover{border-color:var(--murekkep)}
+    text-decoration:none;font-weight:600;font-size:16px;padding:15px 27px;
+    border-radius:999px;border:1px solid transparent;
+    transition:background .18s,border-color .18s,color .18s,
+      transform .18s,box-shadow .22s}
+  .dugme:hover{transform:translateY(-2px)}
+  .dugme:active{transform:translateY(0)}
+  .birincil{background:linear-gradient(92deg,var(--vurgu),var(--vurgu2));
+    color:#fff;font-variant-numeric:tabular-nums;letter-spacing:.01em}
+  .birincil:hover{box-shadow:0 14px 30px -14px var(--glow),
+    0 4px 14px -8px var(--glow)}
+  @media (prefers-color-scheme: dark){.birincil{color:#03181f}}
+  .ikincil{border-color:var(--cizgi);color:var(--murekkep);background:var(--kat)}
+  .ikincil:hover{border-color:var(--vurgu)}
 
-  .kanit{display:flex;gap:30px;flex-wrap:wrap;margin-top:40px;padding-top:24px;
-    border-top:1px solid var(--cizgi)}
-  .kanit div{display:flex;align-items:center;gap:9px;font-size:14px;
-    color:var(--soluk)}
+  .kanit{display:flex;gap:12px;flex-wrap:wrap;margin-top:42px}
+  .kanit div{display:flex;align-items:center;gap:9px;font-size:13.5px;
+    color:var(--soluk);padding:9px 16px;border-radius:999px;
+    border:1px solid var(--cizgi);background:var(--kat)}
   .kanit b{color:var(--murekkep);font-weight:600}
-  .kanit .ikon{color:var(--soluk)}
+  .kanit .ikon{color:var(--vurgu)}
+
+  /* giris gorsel paneli */
+  .giris-gorsel{display:none}
+  @media (min-width:880px){
+    .giris-izgara{grid-template-columns:minmax(0,1fr) minmax(300px,410px)}
+    .giris-gorsel{display:block;position:relative;border-radius:20px;
+      overflow:hidden;border:1px solid var(--cizgi);aspect-ratio:15/16;
+      box-shadow:0 30px 70px -40px var(--glow),0 24px 48px -36px rgba(4,10,16,.5)}
+    .giris-gorsel img{width:100%;height:114%;object-fit:cover;display:block;
+      opacity:.92;will-change:transform}
+    .giris-gorsel::after{content:"";position:absolute;inset:0;pointer-events:none;
+      background:linear-gradient(115deg,var(--kagit) 0%,transparent 30%);opacity:.22}
+  }
+  @media (prefers-color-scheme: dark){
+    .giris-gorsel img{opacity:.78;filter:brightness(.9) saturate(.96)}
+  }
+
+  /* --- kayan tedavi seridi --- */
+  .akar{overflow:hidden;border-bottom:1px solid var(--cizgi);
+    background:var(--kat);padding:13px 0;position:relative}
+  .akar::before,.akar::after{content:"";position:absolute;top:0;bottom:0;
+    width:90px;z-index:1;pointer-events:none}
+  .akar::before{left:0;background:linear-gradient(90deg,var(--kat),transparent)}
+  .akar::after{right:0;background:linear-gradient(270deg,var(--kat),transparent)}
+  .akar-ic{display:flex;gap:44px;width:max-content;
+    animation:kay 36s linear infinite}
+  .akar-ic span{font-family:var(--tek);font-size:12px;letter-spacing:.16em;
+    color:var(--soluk);white-space:nowrap;text-transform:uppercase}
+  .akar-ic i{color:var(--vurgu);font-style:normal}
+  @keyframes kay{to{transform:translateX(-50%)}}
 
   /* --- bolumler --- */
-  section{padding:66px 0}
-  @media (max-width:640px){section{padding:46px 0}}
-  .bolum-basi{margin-bottom:8px}
-  h2{margin:0 0 10px;font-family:var(--baslik);color:var(--murekkep);
-    font-weight:700;font-size:clamp(23px,2.8vw,29px);letter-spacing:-.028em}
-  .bolum-basi p{margin:0 0 30px;color:var(--gri);font-size:16.5px;max-width:56ch}
+  section{padding:72px 0}
+  @media (max-width:640px){section{padding:48px 0}}
+  .bolum-basi{margin-bottom:14px}
+  h2{margin:0 0 12px;font-family:var(--baslik);color:var(--murekkep);
+    font-weight:800;font-size:clamp(24px,3vw,32px);letter-spacing:-.03em;
+    position:relative;padding-bottom:14px}
+  h2::after{content:"";position:absolute;left:0;bottom:0;width:44px;height:3px;
+    border-radius:3px;background:linear-gradient(90deg,var(--vurgu),var(--vurgu2))}
+  .bolum-basi p{margin:0 0 26px;color:var(--gri);font-size:16.5px;max-width:56ch}
 
-  /* --- IMZA OGE: hasta sorulari --------------------------------------
-     Her satir, WhatsApp'i o soru yazili halde acar. Satirin TAMAMI
-     tiklanabilir (mobilde parmak hedefi buyuk olsun diye). */
-  .sorular{border-top:1px solid var(--cizgi)}
+  /* --- konum haritasi karti --- */
+  .harita-bolum{padding:48px 0 0}
+  .harita{position:relative;display:block;border-radius:20px;overflow:hidden;
+    border:1px solid var(--cizgi);text-decoration:none;
+    box-shadow:0 20px 50px -38px var(--glow);
+    transition:border-color .2s,box-shadow .25s}
+  .harita:hover{border-color:var(--vurgu);
+    box-shadow:0 26px 60px -34px var(--glow)}
+  .harita img{display:block;width:100%;height:clamp(190px,28vw,300px);
+    object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.3,1)}
+  .harita:hover img{transform:scale(1.03)}
+  @media (prefers-color-scheme: dark){.harita img{filter:brightness(.88) saturate(.92)}}
+  .harita-bilgi{position:absolute;left:0;right:0;bottom:0;display:flex;
+    align-items:center;justify-content:space-between;gap:14px;
+    padding:12px 12px 12px 18px;
+    background:color-mix(in srgb, var(--kat) 88%, transparent);
+    border-top:1px solid var(--cizgi);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  .harita-adres{display:flex;align-items:center;gap:9px;color:var(--murekkep);
+    font-size:14.5px;line-height:1.35;min-width:0}
+  .harita-adres .ikon{color:var(--vurgu)}
+  .harita-adres b{font-weight:600}
+  .harita-dugme{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;
+    background:linear-gradient(92deg,var(--vurgu),var(--vurgu2));color:#fff;
+    font-weight:600;font-size:14px;padding:10px 17px;border-radius:999px;
+    transition:transform .16s,box-shadow .2s}
+  .harita:hover .harita-dugme{transform:translateX(2px);
+    box-shadow:0 10px 22px -12px var(--glow)}
+  @media (prefers-color-scheme: dark){.harita-dugme{color:#03181f}}
+  .harita-kaynak{margin:8px 4px 0;font-size:11px;color:var(--soluk);text-align:right}
+  @media (max-width:560px){
+    .harita-adres span{display:none}
+    .harita-adres::after{content:"Kirazlı Mah. Mevlana Cad. No: 47 D";
+      color:var(--murekkep);font-size:13.5px}
+  }
+
+  /* --- sorular: cam kart --- */
+  .sorular{border:1px solid var(--cizgi);border-radius:20px;background:var(--kat);
+    padding:8px 22px;box-shadow:0 24px 60px -48px var(--glow)}
   .soru{display:flex;align-items:center;justify-content:space-between;gap:18px;
-    padding:17px 2px;border-bottom:1px solid var(--cizgi);text-decoration:none;
+    padding:17px 4px;border-bottom:1px solid var(--cizgi);text-decoration:none;
     color:var(--murekkep);font-size:17px;font-weight:500;line-height:1.4;
     transition:color .15s,padding-left .15s}
+  .soru:last-child{border-bottom:0}
   .soru .ikon{color:var(--soluk);transition:transform .18s,color .15s}
-  .soru:hover{color:var(--vurgu);padding-left:8px}
-  .soru:hover .ikon{color:var(--vurgu);transform:translateX(3px)}
+  .soru:hover{color:var(--vurgu);padding-left:10px}
+  .soru:hover .ikon{color:var(--vurgu);transform:translateX(4px)}
   .soru-alt{margin:22px 0 0;font-size:15px;color:var(--soluk)}
   .soru-alt a{color:var(--vurgu);font-weight:600;text-decoration:none}
   .soru-alt a:hover{text-decoration:underline;text-underline-offset:3px}
   @media (max-width:640px){.soru{font-size:16px;padding:15px 2px}}
 
-  /* --- kategori DIZINI (kart degil) --- */
-  .dizin{border-top:1px solid var(--cizgi)}
-  .dizin-satir{display:grid;grid-template-columns:minmax(190px,6fr) 10fr;
-    gap:20px 44px;padding:21px 0;border-bottom:1px solid var(--cizgi);
-    align-items:start}
+  /* --- tedavi alanlari: bento kartlar --- */
+  .dizin{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;
+    border:0}
+  .dizin-satir{display:flex;flex-direction:column;gap:9px;margin:0;
+    padding:24px 24px 26px;border:1px solid var(--cizgi);border-radius:18px;
+    background:var(--kat);position:relative;overflow:hidden;
+    transition:transform .22s,border-color .22s,box-shadow .25s}
+  .dizin-satir::before{content:"";position:absolute;inset:0 auto auto 0;
+    width:100%;height:3px;
+    background:linear-gradient(90deg,var(--vurgu),var(--vurgu2));
+    opacity:0;transition:opacity .22s}
+  .dizin-satir:hover{transform:translateY(-4px);border-color:var(--vurgu);
+    box-shadow:0 22px 44px -30px var(--glow)}
+  .dizin-satir:hover::before{opacity:1}
+  .dizin-satir:nth-child(1){grid-column:span 2}
+  .dizin-satir:nth-child(7){grid-column:span 2}
   .dizin-satir h3{margin:0;font-family:var(--baslik);font-size:18.5px;
-    font-weight:600;color:var(--murekkep);letter-spacing:-.02em;line-height:1.28}
-  .dizin-satir p{margin:0;color:var(--gri);font-size:15.5px;line-height:1.62;
-    max-width:54ch}
-  @media (max-width:640px){
-    .dizin-satir{grid-template-columns:1fr;gap:5px;padding:17px 0}
-    .dizin-satir p{font-size:15px}
+    font-weight:700;color:var(--murekkep);letter-spacing:-.02em;line-height:1.28}
+  .dizin-satir p{margin:0;color:var(--gri);font-size:15px;line-height:1.6}
+  @media (max-width:900px){
+    .dizin{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .dizin-satir:nth-child(1),.dizin-satir:nth-child(7){grid-column:span 1}
   }
+  @media (max-width:560px){.dizin{grid-template-columns:1fr}}
 
-  /* --- gece aramasi + cagri --- */
-  .gece{background:var(--kat);border:1px solid var(--cizgi);border-radius:4px;
-    padding:34px 36px;display:grid;grid-template-columns:minmax(190px,6fr) 10fr;
-    gap:20px 44px;align-items:start}
-  .gece h2{margin:0;font-size:22px}
+  /* --- dekoratif bantlar --- */
+  .bant{position:relative;height:clamp(170px,24vw,290px);overflow:hidden;
+    border-top:1px solid var(--cizgi);border-bottom:1px solid var(--cizgi)}
+  .bant img{position:absolute;left:0;top:-18%;width:100%;height:136%;
+    object-fit:cover;opacity:.34;will-change:transform;display:block}
+  .bant::before,.bant::after{content:"";position:absolute;left:0;right:0;
+    height:36%;z-index:1;pointer-events:none}
+  .bant::before{top:0;background:linear-gradient(var(--kagit),transparent)}
+  .bant::after{bottom:0;background:linear-gradient(transparent,var(--kagit))}
+  @media (prefers-color-scheme: dark){.bant img{opacity:.22;filter:brightness(.85)}}
+  .tedavi-bolum{position:relative;overflow:hidden}
+  .tedavi-fon{position:absolute;right:0;top:0;height:100%;width:52%;
+    object-fit:cover;opacity:.1;pointer-events:none;
+    -webkit-mask-image:linear-gradient(to left,#000 25%,transparent 92%);
+    mask-image:linear-gradient(to left,#000 25%,transparent 92%)}
+  @media (prefers-color-scheme: dark){.tedavi-fon{opacity:.07}}
+  .tedavi-bolum .sar{position:relative;z-index:1}
+
+  /* --- gece cagrisi: cam panel --- */
+  .gece{background:var(--kat);border:1px solid var(--cizgi);border-radius:20px;
+    padding:36px 38px;display:grid;grid-template-columns:minmax(190px,6fr) 10fr;
+    gap:20px 44px;align-items:start;
+    box-shadow:0 26px 60px -48px var(--glow)}
+  .gece h2{margin:0;font-size:22px;padding-bottom:12px}
   .gece p{margin:0 0 20px;font-size:16px;line-height:1.66;max-width:54ch}
   .gece p:last-child{margin-bottom:0}
   @media (max-width:640px){
@@ -162,7 +280,7 @@
     gap:8px 44px;padding:18px 0;border-bottom:1px solid var(--cizgi);
     align-items:baseline}
   .kunye-etiket{font-family:var(--tek);color:var(--soluk);font-size:11px;
-    letter-spacing:.13em}
+    letter-spacing:.14em}
   .kunye-deger{color:var(--murekkep);font-size:16.5px;font-weight:500}
   .kunye-deger a{color:var(--vurgu);text-decoration:none;font-weight:600}
   .kunye-deger .sade{color:var(--gri);font-weight:400;text-decoration:underline;
@@ -170,116 +288,41 @@
   .kunye-deger a:hover{text-decoration:underline;text-underline-offset:3px}
   @media (max-width:640px){.kunye-satir{grid-template-columns:1fr;gap:3px}}
 
-  footer{border-top:1px solid var(--cizgi);padding:36px 0 44px}
+  footer{border-top:1px solid var(--cizgi);padding:38px 0 46px}
   footer .sar{display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap}
   footer p{margin:0;font-size:13.5px;line-height:1.7;color:var(--soluk);
     max-width:46ch}
-  footer b{color:var(--murekkep);font-weight:600;font-family:var(--baslik)}
+  footer b{color:var(--murekkep);font-weight:700;font-family:var(--baslik)}
 
-  /* --- mobil sabit arama serdi --- */
+  /* --- mobil sabit arama seridi --- */
   .sabit{position:fixed;left:0;right:0;bottom:0;z-index:40;display:none;gap:9px;
     padding:11px 20px calc(11px + env(safe-area-inset-bottom));
-    background:var(--kagit);border-top:1px solid var(--cizgi)}
+    background:color-mix(in srgb, var(--kagit) 88%, transparent);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    border-top:1px solid var(--cizgi)}
   .sabit .dugme{flex:1}
   @media (max-width:720px){
     .sabit{display:flex}
-    body{padding-bottom:86px}
+    body{padding-bottom:88px}
     .eylem .dugme{flex:1 1 100%}
   }
 
-  /* --- konum haritasi karti --- */
-  .harita-bolum{padding:44px 0 0}
-  .harita{position:relative;display:block;border-radius:6px;overflow:hidden;
-    border:1px solid var(--cizgi);text-decoration:none;
-    box-shadow:0 1px 2px rgba(14,27,38,.05)}
-  .harita img{display:block;width:100%;height:clamp(190px,28vw,290px);
-    object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.3,1)}
-  .harita:hover img{transform:scale(1.03)}
-  @media (prefers-color-scheme: dark){.harita img{filter:brightness(.92) saturate(.95)}}
-  .harita-bilgi{position:absolute;left:0;right:0;bottom:0;display:flex;
-    align-items:center;justify-content:space-between;gap:14px;
-    padding:11px 12px 11px 16px;background:rgba(255,255,255,.93);
-    border-top:1px solid var(--cizgi);backdrop-filter:blur(6px)}
-  @media (prefers-color-scheme: dark){.harita-bilgi{background:rgba(11,17,25,.9)}}
-  .harita-adres{display:flex;align-items:center;gap:9px;color:var(--murekkep);
-    font-size:14.5px;line-height:1.35;min-width:0}
-  .harita-adres .ikon{color:var(--vurgu)}
-  .harita-adres b{font-weight:600}
-  .harita-dugme{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;
-    background:var(--vurgu);color:#fff;font-weight:600;font-size:14px;
-    padding:9px 14px;border-radius:4px;transition:background .16s,transform .16s}
-  .harita:hover .harita-dugme{background:var(--vurgu-koyu);transform:translateX(2px)}
-  @media (prefers-color-scheme: dark){.harita-dugme{color:#06202e}}
-  .harita-kaynak{margin:7px 2px 0;font-size:11px;color:var(--soluk);text-align:right}
-  @media (max-width:560px){
-    .harita-adres span{display:none}
-    .harita-adres::after{content:"Kirazlı Mah. Mevlana Cad. No: 47 D";
-      color:var(--murekkep);font-size:13.5px}
-  }
-
-  /* --- dekoratif gorsel paneller (paralaks) --- */
-  .giris-izgara{display:grid;grid-template-columns:minmax(0,1fr);gap:44px;
-    align-items:center}
-  .giris-gorsel{display:none}
-  @media (min-width:880px){
-    .giris-izgara{grid-template-columns:minmax(0,1fr) minmax(280px,400px)}
-    .giris-gorsel{display:block;position:relative;border-radius:8px;
-      overflow:hidden;border:1px solid var(--cizgi);aspect-ratio:15/16;
-      box-shadow:0 22px 44px -32px rgba(14,27,38,.4)}
-    .giris-gorsel img{width:100%;height:114%;object-fit:cover;display:block;
-      opacity:.88;will-change:transform}
-    .giris-gorsel::after{content:"";position:absolute;inset:0;pointer-events:none;
-      background:linear-gradient(115deg,var(--kagit) 0%,transparent 32%);opacity:.28}
-  }
-  @media (prefers-color-scheme: dark){
-    .giris-gorsel img{opacity:.7;filter:brightness(.88)}
-  }
-  .bant{position:relative;height:clamp(170px,24vw,290px);overflow:hidden;
-    border-top:1px solid var(--cizgi);border-bottom:1px solid var(--cizgi)}
-  .bant img{position:absolute;left:0;top:-18%;width:100%;height:136%;
-    object-fit:cover;opacity:.34;will-change:transform;display:block}
-  .bant::before,.bant::after{content:"";position:absolute;left:0;right:0;
-    height:36%;z-index:1;pointer-events:none}
-  .bant::before{top:0;background:linear-gradient(var(--kagit),transparent)}
-  .bant::after{bottom:0;background:linear-gradient(transparent,var(--kagit))}
-  @media (prefers-color-scheme: dark){.bant img{opacity:.22;filter:brightness(.85)}}
-  .tedavi-bolum{position:relative;overflow:hidden}
-  .tedavi-fon{position:absolute;right:0;top:0;height:100%;width:52%;
-    object-fit:cover;opacity:.12;pointer-events:none;
-    -webkit-mask-image:linear-gradient(to left,#000 25%,transparent 92%);
-    mask-image:linear-gradient(to left,#000 25%,transparent 92%)}
-  @media (prefers-color-scheme: dark){.tedavi-fon{opacity:.08}}
-  .tedavi-bolum .sar{position:relative;z-index:1}
-
-  /* --- kurumsal mikro etkilesimler --- */
-  .dugme{transition:background .16s,border-color .16s,color .16s,
-    transform .16s,box-shadow .2s}
-  .dugme:hover{transform:translateY(-1px)}
-  .dugme:active{transform:translateY(0)}
-  .birincil:hover{box-shadow:0 8px 18px -10px var(--vurgu)}
-  .serit{transition:box-shadow .25s}
-  .serit.kaydi{box-shadow:0 1px 12px rgba(14,27,38,.09)}
-  @media (prefers-color-scheme: dark){.serit.kaydi{box-shadow:0 1px 12px rgba(0,0,0,.45)}}
-  .dizin-satir{transition:background .18s;border-radius:4px;
-    padding-left:10px;padding-right:10px;margin:0 -10px}
-  .dizin-satir:hover{background:var(--kat)}
-
-  /* --- kaydirinca belirme --- */
-  .js .izle{opacity:0;transform:translateY(14px);
-    transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.3,1)}
-  .js .izle.gorunur{opacity:1;transform:none}
-
-  /* --- tek orkestre an: giris satirlari sirayla belirir --- */
-  @keyframes yuksel{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
-  .js .sirali>*{animation:yuksel .5s cubic-bezier(.2,.7,.3,1) both}
+  /* --- kaydirinca belirme + giris siralamasi --- */
+  @keyframes yuksel{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .js .sirali>*{animation:yuksel .55s cubic-bezier(.2,.7,.3,1) both}
   .js .sirali>*:nth-child(1){animation-delay:.03s}
-  .js .sirali>*:nth-child(2){animation-delay:.09s}
-  .js .sirali>*:nth-child(3){animation-delay:.15s}
-  .js .sirali>*:nth-child(4){animation-delay:.21s}
-  .js .sirali>*:nth-child(5){animation-delay:.27s}
+  .js .sirali>*:nth-child(2){animation-delay:.1s}
+  .js .sirali>*:nth-child(3){animation-delay:.17s}
+  .js .sirali>*:nth-child(4){animation-delay:.24s}
+  .js .sirali>*:nth-child(5){animation-delay:.31s}
+  .js .izle{opacity:0;transform:translateY(16px);
+    transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.3,1)}
+  .js .izle.gorunur{opacity:1;transform:none}
   @media (prefers-reduced-motion: reduce){
     .js .sirali>*{animation:none}
     .js .izle{opacity:1;transform:none}
+    .akar-ic{animation:none}
+    html{scroll-behavior:auto}
     *{transition:none!important}
   }
 </style>
@@ -292,7 +335,7 @@
 </div></div>
 
 <header class="giris"><div class="sar giris-izgara"><div class="sirali">
-  <h1>Bağcılar Kirazlı’da ağız ve diş sağlığı kliniği.</h1>
+  <h1>Bağcılar Kirazlı’da <span class="vurgulu">ağız ve diş sağlığı</span> kliniği.</h1>
   <p class="giris-ozet">Diş hekimliğinin tüm alanlarında hizmet
      verilmektedir. Şikâyetiniz ve merak ettikleriniz için telefonla ya da
      WhatsApp üzerinden ulaşabilirsiniz.</p>
@@ -310,6 +353,8 @@
     <img src="gorsel-plak.jpg" alt="" decoding="async">
   </div>
 </div></header>
+
+<div class="akar" aria-hidden="true"><div class="akar-ic"><span>Genel Diş Tedavisi</span><i>✦</i><span>Kanal Tedavisi</span><i>✦</i><span>Ağız ve Diş Cerrahisi</span><i>✦</i><span>İmplant</span><i>✦</i><span>Protez ve Kaplama</span><i>✦</i><span>Dişeti Tedavisi</span><i>✦</i><span>Ortodonti</span><i>✦</i><span>Şeffaf Plak</span><i>✦</i><span>Çocuk Diş Hekimliği</span><i>✦</i><span>7/24 Ulaşılabilir</span><i>✦</i><span>Genel Diş Tedavisi</span><i>✦</i><span>Kanal Tedavisi</span><i>✦</i><span>Ağız ve Diş Cerrahisi</span><i>✦</i><span>İmplant</span><i>✦</i><span>Protez ve Kaplama</span><i>✦</i><span>Dişeti Tedavisi</span><i>✦</i><span>Ortodonti</span><i>✦</i><span>Şeffaf Plak</span><i>✦</i><span>Çocuk Diş Hekimliği</span><i>✦</i><span>7/24 Ulaşılabilir</span><i>✦</i></div></div>
 
 <main>
 
