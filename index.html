@@ -99,6 +99,9 @@
   .giris{padding:104px 0 84px;border-bottom:1px solid var(--cizgi);
     position:relative;overflow:hidden}
   .giris .sar{position:relative;z-index:1}
+  .filigran-giris{position:absolute;right:-36px;bottom:-56px;
+    width:min(30vw,320px);opacity:.07;transform:rotate(8deg);
+    pointer-events:none;z-index:0}
   .giris-fon{position:absolute;inset:0;z-index:0;pointer-events:none}
   .giris-fon img{width:100%;height:120%;object-fit:cover;
     object-position:72% 45%;display:block;opacity:.96;will-change:transform}
@@ -399,7 +402,7 @@
   <a class="serit-tel" href="tel:+905417324376"><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 5.5 5.5L16 12l4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4 6.2 2 2 0 0 1 6 4V3Z"/></svg><span>0541 732 43 76</span></a>
 </div></div>
 
-<header class="giris"><div class="giris-fon" aria-hidden="true" data-plx="0.05"><img src="gorsel-hero.jpg" alt="" decoding="async" fetchpriority="high"></div><div class="sar giris-izgara"><div class="sirali">
+<header class="giris"><div class="giris-fon" aria-hidden="true" data-plx="0.05"><img src="gorsel-hero.jpg" alt="" decoding="async" fetchpriority="high"></div><picture aria-hidden="true"><source srcset="logo-isaret.png" media="(prefers-color-scheme: dark)"><img class="filigran-giris" src="logo-isaret-koyu.png" alt="" decoding="async"></picture><div class="sar giris-izgara"><div class="sirali">
   <h1>Bağcılar Kirazlı’da <span class="vurgulu">ağız ve diş sağlığı</span> kliniği.</h1>
   <p class="giris-ozet">Diş hekimliğinin tüm alanlarında hizmet
      verilmektedir. Şikâyetiniz ve merak ettikleriniz için telefonla ya da
