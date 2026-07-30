@@ -287,6 +287,17 @@
     border:1px solid var(--cizgi);
     background:color-mix(in srgb, var(--kat) 82%, transparent);
     backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .konumlu{position:relative;overflow:hidden}
+  .konumlu .sar{position:relative;z-index:1}
+  .bolum-fon{position:absolute;top:0;height:100%;object-fit:cover;
+    opacity:.11;pointer-events:none}
+  .fon-sag{right:0;width:52%;
+    -webkit-mask-image:linear-gradient(to left,#000 25%,transparent 92%);
+    mask-image:linear-gradient(to left,#000 25%,transparent 92%)}
+  .fon-sol{left:0;width:52%;
+    -webkit-mask-image:linear-gradient(to right,#000 25%,transparent 92%);
+    mask-image:linear-gradient(to right,#000 25%,transparent 92%)}
+  @media (prefers-color-scheme: dark){.bolum-fon{opacity:.08}}
   .tedavi-bolum{position:relative;overflow:hidden}
   .tedavi-fon{position:absolute;right:0;top:0;height:100%;width:52%;
     object-fit:cover;opacity:.1;pointer-events:none;
@@ -390,7 +401,7 @@
 
 <main>
 
-<div class="harita-bolum"><div class="sar izle">
+<div class="harita-bolum konumlu"><img class="bolum-fon fon-sol" src="gorsel-avuc.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true"><div class="sar izle">
   <a class="harita" href="https://maps.app.goo.gl/wwZDJGP13zxdpB5ZA" target="_blank" rel="noopener"
      aria-label="Kliniğin konumunu Google Haritalar'da aç — Kirazlı Mah. Mevlana Cad. No: 47 D, Bağcılar">
     <img src="konum-harita.jpg" width="1600" height="640" decoding="async"
@@ -403,7 +414,7 @@
   <p class="harita-kaynak">Harita: © OpenStreetMap katkıcıları</p>
 </div></div>
 
-<section><div class="sar izle">
+<section class="konumlu"><img class="bolum-fon fon-sag" src="gorsel-plak.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true"><div class="sar izle">
   <div class="bolum-basi">
     <h2>Merak ettikleriniz</h2>
     <p>Aşağıdaki sorulardan birini seçtiğinizde WhatsApp yazışması o soruyla
