@@ -217,6 +217,40 @@
       color:var(--murekkep);font-size:13.5px}
   }
 
+  /* --- dekoratif gorsel paneller (paralaks) --- */
+  .giris-izgara{display:grid;grid-template-columns:minmax(0,1fr);gap:44px;
+    align-items:center}
+  .giris-gorsel{display:none}
+  @media (min-width:880px){
+    .giris-izgara{grid-template-columns:minmax(0,1fr) minmax(280px,400px)}
+    .giris-gorsel{display:block;position:relative;border-radius:8px;
+      overflow:hidden;border:1px solid var(--cizgi);aspect-ratio:15/16;
+      box-shadow:0 22px 44px -32px rgba(14,27,38,.4)}
+    .giris-gorsel img{width:100%;height:114%;object-fit:cover;display:block;
+      opacity:.88;will-change:transform}
+    .giris-gorsel::after{content:"";position:absolute;inset:0;pointer-events:none;
+      background:linear-gradient(115deg,var(--kagit) 0%,transparent 32%);opacity:.28}
+  }
+  @media (prefers-color-scheme: dark){
+    .giris-gorsel img{opacity:.7;filter:brightness(.88)}
+  }
+  .bant{position:relative;height:clamp(170px,24vw,290px);overflow:hidden;
+    border-top:1px solid var(--cizgi);border-bottom:1px solid var(--cizgi)}
+  .bant img{position:absolute;left:0;top:-18%;width:100%;height:136%;
+    object-fit:cover;opacity:.34;will-change:transform;display:block}
+  .bant::before,.bant::after{content:"";position:absolute;left:0;right:0;
+    height:36%;z-index:1;pointer-events:none}
+  .bant::before{top:0;background:linear-gradient(var(--kagit),transparent)}
+  .bant::after{bottom:0;background:linear-gradient(transparent,var(--kagit))}
+  @media (prefers-color-scheme: dark){.bant img{opacity:.22;filter:brightness(.85)}}
+  .tedavi-bolum{position:relative;overflow:hidden}
+  .tedavi-fon{position:absolute;right:0;top:0;height:100%;width:52%;
+    object-fit:cover;opacity:.12;pointer-events:none;
+    -webkit-mask-image:linear-gradient(to left,#000 25%,transparent 92%);
+    mask-image:linear-gradient(to left,#000 25%,transparent 92%)}
+  @media (prefers-color-scheme: dark){.tedavi-fon{opacity:.08}}
+  .tedavi-bolum .sar{position:relative;z-index:1}
+
   /* --- kurumsal mikro etkilesimler --- */
   .dugme{transition:background .16s,border-color .16s,color .16s,
     transform .16s,box-shadow .2s}
@@ -257,7 +291,7 @@
   <a class="serit-tel" href="tel:+905417324376"><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 5.5 5.5L16 12l4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4 6.2 2 2 0 0 1 6 4V3Z"/></svg><span>0541 732 43 76</span></a>
 </div></div>
 
-<header class="giris"><div class="sar sirali">
+<header class="giris"><div class="sar giris-izgara"><div class="sirali">
   <h1>Bağcılar Kirazlı’da ağız ve diş sağlığı kliniği.</h1>
   <p class="giris-ozet">Diş hekimliğinin tüm alanlarında hizmet
      verilmektedir. Şikâyetiniz ve merak ettikleriniz için telefonla ya da
@@ -270,6 +304,10 @@
     <div><svg class="ikon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.8"/></svg><span>Her gün <b>24 saat</b></span></div>
     <div><svg class="ikon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span><b>Kirazlı</b> Metro yakını</span></div>
     <div><svg class="ikon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M8 3.5v4M16 3.5v4M4 10.5h16"/></svg><span>Randevu: <b>telefon / WhatsApp</b></span></div>
+  </div>
+</div>
+  <div class="giris-gorsel" data-plx="0.05" aria-hidden="true">
+    <img src="gorsel-plak.jpg" alt="" decoding="async">
   </div>
 </div></header>
 
@@ -306,7 +344,9 @@
      <a href="tel:+905417324376">0541 732 43 76</a> numarasından ulaşabilirsiniz.</p>
 </div></section>
 
-<section style="padding-top:0"><div class="sar izle">
+<div class="bant" data-plx="0.14" aria-hidden="true"><img src="gorsel-implant.jpg" alt="" loading="lazy" decoding="async"></div>
+
+<section style="padding-top:44px" class="tedavi-bolum"><img class="tedavi-fon" src="gorsel-lamine.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true"><div class="sar izle">
   <div class="bolum-basi">
     <h2>Tedavi alanları</h2>
     <p>Aşağıdaki alanların tamamında tedavi uygulanmaktadır. Durumunuza
@@ -362,7 +402,9 @@
   </div>
 </div></section>
 
-<section style="padding-top:0"><div class="sar izle">
+<div class="bant" data-plx="0.14" aria-hidden="true"><img src="gorsel-cocuk.jpg" alt="" loading="lazy" decoding="async"></div>
+
+<section style="padding-top:44px"><div class="sar izle">
   <div class="bolum-basi"><h2>İletişim</h2></div>
   <div class="kunye">
     <div class="kunye-satir">
@@ -418,6 +460,25 @@
   });
   var s=d.querySelector(".serit");
   addEventListener("scroll",function(){s.classList.toggle("kaydi",scrollY>8)},{passive:true});
+  // dekoratif paneller: kaydirmayla hafif kayar (paralaks). Erisilebilirlik:
+  // hareket azaltma tercihinde tamamen kapali.
+  if(!matchMedia("(prefers-reduced-motion: reduce)").matches){
+    var pl=[].slice.call(d.querySelectorAll("[data-plx]")),tik=false;
+    var uygula=function(){
+      tik=false;
+      pl.forEach(function(el){
+        var g=el.querySelector("img"); if(!g) return;
+        var r=el.getBoundingClientRect();
+        if(r.bottom<0||r.top>innerHeight) return;
+        var o=(r.top+r.height/2-innerHeight/2)*parseFloat(el.getAttribute("data-plx"));
+        g.style.transform="translate3d(0,"+o.toFixed(1)+"px,0)";
+      });
+    };
+    var iste=function(){if(!tik){tik=true;requestAnimationFrame(uygula)}};
+    addEventListener("scroll",iste,{passive:true});
+    addEventListener("resize",iste,{passive:true});
+    uygula();
+  }
 })();
 </script>
 </body></html>
