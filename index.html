@@ -187,6 +187,54 @@
     .eylem .dugme{flex:1 1 100%}
   }
 
+  /* --- konum haritasi karti --- */
+  .harita-bolum{padding:44px 0 0}
+  .harita{position:relative;display:block;border-radius:6px;overflow:hidden;
+    border:1px solid var(--cizgi);text-decoration:none;
+    box-shadow:0 1px 2px rgba(14,27,38,.05)}
+  .harita img{display:block;width:100%;height:clamp(190px,28vw,290px);
+    object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.3,1)}
+  .harita:hover img{transform:scale(1.03)}
+  @media (prefers-color-scheme: dark){.harita img{filter:brightness(.92) saturate(.95)}}
+  .harita-bilgi{position:absolute;left:0;right:0;bottom:0;display:flex;
+    align-items:center;justify-content:space-between;gap:14px;
+    padding:11px 12px 11px 16px;background:rgba(255,255,255,.93);
+    border-top:1px solid var(--cizgi);backdrop-filter:blur(6px)}
+  @media (prefers-color-scheme: dark){.harita-bilgi{background:rgba(11,17,25,.9)}}
+  .harita-adres{display:flex;align-items:center;gap:9px;color:var(--murekkep);
+    font-size:14.5px;line-height:1.35;min-width:0}
+  .harita-adres .ikon{color:var(--vurgu)}
+  .harita-adres b{font-weight:600}
+  .harita-dugme{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;
+    background:var(--vurgu);color:#fff;font-weight:600;font-size:14px;
+    padding:9px 14px;border-radius:4px;transition:background .16s,transform .16s}
+  .harita:hover .harita-dugme{background:var(--vurgu-koyu);transform:translateX(2px)}
+  @media (prefers-color-scheme: dark){.harita-dugme{color:#06202e}}
+  .harita-kaynak{margin:7px 2px 0;font-size:11px;color:var(--soluk);text-align:right}
+  @media (max-width:560px){
+    .harita-adres span{display:none}
+    .harita-adres::after{content:"Kirazlı Mah. Mevlana Cad. No: 47 D";
+      color:var(--murekkep);font-size:13.5px}
+  }
+
+  /* --- kurumsal mikro etkilesimler --- */
+  .dugme{transition:background .16s,border-color .16s,color .16s,
+    transform .16s,box-shadow .2s}
+  .dugme:hover{transform:translateY(-1px)}
+  .dugme:active{transform:translateY(0)}
+  .birincil:hover{box-shadow:0 8px 18px -10px var(--vurgu)}
+  .serit{transition:box-shadow .25s}
+  .serit.kaydi{box-shadow:0 1px 12px rgba(14,27,38,.09)}
+  @media (prefers-color-scheme: dark){.serit.kaydi{box-shadow:0 1px 12px rgba(0,0,0,.45)}}
+  .dizin-satir{transition:background .18s;border-radius:4px;
+    padding-left:10px;padding-right:10px;margin:0 -10px}
+  .dizin-satir:hover{background:var(--kat)}
+
+  /* --- kaydirinca belirme --- */
+  .js .izle{opacity:0;transform:translateY(14px);
+    transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.3,1)}
+  .js .izle.gorunur{opacity:1;transform:none}
+
   /* --- tek orkestre an: giris satirlari sirayla belirir --- */
   @keyframes yuksel{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
   .js .sirali>*{animation:yuksel .5s cubic-bezier(.2,.7,.3,1) both}
@@ -197,6 +245,7 @@
   .js .sirali>*:nth-child(5){animation-delay:.27s}
   @media (prefers-reduced-motion: reduce){
     .js .sirali>*{animation:none}
+    .js .izle{opacity:1;transform:none}
     *{transition:none!important}
   }
 </style>
@@ -220,13 +269,26 @@
   <div class="kanit">
     <div><svg class="ikon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.8"/></svg><span>Her gün <b>24 saat</b></span></div>
     <div><svg class="ikon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span><b>Kirazlı</b> Metro yakını</span></div>
-    <div><svg class="ikon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 4 2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4L4.2 9.7l5.4-.8L12 4Z"/></svg><span>Google’da <b>5,0</b> · 8 değerlendirme</span></div>
+    <div><svg class="ikon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M8 3.5v4M16 3.5v4M4 10.5h16"/></svg><span>Randevu: <b>telefon / WhatsApp</b></span></div>
   </div>
 </div></header>
 
 <main>
 
-<section><div class="sar">
+<div class="harita-bolum"><div class="sar izle">
+  <a class="harita" href="https://maps.app.goo.gl/wwZDJGP13zxdpB5ZA" target="_blank" rel="noopener"
+     aria-label="Kliniğin konumunu Google Haritalar'da aç — Kirazlı Mah. Mevlana Cad. No: 47 D, Bağcılar">
+    <img src="konum-harita.jpg" width="1600" height="640" decoding="async"
+         alt="Kliniğin haritadaki konumu: Mevlana Caddesi üzeri, Kirazlı Metro yakını">
+    <span class="harita-bilgi">
+      <span class="harita-adres"><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Kirazlı Mah. Mevlana Cad. No: 47 D — <b>Kirazlı Metro yakını</b></span></span>
+      <span class="harita-dugme">Yol tarifi al<svg class="ikon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></svg></span>
+    </span>
+  </a>
+  <p class="harita-kaynak">Harita: © OpenStreetMap katkıcıları</p>
+</div></div>
+
+<section><div class="sar izle">
   <div class="bolum-basi">
     <h2>Merak ettikleriniz</h2>
     <p>Aşağıdaki sorulardan birini seçtiğinizde WhatsApp yazışması o soruyla
@@ -244,7 +306,7 @@
      <a href="tel:+905417324376">0541 732 43 76</a> numarasından ulaşabilirsiniz.</p>
 </div></section>
 
-<section style="padding-top:0"><div class="sar">
+<section style="padding-top:0"><div class="sar izle">
   <div class="bolum-basi">
     <h2>Tedavi alanları</h2>
     <p>Aşağıdaki alanların tamamında tedavi uygulanmaktadır. Durumunuza
@@ -283,7 +345,7 @@
   </div>
 </div></section>
 
-<section style="padding-top:0"><div class="sar">
+<section style="padding-top:0"><div class="sar izle">
   <div class="gece">
     <h2>Bize ulaştığınızda</h2>
     <div>
@@ -300,7 +362,7 @@
   </div>
 </div></section>
 
-<section style="padding-top:0"><div class="sar">
+<section style="padding-top:0"><div class="sar izle">
   <div class="bolum-basi"><h2>İletişim</h2></div>
   <div class="kunye">
     <div class="kunye-satir">
@@ -329,7 +391,9 @@
   <p><b>7/24 Nöbetçi YM Diş Kliniği</b><br>Kirazlı Mah. Mevlana Cad. No: 47 D, Bağcılar / İstanbul<br>
      <a href="tel:+905417324376" style="color:var(--vurgu);text-decoration:none">0541 732 43 76</a></p>
   <p>Bu sitede yer alan bilgiler genel bilgilendirme amaçlıdır ve hekim
-     muayenesinin yerine geçmez. Şikâyetiniz için kliniğimize başvurunuz.</p>
+     muayenesinin yerine geçmez. Şikâyetiniz için kliniğimize başvurunuz.<br>
+     <span style="font-size:12.5px">Son güncelleme: 30 Temmuz 2026 ·
+     Site editörü iletişimi: 0541 732 43 76</span></p>
 </div></footer>
 
 <div class="sabit">
@@ -337,5 +401,23 @@
   <a class="dugme ikincil" href="https://wa.me/905417324376"><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7.5 7.5 0 0 1-11 6.6L4.5 20l1.4-4.4A7.5 7.5 0 1 1 20 12Z"/></svg> WhatsApp</a>
 </div>
 
-<p style="margin-top:14px;font-size:.78rem;opacity:.7">Son güncelleme: 30 Temmuz 2026 · Site editörü iletişim: 0541 732 43 76 · Bu sitedeki içerikler genel bilgilendirme amaçlıdır; muayene yerine geçmez.</p>
+<script>
+(function(){
+  var d=document,io=null;
+  if("IntersectionObserver" in window){
+    io=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add("gorunur");io.unobserve(e.target)}
+    })},{rootMargin:"0px 0px -8% 0px"});
+  }
+  d.querySelectorAll(".izle").forEach(function(el){
+    // Ilk ekranda gorunenler IO'yu BEKLEMEZ — gozlemci gec kalirsa/calismazsa
+    // bile icerik asla gizli kalmasin (fail-open).
+    if(!io || el.getBoundingClientRect().top < innerHeight*0.95){
+      el.classList.add("gorunur");
+    } else { io.observe(el); }
+  });
+  var s=d.querySelector(".serit");
+  addEventListener("scroll",function(){s.classList.toggle("kaydi",scrollY>8)},{passive:true});
+})();
+</script>
 </body></html>
