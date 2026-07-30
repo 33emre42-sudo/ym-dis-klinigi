@@ -271,13 +271,13 @@
   /* --- dekoratif bantlar --- */
   .bant{position:relative;height:clamp(170px,24vw,290px);overflow:hidden;
     border-top:1px solid var(--cizgi);border-bottom:1px solid var(--cizgi)}
-  .bant img{position:absolute;left:0;top:-18%;width:100%;height:136%;
-    object-fit:cover;opacity:.58;will-change:transform;display:block}
+  .bant img{position:absolute;left:0;top:-12%;width:100%;height:124%;
+    object-fit:cover;opacity:.88;will-change:transform;display:block}
   .bant::before,.bant::after{content:"";position:absolute;left:0;right:0;
     height:22%;z-index:1;pointer-events:none}
   .bant::before{top:0;background:linear-gradient(var(--kagit),transparent)}
   .bant::after{bottom:0;background:linear-gradient(transparent,var(--kagit))}
-  @media (prefers-color-scheme: dark){.bant img{opacity:.55;filter:brightness(.95)}}
+  @media (prefers-color-scheme: dark){.bant img{opacity:.85;filter:brightness(.98)}}
   .bant-etiket{position:absolute;left:30px;bottom:20px;z-index:2;
     font-family:var(--tek);font-size:11px;letter-spacing:.22em;
     color:var(--murekkep);padding:8px 15px;border-radius:999px;
