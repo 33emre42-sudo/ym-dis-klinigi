@@ -227,6 +227,22 @@
       color:var(--murekkep);font-size:13.5px}
   }
 
+  /* --- yan yana: harita + sorular --- */
+  .cift-bolum{padding:46px 0 8px}
+  .cift{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch}
+  .cift-kutu{display:flex;flex-direction:column;min-width:0}
+  .cift-kutu .bolum-basi{margin-bottom:10px}
+  .cift-kutu .bolum-basi p{margin-bottom:16px}
+  .cift .harita{display:flex;flex-direction:column;flex:1}
+  .cift .harita img{height:100%;min-height:380px;aspect-ratio:auto;flex:1}
+  .cift .sorular{flex:1}
+  .cift .soru{font-size:16px;padding:14px 2px}
+  .cift .harita-kaynak{margin-top:7px}
+  @media (max-width:900px){
+    .cift{grid-template-columns:1fr}
+    .cift .harita img{min-height:0;height:clamp(240px,60vw,420px)}
+  }
+
   /* --- sorular: cam kart --- */
   .sorular{border:1px solid var(--cizgi);border-radius:20px;background:var(--kat);
     padding:8px 22px;box-shadow:0 24px 60px -48px var(--glow)}
@@ -404,36 +420,42 @@
 
 <main>
 
-<div class="harita-bolum konumlu"><img class="bolum-fon fon-sol" src="gorsel-avuc.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true"><div class="sar izle">
-  <a class="harita" href="https://maps.app.goo.gl/wwZDJGP13zxdpB5ZA" target="_blank" rel="noopener"
-     aria-label="Kliniğin konumunu Google Haritalar'da aç — Kirazlı Mah. Mevlana Cad. No: 47 D, Bağcılar">
-    <img src="konum-harita.jpg" width="1600" height="640" decoding="async"
-         alt="Kliniğin haritadaki konumu: Mevlana Caddesi üzeri, Kirazlı Metro yakını">
-    <span class="harita-bilgi">
-      <span class="harita-adres"><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Kirazlı Mah. Mevlana Cad. No: 47 D — <b>Kirazlı Metro yakını</b></span></span>
-      <span class="harita-dugme">Yol tarifi al<svg class="ikon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></svg></span>
-    </span>
-  </a>
-  <p class="harita-kaynak">Harita: © OpenStreetMap katkıcıları</p>
-</div></div>
-
-<section class="konumlu"><img class="bolum-fon fon-sag" src="gorsel-plak.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true"><div class="sar izle">
-  <div class="bolum-basi">
-    <h2>Merak ettikleriniz</h2>
-    <p>Aşağıdaki sorulardan birini seçtiğinizde WhatsApp yazışması o soruyla
-       başlar. Dilerseniz kendi sorunuzu da yazabilirsiniz.</p>
+<section class="konumlu cift-bolum">
+<img class="bolum-fon fon-sol" src="gorsel-fon-klinik.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true">
+<img class="bolum-fon fon-sag" src="gorsel-fon-rontgen.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true">
+<div class="sar izle">
+  <div class="cift">
+    <div class="cift-kutu">
+      <a class="harita" href="https://maps.app.goo.gl/wwZDJGP13zxdpB5ZA" target="_blank" rel="noopener"
+         aria-label="Kliniğin konumunu Google Haritalar'da aç — Kirazlı Mah. Mevlana Cad. No: 47 D, Bağcılar">
+        <img src="konum-harita.jpg" width="1100" height="1100" decoding="async" loading="lazy"
+             alt="Kliniğin haritadaki konumu: Mevlana Caddesi üzeri, Kirazlı Metro yakını">
+        <span class="harita-bilgi">
+          <span class="harita-adres"><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Kirazlı Mah. Mevlana Cad. No: 47 D</span></span>
+          <span class="harita-dugme">Yol tarifi<svg class="ikon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></svg></span>
+        </span>
+      </a>
+      <p class="harita-kaynak">Harita: © OpenStreetMap katkıcıları</p>
+    </div>
+    <div class="cift-kutu">
+      <div class="bolum-basi">
+        <h2>Merak ettikleriniz</h2>
+        <p>Bir soruyu seçtiğinizde WhatsApp yazışması o soruyla başlar.</p>
+      </div>
+      <div class="sorular">
+        <a class="soru" href="https://wa.me/905417324376?text=Di%C5%9Fim%20a%C4%9Fr%C4%B1yor%2C%20en%20erken%20ne%20zaman%20gelebilirim%3F"><span>Dişim ağrıyor, en erken ne zaman gelebilirim?</span><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></svg></a>
+        <a class="soru" href="https://wa.me/905417324376?text=Gece%20de%20gelebilir%20miyim%3F"><span>Gece de gelebilir miyim?</span><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></svg></a>
+        <a class="soru" href="https://wa.me/905417324376?text=Randevu%20almam%20gerekiyor%20mu%3F"><span>Randevu almam gerekiyor mu?</span><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></svg></a>
+        <a class="soru" href="https://wa.me/905417324376?text=Di%C5%9Fetlerim%20kan%C4%B1yor%2C%20muayene%20gerekir%20mi%3F"><span>Dişetlerim kanıyor, muayene gerekir mi?</span><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></svg></a>
+        <a class="soru" href="https://wa.me/905417324376?text=%C3%87ocu%C4%9Fum%20i%C3%A7in%20randevu%20alabilir%20miyim%3F"><span>Çocuğum için randevu alabilir miyim?</span><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></svg></a>
+        <a class="soru" href="https://wa.me/905417324376?text=K%C4%B1r%C4%B1lan%20di%C5%9Fim%20i%C3%A7in%20ne%20yap%C4%B1labilir%3F"><span>Kırılan dişim için ne yapılabilir?</span><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></svg></a>
+      </div>
+      <p class="soru-alt">Telefonla görüşmeyi tercih ederseniz
+         <a href="tel:+905417324376">0541 732 43 76</a> numarasından ulaşabilirsiniz.</p>
+    </div>
   </div>
-  <div class="sorular">
-    <a class="soru" href="https://wa.me/905417324376?text=Di%C5%9Fim%20a%C4%9Fr%C4%B1yor%2C%20en%20erken%20ne%20zaman%20gelebilirim%3F"><span>Dişim ağrıyor, en erken ne zaman gelebilirim?</span><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></svg></a>
-    <a class="soru" href="https://wa.me/905417324376?text=Gece%20de%20gelebilir%20miyim%3F"><span>Gece de gelebilir miyim?</span><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></svg></a>
-    <a class="soru" href="https://wa.me/905417324376?text=Randevu%20almam%20gerekiyor%20mu%3F"><span>Randevu almam gerekiyor mu?</span><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></svg></a>
-    <a class="soru" href="https://wa.me/905417324376?text=Di%C5%9Fetlerim%20kan%C4%B1yor%2C%20muayene%20gerekir%20mi%3F"><span>Dişetlerim kanıyor, muayene gerekir mi?</span><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></svg></a>
-    <a class="soru" href="https://wa.me/905417324376?text=%C3%87ocu%C4%9Fum%20i%C3%A7in%20randevu%20alabilir%20miyim%3F"><span>Çocuğum için randevu alabilir miyim?</span><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></svg></a>
-    <a class="soru" href="https://wa.me/905417324376?text=K%C4%B1r%C4%B1lan%20di%C5%9Fim%20i%C3%A7in%20ne%20yap%C4%B1labilir%3F"><span>Kırılan dişim için ne yapılabilir?</span><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/></svg></a>
-  </div>
-  <p class="soru-alt">Telefonla görüşmeyi tercih ederseniz
-     <a href="tel:+905417324376">0541 732 43 76</a> numarasından ulaşabilirsiniz.</p>
 </div></section>
+
 
 <div class="bant bant-yumusak" data-plx="0.14" aria-hidden="true"><img src="gorsel-implant.jpg" alt="" loading="lazy" decoding="async"><span class="bant-etiket">İMPLANT TEDAVİSİ</span></div>
 
@@ -483,7 +505,7 @@
   </div>
 </div></section>
 
-<section style="padding-top:0"><div class="sar izle">
+<section style="padding-top:0" class="konumlu"><img class="bolum-fon fon-sol" src="gorsel-fon-bakim.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true"><div class="sar izle">
   <div class="gece">
     <h2>Bize ulaştığınızda</h2>
     <div>
