@@ -101,13 +101,13 @@
   .giris .sar{position:relative;z-index:1}
   .giris-fon{position:absolute;inset:0;z-index:0;pointer-events:none}
   .giris-fon img{width:100%;height:120%;object-fit:cover;
-    object-position:76% 42%;display:block;opacity:.85;will-change:transform}
+    object-position:72% 45%;display:block;opacity:.96;will-change:transform}
   .giris-fon::after{content:"";position:absolute;inset:0;background:
-    linear-gradient(90deg,var(--kagit) 34%,
-      color-mix(in srgb,var(--kagit) 72%,transparent) 56%,
-      color-mix(in srgb,var(--kagit) 24%,transparent) 78%,transparent),
-    linear-gradient(var(--kagit),transparent 16%),
-    linear-gradient(transparent 84%,var(--kagit))}
+    linear-gradient(90deg,var(--kagit) 27%,
+      color-mix(in srgb,var(--kagit) 62%,transparent) 48%,
+      color-mix(in srgb,var(--kagit) 12%,transparent) 68%,transparent 82%),
+    linear-gradient(var(--kagit),transparent 12%),
+    linear-gradient(transparent 86%,var(--kagit))}
   @media (max-width:880px){
     .giris-fon::after{background:
       linear-gradient(90deg,var(--kagit) 12%,
@@ -116,7 +116,7 @@
       linear-gradient(transparent 84%,var(--kagit))}
   }
   @media (prefers-color-scheme: dark){
-    .giris-fon img{opacity:.55;filter:brightness(.82) saturate(.92)}
+    .giris-fon img{opacity:.9;filter:brightness(.96) saturate(.96)}
   }
   @media (max-width:640px){.giris{padding:46px 0 44px}}
   .giris-izgara{display:grid;grid-template-columns:minmax(0,1fr);gap:48px;
@@ -192,7 +192,7 @@
   .bolum-basi p{margin:0 0 26px;color:var(--gri);font-size:16.5px;max-width:56ch}
 
   /* --- konum haritasi karti --- */
-  .harita-bolum{padding:48px 0 0}
+  .harita-bolum{padding:26px 0 0}
   .harita{position:relative;display:block;border-radius:20px;overflow:hidden;
     border:1px solid var(--cizgi);text-decoration:none;
     box-shadow:0 20px 50px -38px var(--glow);
@@ -202,7 +202,7 @@
   .harita img{display:block;width:100%;height:clamp(190px,28vw,300px);
     object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.3,1)}
   .harita:hover img{transform:scale(1.03)}
-  @media (prefers-color-scheme: dark){.harita img{filter:brightness(.88) saturate(.92)}}
+  @media (prefers-color-scheme: dark){.harita img{filter:brightness(.97)}}
   .harita-bilgi{position:absolute;left:0;right:0;bottom:0;display:flex;
     align-items:center;justify-content:space-between;gap:14px;
     padding:12px 12px 12px 18px;
@@ -272,12 +272,18 @@
   .bant{position:relative;height:clamp(170px,24vw,290px);overflow:hidden;
     border-top:1px solid var(--cizgi);border-bottom:1px solid var(--cizgi)}
   .bant img{position:absolute;left:0;top:-18%;width:100%;height:136%;
-    object-fit:cover;opacity:.34;will-change:transform;display:block}
+    object-fit:cover;opacity:.58;will-change:transform;display:block}
   .bant::before,.bant::after{content:"";position:absolute;left:0;right:0;
-    height:36%;z-index:1;pointer-events:none}
+    height:22%;z-index:1;pointer-events:none}
   .bant::before{top:0;background:linear-gradient(var(--kagit),transparent)}
   .bant::after{bottom:0;background:linear-gradient(transparent,var(--kagit))}
-  @media (prefers-color-scheme: dark){.bant img{opacity:.22;filter:brightness(.85)}}
+  @media (prefers-color-scheme: dark){.bant img{opacity:.55;filter:brightness(.95)}}
+  .bant-etiket{position:absolute;left:30px;bottom:20px;z-index:2;
+    font-family:var(--tek);font-size:11px;letter-spacing:.22em;
+    color:var(--murekkep);padding:8px 15px;border-radius:999px;
+    border:1px solid var(--cizgi);
+    background:color-mix(in srgb, var(--kat) 82%, transparent);
+    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
   .tedavi-bolum{position:relative;overflow:hidden}
   .tedavi-fon{position:absolute;right:0;top:0;height:100%;width:52%;
     object-fit:cover;opacity:.1;pointer-events:none;
@@ -412,7 +418,7 @@
      <a href="tel:+905417324376">0541 732 43 76</a> numarasından ulaşabilirsiniz.</p>
 </div></section>
 
-<div class="bant" data-plx="0.14" aria-hidden="true"><img src="gorsel-implant.jpg" alt="" loading="lazy" decoding="async"></div>
+<div class="bant" data-plx="0.14" aria-hidden="true"><img src="gorsel-implant.jpg" alt="" loading="lazy" decoding="async"><span class="bant-etiket">İMPLANT TEDAVİSİ</span></div>
 
 <section style="padding-top:44px" class="tedavi-bolum"><img class="tedavi-fon" src="gorsel-lamine.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true"><picture aria-hidden="true"><source srcset="logo-isaret.png" media="(prefers-color-scheme: dark)"><img class="filigran" src="logo-isaret-koyu.png" alt="" loading="lazy" decoding="async"></picture><div class="sar izle">
   <div class="bolum-basi">
@@ -470,7 +476,7 @@
   </div>
 </div></section>
 
-<div class="bant" data-plx="0.14" aria-hidden="true"><img src="gorsel-cocuk.jpg" alt="" loading="lazy" decoding="async"></div>
+<div class="bant" data-plx="0.14" aria-hidden="true"><img src="gorsel-cocuk.jpg" alt="" loading="lazy" decoding="async"><span class="bant-etiket">ÇOCUK DİŞ HEKİMLİĞİ</span></div>
 
 <section style="padding-top:44px"><div class="sar izle">
   <div class="bolum-basi"><h2>İletişim</h2></div>
