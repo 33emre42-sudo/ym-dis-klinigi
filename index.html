@@ -13,6 +13,8 @@
 <meta property="og:url" content="https://ymdisklinigi.com/">
 <meta property="og:locale" content="tr_TR">
 <link rel="canonical" href="https://ymdisklinigi.com/">
+<link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
@@ -76,7 +78,9 @@
   .serit.kaydi{box-shadow:0 10px 30px -18px var(--glow),0 1px 0 var(--cizgi)}
   .serit .sar{display:flex;align-items:center;justify-content:space-between;
     gap:16px;height:64px}
-  .marka{display:flex;flex-direction:column;line-height:1.2;text-decoration:none}
+  .marka{display:flex;align-items:center;gap:11px;text-decoration:none}
+  .logo{display:block;height:34px;width:34px;object-fit:contain}
+  .marka-metin{display:flex;flex-direction:column;line-height:1.2}
   .marka b{font-family:var(--baslik);font-size:16.5px;font-weight:800;
     color:var(--murekkep);letter-spacing:-.015em}
   .marka span{font-family:var(--tek);font-size:10.5px;color:var(--soluk);
@@ -92,8 +96,28 @@
   @media (max-width:400px){.serit-tel{font-size:14px;padding:8px 13px}.marka b{font-size:15px}}
 
   /* --- giris --- */
-  .giris{padding:84px 0 64px;border-bottom:1px solid var(--cizgi);
+  .giris{padding:104px 0 84px;border-bottom:1px solid var(--cizgi);
     position:relative;overflow:hidden}
+  .giris .sar{position:relative;z-index:1}
+  .giris-fon{position:absolute;inset:0;z-index:0;pointer-events:none}
+  .giris-fon img{width:100%;height:120%;object-fit:cover;
+    object-position:76% 42%;display:block;opacity:.85;will-change:transform}
+  .giris-fon::after{content:"";position:absolute;inset:0;background:
+    linear-gradient(90deg,var(--kagit) 34%,
+      color-mix(in srgb,var(--kagit) 72%,transparent) 56%,
+      color-mix(in srgb,var(--kagit) 24%,transparent) 78%,transparent),
+    linear-gradient(var(--kagit),transparent 16%),
+    linear-gradient(transparent 84%,var(--kagit))}
+  @media (max-width:880px){
+    .giris-fon::after{background:
+      linear-gradient(90deg,var(--kagit) 12%,
+        color-mix(in srgb,var(--kagit) 82%,transparent) 55%,
+        color-mix(in srgb,var(--kagit) 58%,transparent)),
+      linear-gradient(transparent 84%,var(--kagit))}
+  }
+  @media (prefers-color-scheme: dark){
+    .giris-fon img{opacity:.55;filter:brightness(.82) saturate(.92)}
+  }
   @media (max-width:640px){.giris{padding:46px 0 44px}}
   .giris-izgara{display:grid;grid-template-columns:minmax(0,1fr);gap:48px;
     align-items:center}
@@ -129,7 +153,7 @@
   /* giris gorsel paneli */
   .giris-gorsel{display:none}
   @media (min-width:880px){
-    .giris-izgara{grid-template-columns:minmax(0,1fr) minmax(300px,410px)}
+    .giris-izgara{grid-template-columns:minmax(0,1fr)}
     .giris-gorsel{display:block;position:relative;border-radius:20px;
       overflow:hidden;border:1px solid var(--cizgi);aspect-ratio:15/16;
       box-shadow:0 30px 70px -40px var(--glow),0 24px 48px -36px rgba(4,10,16,.5)}
@@ -144,16 +168,16 @@
 
   /* --- kayan tedavi seridi --- */
   .akar{overflow:hidden;border-bottom:1px solid var(--cizgi);
-    background:var(--kat);padding:13px 0;position:relative}
+    background:var(--kat);padding:7px 0;position:relative}
   .akar::before,.akar::after{content:"";position:absolute;top:0;bottom:0;
     width:90px;z-index:1;pointer-events:none}
   .akar::before{left:0;background:linear-gradient(90deg,var(--kat),transparent)}
   .akar::after{right:0;background:linear-gradient(270deg,var(--kat),transparent)}
-  .akar-ic{display:flex;gap:44px;width:max-content;
+  .akar-ic{display:flex;gap:58px;width:max-content;align-items:center;
     animation:kay 36s linear infinite}
-  .akar-ic span{font-family:var(--tek);font-size:12px;letter-spacing:.16em;
+  .akar-ic span{font-family:var(--tek);font-size:10px;letter-spacing:.22em;
     color:var(--soluk);white-space:nowrap;text-transform:uppercase}
-  .akar-ic i{color:var(--vurgu);font-style:normal}
+  .akar-ic i{color:var(--vurgu);font-style:normal;font-size:8px;opacity:.75}
   @keyframes kay{to{transform:translateX(-50%)}}
 
   /* --- bolumler --- */
@@ -260,6 +284,8 @@
     -webkit-mask-image:linear-gradient(to left,#000 25%,transparent 92%);
     mask-image:linear-gradient(to left,#000 25%,transparent 92%)}
   @media (prefers-color-scheme: dark){.tedavi-fon{opacity:.07}}
+  .filigran{position:absolute;left:-48px;bottom:-36px;width:min(42vw,380px);
+    opacity:.05;transform:rotate(-8deg);pointer-events:none}
   .tedavi-bolum .sar{position:relative;z-index:1}
 
   /* --- gece cagrisi: cam panel --- */
@@ -330,11 +356,11 @@
 </head><body>
 
 <div class="serit"><div class="sar">
-  <a class="marka" href="/"><b>YM Diş Kliniği</b><span>BAĞCILAR · KİRAZLI</span></a>
+  <a class="marka" href="/"><picture><source srcset="logo-isaret.png" media="(prefers-color-scheme: dark)"><img class="logo" src="logo-isaret-koyu.png" alt="" width="34" height="34" decoding="async"></picture><span class="marka-metin"><b>YM Diş Kliniği</b><span>BAĞCILAR · KİRAZLI</span></span></a>
   <a class="serit-tel" href="tel:+905417324376"><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 5.5 5.5L16 12l4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4 6.2 2 2 0 0 1 6 4V3Z"/></svg><span>0541 732 43 76</span></a>
 </div></div>
 
-<header class="giris"><div class="sar giris-izgara"><div class="sirali">
+<header class="giris"><div class="giris-fon" aria-hidden="true" data-plx="0.05"><img src="gorsel-hero.jpg" alt="" decoding="async" fetchpriority="high"></div><div class="sar giris-izgara"><div class="sirali">
   <h1>Bağcılar Kirazlı’da <span class="vurgulu">ağız ve diş sağlığı</span> kliniği.</h1>
   <p class="giris-ozet">Diş hekimliğinin tüm alanlarında hizmet
      verilmektedir. Şikâyetiniz ve merak ettikleriniz için telefonla ya da
@@ -349,9 +375,6 @@
     <div><svg class="ikon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M8 3.5v4M16 3.5v4M4 10.5h16"/></svg><span>Randevu: <b>telefon / WhatsApp</b></span></div>
   </div>
 </div>
-  <div class="giris-gorsel" data-plx="0.05" aria-hidden="true">
-    <img src="gorsel-plak.jpg" alt="" decoding="async">
-  </div>
 </div></header>
 
 <div class="akar" aria-hidden="true"><div class="akar-ic"><span>Genel Diş Tedavisi</span><i>✦</i><span>Kanal Tedavisi</span><i>✦</i><span>Ağız ve Diş Cerrahisi</span><i>✦</i><span>İmplant</span><i>✦</i><span>Protez ve Kaplama</span><i>✦</i><span>Dişeti Tedavisi</span><i>✦</i><span>Ortodonti</span><i>✦</i><span>Şeffaf Plak</span><i>✦</i><span>Çocuk Diş Hekimliği</span><i>✦</i><span>7/24 Ulaşılabilir</span><i>✦</i><span>Genel Diş Tedavisi</span><i>✦</i><span>Kanal Tedavisi</span><i>✦</i><span>Ağız ve Diş Cerrahisi</span><i>✦</i><span>İmplant</span><i>✦</i><span>Protez ve Kaplama</span><i>✦</i><span>Dişeti Tedavisi</span><i>✦</i><span>Ortodonti</span><i>✦</i><span>Şeffaf Plak</span><i>✦</i><span>Çocuk Diş Hekimliği</span><i>✦</i><span>7/24 Ulaşılabilir</span><i>✦</i></div></div>
@@ -391,7 +414,7 @@
 
 <div class="bant" data-plx="0.14" aria-hidden="true"><img src="gorsel-implant.jpg" alt="" loading="lazy" decoding="async"></div>
 
-<section style="padding-top:44px" class="tedavi-bolum"><img class="tedavi-fon" src="gorsel-lamine.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true"><div class="sar izle">
+<section style="padding-top:44px" class="tedavi-bolum"><img class="tedavi-fon" src="gorsel-lamine.jpg" alt="" loading="lazy" decoding="async" aria-hidden="true"><picture aria-hidden="true"><source srcset="logo-isaret.png" media="(prefers-color-scheme: dark)"><img class="filigran" src="logo-isaret-koyu.png" alt="" loading="lazy" decoding="async"></picture><div class="sar izle">
   <div class="bolum-basi">
     <h2>Tedavi alanları</h2>
     <p>Aşağıdaki alanların tamamında tedavi uygulanmaktadır. Durumunuza
@@ -493,7 +516,7 @@
   var d=document,io=null;
   if("IntersectionObserver" in window){
     io=new IntersectionObserver(function(es){es.forEach(function(e){
-      if(e.isIntersecting){e.target.classList.add("gorunur");io.unobserve(e.target)}
+      e.target.classList.toggle("gorunur",e.isIntersecting)
     })},{rootMargin:"0px 0px -8% 0px"});
   }
   d.querySelectorAll(".izle").forEach(function(el){
@@ -501,7 +524,8 @@
     // bile icerik asla gizli kalmasin (fail-open).
     if(!io || el.getBoundingClientRect().top < innerHeight*0.95){
       el.classList.add("gorunur");
-    } else { io.observe(el); }
+    }
+    if(io){ io.observe(el); }
   });
   var s=d.querySelector(".serit");
   addEventListener("scroll",function(){s.classList.toggle("kaydi",scrollY>8)},{passive:true});
