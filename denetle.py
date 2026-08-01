@@ -383,6 +383,44 @@ for ad in BILGI:
 
 kontrol("bilgi.css var", os.path.exists("bilgi.css"))
 
+# --- Yazi tipleri YEREL mi? (Codex 1. tur bulgu 7'nin kalici cozumu) ---
+# Site hicbir ucuncu taraf sunucusuna istek atmamali: hastanin IP'si
+# ve hangi sayfayi actigi disari gitmesin. Bir sayfaya yanlislikla
+# Google Fonts baglantisi geri eklenirse burada yakalanir.
+print()
+DIS_KAYNAK = re.compile(
+    r"(?:href|src)=[\"'](?:https?:)?//(?!ymdisklinigi\.com)"
+    r"[^\"']*\.(?:css|woff2?|ttf|otf)[\"']", re.I)
+dis_font = []
+for ad in ["index.html", "gizlilik.html"] + ALT_SAYFA + BILGI:
+    if not os.path.exists(ad):
+        continue
+    with open(ad, encoding="utf-8") as f:
+        s_ = f.read()
+    if "fonts.googleapis.com" in s_ or "fonts.gstatic.com" in s_:
+        dis_font.append(ad)
+    elif DIS_KAYNAK.search(s_):
+        dis_font.append(ad + " (dis bicem/font)")
+kontrol("hicbir sayfa disaridan yazi tipi cekmiyor", not dis_font,
+        ("SIZINTI: %s" % dis_font[:3]) if dis_font
+        else "%d sayfa temiz" % (len(ALT_SAYFA) + len(BILGI) + 2))
+
+kontrol("fontlar.css var", os.path.exists("fontlar.css"))
+if os.path.exists("fontlar.css"):
+    with open("fontlar.css", encoding="utf-8") as f:
+        fcss = f.read()
+    istenen = re.findall(r"url\(([^)]+\.woff2)\)", fcss)
+    eksik_font = [y for y in istenen if not os.path.exists(y)]
+    kontrol("fontlar.css'teki dosyalar diskte var", not eksik_font,
+            ("eksik: %s" % eksik_font[:2]) if eksik_font
+            else "%d woff2" % len(istenen))
+    # Turkce icin latin-ext SART: ğ ş İ Ğ Ş orada.
+    kontrol("latin-ext altkumesi var (Turkce icin sart)",
+            "latin-ext" in fcss)
+    kontrol("font-display: swap tanimli",
+            fcss.count("font-display: swap") == len(istenen),
+            "%d/%d" % (fcss.count("font-display: swap"), len(istenen)))
+
 # --- 7. Alt sayfalar + sitemap ---
 print("\n--- 7/7  alt sayfalar (%d) ve sitemap ---" % len(ALT_SAYFA))
 
