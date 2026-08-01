@@ -6,13 +6,25 @@ SITE DENETIMI — index.html veya bilgi yazilari degistiginde calistirilir.
     python denetle.py
 
 Neyi kontrol eder:
-  1. JSON-LD bloklari gecerli mi, Dentist + FAQPage duruyor mu
-  2. FAQPage semasindaki soru/cevaplar sayfadaki metinle AYNI mi
+  1. index.html JSON-LD — Dentist duruyor mu, FAQPage YANLISLIKLA geri
+     gelmis mi (sema artik SSS sayfasinda yasiyor)
+  2. FAQPage semasindaki soru/cevaplar SSS sayfasindaki metinle AYNI mi
      (Google, semadaki cevabin sayfada gorunur olmasini sart kosuyor)
   3. HTML etiket dengesi
-  4. Mevzuat taramasi — 12 Kas 2025 tanitim yonetmeligi
-  5. Icerik hacmi ve bolumlerin varligi
+  4. Mevzuat taramasi — 12 Kas 2025 tanitim yonetmeligi (TUM sayfalar)
+  5. Icerik hacmi, bolumler ve sekmeli menu
   6. Bilgi yazilari — ayni kurallar onlar icin de
+  7. Alt sayfalar (hekimler / SSS / bilgi dizini) ve sitemap
+
+--------------------------------------------------------------------------
+1 Agu 2026 — site ayri sekmelere bolundu:
+  index.html · hekimlerimiz.html · sik-sorulan-sorular.html ·
+  bilgi-yazilari.html + 10 bilgi yazisi
+
+FAQPage semasi index'ten SSS sayfasina TASINDI. Ayni SSS'yi iki URL'de
+yayimlamak ikisini de zayiflatiyor; sema, cevabin gorunur oldugu tek
+sayfada durur. Bu yuzden index'te FAQPage gorulurse HATA verilir.
+Sema elle yazilmaz — `python sss-sema-uret.py` uretir.
 
 --------------------------------------------------------------------------
 1. tur Codex denetiminden sonra (1 Agu 2026) yapilan duzeltmeler:
@@ -181,11 +193,25 @@ except FileNotFoundError:
     print("index.html bulunamadi — betigi site klasorunde calistirin.")
     sys.exit(1)
 
+# Sayfa listeleri — tek kaynak
+BILGI = ["gece-dis-agrisi.html", "kirilan-dis-ne-yapmali.html",
+         "dis-apsesi.html", "yirmi-yas-disi.html",
+         "kanal-tedavisi.html", "implant-sureci.html",
+         "diseti-kanamasi.html", "dis-sikma-gece-plagi.html",
+         "hamilelikte-dis-sagligi.html", "cocukta-ilk-dis.html"]
+ALT_SAYFA = ["hekimlerimiz.html", "sik-sorulan-sorular.html",
+             "bilgi-yazilari.html"]
+SSS_SAYFA = "sik-sorulan-sorular.html"
+
+# Sekmeli menude bulunmasi gereken baglantilar
+MENU_BAGLARI = ["hekimlerimiz.html", "bilgi-yazilari.html",
+                SSS_SAYFA, "#tedaviler", "#ulasim", "#iletisim"]
+
 # --- 1. JSON-LD ---
-print("\n--- 1/6  JSON-LD yapisal veri ---")
+print("\n--- 1/7  index.html JSON-LD yapisal veri ---")
 bloklar = re.findall(
     r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
-kontrol("iki JSON-LD blogu var", len(bloklar) == 2, "%d blok" % len(bloklar))
+kontrol("bir JSON-LD blogu var", len(bloklar) == 1, "%d blok" % len(bloklar))
 
 tipler, cozulen = [], []
 for i, b in enumerate(bloklar):
@@ -198,38 +224,63 @@ for i, b in enumerate(bloklar):
         kontrol("blok %d gecerli JSON" % (i + 1), False, str(e))
 
 kontrol("Dentist semasi var", "Dentist" in tipler)
-kontrol("FAQPage semasi var", "FAQPage" in tipler)
+# FAQPage index'te OLMAMALI — ayni SSS iki URL'de yayimlanirsa ikisi de
+# zayiflar. Sema yalnizca sik-sorulan-sorular.html'de durur.
+kontrol("index'te FAQPage YOK (SSS sayfasinda olmali)",
+        "FAQPage" not in tipler,
+        "geri gelmis!" if "FAQPage" in tipler else "sema SSS sayfasinda")
 
 # --- 2. SSS: sema <-> sayfa (TAM METIN, soru bazli eslesme) ---
-print("\n--- 2/6  SSS: sema ile sayfa metni AYNI mi ---")
-faq = next((v for v in cozulen if v.get("@type") == "FAQPage"), None)
-if faq:
-    sorular = faq["mainEntity"]
-    sayfa = {}
-    for m in re.finditer(
-            r'<details class="sss-ogesi">\s*<summary>(.*?)</summary>\s*'
-            r'<div class="sss-cevap">(.*?)</div>\s*</details>', html, re.S):
-        sayfa[duzlestir(m.group(1))] = duzlestir(m.group(2))
-
-    print("     sema %d soru  ·  sayfa %d soru" % (len(sorular), len(sayfa)))
-    kontrol("soru sayilari esit", len(sorular) == len(sayfa))
-
-    eksik, uyusmaz = [], []
-    for q in sorular:
-        ad = duzlestir(q["name"])
-        if ad not in sayfa:
-            eksik.append(ad[:40])
+print("\n--- 2/7  SSS sayfasi: sema ile metin AYNI mi ---")
+if not os.path.exists(SSS_SAYFA):
+    kontrol(SSS_SAYFA, False, "dosya yok")
+else:
+    with open(SSS_SAYFA, encoding="utf-8") as f:
+        sss_html = f.read()
+    sss_bloklar = re.findall(
+        r'<script type="application/ld\+json">(.*?)</script>', sss_html, re.S)
+    faq = None
+    for b in sss_bloklar:
+        try:
+            v = json.loads(b)
+        except json.JSONDecodeError as e:
+            kontrol("SSS sayfasi JSON-LD gecerli", False, str(e))
             continue
-        # TAM metin karsilastirmasi — ilk 60 karakter yetmiyordu
-        if sayfa[ad] != duzlestir(q["acceptedAnswer"]["text"]):
-            uyusmaz.append(ad[:40])
-    kontrol("her sema sorusu sayfada var", not eksik,
-            ("eksik: %s" % eksik[:2]) if eksik else "")
-    kontrol("cevaplar TAM METIN ayni", not uyusmaz,
-            ("uyusmaz: %s" % uyusmaz[:2]) if uyusmaz else "")
+        if v.get("@type") == "FAQPage":
+            faq = v
+    kontrol("SSS sayfasinda FAQPage semasi var", faq is not None)
+
+    if faq:
+        sorular = faq["mainEntity"]
+        sayfa = {}
+        for m in re.finditer(
+                r'<details class="sss-ogesi">\s*<summary>(.*?)</summary>\s*'
+                r'<div class="sss-cevap">(.*?)</div>\s*</details>',
+                sss_html, re.S):
+            sayfa[duzlestir(m.group(1))] = duzlestir(m.group(2))
+
+        print("     sema %d soru  ·  sayfa %d soru"
+              % (len(sorular), len(sayfa)))
+        kontrol("soru sayilari esit", len(sorular) == len(sayfa))
+        kontrol("en az 15 soru var", len(sayfa) >= 15, "%d soru" % len(sayfa))
+
+        eksik, uyusmaz = [], []
+        for q in sorular:
+            ad = duzlestir(q["name"])
+            if ad not in sayfa:
+                eksik.append(ad[:40])
+                continue
+            # TAM metin karsilastirmasi — ilk 60 karakter yetmiyordu
+            if sayfa[ad] != duzlestir(q["acceptedAnswer"]["text"]):
+                uyusmaz.append(ad[:40])
+        kontrol("her sema sorusu sayfada var", not eksik,
+                ("eksik: %s" % eksik[:2]) if eksik else "")
+        kontrol("cevaplar TAM METIN ayni", not uyusmaz,
+                ("uyusmaz: %s — 'python sss-sema-uret.py' calistirin"
+                 % uyusmaz[:2]) if uyusmaz else "")
 
 # --- 3. Etiket dengesi ---
-print("\n--- 3/6  HTML etiket dengesi ---")
+print("\n--- 3/7  HTML etiket dengesi ---")
 for etiket in ("details", "summary", "section", "div", "main"):
     ac = len(re.findall(r"<%s[\s>]" % etiket, html))
     kapa = len(re.findall(r"</%s>" % etiket, html))
@@ -237,7 +288,7 @@ for etiket in ("details", "summary", "section", "div", "main"):
             "%d ac / %d kapa" % (ac, kapa))
 
 # --- 4. Mevzuat (TUM DOSYA, head dahil) ---
-print("\n--- 4/6  Mevzuat taramasi (12 Kas 2025 yonetmeligi) ---")
+print("\n--- 4/7  Mevzuat taramasi (12 Kas 2025 yonetmeligi) ---")
 sorunlar = mevzuat_tara(html, "index.html")
 kontrol("index.html mevzuat taramasi", not sorunlar,
         ("; ".join(sorunlar[:3])) if sorunlar else "head + JSON-LD dahil")
@@ -249,29 +300,46 @@ kontrol("govdede emoji yok (widget haric)", not emoji,
         ("BULUNDU: %s" % " ".join(sorted(set(emoji)))) if emoji else "")
 
 # --- 5. Icerik ---
-print("\n--- 5/6  Icerik hacmi ve bolumler ---")
+print("\n--- 5/7  Icerik hacmi, bolumler ve menu ---")
 metin = duzlestir(govde)
 kelime = len([k for k in metin.split(" ") if len(k) > 1])
 kontrol("gorunur metin 1200+ kelime", kelime > 1200, "%d kelime" % kelime)
 kontrol("7 tedavi alaninda acilir ayrinti",
         len(re.findall(r'<details class="ayrinti">', html)) == 7)
 for ad, im in (("SSS", 'id="sss"'), ("hekimler", 'id="hekimler"'),
-               ("bilgi yazilari", 'id="bilgi"'), ("ulasim", 'id="ulasim"')):
+               ("bilgi yazilari", 'id="bilgi"'), ("ulasim", 'id="ulasim"'),
+               ("tedaviler", 'id="tedaviler"'),
+               ("iletisim", 'id="iletisim"')):
     kontrol("%s bolumu var" % ad, im in html)
 kontrol("canonical etiketi var", 'rel="canonical"' in html)
 kontrol("meta description var", 'name="description"' in html)
 kontrol("Search Console dogrulamasi duruyor",
         "google-site-verification" in html)
 
+# Menu: HER sayfada olmali ve ayni baglantilari icermeli. Bir sayfada
+# menu unutulursa ziyaretci o sayfada kapana kisilir.
+print()
+for ad in ["index.html"] + ALT_SAYFA + BILGI:
+    if not os.path.exists(ad):
+        continue
+    with open(ad, encoding="utf-8") as f:
+        s_ = f.read()
+    eksik_bag = [b for b in MENU_BAGLARI if b not in s_]
+    kontrol("menu · %s" % ad,
+            'class="menu"' in s_ and not eksik_bag,
+            ("eksik: %s" % eksik_bag[:3]) if eksik_bag
+            else ("menu yok" if 'class="menu"' not in s_ else ""))
+
 # --- 6. Bilgi yazilari ---
-BILGI = ["gece-dis-agrisi.html", "kirilan-dis-ne-yapmali.html",
-         "dis-apsesi.html", "yirmi-yas-disi.html"]
-print("\n--- 6/6  bilgi yazilari (%d sayfa) ---" % len(BILGI))
+print("\n--- 6/7  bilgi yazilari (%d sayfa) ---" % len(BILGI))
 
 diskteki = sorted(os.path.basename(y) for y in glob.glob("*.html")
                   if os.path.basename(y) not in ("index.html", "gizlilik.html"))
-kontrol("listedeki sayfalar diskle ayni", diskteki == sorted(BILGI),
-        "diskte: %s" % ", ".join(diskteki))
+kontrol("listedeki sayfalar diskle ayni",
+        diskteki == sorted(BILGI + ALT_SAYFA),
+        ("fark: %s" % sorted(set(diskteki) ^ set(BILGI + ALT_SAYFA)))
+        if diskteki != sorted(BILGI + ALT_SAYFA) else
+        "%d yazi + %d alt sayfa" % (len(BILGI), len(ALT_SAYFA)))
 
 for ad in BILGI:
     if not os.path.exists(ad):
@@ -315,12 +383,67 @@ for ad in BILGI:
 
 kontrol("bilgi.css var", os.path.exists("bilgi.css"))
 
+# --- 7. Alt sayfalar + sitemap ---
+print("\n--- 7/7  alt sayfalar (%d) ve sitemap ---" % len(ALT_SAYFA))
+
+for ad in ALT_SAYFA:
+    if not os.path.exists(ad):
+        kontrol(ad, False, "dosya yok")
+        continue
+    with open(ad, encoding="utf-8") as f:
+        s = f.read()
+    sorun = []
+
+    for blok in re.findall(
+            r'<script type="application/ld\+json">(.*?)</script>', s, re.S):
+        try:
+            json.loads(blok)
+        except json.JSONDecodeError as e:
+            sorun.append("JSON-LD bozuk (%s)" % e)
+
+    for etiket in ("div", "section", "article", "ul", "ol", "li", "p",
+                   "details", "summary", "nav"):
+        ac = len(re.findall(r"<%s[\s>]" % etiket, s))
+        kapa = len(re.findall(r"</%s>" % etiket, s))
+        if ac != kapa:
+            sorun.append("<%s> dengesiz (%d/%d)" % (etiket, ac, kapa))
+
+    sorun += mevzuat_tara(s, ad)
+
+    if "canonical" not in s:
+        sorun.append("canonical yok")
+    if 'name="description"' not in s:
+        sorun.append("description yok")
+    if 'href="bilgi.css"' not in s:
+        sorun.append("bilgi.css bagli degil")
+    duz = duzlestir(s[s.find("<body"):])
+    if "hekim muayenesinin yerine geçmez" not in duz.lower():
+        sorun.append("sorumluluk notu yok")
+
+    kelimeler = len([k for k in duz.split(" ") if len(k) > 1])
+    if kelimeler < 400:
+        sorun.append("cok kisa (%d kelime)" % kelimeler)
+
+    kontrol(ad, not sorun,
+            ("; ".join(sorun[:2])) if sorun else "%d kelime" % kelimeler)
+
+# Bilgi dizini gercekten TUM yazilari listeliyor mu? Yeni bir yazi
+# eklenip dizine konmazsa sayfa yetim kalir — hicbir yerden linklenmez.
+if os.path.exists("bilgi-yazilari.html"):
+    with open("bilgi-yazilari.html", encoding="utf-8") as f:
+        dizin = f.read()
+    yetim = [a for a in BILGI if a not in dizin]
+    kontrol("bilgi dizini tum yazilari listeliyor", not yetim,
+            ("dizinde yok: %s" % yetim) if yetim
+            else "%d yazi" % len(BILGI))
+
 if os.path.exists("sitemap.xml"):
     with open("sitemap.xml", encoding="utf-8") as f:
         sm = f.read()
-    eksik = [a for a in BILGI + ["gizlilik.html"] if a not in sm]
+    eksik = [a for a in BILGI + ALT_SAYFA + ["gizlilik.html"] if a not in sm]
     kontrol("sitemap tum sayfalari iceriyor", not eksik,
-            ("eksik: %s" % eksik) if eksik else "")
+            ("eksik: %s" % eksik) if eksik else
+            "%d sayfa" % (len(BILGI) + len(ALT_SAYFA) + 2))
 
 print("=" * 74)
 if hata:

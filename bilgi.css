@@ -68,6 +68,69 @@ a{color:inherit}
   .marka span{display:none}
 }
 
+/* --- sekmeler (ana sayfadakiyle ayni) ---
+   Dar ekranda yatay kaydirilir; kaydirma cubugu gizli. Etkin sekme
+   aria-current="page" ile isaretlenir. */
+.menu{border-bottom:1px solid var(--cizgi);background:var(--kat)}
+.menu .sar{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;
+  -ms-overflow-style:none}
+.menu .sar::-webkit-scrollbar{display:none}
+.menu a{flex:0 0 auto;padding:13px 15px;text-decoration:none;
+  font-size:14.5px;font-weight:500;color:var(--gri);white-space:nowrap;
+  border-bottom:2px solid transparent;transition:color .18s,border-color .18s}
+.menu a:hover{color:var(--vurgu)}
+.menu a[aria-current="page"]{color:var(--vurgu);font-weight:600;
+  border-bottom-color:var(--vurgu)}
+@media (max-width:640px){.menu a{padding:12px 12px;font-size:14px}}
+
+/* --- sayfa basi (hekimler / SSS / bilgi dizini) --- */
+.sayfa-basi{padding:40px 0 6px}
+.sayfa-basi h1{margin:0 0 14px;font-family:var(--baslik);color:var(--murekkep);
+  font-weight:800;font-size:clamp(27px,4vw,40px);line-height:1.18;
+  letter-spacing:-.03em;max-width:22ch}
+.sayfa-basi .ozet{max-width:66ch}
+
+/* --- hekim kartlari --- */
+.hekimler{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:16px;padding:26px 0 8px}
+.hekim{background:var(--kat);border:1px solid var(--cizgi);border-radius:16px;
+  padding:22px 22px 20px}
+.hekim-ad{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.hekim-ad b{font-family:var(--baslik);font-size:19px;font-weight:800;
+  color:var(--murekkep);letter-spacing:-.02em}
+.hekim-unvan{font-family:var(--tek);font-size:11px;letter-spacing:.13em;
+  color:var(--soluk);text-transform:uppercase}
+.hekim p{margin:0 0 10px}
+.hekim p:last-child{margin-bottom:0}
+
+/* --- SSS --- */
+.sss{display:flex;flex-direction:column;gap:10px;padding:24px 0 8px;
+  max-width:74ch}
+.sss-ogesi{background:var(--kat);border:1px solid var(--cizgi);
+  border-radius:14px;overflow:hidden}
+.sss-ogesi summary{cursor:pointer;padding:16px 20px;font-weight:600;
+  color:var(--murekkep);list-style:none;display:flex;gap:12px;
+  align-items:flex-start;justify-content:space-between}
+.sss-ogesi summary::-webkit-details-marker{display:none}
+.sss-ogesi summary::after{content:"+";font-family:var(--tek);font-size:19px;
+  color:var(--vurgu);line-height:1;flex:0 0 auto}
+.sss-ogesi[open] summary::after{content:"–"}
+.sss-cevap{padding:0 20px 18px;max-width:66ch}
+.sss-cevap p{margin:0 0 10px}
+.sss-cevap p:last-child{margin-bottom:0}
+
+/* --- bilgi yazisi dizini --- */
+.dizin-yazi{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+  gap:14px;padding:24px 0 8px}
+.yazi-kart{display:flex;flex-direction:column;gap:8px;text-decoration:none;
+  background:var(--kat);border:1px solid var(--cizgi);border-radius:14px;
+  padding:20px;transition:border-color .18s,transform .18s,box-shadow .2s}
+.yazi-kart:hover{border-color:var(--vurgu);transform:translateY(-2px);
+  box-shadow:0 14px 30px -20px var(--glow)}
+.yazi-kart b{font-family:var(--baslik);font-size:17px;font-weight:800;
+  color:var(--murekkep);letter-spacing:-.02em;line-height:1.3}
+.yazi-kart span{font-size:14.5px;color:var(--gri);line-height:1.6}
+
 /* --- makale --- */
 .yazi{padding:38px 0 10px}
 .izlek{font-family:var(--tek);font-size:11px;letter-spacing:.14em;
