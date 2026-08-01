@@ -58,6 +58,8 @@ import sys
 # Mevzuat desenleri ve metin duzlestirme ORTAK modulde (2. tur bulgusu:
 # duzlestir iki yerde kopyalanmisti; biri degisirse digeri sessizce
 # ayrisirdi). Desenler icin: mevzuat.py · testi: test-denetle.py
+from html.parser import HTMLParser
+
 from mevzuat import (duzlestir, kucult, mevzuat_tara,
                      EMOJI_ISTISNA, YASAKLI, TICARI, MUAF)
 
@@ -282,23 +284,116 @@ kontrol("bilgi.css var", os.path.exists("bilgi.css"))
 # Site hicbir ucuncu taraf sunucusuna istek atmamali: hastanin IP'si
 # ve hangi sayfayi actigi disari gitmesin. Bir sayfaya yanlislikla
 # Google Fonts baglantisi geri eklenirse burada yakalanir.
+# ⚠️ 3. tur bulgu 12: bu kontrol yalnizca .css ve font uzantilarina
+# bakiyordu. Oysa gizlilik metnimiz "sayfa acildiginda hicbir ucuncu
+# taraf sunucusuna istek gonderilmez" diye SOZ VERIYOR. Geri eklenecek
+# bir <script src>, <img src>, <iframe>, preload ya da CSS @import bu
+# sozu bozar ve denetimden gecerdi. Artik SAYFA YUKLENIRKEN istek
+# olusturan butun kaynak turleri taraniyor.
+#
+# Onemli ayrim: kullanicinin TIKLAMASIYLA acilan baglantilar
+# (wa.me, tel:, maps.app.goo.gl) kaynak yuklemesi DEGILDIR — onlar
+# taranmaz, aksi halde her WhatsApp dugmesi hata verirdi.
 print()
-DIS_KAYNAK = re.compile(
-    r"(?:href|src)=[\"'](?:https?:)?//(?!ymdisklinigi\.com)"
-    r"[^\"']*\.(?:css|woff2?|ttf|otf)[\"']", re.I)
+
+_YERLI = re.compile(r"^(?:https?:)?//(?:www\.)?ymdisklinigi\.com", re.I)
+
+
+def _dis_mi(deger):
+    """Sayfa yuklenirken istek olusturacak bir DIS adres mi?"""
+    d = (deger or "").strip()
+    if not d or d.startswith(("data:", "#", "mailto:", "tel:")):
+        return False
+    if d.startswith(("//", "http://", "https://")):
+        return not _YERLI.match(d)
+    return False            # bagil yol = kendi sunucumuz
+
+
+class _KaynakToplayici(HTMLParser):
+    """Sayfa acilirken ag istegi doguran ogeleri toplar."""
+    # etiket -> bakilacak oznitelikler
+    HEDEF = {"script": ("src",), "img": ("src", "srcset"),
+             "source": ("src", "srcset"), "iframe": ("src",),
+             "video": ("src", "poster"), "audio": ("src",),
+             "embed": ("src",), "object": ("data",),
+             "track": ("src",), "input": ("src",)}
+
+    def __init__(self):
+        HTMLParser.__init__(self, convert_charrefs=True)
+        self.dis = []
+
+    def handle_starttag(self, etiket, oznitelikler):
+        d = {k.lower(): (v or "") for k, v in oznitelikler}
+        for oz in self.HEDEF.get(etiket, ()):
+            for parca in re.split(r"\s*,\s*", d.get(oz, "")):
+                aday = parca.split()[0] if parca.split() else ""
+                if _dis_mi(aday):
+                    self.dis.append("%s[%s]=%s" % (etiket, oz, aday[:52]))
+        # <link>: yalnizca YUKLEME yapan iliskiler
+        if etiket == "link":
+            rel = (d.get("rel") or "").lower()
+            if any(r in rel for r in ("stylesheet", "preload", "prefetch",
+                                      "preconnect", "modulepreload",
+                                      "dns-prefetch")):
+                if _dis_mi(d.get("href")):
+                    self.dis.append("link[%s]=%s" % (rel, d.get("href")[:52]))
+
+    def handle_startendtag(self, etiket, oznitelikler):
+        self.handle_starttag(etiket, oznitelikler)
+
+    def error(self, mesaj):
+        pass
+
+
+def _dis_kaynaklar(s_):
+    t = _KaynakToplayici()
+    try:
+        t.feed(s_)
+        t.close()
+    except Exception:
+        pass
+    bulgular = list(t.dis)
+    # Satir ici <style> ve harici CSS icindeki @import / url()
+    for css in re.findall(r"<style[^>]*>(.*?)</style>", s_, re.S | re.I):
+        for m in re.finditer(r"@import\s+(?:url\()?['\"]?([^'\")\s]+)", css):
+            if _dis_mi(m.group(1)):
+                bulgular.append("@import=%s" % m.group(1)[:52])
+        for m in re.finditer(r"url\(\s*['\"]?([^'\")]+)", css):
+            if _dis_mi(m.group(1)):
+                bulgular.append("css url()=%s" % m.group(1)[:52])
+    return bulgular
+
+
 dis_font = []
-for ad in ["index.html", "gizlilik.html"] + ALT_SAYFA + BILGI:
+TARANAN = ["index.html", "gizlilik.html"] + ALT_SAYFA + BILGI
+for ad in TARANAN:
     if not os.path.exists(ad):
         continue
     with open(ad, encoding="utf-8") as f:
         s_ = f.read()
     if "fonts.googleapis.com" in s_ or "fonts.gstatic.com" in s_:
-        dis_font.append(ad)
-    elif DIS_KAYNAK.search(s_):
-        dis_font.append(ad + " (dis bicem/font)")
-kontrol("hicbir sayfa disaridan yazi tipi cekmiyor", not dis_font,
+        dis_font.append(ad + " (Google Fonts)")
+        continue
+    d_ = _dis_kaynaklar(s_)
+    if d_:
+        dis_font.append("%s -> %s" % (ad, d_[:2]))
+
+# Ayri CSS dosyalari da taranir (bilgi.css, fontlar.css)
+for ad in ("bilgi.css", "fontlar.css"):
+    if not os.path.exists(ad):
+        continue
+    with open(ad, encoding="utf-8") as f:
+        css = f.read()
+    for m in re.finditer(r"(?:@import\s+(?:url\()?|url\(\s*)['\"]?([^'\")\s]+)",
+                         css):
+        if _dis_mi(m.group(1)):
+            dis_font.append("%s -> %s" % (ad, m.group(1)[:52]))
+            break
+
+kontrol("hicbir sayfa disaridan KAYNAK cekmiyor", not dis_font,
         ("SIZINTI: %s" % dis_font[:3]) if dis_font
-        else "%d sayfa temiz" % (len(ALT_SAYFA) + len(BILGI) + 2))
+        else "%d sayfa + 2 css · script/img/iframe/link/@import taranir"
+             % len(TARANAN))
 
 kontrol("fontlar.css var", os.path.exists("fontlar.css"))
 if os.path.exists("fontlar.css"):

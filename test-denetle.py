@@ -24,12 +24,23 @@ import mevzuat  # noqa: E402  — desenlerin tek kaynagi
 sonuc = []
 
 
-def bekle(ad, html, yakalanmali, ipucu=""):
+def bekle(ad, html, yakalanmali, ipucu="", kod=None):
     """yakalanmali=True  -> mevzuat_tara EN AZ bir sorun bulmali
-       yakalanmali=False -> hic sorun bulmamali (yanlis alarm yok)"""
+       yakalanmali=False -> hic sorun bulmamali (yanlis alarm yok)
+       kod              -> HANGI kuralin calistigi (or. "K15: taksit")
+
+    ⚠️ 3. tur bulgu 8: `kod` eskiden yoktu. Test yalnizca "bir sorun
+    bulundu mu" diye bakiyordu. "Kampanyamız başladı" ornegi hem
+    YASAKLI hem TICARI tarafindan yakalandigi icin, TICARI muafiyeti
+    tamamen bozuk olsa bile test GECIYORDU. Artik beklenen kural
+    acikca dogrulaniyor."""
     sorunlar = mevzuat.mevzuat_tara(html, "test")
     gecti = bool(sorunlar) == yakalanmali
-    if not gecti:
+    if gecti and kod:
+        gecti = any(s.startswith(kod) for s in sorunlar)
+        if not gecti:
+            ipucu = "BEKLENEN kural '%s' · BULUNAN: %s" % (kod, sorunlar[:3])
+    if not gecti and not ipucu:
         ipucu = ("BEKLENEN: %s · BULUNAN: %s"
                  % ("yakala" if yakalanmali else "temiz",
                     sorunlar[:2] or "temiz"))
@@ -64,6 +75,23 @@ bekle("muaf: ayni cumlede ucret aciklamasi gecer",
       sar("<p>Ücret bilgisini mevzuat gereği paylaşamıyoruz.</p>"),
       False)
 
+# --- 3. tur bulgu 5: muafiyet KENDI eslesmesine bagli olmali ----------
+# Fiyat aciklamasi, ayni cumledeki BASKA bir ticari iddiayi affetmemeli.
+bekle("muaf: ayni cumledeki 'taksit' AFFEDILMEZ",
+      sar("<p>Fiyat bilgisini yayımlayamıyoruz; taksit seçeneğimiz var.</p>"),
+      True, kod="K15: taksit")
+
+bekle("muaf: unlem sonrasi 'gece farki' AFFEDILMEZ",
+      sar("<p>Fiyat yayımlayamıyoruz! Gece farkı almıyoruz.</p>"),
+      True, kod="K15: gece farkı")
+
+# Ayri, noktasiz HTML parcalari birbirini affetmemeli.
+bekle("muaf: ayri parcalar birbirini AFFETMEZ",
+      "<!DOCTYPE html><html><head>"
+      "<meta name=\"description\" content=\"Fiyat yayımlayamıyoruz\">"
+      "</head><body><p>Taksit imkânı</p></body></html>",
+      True, kod="K15: taksit")
+
 # --- 2. tur bulgu 6: oznitelikler taranmiyordu -------------------------
 bekle("oznitelik: img alt icindeki 'en iyi' yakalanir",
       sar('<img src="a.jpg" alt="En iyi diş kliniği">'),
@@ -84,6 +112,55 @@ bekle("oznitelik: placeholder icindeki 'garanti' yakalanir",
 bekle("oznitelik: masum alt metni yanlis alarm vermez",
       sar('<img src="a.jpg" alt="Kliniğin haritadaki konumu">'),
       False)
+
+# --- 3. tur bulgu 6: tek tirnak, HTML varligi, gizli alan -------------
+bekle("oznitelik: TEK TIRNAKLI alt yakalanir",
+      sar("<img src='a.jpg' alt='En iyi diş kliniği'>"),
+      True, kod="en iyi")
+
+bekle("oznitelik: HTML varligiyla gizlenen ihlal yakalanir",
+      sar('<img src="a.jpg" alt="En &#105;yi diş kliniği">'),
+      True, kod="en iyi")
+
+bekle("oznitelik: tek tirnakli meta content yakalanir",
+      "<!DOCTYPE html><html><head>"
+      "<meta name='description' content='Ücretsiz muayene'>"
+      "</head><body><p>x</p></body></html>",
+      True, kod="ucretsiz")
+
+bekle("oznitelik: GIZLI input degeri yanlis alarm VERMEZ",
+      sar('<input type="hidden" value="kampanya_v2">'),
+      False)
+
+bekle("oznitelik: gorunur dugme degeri taranir",
+      sar('<input type="submit" value="Ücretsiz randevu">'),
+      True, kod="ucretsiz")
+
+# --- 3. tur bulgu 7: mesru guvenlik metni ENGELLENMEMELI --------------
+bekle("mesru: 'sonuç garanti edilemez' GECER",
+      sar("<p>Hiçbir tedavinin sonucu garanti edilemez; iyileşme "
+          "kişiden kişiye değişir.</p>"),
+      False)
+
+bekle("mesru: 'kampanya bulunmamaktadır' GECER",
+      sar("<p>Kliniğimizde kampanya bulunmamaktadır.</p>"),
+      False)
+
+bekle("mesru: sosyoekonomik cumle GECER",
+      sar("<p>Ekonomik koşullar ağız sağlığı hizmetine erişimi "
+          "etkileyebilir.</p>"),
+      False)
+
+# Ama gercek iddialar hala yakalanmali:
+bekle("gerileme: 'garanti ediyoruz' hala yakalanir",
+      sar("<p>Sonucu garanti ediyoruz.</p>"), True, kod="garanti")
+
+bekle("gerileme: 'kampanyamız başladı' hala yakalanir",
+      sar("<p>Kampanyamız başladı.</p>"), True, kod="kampanya")
+
+bekle("ortulu ticari: 'ekonomik tedavi' yakalanir",
+      sar("<p>Ekonomik tedavi seçenekleri sunuyoruz.</p>"),
+      True, kod="K15: ekonomik tedavi")
 
 # --- 2. tur bulgu 7: ortulu ticari dil ---------------------------------
 for kelime, ornek in [

@@ -1108,7 +1108,8 @@
   /* Devir satiri: bot "bunu bir insan gormeli" dediginde cikar.
      Site kutusu anonim — panele gorusme dusuremiyoruz. O yuzden
      hastayi tek dokunusla gercek kanala geciriyoruz. */
-  .sohbet-devir{display:flex;gap:7px;padding:2px 12px 8px;flex-wrap:wrap}
+  .sohbet-devir{display:flex;gap:7px;padding:0 12px 11px;flex-wrap:wrap}
+  .sohbet-devir[hidden]{display:none}
   .sohbet-devir a{flex:1 1 auto;text-align:center;text-decoration:none;
     font-size:13px;font-weight:600;padding:9px 12px;border-radius:9px;
     border:1px solid var(--cizgi);color:var(--murekkep);background:var(--kat)}
@@ -1135,10 +1136,16 @@
   <form id="sohbet-form">
     <input id="sohbet-girdi" maxlength="500" placeholder="Sorunuzu yazın…"
            autocomplete="off" aria-label="Mesajınız">
-    <button class="dugme birincil" type="submit">Gönder</button>
+    <button id="sohbet-gonder" class="dugme birincil" type="submit">Gönder</button>
   </form>
+  <!-- Devir eylemleri FORMDAN SONRA duruyor (3. tur b11): sohbet
+       akisinin icinde olsalardi DOM sirasinda girdiden once kalirlar
+       ve Tab'la dogal sirayla ulasilamazlardi. -->
+  <div id="sohbet-eylem" class="sohbet-devir" hidden role="group"
+       aria-label="Bize ulaşın"></div>
 </div>
-<button id="sohbet-ac" aria-label="Sohbet asistanını aç">💬</button>
+<button id="sohbet-ac" aria-label="Sohbet asistanını aç"
+        aria-controls="ym-sohbet" aria-expanded="false">💬</button>
 <script>
 (function(){
   var kutu=document.getElementById("ym-sohbet"),
@@ -1146,6 +1153,8 @@
       akis=document.getElementById("sohbet-akis"),
       form=document.getElementById("sohbet-form"),
       girdi=document.getElementById("sohbet-girdi"),
+      gonder=document.getElementById("sohbet-gonder"),
+      eylemBolge=document.getElementById("sohbet-eylem"),
       oturum=null, acildi=false, bekliyor=false, sonSoru="";
 
   /* Mesajlar DOM ile kurulur (innerHTML YOK — bot metni ne olursa olsun
@@ -1168,31 +1177,73 @@
     akis.scrollTop=akis.scrollHeight;
   }
 
-  /* Bot "bunu bir insan gormeli" dediginde (acil ya da devir) hastaya
-     gercek kanala gecis sunulur. Site kutusu anonim oldugu icin
-     panele gorusme dusemiyor; hastanin kendi son mesaji WhatsApp'a
-     tasinarak konusma kaybolmadan devam ediyor. */
-  function devirSatiri(){
-    var eski=akis.querySelector(".sohbet-devir");
-    if(eski) eski.parentNode.removeChild(eski);
-    var d=document.createElement("div");
-    d.className="sohbet-devir";
-    var a1=document.createElement("a");
-    a1.className="vurgulu"; a1.href="tel:+905417324376";
-    a1.textContent="Hemen ara";
-    var a2=document.createElement("a");
-    a2.href="https://wa.me/905417324376"+
-            (sonSoru?("?text="+encodeURIComponent(sonSoru)):"");
-    a2.target="_blank"; a2.rel="noopener";
-    a2.textContent="WhatsApp'a aktar";
-    d.appendChild(a1); d.appendChild(a2);
-    akis.appendChild(d);
+  /* Bot "bunu bir insan gormeli" dediginde hastaya gercek kanala gecis
+     sunulur. Site kutusu anonim oldugu icin panele gorusme dusemiyor;
+     hastanin kendi son mesaji WhatsApp'a tasiniyor.
+
+     ⚠️ 3. tur denetimi (b2): ACIL durumda birincil dugme KLINIGI
+     ariyordu. Bot metni "112'yi arayin" dese bile, nefes darligi olan
+     hasta en gorunur dugmeye basip klinigi arar ve acil yardim
+     gecikirdi. Artik acilde birincil dugme 112.
+
+     ⚠️ 3. tur denetimi (b11): dugmeler #sohbet-akis icine ekleniyordu,
+     yani DOM sirasinda formdan ONCE. Odak girdide oldugu icin Tab'a
+     basan kullanici dugmelere DOGAL sirayla ulasamiyordu. Artik
+     dugmeler formdan SONRA duran sabit bir bolgede. */
+  function devirSatiri(acil){
+    while(eylemBolge.firstChild) eylemBolge.removeChild(eylemBolge.firstChild);
+    function dugme(metin, adres, vurgulu, yeniSekme){
+      var a=document.createElement("a");
+      a.href=adres; a.textContent=metin;
+      if(vurgulu) a.className="vurgulu";
+      if(yeniSekme){ a.target="_blank"; a.rel="noopener"; }
+      return a;
+    }
+    if(acil){
+      /* Hayati oncelik: 112 birincil ve ilk sirada. */
+      eylemBolge.appendChild(dugme("112'yi ara","tel:112",true,false));
+      eylemBolge.appendChild(dugme("Kliniği ara","tel:+905417324376",false,false));
+    } else {
+      eylemBolge.appendChild(dugme("Hemen ara","tel:+905417324376",true,false));
+      eylemBolge.appendChild(dugme("WhatsApp'a aktar",
+        "https://wa.me/905417324376"+
+        (sonSoru?("?text="+encodeURIComponent(sonSoru)):""), false, true));
+    }
+    eylemBolge.hidden=false;
     akis.scrollTop=akis.scrollHeight;
   }
 
-  function sor(metin){
-    if(bekliyor) return;
+  function eylemleriGizle(){
+    eylemBolge.hidden=true;
+    while(eylemBolge.firstChild) eylemBolge.removeChild(eylemBolge.firstChild);
+  }
+
+  /* ⚠️ 3. tur denetimi (b1): EN CIDDI HATA BURADAYDI.
+     Acilisla birlikte sor("merhaba") calisiyor ve bekliyor=true
+     yapiyordu. Hasta bu istek bitmeden mesaj yazarsa: balon ekrana
+     ciziliyor, girdi temizleniyor — ama sor() icindeki `if(bekliyor)
+     return` yuzunden mesaj SUNUCUYA HIC GITMIYORDU. Hasta mesajini
+     ekranda gordugu icin islendigini saniyordu. "Yuzum sisti, nefes
+     almakta zorlaniyorum" yazan biri sessizce cevapsiz kalabilirdi.
+
+     Iki katmanli cozum:
+       1. Karsilama artik sunucuya sorulmuyor — YEREL sabit metin.
+          Boylece acilista bekleme durumu hic olusmuyor.
+       2. Gonderim sirasinda istek surerse mesaj KUYRUGA aliniyor ve
+          sira gelince gonderiliyor. Hicbir mesaj dusmuyor. */
+  var kuyruk=[];
+
+  function kuyrugaAl(metin){
+    kuyruk.push(metin);
+    kuyrukIsle();
+  }
+
+  function kuyrukIsle(){
+    if(bekliyor || !kuyruk.length) return;
+    var metin=kuyruk.shift();
     bekliyor=true;
+    girdi.disabled=true; gonder.disabled=true;
+    eylemleriGizle();
     fetch("/api/sohbet",{method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({metin:metin,oturum:oturum})})
@@ -1201,22 +1252,40 @@
         if(!s.ok) throw new Error((s.v && s.v.hata) || "hata");
         oturum=s.v.oturum||null;
         balon(s.v.cevap,"bot",!!s.v.acil);
-        if(s.v.acil||s.v.devir) devirSatiri();
+        if(s.v.acil) devirSatiri(true);
+        else if(s.v.devir) devirSatiri(false);
       })
       .catch(function(e){
         balon("Şu anda yanıt veremiyorum ("+(e.message||"bağlantı yok")+"). "+
               "Bize telefonla ulaşabilirsiniz: 0541 732 43 76","bot",false);
+        devirSatiri(false);
       })
-      .then(function(){ bekliyor=false; });
+      .then(function(){
+        bekliyor=false;
+        girdi.disabled=false; gonder.disabled=false;
+        if(kuyruk.length) kuyrukIsle();   /* bekleyen mesaj varsa gonder */
+        else if(!kutu.hidden) girdi.focus();
+      });
   }
 
   ac.addEventListener("click",function(){
     kutu.hidden=!kutu.hidden;
-    if(!kutu.hidden && !acildi){ acildi=true; sor("merhaba"); }
-    if(!kutu.hidden) girdi.focus();
+    ac.setAttribute("aria-expanded", kutu.hidden?"false":"true");
+    /* Karsilama YEREL — sunucuya gitmiyor, bekleme durumu olusmuyor. */
+    if(!kutu.hidden && !acildi){
+      acildi=true;
+      balon("Merhaba, YM Diş Kliniği'ne hoş geldiniz! Size nasıl "+
+            "yardımcı olabilirim? Randevu, tedavi ya da merak "+
+            "ettiğiniz başka bir konu varsa yazabilirsiniz.","bot",false);
+    }
+    if(!kutu.hidden) girdi.focus(); else ac.focus();
   });
   document.getElementById("sohbet-kapat")
-    .addEventListener("click",function(){ kutu.hidden=true; });
+    .addEventListener("click",function(){
+      kutu.hidden=true;
+      ac.setAttribute("aria-expanded","false");
+      ac.focus();                       /* odak acma dugmesine doner */
+    });
   form.addEventListener("submit",function(e){
     e.preventDefault();
     var m=girdi.value.trim();
@@ -1224,7 +1293,7 @@
     sonSoru=m;              /* devir olursa WhatsApp'a bu metin tasinir */
     balon(m,"ben",false);
     girdi.value="";
-    sor(m);
+    kuyrugaAl(m);           /* istek surerken bile KAYBOLMAZ */
   });
 })();
 </script>
