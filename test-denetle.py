@@ -189,6 +189,38 @@ bekle("beyaz liste: onayli garanti cumlesi GECER",
 bekle("beyaz liste: onayli kampanya cumlesi GECER",
       sar("<p>Kliniğimizde kampanya bulunmamaktadır.</p>"), False)
 
+# --- 6. tur bulgu 3: NOKTALAMA ILE TERSLEME -------------------------
+# Muafiyet "eslesmenin cumlesi onayli mi" diye bakiyordu ve `;` `:` `.`
+# cumleyi bitirdigi icin tersine cevirme AYRI bir cumleye tasinabiliyordu.
+# Denetci uc yolu da gosterdi; ucu de denetimden geciyordu. Sozlesme
+# "cevresine ek yazilamaz" diyordu — dogru degildi.
+bekle("tersleme: '; demiyoruz' YAKALANIR",
+      sar("<p>Hiçbir tedavinin sonucu garanti edilemez; demiyoruz.</p>"),
+      True, kod="garanti")
+
+bekle("tersleme: ': aslında paylaşabiliriz' YAKALANIR",
+      sar("<p>Mevzuat gereği fiyat bilgisi paylaşamıyoruz: aslında "
+          "paylaşabiliriz.</p>"), True)
+
+bekle("tersleme: '. Demiyoruz.' AYRI CUMLEDE YAKALANIR",
+      sar("<p>Hiçbir tedavinin sonucu garanti edilemez. Demiyoruz.</p>"),
+      True, kod="garanti")
+
+bekle("tersleme: 'tam tersi' YAKALANIR",
+      sar("<p>Kliniğimizde kampanya bulunmamaktadır. Tam tersi.</p>"),
+      True, kod="kampanya")
+
+# Korumanin bedeli olmamali: MESRU devam cumleleri yesil kalmali.
+# Ilk denemede sinirdan `;` cikarilmisti ve bu iki cumle kirmiziya
+# donmustu — yazmamiz GEREKEN durustce aciklamalar tam bu bicimde.
+bekle("mesru devam: '; iyileşme kişiden kişiye değişir' GECER",
+      sar("<p>Hiçbir tedavinin sonucu garanti edilemez; iyileşme "
+          "kişiden kişiye değişir.</p>"), False)
+
+bekle("mesru devam: ayri cumlede aciklama GECER",
+      sar("<p>Hiçbir tedavinin sonucu garanti edilemez. Sonuç muayenede "
+          "değerlendirilir.</p>"), False)
+
 # --- 4. tur bulgu 6: teknik value'lar yanlis alarm vermemeli ----------
 bekle("value: <button value> TEKNIK, alarm VERMEZ",
       sar('<button value="kampanya_v2">Gönder</button>'), False)
@@ -235,6 +267,21 @@ kodlama_bekle("kodlama: Turkce + emoji TEMIZ",
               "Diş 🦷 randevu · ⚠️ acil durumda 112", False)
 kodlama_bekle("kodlama: cift kodlanmis emoji YAKALANIR",
               hasar_uret("Diş 🦷 randevu"), True)
+
+# --- 6. tur bulgu 5: KISMI ve GEC hasar ------------------------------
+# Tespit iki yerden kaciriyordu: (1) yalnizca ilk 40.000 karaktere
+# bakiyordu — index.html 89.000'den uzun, yani yarisindan cogu hic
+# taranmiyordu; (2) TUM ornegin cozulmesini bekliyordu, oysa saglam
+# Turkce bir bolum cozumu patlatir. Gercek hasar da boyle gorunur:
+# dosyanin bir bolumu bozulur, gerisi saglam kalir.
+kodlama_bekle("kodlama: saglam metin + TEK bozuk parca YAKALANIR",
+              SAGLAM + " " + hasar_uret("Diş"), True)
+
+kodlama_bekle("kodlama: 40.000 karakterden SONRAKI hasar YAKALANIR",
+              "A" * 40001 + hasar_uret("Şişlik"), True)
+
+kodlama_bekle("kodlama: uzun SAGLAM metin yanlis alarm VERMEZ",
+              (SAGLAM + " ") * 400, False)
 
 # --- 5. tur bulgu 2: ONAYLI CUMLENIN SONUNA EK YAZILAMAZ --------------
 # 4. turdaki beyaz liste, onayli parcayi daha uzun bir metnin ICINDEN
@@ -331,6 +378,43 @@ bekle("gerileme: sade bilgilendirme metni temiz gecer",
       sar("<p>Kanal tedavisi lokal anestezi altında yapılır. İşlem "
           "sonrasında birkaç gün çiğneme hassasiyeti olabilir.</p>"),
       False)
+
+# --- 6. tur bulgu 4: ALT KLASORDEKI HTML YAYIN KAPISINI GECEMEZ ------
+# Bu tek test dosya sistemine dokunuyor, cunku sinanan sey tam olarak
+# "denetle.py diski nasil tariyor". Gecici klasor try/finally ile HER
+# durumda siliniyor; kalirsa bir sonraki denetimi kendi kendine kirar.
+def _alt_klasor_kapisi():
+    import os
+    import subprocess
+    import tempfile
+
+    bura = os.path.dirname(os.path.abspath(__file__))
+    klasor = tempfile.mkdtemp(prefix="denetim-testi-", dir=bura)
+    try:
+        with open(os.path.join(klasor, "yeni.html"), "w",
+                  encoding="utf-8") as f:
+            f.write("<!DOCTYPE html><html lang=\"tr\"><head>"
+                    "<meta charset=\"utf-8\"><title>T</title></head><body>"
+                    "<p>Kliniğimiz en iyi kliniktir, garanti veriyoruz.</p>"
+                    "</body></html>")
+        d = subprocess.run([sys.executable, "denetle.py"], cwd=bura,
+                           capture_output=True, text=True,
+                           encoding="utf-8", errors="replace")
+        return d.returncode != 0
+    finally:
+        try:
+            os.remove(os.path.join(klasor, "yeni.html"))
+        except OSError:
+            pass
+        try:
+            os.rmdir(klasor)
+        except OSError:
+            pass
+
+
+sonuc.append(("kapi: alt klasordeki HTML denetimi DURDURUR",
+              _alt_klasor_kapisi(),
+              "denetim sifir dondu — sayfa denetimsiz yayina giderdi"))
 
 print("=" * 70)
 print("DENETCI TESTI — denetle.py gercekten yakaliyor mu?")

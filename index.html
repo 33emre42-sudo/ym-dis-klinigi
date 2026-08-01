@@ -1204,8 +1204,10 @@
        yutkunmakta zorlanıyorsanız, yüzünüz veya boğazınız hızla
        şişiyorsa 112'yi arayın. Diğer durumlarda kliniği
        arayabilirsiniz: 0541 732 43 76</p>
-    <p data-ad="hata">Şu anda yanıt veremiyorum. Bize telefonla
-       ulaşabilirsiniz: 0541 732 43 76</p>
+    <p data-ad="hata">Şu anda yanıt veremiyorum. Nefes almakta ya da
+       yutkunmakta zorlanıyorsanız, yüzünüz veya boğazınız hızla
+       şişiyorsa 112'yi arayın. Diğer durumlarda kliniği
+       arayabilirsiniz: 0541 732 43 76</p>
     <p data-ad="dugme-112">112'yi ara</p>
     <p data-ad="dugme-klinik">Kliniği ara</p>
     <p data-ad="dugme-ara">Hemen ara</p>
@@ -1362,17 +1364,32 @@
        hasta YENI MESAJ GONDEREMEZ ve hicbir eylem dugmesi cikmaz.
        Acil belirti yazan biri kutuda kilitli kalabilirdi.
        AbortController ile 20 saniyede kesiliyor. */
+    /* ⚠️ 6. tur denetimi (b6): sure siniri ARTIK AbortController'a
+       BAGLI DEGIL. Eski hal `if(kesici) kesici.abort()` idi; bu nesneyi
+       desteklemeyen tarayicida kesici null oluyor, sayac dolsa bile
+       fetch hic reddedilmiyordu. Yani 4. tur b3'te kapatilan kilitlenme
+       (bekliyor acik, dugmeler kapali, hasta yeni mesaj gonderemiyor)
+       o tarayicilarda geri geliyordu. Artik sure kendi sozunu reddediyor;
+       abort() yalnizca agi gercekten iptal eden ek fayda. */
     var kesici = (typeof AbortController !== "undefined")
                  ? new AbortController() : null;
-    var zamanAsimi = setTimeout(function(){
-      if(kesici) kesici.abort();
-    }, 20000);
+    var zamanAsimi = null;
+    var sureSozu = new Promise(function(_, reddet){
+      zamanAsimi = setTimeout(function(){
+        if(kesici) kesici.abort();
+        var e = new Error("sure doldu");
+        e.name = "AbortError";
+        reddet(e);
+      }, 20000);
+    });
 
-    fetch("/api/sohbet",{method:"POST",
+    var istek = fetch("/api/sohbet",{method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({metin:metin,oturum:oturum}),
       signal: kesici ? kesici.signal : undefined})
-      .then(function(r){return r.json().then(function(v){return {ok:r.ok,v:v};});})
+      .then(function(r){return r.json().then(function(v){return {ok:r.ok,v:v};});});
+
+    Promise.race([istek, sureSozu])
       .then(function(s){
         if(!s.ok) throw new Error((s.v && s.v.hata) || "hata");
         oturum=s.v.oturum||null;
@@ -1381,9 +1398,17 @@
         else if(s.v.devir) devirSatiri("normal");
       })
       .catch(function(e){
+        /* ⚠️ 6. tur denetimi (b2): FAIL-CLOSED. Eskiden yalnizca
+           AbortError 112'yi one cikariyordu; ag kopmasi, sunucu hatasi,
+           bozuk JSON ve sinifllandirilamayan her hata "normal" devre
+           dusuyordu — yani en gorunur dugme klinigi ariyordu. Yanit
+           alinamadiginda mesajin acil olup olmadigini BILMIYORUZ.
+           "Nefes alamiyorum" yazan hasta ag koptugunda yalniz klinik
+           numarasi goruyordu. Bilinmeyen durumda 112 one cikar —
+           3. tur b2 ile ayni sinifta bir hata. */
         var kesildi = e && (e.name === "AbortError");
-        balon(kesildi ? met("zaman-asimi") : met("hata"), "bot", kesildi);
-        devirSatiri(kesildi ? "zamanasimi" : "normal");
+        balon(kesildi ? met("zaman-asimi") : met("hata"), "bot", true);
+        devirSatiri("zamanasimi");
       })
       .then(function(){
         clearTimeout(zamanAsimi);

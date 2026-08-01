@@ -71,13 +71,38 @@ def _ansi_baytlari(metin):
     return bytes(b)
 
 
+# ⚠️ 6. tur bulgu 5 — TESPIT IKI AYRI YERDEN KACIRIYORDU:
+#
+#   1. `metin[:40000]` ile kesiliyordu. index.html 89.452 karakter:
+#      dosyanin YARISINDAN COGUNA hic bakilmiyordu. 1 Agustos'taki hasar
+#      ikinci yarida olsaydi hicbir denetim gormezdi.
+#
+#   2. Butun ornegin cp1254'e cevrilip UTF-8 cozulmesi bekleniyordu.
+#      Saglam Turkce bir bolum cozumu patlatir ("ş" -> 0xFE, gecersiz
+#      UTF-8 baslangici), bu yuzden icinde tek bir bozuk parca olan
+#      KARISIK dosya "temiz" donerdi. Oysa gercek hasar tam boyle
+#      gorunur: dosyanin bir bolumu bozulur, gerisi saglam kalir.
+#
+# Artik once IZ taramasi yapiliyor: tum metin, konum siniri yok.
+# Dayanak — saglam Turkce metinde "Ã", "Ä", "Å" karakterleri BULUNMAZ
+# (alfabede yoklar), oysa cift kodlanmis her Turkce karakter bunlardan
+# biriyle baslayan bir cifte donusur ("Diş" -> "DiÅŸ"). C1 kontrol
+# karakterleri (U+0080-U+009F) de gecerli metinde olmaz; gercek hasarda
+# 41 adet U+009E vardi.
+_CIFT_IZ = re.compile(r"[ÃÄÅ]|[\u0080-\u009f]")
+
+
 def cift_kodlanmis(metin):
-    """Metin bir kez fazla kodlanmis mi?"""
-    ornek = metin[:40000]
-    if all(ord(c) < 128 for c in ornek):
+    """Metin bir kez fazla kodlanmis mi?
+
+    Iki yontem birlikte: iz taramasi KISMI hasari yakalar, tam metin
+    cozumu ise dosyanin tamaminin bozuldugu hali dogrular."""
+    if _CIFT_IZ.search(metin):
+        return True
+    if all(ord(c) < 128 for c in metin):
         return False                     # ASCII metinde soru yok
     try:
-        _ansi_baytlari(ornek).decode("utf-8")
+        _ansi_baytlari(metin).decode("utf-8")
         return True
     except (UnicodeEncodeError, UnicodeDecodeError):
         return False
@@ -158,10 +183,29 @@ def mevzuat_metni(ham):
 #   ONAYLI_CUMLE listesindeki bir cumleyle birebir esitse muaf olur.
 #   Metinden hicbir sey SILINMEZ; silme islemi ne yapildigini gizliyordu.
 #
-# BILINEN SINIR: cumle sinirlari `.!?;:` karakterleridir. Yani
-# "...garanti edilemez; demiyoruz." iki ayri yan cumle sayilir ve ilki
-# muaf olur. Bunu yakalamak desen degil anlam isi; bilerek acikta
-# birakildi ve burada yaziyor.
+# ⚠️ 6. tur bulgu 3 — O "BILINEN SINIR" GERCEK BIR ACIKTI.
+# Cumle siniri `.!?;:` idi. Yani "...garanti edilemez; demiyoruz."
+# metninde `garanti` eslesmesinin cumlesi yalnizca onayli ilk parcaydi
+# ve muafiyet veriliyordu. Denetci uc yolu da gosterdi ve UCU DE
+# denetimden gecti: "; demiyoruz", ": aslinda paylasabiliriz",
+# ". Demiyoruz." Sozlesme "cevresine ek yazilamaz" diyordu; dogru degildi.
+#
+# Iki katmanli kapatma:
+# ILK DENEME YANLISTI, KAYDA GECIYOR: cumle sinirindan `;:` cikarilmisti.
+# Bu, terslemeyi yakaliyordu ama MESRU metni de engelliyordu — bekcinin
+# kendi testinde iki dogru cumle kirmiziya dondu:
+#     "Hiçbir tedavinin sonucu garanti edilemez; iyileşme kişiden
+#      kişiye değişir."
+# Yazmamiz GEREKEN durustce aciklamalar tam bu bicimde. Her mesru devami
+# ONAYLI_CUMLE'ye eklemek de olcusuz buyur (kombinasyon patlamasi).
+#
+# Dogru ayrim noktalama degil, DEVAMIN NE YAPTIGI: "; iyileşme kişiden
+# kişiye değişir" cumleyi destekler, "; demiyoruz" tersine cevirir.
+# Bu yuzden sinir eski haline dondu ve koruma su katmana yuklendi:
+#   onayli cumlenin ARDINDAN gelen cumlede tersleme belirteci varsa
+#   muafiyet DUSER (`_TERSLEME`).
+# Ayni mekanizma uc yolu birden kapatir: "; demiyoruz", ": aslinda
+# paylasabiliriz" ve ". Demiyoruz." — ucu de "sonraki cumle"dir.
 #
 # Yeni bir guvenlik cumlesi yazilacaksa BURAYA eklenir. Denetim hatasi
 # eklenecek cumleyi sadelestirilmis haliyle ekrana yazar; kopyalayin.
@@ -183,7 +227,19 @@ ONAYLI_CUMLE = [
 
 # Cumle siniri. Nokta fazla bolerse zarari yok: parca kisalir, birebir
 # esitlik daha ZOR saglanir — yani hata yonu her zaman fail-CLOSED.
+# `;` ve `:` BILEREK sinir: "garanti edilemez; iyileşme kişiden kişiye
+# değişir" mesru bir devamdir ve engellenmemeli. Tersine cevirmeyi
+# noktalama degil `_TERSLEME` yakalar (6. tur b3).
 _CUMLE_SINIRI = re.compile(r"[.!?;:]+")
+
+# Onayli cumlenin ARDINDAN gelip onu tersine ceviren ifadeler.
+# Dar tutuldu: bir guvenlik cumlesinin hemen arkasindan gelmedikce
+# bunlarin cogu masum kelimelerdir, bu yuzden yalnizca o konumda
+# aranirlar. Yanlis alarm verirse metin degistirilir — hata yonu
+# yine fail-CLOSED.
+_TERSLEME = re.compile(
+    r"\b(demiyoruz|demedik|sanmay[ıi]n|asl[ıi]nda|ger[çc]ekte"
+    r"|tam tersi|aksine|[şs]aka)\b", re.I)
 
 YASAKLI = {
     "en iyi": r"\ben iyi\b",
@@ -314,17 +370,37 @@ def _cumle(metin, konum):
     return metin[bas:son.start() if son else len(metin)]
 
 
+def _sonraki_cumle(metin, konum):
+    """`konum`daki karakterin cumlesinden SONRAKI cumleyi dondurur."""
+    son = _CUMLE_SINIRI.search(metin, konum)
+    if not son:
+        return ""
+    bas = son.end()
+    sonraki = _CUMLE_SINIRI.search(metin, bas)
+    return metin[bas:sonraki.start() if sonraki else len(metin)]
+
+
 def _muaf_mi(metin, eslesme):
-    """Eslesmeyi iceren cumlenin TAMAMI onayli mi?
+    """Eslesmeyi iceren cumlenin TAMAMI onayli mi — ve ardindan
+    tersine cevrilmiyor mu?
 
     Muafiyetin tek yolu budur. Yasak kelimenin cevresine yazilan her
     ek — "... demiyoruz", "... sanmayın", "; implant 5000 lira" —
     cumleyi listedekinden farkli kilar ve muafiyet DUSER.
 
+    ⚠️ 6. tur b3: `;` ve `:` cumle siniri sayildigi surece "ek
+    yazilamaz" sozu DOGRU DEGILDI; yan cumle olarak eklenen tersleme
+    muafiyeti bozmuyordu. Sinir daraltildi. Nokta ile ayrilan tersleme
+    ise cumle butunlugunu hic bozmadigi icin ayrica aranir: onayli
+    cumlenin hemen ardindan "demiyoruz / aslinda / tam tersi" gelirse
+    muafiyet duser.
+
     Muaf olamayan bir eslesmenin cumlesi hata metnine konur; boylece
     gercekten yazmamiz gereken yeni bir guvenlik cumlesi varsa
     kopyalanacak hali gozukur."""
-    return sadelestir(_cumle(metin, eslesme.start())) in _ONAYLI
+    if sadelestir(_cumle(metin, eslesme.start())) not in _ONAYLI:
+        return False
+    return not _TERSLEME.search(_sonraki_cumle(metin, eslesme.start()))
 
 
 def mevzuat_tara(ham_html, etiket):

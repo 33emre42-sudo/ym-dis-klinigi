@@ -308,6 +308,44 @@ kontrol("listedeki sayfalar diskle ayni",
         if diskteki != sorted(BILGI + ALT_SAYFA) else
         "%d yazi + %d alt sayfa" % (len(BILGI), len(ALT_SAYFA)))
 
+
+# ⚠️ 6. tur bulgu 4 — ALT KLASORDEKI HTML BUTUN DENETIMI ATLIYORDU.
+# Yukaridaki kontrol yalnizca KOK dizine bakiyor (`glob("*.html")`),
+# oysa `siteyi-yukle.py` dosyalari `os.walk` ile topluyor ve her .html
+# dosyasini yayimlanabilir sayiyor. Yani `gecici/yeni.html` mevzuat
+# taramasindan, sorumluluk notu kontrolunden ve sitemap beklentisinden
+# HIC GECMEDEN yayina gidebiliyordu.
+#
+# Denetci bunu isaret etti, sinandi ve DOGRULANDI: icinde "en iyi",
+# "garanti", "5000 TL" ve "%20 indirim" gecen bir alt klasor sayfasi
+# olusturuldu, denetim "HEPSI GECTI" dedi ve sifir donduruldu.
+#
+# Klasor istisnalari yukleyicideki liste ile AYNI olmali; ayrisirsa
+# ayni acik geri gelir.
+YUKLEYICI_DISI = (".git", "arsiv")
+
+
+def _tum_html():
+    """Alt klasorler DAHIL butun HTML dosyalari (yukleyiciyle ayni kapsam)."""
+    bulunan = []
+    for kok, klasorler, dosyalar in os.walk("."):
+        klasorler[:] = [k for k in klasorler if k not in YUKLEYICI_DISI]
+        for ad in dosyalar:
+            if ad.lower().endswith(".html"):
+                yol = os.path.relpath(os.path.join(kok, ad), ".")
+                bulunan.append(yol.replace(os.sep, "/"))
+    return sorted(bulunan)
+
+
+_tum = _tum_html()
+_beklenen = sorted(["index.html", "gizlilik.html"] + BILGI + ALT_SAYFA)
+_fazla = [y for y in _tum if y not in _beklenen]
+kontrol("denetlenmeyen HTML yok (alt klasorler dahil)",
+        _tum == _beklenen,
+        ("BEKLENMEYEN: %s" % _fazla) if _fazla
+        else ("eksik: %s" % sorted(set(_beklenen) - set(_tum)))
+        if _tum != _beklenen else "%d sayfa" % len(_tum))
+
 for ad in BILGI:
     if not os.path.exists(ad):
         kontrol(ad, False, "dosya yok")
