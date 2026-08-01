@@ -2,35 +2,46 @@
 
 Yayında: <https://ymdisklinigi.com>
 
-## ⚠️ Buradaki dosyaları elle düzenlemeyin
+## Dosyalar elle düzenlenir
 
-`index.html`, `CNAME`, `robots.txt` ve `sitemap.xml` **otomatik üretiliyor**.
-Elle yaptığınız değişiklik, üretici bir daha çalıştığında silinir.
+`index.html` **tek gerçek kaynaktır.** Doğrudan düzenleyin.
 
-Değişiklik yapmak için üreticiyi düzenleyin:
+> Eskiden `hasta-mesajlari/klinik-sitesi-olustur.py` bu dosyayı
+> üretiyordu. Site elle geliştirildikçe üretici geride kaldı ve
+> ikisi ayrıştı; üretici 1 Ağustos 2026'da arşivlendi
+> (`hasta-mesajlari/arsiv/OKU-ONCE.md`). Çalıştırmayın — mevzuata
+> aykırı puan/yorum beyanını geri getirir.
 
-    Klinik/hasta-mesajlari/klinik-sitesi-olustur.py
+## Her değişiklikten sonra
 
-sonra çalıştırın:
+    python denetle.py
 
-    python klinik-sitesi-olustur.py
+Denetleyici beş başlıkta kontrol eder:
 
-Üretici, yazmadan önce iki denetim yapıyor:
+1. **JSON-LD** — `Dentist` ve `FAQPage` blokları geçerli mi
+2. **SSS eşleşmesi** — şemadaki her soru/cevap sayfada birebir var mı
+   (Google, şemadaki cevabın kullanıcıya da görünmesini şart koşuyor)
+3. **Etiket dengesi** — açılan her etiket kapanmış mı
+4. **Mevzuat** — 12 Kasım 2025 tanıtım yönetmeliği taraması: fiyat,
+   kampanya, "en iyi", garanti, hasta yorumu, önce/sonra, puan beyanı.
+   Bir yasaklı kelime "yapamıyoruz" bağlamında geçiyorsa muaf tutulur.
+5. **İçerik** — kelime sayısı, bölümlerin varlığı, canonical, açıklama
 
-* **K15** — sayfada fiyat / ödeme / kampanya dili geçemez. Geçerse site
-  **yazılmaz**, hata verir.
-* **Emoji** — sayfada emoji olmayacak (tasarım kararı).
+Denetim hata verirse **düzeltmeden yayına almayın.**
 
-Sık değiştirilen yerler üreticinin başında duruyor:
+## Yayına alma
 
-| Ne | Nerede |
-|---|---|
-| Telefon, adres, alan adı | `K` sözlüğü |
-| Hastaya gösterilen sorular | `SORULAR` listesi |
-| Tedavi kategorileri ve açıklamaları | `KATEGORI` sözlüğü |
+    cd ../hasta-mesajlari
+    python sunucuya-yukle.py
 
-Tasarım kararlarının gerekçeleri (hangi başlık neden elendi, renk neden
-değişti) dosyanın en üstündeki açıklama bloğunda yazılı.
+## Mevzuat sınırları (kısa)
+
+Sitede **olamaz**: fiyat, indirim, kampanya, taksit · hasta yorumu,
+memnuniyet beyanı, puan · önce/sonra görseli · "en iyi", "garanti",
+"ağrısız" gibi sonuç vaadi.
+
+Sitede **olabilir**: koruyucu ve bilgilendirici içerik, sunulan
+hizmetlerin tanıtımı olmadan anlatımı, adres/saat/ulaşım, iletişim.
 
 ## Bu depoda hasta verisi yoktur
 
