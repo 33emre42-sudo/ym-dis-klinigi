@@ -97,12 +97,13 @@ BILGI = ["gece-dis-agrisi.html", "kirilan-dis-ne-yapmali.html",
          "diseti-kanamasi.html", "dis-sikma-gece-plagi.html",
          "hamilelikte-dis-sagligi.html", "cocukta-ilk-dis.html"]
 ALT_SAYFA = ["hekimlerimiz.html", "sik-sorulan-sorular.html",
-             "bilgi-yazilari.html"]
+             "bilgi-yazilari.html", "ulasim-ve-hizmet-bolgesi.html"]
 SSS_SAYFA = "sik-sorulan-sorular.html"
 
 # Sekmeli menude bulunmasi gereken baglantilar
 MENU_BAGLARI = ["hekimlerimiz.html", "bilgi-yazilari.html",
-                SSS_SAYFA, "#tedaviler", "#ulasim", "#iletisim"]
+                SSS_SAYFA, "ulasim-ve-hizmet-bolgesi.html",
+                "#tedaviler", "#iletisim"]
 
 # --- 1. JSON-LD ---
 print("\n--- 1/7  index.html JSON-LD yapisal veri ---")
