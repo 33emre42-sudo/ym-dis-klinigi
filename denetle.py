@@ -1,19 +1,43 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-SITE DENETIMI — index.html degistiginde calistirilir.
+SITE DENETIMI — index.html veya bilgi yazilari degistiginde calistirilir.
 
     python denetle.py
 
 Neyi kontrol eder:
   1. JSON-LD bloklari gecerli mi, Dentist + FAQPage duruyor mu
-  2. FAQPage semasindaki soru/cevaplar sayfadaki metinle ayni mi
+  2. FAQPage semasindaki soru/cevaplar sayfadaki metinle AYNI mi
      (Google, semadaki cevabin sayfada gorunur olmasini sart kosuyor)
   3. HTML etiket dengesi
   4. Mevzuat taramasi — 12 Kas 2025 tanitim yonetmeligi
   5. Icerik hacmi ve bolumlerin varligi
+  6. Bilgi yazilari — ayni kurallar onlar icin de
+
+--------------------------------------------------------------------------
+1. tur Codex denetiminden sonra (1 Agu 2026) yapilan duzeltmeler:
+
+  * METIN DUZLESTIRILEREK aranıyor. Onceki hal satir sonlarini
+    dikkate almiyordu; "ağrı\n beklenmez" ifadesi tam da bu yuzden
+    kacmisti. Artik tum bosluklar tek boslugua indirgeniyor.
+  * HEAD DE TARANIYOR. Onceki hal sadece <body> sonrasina bakiyordu;
+    meta description, og:description ve JSON-LD icine yazilan bir
+    fiyat/kampanya/ustunluk ifadesi denetimden gecebiliyordu.
+  * MUAF_BAGLAM DARALTILDI. Once yasak kelimenin +-90 karakterinde
+    herhangi bir olumsuzlama muafiyet sayiliyordu; "Kampanyamiz basladi.
+    Saglik reklamlarinda bazi ifadeler yasak." gibi bir metin
+    gecebilirdi. Artik yalnizca yasak kelimeyi DOGRUDAN olumsuzlayan
+    kalip muaf.
+  * FAQ KARSILASTIRMASI TAM METIN. Once ilk 60 karakter karsilastirilip
+    sira bazli zip() ile eslesiliyordu; semanin devamina gorunmeyen
+    metin eklenebilirdi. Artik soru metnine gore eslesip cevabin
+    tamami karsilastiriliyor.
+  * ORTUK AGRISIZLIK kaliplari eklendi ("ağrı beklenmez" vb.).
+  * PUAN/YORUM taramasi bilgi yazilarinda da calisiyor.
+--------------------------------------------------------------------------
 """
 import glob
+import html as html_mod
 import io
 import json
 import os
@@ -21,14 +45,6 @@ import re
 import sys
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
-
-YOL = "index.html"
-try:
-    with open(YOL, encoding="utf-8") as f:
-        html = f.read()
-except FileNotFoundError:
-    print("index.html bulunamadi — betigi site klasorunde calistirin.")
-    sys.exit(1)
 
 hata = 0
 
@@ -42,12 +58,131 @@ def kontrol(ad, kosul, ayrinti=""):
         hata += 1
 
 
+def duzlestir(metin):
+    """Etiketleri at, HTML varliklarini coz, butun bosluklari tek bosluga
+    indir. Satir sonu yuzunden desen kacmasin diye ZORUNLU."""
+    metin = re.sub(r"<(script|style)[^>]*>.*?</\1>", " ", metin,
+                   flags=re.S | re.I)
+    metin = re.sub(r"<[^>]+>", " ", metin)
+    metin = html_mod.unescape(metin)
+    return re.sub(r"\s+", " ", metin).strip()
+
+
+def kucult(metin):
+    return metin.lower().replace("i̇", "i")
+
+
+# ===========================================================================
+# MEVZUAT DESENLERI — 12 Kasim 2025 tanitim yonetmeligi
+# ===========================================================================
+YASAKLI = {
+    "en iyi": r"\ben iyi\b",
+    "garanti": r"\bgaranti",
+    "agrisiz iddiasi": r"\bağrısız\b",
+    # Ortuk agrisizlik vaadi — 1. tur denetim bulgusu.
+    # "Agri beklenmez" demek de bir sonuc vaadidir; kisisel anestezi
+    # yanitini ve akut iltihapta ek anestezi ihtiyacini disliyor.
+    "ortuk agrisizlik": r"ağrı (?:beklenmez|olmaz|hissetmezsiniz|duymazsınız)"
+                        r"|acı (?:duymazsınız|hissetmezsiniz)"
+                        r"|hiç (?:acımaz|ağrımaz)",
+    "kampanya": r"\bkampanya",
+    "indirim": r"\bindirim",
+    "ucretsiz": r"\bücretsiz\b",
+    "fiyat rakami": r"\d[\d.]*\s*(?:tl|₺)\b",
+    "hasta yorumu": r"\bmemnun kald|\byorumları\b",
+    "once-sonra": r"önce\s*[-/]\s*sonra",
+    "uzman iddiasi": r"\buzman(?:ımız|larımız)\b",
+}
+
+# K15 — ticari dil freni. Eskiden klinik-sitesi-olustur.py icindeydi;
+# uretici 1 Agu 2026'da arsivlendigi icin buraya tasindi.
+TICARI = re.compile(
+    r"[üu]cret|fiyat|[öo]deme|taksit|indirim|kampanya|bedava|bedelsiz"
+    r"|masraf|₺|\bTL\b|dahildir|hari[çc]tir|paket", re.I)
+
+# Muafiyet SADECE yasak kelimeyi dogrudan olumsuzlayan kalipta gecerli.
+# Genis pencere fail-open yaratiyordu (1. tur bulgu 6).
+MUAF = re.compile(
+    r"(fiyat|ücret|kampanya|indirim|ödeme)[^.]{0,60}"
+    r"(paylaşamıyoruz|yayımlayamıyoruz|veremiyoruz|izin vermiyor"
+    r"|yayımlamasına izin)")
+
+# Sitede zaten herkese acik olan degerler yanlis alarm uretmesin
+IZINLI_PARCA = ["0541 732 43 76", "905417324376", "google-site-verification"]
+
+PUAN_IZI = [r"aggregateRating", r"ratingValue", r"reviewCount",
+            r"\bGoogle'?da\s+\d", r"\d\s*[,.]\s*\d\s*·\s*\d+\s*değerlendirme"]
+
+EMOJI_ISTISNA = {"💬", "🦷"}
+
+
+def mevzuat_tara(ham_html, etiket):
+    """Bir HTML dosyasinin TAMAMINI tarar — head dahil.
+
+    head'in disarida birakilmasi 1. tur bulgusuydu: meta description
+    veya JSON-LD icine yazilan bir ihlal denetimden geciyordu."""
+    sorunlar = []
+
+    # 1) gorunur metin + 2) head'deki meta iceriKleri + 3) JSON-LD degerleri
+    parcalar = [duzlestir(ham_html)]
+    for m in re.finditer(r'<meta[^>]+content="([^"]*)"', ham_html, re.I):
+        parcalar.append(m.group(1))
+    for m in re.finditer(r"<title[^>]*>(.*?)</title>", ham_html, re.S | re.I):
+        parcalar.append(m.group(1))
+    for blok in re.findall(
+            r'<script type="application/ld\+json">(.*?)</script>',
+            ham_html, re.S):
+        try:
+            def gez(d):
+                if isinstance(d, dict):
+                    for v in d.values():
+                        gez(v)
+                elif isinstance(d, list):
+                    for v in d:
+                        gez(v)
+                elif isinstance(d, str):
+                    parcalar.append(d)
+            gez(json.loads(blok))
+        except json.JSONDecodeError:
+            pass
+
+    metin = kucult(" ".join(parcalar))
+    for izin in IZINLI_PARCA:
+        metin = metin.replace(kucult(izin), " ")
+
+    for ad, desen in YASAKLI.items():
+        for m in re.finditer(desen, metin):
+            pencere = metin[max(0, m.start() - 70):m.end() + 70]
+            if not MUAF.search(pencere):
+                sorunlar.append("%s: %s" % (ad, m.group(0)[:30]))
+                break
+    for m in TICARI.finditer(metin):
+        pencere = metin[max(0, m.start() - 70):m.end() + 70]
+        if not MUAF.search(pencere):
+            sorunlar.append("K15: %s" % m.group(0))
+            break
+    for desen in PUAN_IZI:
+        if re.search(desen, ham_html, re.I):
+            sorunlar.append("puan/yorum beyani: %s" % desen)
+            break
+    return sorunlar
+
+
+# ===========================================================================
 print("=" * 74)
 print("SITE DENETIMI")
 print("=" * 74)
 
+YOL = "index.html"
+try:
+    with open(YOL, encoding="utf-8") as f:
+        html = f.read()
+except FileNotFoundError:
+    print("index.html bulunamadi — betigi site klasorunde calistirin.")
+    sys.exit(1)
+
 # --- 1. JSON-LD ---
-print("\n--- 1/5  JSON-LD yapisal veri ---")
+print("\n--- 1/6  JSON-LD yapisal veri ---")
 bloklar = re.findall(
     r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
 kontrol("iki JSON-LD blogu var", len(bloklar) == 2, "%d blok" % len(bloklar))
@@ -65,125 +200,70 @@ for i, b in enumerate(bloklar):
 kontrol("Dentist semasi var", "Dentist" in tipler)
 kontrol("FAQPage semasi var", "FAQPage" in tipler)
 
-# --- 2. SSS: sema <-> sayfa ---
-print("\n--- 2/5  SSS: sema ile sayfa metni eslesiyor mu ---")
+# --- 2. SSS: sema <-> sayfa (TAM METIN, soru bazli eslesme) ---
+print("\n--- 2/6  SSS: sema ile sayfa metni AYNI mi ---")
 faq = next((v for v in cozulen if v.get("@type") == "FAQPage"), None)
 if faq:
     sorular = faq["mainEntity"]
-    sayfa_sorulari = [s.strip() for s in re.findall(
-        r'<details class="sss-ogesi">\s*<summary>(.*?)</summary>', html, re.S)]
-    govdeler = re.findall(r'<div class="sss-cevap">(.*?)</div>', html, re.S)
-    print("     sema %d soru  ·  sayfa %d soru" %
-          (len(sorular), len(sayfa_sorulari)))
-    kontrol("soru sayilari esit", len(sorular) == len(sayfa_sorulari))
+    sayfa = {}
+    for m in re.finditer(
+            r'<details class="sss-ogesi">\s*<summary>(.*?)</summary>\s*'
+            r'<div class="sss-cevap">(.*?)</div>\s*</details>', html, re.S):
+        sayfa[duzlestir(m.group(1))] = duzlestir(m.group(2))
 
-    eksik = [q["name"] for q in sorular if q["name"] not in sayfa_sorulari]
+    print("     sema %d soru  ·  sayfa %d soru" % (len(sorular), len(sayfa)))
+    kontrol("soru sayilari esit", len(sorular) == len(sayfa))
+
+    eksik, uyusmaz = [], []
+    for q in sorular:
+        ad = duzlestir(q["name"])
+        if ad not in sayfa:
+            eksik.append(ad[:40])
+            continue
+        # TAM metin karsilastirmasi — ilk 60 karakter yetmiyordu
+        if sayfa[ad] != duzlestir(q["acceptedAnswer"]["text"]):
+            uyusmaz.append(ad[:40])
     kontrol("her sema sorusu sayfada var", not eksik,
             ("eksik: %s" % eksik[:2]) if eksik else "")
-
-    uyusmaz = []
-    for q, g in zip(sorular, govdeler):
-        duz = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", g)).strip()
-        sema = re.sub(r"\s+", " ", q["acceptedAnswer"]["text"]).strip()
-        if duz[:60] != sema[:60]:
-            uyusmaz.append(q["name"])
-    kontrol("cevap metinleri sayfayla ayni", not uyusmaz,
+    kontrol("cevaplar TAM METIN ayni", not uyusmaz,
             ("uyusmaz: %s" % uyusmaz[:2]) if uyusmaz else "")
 
 # --- 3. Etiket dengesi ---
-print("\n--- 3/5  HTML etiket dengesi ---")
+print("\n--- 3/6  HTML etiket dengesi ---")
 for etiket in ("details", "summary", "section", "div", "main"):
     ac = len(re.findall(r"<%s[\s>]" % etiket, html))
     kapa = len(re.findall(r"</%s>" % etiket, html))
     kontrol("<%s> dengeli" % etiket, ac == kapa,
             "%d ac / %d kapa" % (ac, kapa))
 
-# --- 4. Mevzuat ---
-print("\n--- 4/5  Mevzuat taramasi (12 Kas 2025 yonetmeligi) ---")
-
-# K15 — ticari dil freni. Bu kontrol eskiden klinik-sitesi-olustur.py
-# icindeydi; uretici 1 Agu 2026'da arsivlendigi icin buraya tasindi.
-# Uretici ayrica aggregateRating (5,0 puan / 8 degerlendirme) yaziyordu;
-# bu bir memnuniyet beyanidir ve yonetmelikte yasaktir — geri gelmesin
-# diye asagida ayrica kontrol ediliyor.
-TICARI = re.compile(
-    r"[üu]cret|fiyat|[öo]deme|taksit|indirim|kampanya|bedava|bedelsiz"
-    r"|masraf|₺|\bTL\b|dahildir|hari[çc]tir|paket", re.I)
+# --- 4. Mevzuat (TUM DOSYA, head dahil) ---
+print("\n--- 4/6  Mevzuat taramasi (12 Kas 2025 yonetmeligi) ---")
+sorunlar = mevzuat_tara(html, "index.html")
+kontrol("index.html mevzuat taramasi", not sorunlar,
+        ("; ".join(sorunlar[:3])) if sorunlar else "head + JSON-LD dahil")
 
 govde = html[html.find("<body"):]
-metin = re.sub(r"<[^>]+>", " ", govde)
-metin_k = re.sub(r"\s+", " ", metin.lower().replace("i̇", "i"))
-
-# Bir yasakli kelime, "yapamiyoruz/yasak" baglaminda geciyorsa muaftir.
-# Ornek: "mevzuat fiyat ve kampanya yayimlamasina izin vermiyor" —
-# bu bir kampanya DEGIL, kampanya yapilamadiginin aciklamasi.
-MUAF_BAGLAM = re.compile(
-    r"(izin vermiyor|yasak|paylaşamıyoruz|yayımlayamıyoruz|"
-    r"veremiyoruz|mümkün değil)")
-
-YASAKLI = {
-    "en iyi": r"\ben iyi\b",
-    "garanti": r"\bgaranti",
-    "agrisiz iddiasi": r"\bağrısız\b",
-    "kampanya": r"\bkampanya",
-    "indirim": r"\bindirim",
-    "ucretsiz": r"\bücretsiz\b",
-    "fiyat rakami": r"\d[\d.]*\s*(?:tl|₺)\b",
-    "hasta yorumu": r"\bmemnun kald|\byorumları\b",
-    "once-sonra": r"önce\s*[-/]\s*sonra",
-    "uzman iddiasi": r"\buzman(?:ımız|larımız)\b",
-}
-for ad, desen in YASAKLI.items():
-    gercek = []
-    for m in re.finditer(desen, metin_k):
-        pencere = metin_k[max(0, m.start() - 90):m.end() + 90]
-        if not MUAF_BAGLAM.search(pencere):
-            gercek.append(m.group(0))
-    kontrol("yasakli ifade yok: %s" % ad, not gercek,
-            ("BULUNDU: %s" % gercek[:3]) if gercek else "")
-
-# K15: ticari dil (uretici bunu yaparsa site YAZILMIYORDU)
-k15 = []
-for m in TICARI.finditer(metin_k):
-    pencere = metin_k[max(0, m.start() - 90):m.end() + 90]
-    if not MUAF_BAGLAM.search(pencere):
-        k15.append(m.group(0))
-kontrol("K15 — ticari dil yok", not k15,
-        ("BULUNDU: %s" % sorted(set(k15))[:4]) if k15 else "")
-
-# Puan / yorum beyani — yonetmelikte yasak, uretici bunu yaziyordu
-puan_izleri = []
-for desen in (r"aggregateRating", r"ratingValue", r"reviewCount",
-              r"\bGoogle'?da\s+\d", r"\d\s*[,.]\s*\d\s*·\s*\d+\s*değerlendirme"):
-    if re.search(desen, html, re.I):
-        puan_izleri.append(desen)
-kontrol("puan/yorum beyani yok", not puan_izleri,
-        ("BULUNDU: %s" % puan_izleri) if puan_izleri else "")
-
-# Emoji — tasarim karari: sayfa govdesinde emoji olmayacak.
-# Iki bilincli istisna, ikisi de sohbet widget'inda: 💬 acma dugmesi,
-# 🦷 pencere basligi. Widget hastaya daha samimi bir dille hitap ediyor;
-# sayfanin geri kalani emojisiz kalmali.
-EMOJI_ISTISNA = {"💬", "🦷"}
 emoji = [e for e in re.findall(r"[\U0001F300-\U0001FAFF]", govde)
          if e not in EMOJI_ISTISNA]
 kontrol("govdede emoji yok (widget haric)", not emoji,
         ("BULUNDU: %s" % " ".join(sorted(set(emoji)))) if emoji else "")
 
 # --- 5. Icerik ---
-print("\n--- 5/5  Icerik hacmi ve bolumler ---")
-kelime = len([k for k in re.split(r"\s+", metin) if len(k) > 1])
+print("\n--- 5/6  Icerik hacmi ve bolumler ---")
+metin = duzlestir(govde)
+kelime = len([k for k in metin.split(" ") if len(k) > 1])
 kontrol("gorunur metin 1200+ kelime", kelime > 1200, "%d kelime" % kelime)
 kontrol("7 tedavi alaninda acilir ayrinti",
         len(re.findall(r'<details class="ayrinti">', html)) == 7)
-kontrol("SSS bolumu var", 'id="sss"' in html)
-kontrol("ulasim bolumu var", 'id="ulasim"' in html)
+for ad, im in (("SSS", 'id="sss"'), ("hekimler", 'id="hekimler"'),
+               ("bilgi yazilari", 'id="bilgi"'), ("ulasim", 'id="ulasim"')):
+    kontrol("%s bolumu var" % ad, im in html)
 kontrol("canonical etiketi var", 'rel="canonical"' in html)
 kontrol("meta description var", 'name="description"' in html)
+kontrol("Search Console dogrulamasi duruyor",
+        "google-site-verification" in html)
 
 # --- 6. Bilgi yazilari ---
-# Ayri sayfalar da yayina gidiyor; ayni mevzuat ve gecerlilik kurallari
-# onlar icin de gecerli.
 BILGI = ["gece-dis-agrisi.html", "kirilan-dis-ne-yapmali.html",
          "dis-apsesi.html", "yirmi-yas-disi.html"]
 print("\n--- 6/6  bilgi yazilari (%d sayfa) ---" % len(BILGI))
@@ -214,20 +294,7 @@ for ad in BILGI:
         if ac != kapa:
             sorun.append("<%s> dengesiz (%d/%d)" % (etiket, ac, kapa))
 
-    g = s[s.find("<body"):]
-    m = re.sub(r"<[^>]+>", " ", g)
-    mk = re.sub(r"\s+", " ", m.lower().replace("i̇", "i"))
-    for etiketAd, desen in YASAKLI.items():
-        for mm in re.finditer(desen, mk):
-            pencere = mk[max(0, mm.start() - 90):mm.end() + 90]
-            if not MUAF_BAGLAM.search(pencere):
-                sorun.append("yasakli: %s" % etiketAd)
-                break
-    for mm in TICARI.finditer(mk):
-        pencere = mk[max(0, mm.start() - 90):mm.end() + 90]
-        if not MUAF_BAGLAM.search(pencere):
-            sorun.append("K15: %s" % mm.group(0))
-            break
+    sorun += mevzuat_tara(s, ad)
 
     if "canonical" not in s:
         sorun.append("canonical yok")
@@ -235,11 +302,11 @@ for ad in BILGI:
         sorun.append("description yok")
     if 'href="bilgi.css"' not in s:
         sorun.append("bilgi.css bagli degil")
-    # not: metin satirlara bolunmus olabilir, bosluklari sadelestirerek ara
-    if "hekim muayenesinin yerine geçmez" not in re.sub(r"\s+", " ", m).lower():
+    duz = duzlestir(s[s.find("<body"):])
+    if "hekim muayenesinin yerine geçmez" not in duz.lower():
         sorun.append("sorumluluk notu yok")
 
-    kelimeler = len([k for k in re.split(r"\s+", m) if len(k) > 1])
+    kelimeler = len([k for k in duz.split(" ") if len(k) > 1])
     if kelimeler < 500:
         sorun.append("cok kisa (%d kelime)" % kelimeler)
 
@@ -248,7 +315,6 @@ for ad in BILGI:
 
 kontrol("bilgi.css var", os.path.exists("bilgi.css"))
 
-# sitemap her yayin sayfasini icermeli
 if os.path.exists("sitemap.xml"):
     with open("sitemap.xml", encoding="utf-8") as f:
         sm = f.read()

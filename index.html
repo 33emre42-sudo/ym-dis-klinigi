@@ -91,7 +91,7 @@
 {"@type":"Question","name":"Çocuk hastalara bakıyor musunuz? Kaç yaşından itibaren?",
 "acceptedAnswer":{"@type":"Answer","text":"Evet. İlk diş çıktıktan sonra, en geç bir yaş civarında ilk kontrolü öneriyoruz. Çocuk hastalarda yapılacak işlem çocuğun o günkü uyumuna bağlıdır: ilk randevu yalnızca tanışma ve muayeneyle geçebilir, tedavi sonraki seansa bırakılabilir. Zorlamak yerine güven kurmayı tercih ediyoruz."}},
 {"@type":"Question","name":"Kanal tedavisi ağrılı mıdır?",
-"acceptedAnswer":{"@type":"Answer","text":"İşlem lokal anestezi altında yapılır, bu sayede tedavi sırasında ağrı beklenmez. Çoğu hastanın hatırladığı ağrı, tedaviden önceki iltihaba ait olandır. İşlemden sonraki birkaç gün çiğnerken hassasiyet duyulabilir; bu genellikle azalarak geçer. Ağrı artıyorsa kliniği aramanız gerekir."}},
+"acceptedAnswer":{"@type":"Answer","text":"İşlem lokal anestezi altında yapılır. Tedavi sırasında basınç veya rahatsızlık hissedilebilir; ağrı hissederseniz hekiminize bildirmeniz gerekir ve anestezi yeniden değerlendirilir. İşlem sonrasında birkaç gün çiğneme hassasiyeti olabilir; artan veya geçmeyen ağrıda kliniği arayın."}},
 {"@type":"Question","name":"20 yaş dişimin mutlaka çekilmesi gerekir mi?",
 "acceptedAnswer":{"@type":"Answer","text":"Hayır, her yirmi yaş dişi çekilmez. Ağızda düzgün konumlanmış ve sorun çıkarmayan bir diş yerinde bırakılabilir. Çekim; tekrarlayan ağrı ve dişeti iltihabı, komşu dişte çürük ya da kök erimesi, kist oluşumu gibi bulgular varsa gündeme gelir. Karar, muayene ve röntgen sonrasında verilir."}},
 {"@type":"Question","name":"İmplant tedavisi ne kadar sürer?",
@@ -105,7 +105,7 @@
 {"@type":"Question","name":"Dişim kırıldı ya da yerinden çıktı, ne yapmalıyım?",
 "acceptedAnswer":{"@type":"Answer","text":"Vakit önemlidir, hemen arayın. Diş tamamen yerinden çıktıysa dişi kök kısmından değil üst (taç) kısmından tutun. Kirliyse yalnızca hafifçe durulayın, ovalamayın ve kazımayın. Dişi kuru bırakmayın: mümkünse bir bardak süt içinde, yoksa ağzınızda yanağınızın içinde saklayarak en kısa sürede kliniğe gelin. Kanama varsa temiz bir gazlı bezle bastırın."}},
 {"@type":"Question","name":"Kliniğe nasıl ulaşabilirim?",
-"acceptedAnswer":{"@type":"Answer","text":"Adresimiz Kirazlı Mah. Mevlana Cad. No: 47 D, Bağcılar / İstanbul. Kirazlı metro istasyonuna yürüme mesafesindeyiz; istasyon M1B ve M3 hatlarının aktarma noktasıdır. Mevlana Caddesi üzerinde olduğumuz için otobüs ve minibüs duraklarından da kolayca gelinir."}}
+"acceptedAnswer":{"@type":"Answer","text":"Adresimiz Kirazlı Mah. Mevlana Cad. No: 47 D, Bağcılar / İstanbul. Kirazlı metro istasyonuna yürüme mesafesindeyiz; istasyon M1B ve M3 hatlarının aktarma noktasıdır. Mevlana Caddesi üzerinde olduğumuz için otobüs ve minibüs duraklarından da kolayca gelinir. Yol tarifi için sayfadaki harita bağlantısını kullanabilirsiniz."}}
 ]}
 </script>
 <style>
@@ -119,7 +119,10 @@
     --kat:#ffffff;
     --murekkep:#0c1a26;
     --gri:#51626f;
-    --soluk:#7e8fa0;
+    /* #7e8fa0 idi: kagit uzerinde ~3,1:1 kontrast veriyordu, WCAG AA
+       normal metin siniri 4,5:1. Kucuk puntolu unvan/kaynak/footer
+       metinlerinde kullanildigi icin koyulastirildi (1. tur bulgu 9). */
+    --soluk:#5f7282;
     --cizgi:#e2e8ee;
     --vurgu:#0e6a8f;
     --vurgu2:#0f9db1;
@@ -130,7 +133,7 @@
   }
   @media (prefers-color-scheme: dark){
     :root{--kagit:#070d15;--kat:#0d1520;--murekkep:#ecf3f8;--gri:#9aacba;
-          --soluk:#67798a;--cizgi:#1d2937;--vurgu:#57c8ea;--vurgu2:#7ce0d3;
+          --soluk:#8296a8;--cizgi:#1d2937;--vurgu:#57c8ea;--vurgu2:#7ce0d3;
           --glow:rgba(87,200,234,.16)}
   }
   *{box-sizing:border-box}
@@ -969,11 +972,11 @@
     <details class="sss-ogesi">
       <summary>Kanal tedavisi ağrılı mıdır?</summary>
       <div class="sss-cevap">
-        <p>İşlem lokal anestezi altında yapılır, bu sayede tedavi
-           sırasında ağrı beklenmez. Çoğu hastanın hatırladığı ağrı,
-           tedaviden önceki iltihaba ait olandır. İşlemden sonraki
-           birkaç gün çiğnerken hassasiyet duyulabilir; bu genellikle
-           azalarak geçer. Ağrı artıyorsa kliniği aramanız gerekir.</p>
+        <p>İşlem lokal anestezi altında yapılır. Tedavi sırasında basınç
+           veya rahatsızlık hissedilebilir; ağrı hissederseniz hekiminize
+           bildirmeniz gerekir ve anestezi yeniden değerlendirilir. İşlem
+           sonrasında birkaç gün çiğneme hassasiyeti olabilir; artan veya
+           geçmeyen ağrıda kliniği arayın.</p>
       </div>
     </details>
 

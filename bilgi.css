@@ -9,7 +9,8 @@
   --kat:#ffffff;
   --murekkep:#0c1a26;
   --gri:#51626f;
-  --soluk:#7e8fa0;
+  /* #7e8fa0 idi — WCAG AA (4,5:1) altinda kaliyordu, koyulastirildi */
+  --soluk:#5f7282;
   --cizgi:#e2e8ee;
   --vurgu:#0e6a8f;
   --vurgu2:#0f9db1;
@@ -22,7 +23,7 @@
 }
 @media (prefers-color-scheme: dark){
   :root{--kagit:#070d15;--kat:#0d1520;--murekkep:#ecf3f8;--gri:#9aacba;
-        --soluk:#67798a;--cizgi:#1d2937;--vurgu:#57c8ea;--vurgu2:#7ce0d3;
+        --soluk:#8296a8;--cizgi:#1d2937;--vurgu:#57c8ea;--vurgu2:#7ce0d3;
         --glow:rgba(87,200,234,.16);
         --uyari-zemin:#1d1708;--uyari-cizgi:#6b5520}
 }
