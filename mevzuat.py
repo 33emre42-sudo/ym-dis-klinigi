@@ -273,9 +273,16 @@ YASAKLI = {
 # tasiyor. Aksi halde "Kliniğimizde kampanya bulunmamaktadır" cumlesi
 # YASAKLI'dan gecip TICARI'ye takiliyordu (3. tur bulgu 7'nin devami —
 # duzeltme tek tarafa uygulanmisti).
+# ⚠️ 2 Agu 2026 — `indirim` ve `kampanya` burada KELIME SINIRSIZ yaziliydi.
+# Yukaridaki yorum "YASAKLI'daki ayni dar olumsuzlamayi tasiyor" diyor ama
+# `\b` oneki tasinmamisti. Sonuc: "sindirim" kelimesi "indirim" diye
+# yakalaniyordu. Agiz kokusu yazisindaki "reflü ve bazı sindirim sistemi
+# sorunları" cumlesi bu yuzden K15 hatasi verdi — tibbi bir metin, ticari
+# iddia degil. Yanlis alarm denetimi degersizlestirir (3. tur b7'de
+# "ekonomik" icin ayni ders alinmisti).
 TICARI = re.compile(
     r"[üu]cret|fiyat|[öo]deme|taksit|bedava|bedelsiz"
-    r"|indirim|kampanya"
+    r"|\bindirim|\bkampanya"
     r"|masraf|₺|\bTL\b|dahildir|hari[çc]tir|paket"
     r"|\bucuz\b|\bhesapl[ıi]\b|\buygun fiyat"
     # ⚠️ 3. tur bulgu 7: yalin "ekonomik" yanlis alarm veriyordu —

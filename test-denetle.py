@@ -154,6 +154,15 @@ bekle("mesru: 'kampanya bulunmamaktadır' GECER",
       sar("<p>Kliniğimizde kampanya bulunmamaktadır.</p>"),
       False)
 
+# 2 Agu 2026: "sindirim" icindeki "indirim" K15 alarmi veriyordu —
+# TICARI deseninde kelime siniri yoktu. Tibbi metin yazarken cikti.
+bekle("mesru: 'sindirim sistemi' YANLIS ALARM VERMEZ",
+      sar("<p>Reflü ve bazı sindirim sistemi sorunları da ağız "
+          "kokusuna yol açabilir.</p>"), False)
+
+bekle("gerileme: gercek 'indirim' hala YAKALANIR",
+      sar("<p>Bu ay implantta indirim var.</p>"), True)
+
 bekle("mesru: sosyoekonomik cumle GECER",
       sar("<p>Ekonomik koşullar ağız sağlığı hizmetine erişimi "
           "etkileyebilir.</p>"),
