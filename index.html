@@ -51,6 +51,9 @@
 {"@type":"AdministrativeArea","name":"Esenler"},
 {"@type":"AdministrativeArea","name":"Bahçelievler"}],
 "medicalSpecialty":"Dentistry",
+"employee":[
+{"@type":"Person","name":"Yunus Emre Çetin","jobTitle":"Diş Hekimi"},
+{"@type":"Person","name":"Mert Daştan","jobTitle":"Diş Hekimi"}],
 "availableService":[
 {"@type":"MedicalProcedure","name":"Diş dolgusu"},
 {"@type":"MedicalProcedure","name":"Kanal tedavisi"},
@@ -395,6 +398,25 @@
     .sss-ogesi>summary{font-size:16px;padding:17px 0}
     .sss-cevap{padding-bottom:18px}
   }
+
+  /* --- hekim tanitimi ---
+     Rakip yorumlarinda "uzman olmadigi halde uzman gibi tanitiyor"
+     sikayeti var. Unvani dogru yazmak burada rekabet avantaji. */
+  .hekimler{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px}
+  .hekim{border:1px solid var(--cizgi);border-radius:18px;
+    background:var(--kat);padding:24px 26px 26px;
+    transition:border-color .22s,box-shadow .25s}
+  .hekim:hover{border-color:var(--vurgu);
+    box-shadow:0 22px 44px -32px var(--glow)}
+  .hekim-ad{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+    margin-bottom:4px}
+  .hekim-ad b{font-family:var(--baslik);color:var(--murekkep);
+    font-size:19px;font-weight:800;letter-spacing:-.02em}
+  .hekim-unvan{font-family:var(--tek);font-size:10.5px;color:var(--soluk);
+    letter-spacing:.14em;text-transform:uppercase}
+  .hekim p{margin:10px 0 0;color:var(--gri);font-size:15px;line-height:1.65}
+  @media (max-width:760px){.hekimler{grid-template-columns:1fr}}
 
   /* --- bilgi yazilari dizini --- */
   .dizin-yazi{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
@@ -1043,6 +1065,32 @@
 </div></section>
 
 <div class="bant" data-plx="0.14" aria-hidden="true"><img src="gorsel-cocuk.jpg" alt="" loading="lazy" decoding="async"><span class="bant-etiket">ÇOCUK DİŞ HEKİMLİĞİ</span></div>
+
+<section style="padding-top:44px" id="hekimler"><div class="sar izle">
+  <div class="bolum-basi">
+    <h2>Hekimlerimiz</h2>
+    <p>Kliniğimizde tedavilerinizi yürüten hekimler. Muayeneniz sırasında
+       size hangi hekimin baktığını her zaman sorabilirsiniz.</p>
+  </div>
+  <div class="hekimler">
+    <div class="hekim">
+      <div class="hekim-ad">
+        <b>Dt. Yunus Emre Çetin</b>
+        <span class="hekim-unvan">Diş Hekimi</span>
+      </div>
+      <p>Genel diş hekimliği alanında çalışmaktadır; kliniğimizde
+         uygulanan tedavilerin tamamını yürütmektedir.</p>
+    </div>
+    <div class="hekim">
+      <div class="hekim-ad">
+        <b>Dt. Mert Daştan</b>
+        <span class="hekim-unvan">Diş Hekimi</span>
+      </div>
+      <p>Genel diş hekimliği alanında çalışmaktadır; kliniğimizde
+         uygulanan tedavilerin tamamını yürütmektedir.</p>
+    </div>
+  </div>
+</div></section>
 
 <section style="padding-top:44px" id="bilgi"><div class="sar izle">
   <div class="bolum-basi">
