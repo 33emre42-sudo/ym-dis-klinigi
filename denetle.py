@@ -54,14 +54,17 @@ import json
 import os
 import re
 import sys
+# sitemap.xml BIZIM urettigimiz, depo icindeki bir dosya — disaridan
+# gelen belge ayristirilmiyor. (xml.etree zaten dis varlik cozmez.)
+import xml.etree.ElementTree as ET
 
 # Mevzuat desenleri ve metin duzlestirme ORTAK modulde (2. tur bulgusu:
 # duzlestir iki yerde kopyalanmisti; biri degisirse digeri sessizce
 # ayrisirdi). Desenler icin: mevzuat.py · testi: test-denetle.py
 from html.parser import HTMLParser
 
-from mevzuat import (duzlestir, kucult, mevzuat_tara,
-                     EMOJI_ISTISNA, YASAKLI, TICARI, MUAF)
+from mevzuat import (cift_kodlanmis, duzlestir, kucult, mevzuat_tara,
+                     EMOJI_ISTISNA, YASAKLI, TICARI)
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
@@ -230,6 +233,69 @@ for ad in ["index.html"] + ALT_SAYFA + BILGI:
             'class="menu"' in s_ and not eksik_bag,
             ("eksik: %s" % eksik_bag[:3]) if eksik_bag
             else ("menu yok" if 'class="menu"' not in s_ else ""))
+
+# --- Metin kodlamasi saglam mi? ---
+# 1 Agu 2026: index.html'deki BUTUN Turkce karakterler cift kodlandi ve
+# 20 dakika oyle yayinda kaldi. Sebep PowerShell 5.1'in klasik tuzagi:
+# `Get-Content` -Encoding verilmeyince dosyayi sistem ANSI kod
+# sayfasiyla (cp1254) okur, `Set-Content -Encoding utf8` de o bozuk
+# metni UTF-8 yazar. "Diş" -> "DiÅŸ", basa da BOM eklenir.
+#
+# Hicbir denetim bunu yakalamadi: dosya gecerli UTF-8 kaliyor, kelime
+# sayisi tutuyor, yasak kelime taramasi zaten bozuk metinde eslesmiyor.
+# Tarayicida ise sayfanin tamami okunamaz hale geliyor.
+#
+# Tespit: cift kodlanmis metin cp1254'e geri cevrilip UTF-8 olarak
+# COZULEBILIR. Saglam Turkce metin cozulemez ("ş" -> 0xFE, gecersiz
+# UTF-8 baslangici). Test bu asimetriye dayaniyor.
+print()
+bozuk_kodlama, bomlu = [], []
+for ad in ["index.html"] + ALT_SAYFA + BILGI + ["gizlilik.html"]:
+    if not os.path.exists(ad):
+        continue
+    with open(ad, "rb") as f:
+        ham = f.read()
+    if ham.startswith(b"\xef\xbb\xbf"):
+        bomlu.append(ad)
+    try:
+        if cift_kodlanmis(ham.decode("utf-8")):
+            bozuk_kodlama.append(ad)
+    except UnicodeDecodeError:
+        bozuk_kodlama.append(ad + " (UTF-8 degil)")
+
+kontrol("hicbir sayfa cift kodlanmamis", not bozuk_kodlama,
+        ("BOZUK: %s" % bozuk_kodlama[:3]) if bozuk_kodlama
+        else "%d sayfa" % (len(BILGI) + len(ALT_SAYFA) + 2))
+kontrol("hicbir sayfada BOM yok", not bomlu,
+        ("BOM'lu: %s" % bomlu[:3]) if bomlu else "")
+
+# --- Sohbet metinleri HTML'de mi? (5. tur bulgu 4) ---
+# mevzuat.py <script> bloklarini bilerek atlar — kod taranmaz. Ama sohbet
+# kutusunun hastaya GOSTERDIGI metinler kod degil icerik. JavaScript
+# dizgisinde durduklari surece ekranda gorunur, denetimden gecerlerdi.
+print()
+# HTML yorumlari kod DEGILDIR: bir aciklama satirinda gecen ornek
+# cagri, tanimsiz metin sanilip yanlis alarm veriyordu.
+kod_html = re.sub(r"<!--.*?-->", " ", html, flags=re.S)
+sablon = re.search(r'<template id="sohbet-metin">(.*?)</template>',
+                   kod_html, re.S)
+kontrol("sohbet metin sablonu var", sablon is not None)
+if sablon:
+    tanimli = set(re.findall(r'data-ad="([^"]+)"', sablon.group(1)))
+    cagrilan = set(re.findall(r'\bmet\("([^"]+)"\)', kod_html))
+    kontrol("her met() cagrisinin karsiligi var", cagrilan <= tanimli,
+            ("TANIMSIZ: %s" % sorted(cagrilan - tanimli))
+            if cagrilan - tanimli else "%d metin" % len(cagrilan))
+    kontrol("sablonda olu metin yok", tanimli <= cagrilan,
+            ("kullanilmiyor: %s" % sorted(tanimli - cagrilan))
+            if tanimli - cagrilan else "")
+
+# balon()/dugme() ilk argumani DIZGE SABITI olmamali. Olursa metin
+# yeniden <script> icine kacar ve bekci onu goremez.
+kodda = re.findall(r'\b(balon|dugme)\s*\(\s*["\']', kod_html)
+kontrol("hastaya gosterilen metin kodda DIZGE degil", not kodda,
+        ("kodda dizge: %s" % sorted(set(kodda))) if kodda
+        else "hepsi <template>'ten okunuyor")
 
 # --- 6. Bilgi yazilari ---
 print("\n--- 6/7  bilgi yazilari (%d sayfa) ---" % len(BILGI))
@@ -473,6 +539,58 @@ for ad in ALT_SAYFA:
     kontrol(ad, not sorun,
             ("; ".join(sorun[:2])) if sorun else "%d kelime" % kelimeler)
 
+# --- Klinik varligi TEK mi? (5. tur bulgu 6) ---
+# SEO b4'te 11 sayfadaki tam publisher nesnesi @id referansina
+# indirilmisti ama hekimlerimiz.html'deki `about` ve iki `worksFor`
+# atlanmisti: sayfa ESKI adla UC ayri Dentist nesnesi uretmeye devam
+# ediyordu. Arama motoru bunlari ayri isletmeler sayabilir; varlik
+# birlestirmenin butun anlami kaybolur. Elle taranarak bulunmasi zor,
+# bekci baksin.
+KLINIK_ID = "https://ymdisklinigi.com/#klinik"
+
+
+def _klinik_kopyalari(veri, bulunan):
+    if isinstance(veri, dict):
+        if (veri.get("@type") in ("Dentist", "MedicalClinic", "LocalBusiness")
+                and veri.get("@id") != KLINIK_ID):
+            bulunan.append(veri.get("name") or "adsiz nesne")
+        for x in veri.values():
+            _klinik_kopyalari(x, bulunan)
+    elif isinstance(veri, list):
+        for x in veri:
+            _klinik_kopyalari(x, bulunan)
+
+
+kopyalar = []
+for ad in ALT_SAYFA + BILGI + ["gizlilik.html"]:
+    if not os.path.exists(ad):
+        continue
+    with open(ad, encoding="utf-8") as f:
+        s_ = f.read()
+    bulunan = []
+    for blok in re.findall(
+            r'<script type="application/ld\+json">(.*?)</script>', s_, re.S):
+        try:
+            _klinik_kopyalari(json.loads(blok), bulunan)
+        except json.JSONDecodeError:
+            pass
+    if bulunan:
+        kopyalar.append("%s -> %s" % (ad, bulunan[0]))
+kontrol("klinik varligi tek @id (kopya Dentist nesnesi yok)",
+        not kopyalar, ("; ".join(kopyalar[:2])) if kopyalar
+        else "%d sayfa yalniz @id ile atifta bulunuyor"
+             % (len(ALT_SAYFA) + len(BILGI) + 1))
+
+# gizlilik.html ALT_SAYFA listesinde degil — menusu ve bicemi farkli.
+# Ama CANLI, herkese acik bir sayfa ve mevzuat taramasinin tamamen
+# disinda kalmasi gozden kacmisti.
+if os.path.exists("gizlilik.html"):
+    with open("gizlilik.html", encoding="utf-8") as f:
+        gz = f.read()
+    gsorun = mevzuat_tara(gz, "gizlilik.html")
+    kontrol("gizlilik.html mevzuat taramasi", not gsorun,
+            ("; ".join(gsorun[:2])) if gsorun else "taraniyor")
+
 # Bilgi dizini gercekten TUM yazilari listeliyor mu? Yeni bir yazi
 # eklenip dizine konmazsa sayfa yetim kalir — hicbir yerden linklenmez.
 if os.path.exists("bilgi-yazilari.html"):
@@ -483,13 +601,30 @@ if os.path.exists("bilgi-yazilari.html"):
             ("dizinde yok: %s" % yetim) if yetim
             else "%d yazi" % len(BILGI))
 
+# ⚠️ 5. tur bulgu 8: burasi "dosya adi sitemap METNINDE geciyor mu" diye
+# bakiyordu. Alt dizge oldugu icin `dis-cekimi.html` beklenirken sitemap'te
+# yalnizca `eski-dis-cekimi.html` bulunsa da GECIYORDU. Fazladan ya da
+# yinelenen URL hic denetlenmiyordu. Artik XML ayristirilip TAM URL
+# KUMELERI karsilastiriliyor.
 if os.path.exists("sitemap.xml"):
-    with open("sitemap.xml", encoding="utf-8") as f:
-        sm = f.read()
-    eksik = [a for a in BILGI + ALT_SAYFA + ["gizlilik.html"] if a not in sm]
-    kontrol("sitemap tum sayfalari iceriyor", not eksik,
-            ("eksik: %s" % eksik) if eksik else
-            "%d sayfa" % (len(BILGI) + len(ALT_SAYFA) + 2))
+    try:
+        kok = ET.parse("sitemap.xml").getroot()
+        ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+        loclar = [x.text.strip() for x in kok.findall("s:url/s:loc", ns)]
+        beklenen = {"https://ymdisklinigi.com/"}
+        beklenen.update("https://ymdisklinigi.com/" + a
+                        for a in BILGI + ALT_SAYFA + ["gizlilik.html"])
+        var = set(loclar)
+        yinelenen = len(loclar) != len(var)
+        kontrol("sitemap diskle BIREBIR ayni",
+                var == beklenen and not yinelenen,
+                ("eksik=%s fazla=%s%s"
+                 % (sorted(beklenen - var), sorted(var - beklenen),
+                    " YINELENEN VAR" if yinelenen else ""))
+                if (var != beklenen or yinelenen)
+                else "%d URL" % len(loclar))
+    except ET.ParseError as e:
+        kontrol("sitemap.xml gecerli XML", False, str(e))
 
 print("=" * 74)
 if hata:

@@ -36,13 +36,21 @@ GORSELLER = [
     ("gorsel-lamine.jpg",      (600, 1200)),
     ("gorsel-implant.jpg",     (600, 1200)),
     ("gorsel-cocuk.jpg",       (600, 1200)),
-    ("gorsel-k-genel.jpg",     (400, 800)),    # tedavi karti
-    ("gorsel-k-kanal.jpg",     (400, 800)),
+    # ⚠️ 5. tur bulgu 7: 1. ve 7. kart masaustunde IKI SUTUN kapliyor
+    # (.dizin-satir:nth-child(1|7){grid-column:span 2}) — yuva 662px,
+    # digerleri 324px. Ikisi de 400/800 uretiyordu ve `sizes` 33vw
+    # dedigi icin tarayici GENIS karta 400px'lik gorseli seciyordu.
+    # Kaynak dosyalar 900px; buyutme yapilmadigi icin ulasilabilecek en
+    # buyuk varyant 900. Retina masaustunde (662x2=1324) yine de
+    # kaynak sinirina takiliyoruz — daha iyisi icin gercek klinik
+    # fotograflari gerekiyor.
+    ("gorsel-k-genel.jpg",     (400, 800, 900)),   # genis kart (1.)
+    ("gorsel-k-kanal.jpg",     (400, 800)),        # tedavi karti
     ("gorsel-k-cerrahi.jpg",   (400, 800)),
     ("gorsel-k-protez.jpg",    (400, 800)),
     ("gorsel-k-diseti.jpg",    (400, 800)),
     ("gorsel-k-orto.jpg",      (400, 800)),
-    ("gorsel-k-cocuk.jpg",     (400, 800)),
+    ("gorsel-k-cocuk.jpg",     (400, 800, 900)),   # genis kart (7.)
 ]
 
 KALITE = {"avif": 55, "webp": 78}

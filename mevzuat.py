@@ -36,31 +36,154 @@ def kucult(metin):
 
 
 # ===========================================================================
-# MEVZUAT DESENLERI — 12 Kasim 2025 tanitim yonetmeligi
+# METIN KODLAMASI — cift kodlama tespiti
 # ===========================================================================
-# ⚠️ 4. tur bulgu 4 — ILERI BAKIS YETMEDI, BEYAZ LISTEYE GECILDI.
+# 1 Agu 2026: index.html'deki BUTUN Turkce karakterler cift kodlandi ve
+# 20 dakika oyle yayinda kaldi. Sebep PowerShell 5.1'in klasik tuzagi:
+# `Get-Content -Raw` -Encoding verilmeyince dosyayi sistem ANSI kod
+# sayfasiyla (cp1254) okur, `Set-Content -Encoding utf8` de o bozuk
+# metni UTF-8 olarak yazar. "Diş" -> "DiÅŸ", basa BOM.
 #
-# 3. turda "garanti" ve "kampanya" desenlerine dar bir negatif ileri
-# bakis konulmustu ("garanti" + hemen ardindan "edilemez" -> yesil).
-# Bu FAIL-OPEN cikti: olumsuzlugu TERSINE CEVIREN cumleler geciyordu:
-#     "Garanti etmez değiliz."      -> "etmez" goruldu, muaf sayildi
-#     "Kampanya yoktur sanmayın."   -> "yoktur" goruldu, muaf sayildi
-#     "İndirim yoktur demiyoruz."   -> ayni tuzak
-# Uc ornek de aslinda ticari iddia.
+# Hicbir denetim yakalamadi: dosya gecerli UTF-8 kalir, kelime sayisi
+# tutar, yasak kelime taramasi bozuk metinde zaten eslesmez. Yalnizca
+# TARAYICIDA belli olur — yani hastada.
 #
-# Artik ileri bakis YOK. Yasak kelimeler kosulsuz. Bunun yerine
-# yazmamiz GEREKEN risk aciklamalari TAM CUMLE olarak beyaz listede;
-# tarama oncesi metinden cikariliyorlar (telefon numarasiyla ayni
-# yontem). Beyaz listedeki kalibin disina cikan her kullanim yakalanir.
+# Tespit su asimetriye dayanir: cift kodlanmis metin ANSI'ye geri
+# cevrilip UTF-8 olarak COZULEBILIR; saglam Turkce metin cozulemez
+# ("ş" -> 0xFE, gecersiz UTF-8 baslangic bayti).
+def _ansi_baytlari(metin):
+    """Metni cp1254 baytlarina cevirir.
+
+    cp1254'te TANIMSIZ olan baytlari (0x8E, 0x9E…) .NET U+0080-U+009F
+    araligina esler; Python'un kodlayicisi ise hata verir. Gercek
+    hasarda 41 adet U+009E vardi ve bu fark yuzunden ilk yazdigim
+    tespit fonksiyonu hasari KACIRIYORDU. C1 karakterleri kendi
+    baytlarina yaziliyor."""
+    b = bytearray()
+    for c in metin:
+        try:
+            b += c.encode("cp1254")
+        except UnicodeEncodeError:
+            o = ord(c)
+            if o >= 0x100:
+                raise
+            b.append(o)
+    return bytes(b)
+
+
+def cift_kodlanmis(metin):
+    """Metin bir kez fazla kodlanmis mi?"""
+    ornek = metin[:40000]
+    if all(ord(c) < 128 for c in ornek):
+        return False                     # ASCII metinde soru yok
+    try:
+        _ansi_baytlari(ornek).decode("utf-8")
+        return True
+    except (UnicodeEncodeError, UnicodeDecodeError):
+        return False
+
+
+def ansi_okumasi(baytlar):
+    """PowerShell'in hatali okumasinin taklidi — YALNIZCA test icin.
+
+    Bekcinin kendisi de bir varsayim; hasari yeniden uretmeden
+    yakaladigini iddia edemeyiz."""
+    cikti = []
+    for b in bytearray(baytlar):
+        try:
+            cikti.append(bytes([b]).decode("cp1254"))
+        except UnicodeDecodeError:
+            cikti.append(chr(b))         # tanimsiz bayt -> C1
+    return "".join(cikti)
+
+
+# Blok duzeyindeki etiketler. Inline olanlar (b, strong, em, a, span…)
+# BILEREK disarida: "<b>garanti edilemez</b>" cumleyi bolmemeli.
+_BLOK = (r"p|div|li|ul|ol|h[1-6]|t[dhr]|table|thead|tbody|section|article"
+         r"|header|footer|nav|main|aside|blockquote|figure|figcaption"
+         r"|dl|dt|dd|form|fieldset|legend|label|option|select|textarea"
+         r"|title|summary|details|br|hr|template")
+
+
+def mevzuat_metni(ham):
+    """Gorunur metin — BLOK sinirlari CUMLE siniri sayilir.
+
+    ⚠️ 5. tur bulgu 2'nin duzeltmesini yazarken cikti: `duzlestir()`
+    butun etiketleri bosluga cevirir. Muafiyet artik tam cumle
+    esitligine dayandigi icin bu, iki ayri blogu tek cumle gibi
+    gosteriyordu:
+
+        <title>Test</title> … <p>Mevzuat gereği fiyat bilgisi
+        paylaşamıyoruz.</p>
+        -> "test mevzuat gereği fiyat bilgisi paylaşamıyoruz"
+
+    Onayli cumle listede aynen dursa bile eslesmiyordu. Yonu
+    fail-CLOSED oldugu icin tehlikeli degildi ama mesru metni
+    engelliyordu: bir baslik ya da komsu paragraf, altindaki guvenlik
+    cumlesini kullanilamaz kiliyordu."""
+    metin = re.sub(r"<(script|style)[^>]*>.*?</\1>", " ", ham,
+                   flags=re.S | re.I)
+    metin = re.sub(r"</?(?:%s)\b[^>]*>" % _BLOK, " . ", metin, flags=re.I)
+    metin = re.sub(r"<[^>]+>", " ", metin)
+    metin = html_mod.unescape(metin)
+    return re.sub(r"\s+", " ", metin).strip()
+
+
+# ===========================================================================
+# MUAFIYET — TAM CUMLE ESITLIGI   (5. tur bulgu 2)
+# ===========================================================================
+# Bu, AYNI KOKUN dorduncu duzeltmesi. Gecmisi bilerek burada tutuyorum;
+# bes turda dort kez ayni tuzaga dusuldu:
 #
-# Yeni bir guvenlik cumlesi yazilacaksa BURAYA eklenir — bilincli bir
-# karar olur, kazara muafiyet olmaz.
-IZINLI_CUMLE = [
-    r"hiçbir tedavinin sonucu garanti edilemez",
-    r"tedavi sonuçları garanti edilemez",
-    r"kliniğimizde kampanya bulunmamaktadır",
-    r"kampanya ve indirim duyurusu yapılmamaktadır",
+#   2. tur b5  Muafiyet, eslesmenin +-70 karakterinde ARANIYORDU.
+#              "Fiyat yayımlayamıyoruz. En iyi kliniğiz."  -> geciyordu
+#   3. tur b5  Muafiyet ayni cumleye baglandi ama HANGI kelimeye ait
+#              oldugu dogrulanmiyordu.
+#              "Fiyat yayımlayamıyoruz; taksit seçeneğimiz var."
+#   4. tur b4  Negatif ileri bakis fail-open cikti.
+#              "Garanti etmez değiliz."  -> geciyordu
+#   5. tur b2  Beyaz listedeki cumle, daha uzun bir metnin ICINDEN
+#              KOSULSUZ siliniyordu:
+#              "Hiçbir tedavinin sonucu garanti edilemez demiyoruz."
+#              -> onayli parca silindi, geriye "demiyoruz" kaldi, GECTI.
+#              Ayni sekilde MUAF kalibi cumlenin bittigini aramadigi icin
+#              "Fiyat veremiyoruz demiyoruz; implant 5000 lira." geciyordu.
+#
+# ORTAK KOK: muafiyet her seferinde PARCA duzeyinde veriliyordu. Parcayi
+# neyin cevreledigine bakilmadigi surece cevreye her zaman bir ek
+# yazilabilir. Desen ekleyerek kapatilacak bir acik degildi.
+#
+# ARTIK TEK KURAL:
+#   Bir yasak eslesme, ancak ICINDE BULUNDUGU CUMLENIN TAMAMI
+#   ONAYLI_CUMLE listesindeki bir cumleyle birebir esitse muaf olur.
+#   Metinden hicbir sey SILINMEZ; silme islemi ne yapildigini gizliyordu.
+#
+# BILINEN SINIR: cumle sinirlari `.!?;:` karakterleridir. Yani
+# "...garanti edilemez; demiyoruz." iki ayri yan cumle sayilir ve ilki
+# muaf olur. Bunu yakalamak desen degil anlam isi; bilerek acikta
+# birakildi ve burada yaziyor.
+#
+# Yeni bir guvenlik cumlesi yazilacaksa BURAYA eklenir. Denetim hatasi
+# eklenecek cumleyi sadelestirilmis haliyle ekrana yazar; kopyalayin.
+ONAYLI_CUMLE = [
+    # Yazmamiz GEREKEN risk aciklamalari
+    "Hiçbir tedavinin sonucu garanti edilemez",
+    "Tedavi sonuçları garanti edilemez",
+    "Kliniğimizde kampanya bulunmamaktadır",
+    "Kampanya ve indirim duyurusu yapılmamaktadır",
+    # K15 fiyat aciklamalari — eskiden ayri bir MUAF regex'iydi.
+    # Regex "cumle bitti mi" diye bakmadigi icin sonuna ek yazilabiliyordu.
+    "Mevzuat gereği fiyat bilgisi paylaşamıyoruz",
+    "Mevzuat gereği ücret bilgisi yayımlayamıyoruz",
+    "Fiyat bilgisini bu kanalda veremiyoruz",
+    # gizlilik.html — yapay zeka kanalinin sinirlari
+    "tıbbi değerlendirme, ilaç önerisi ve ücret bilgisi bu kanalda "
+    "verilmez, bu konular hekiminize aktarılır",
 ]
+
+# Cumle siniri. Nokta fazla bolerse zarari yok: parca kisalir, birebir
+# esitlik daha ZOR saglanir — yani hata yonu her zaman fail-CLOSED.
+_CUMLE_SINIRI = re.compile(r"[.!?;:]+")
 
 YASAKLI = {
     "en iyi": r"\ben iyi\b",
@@ -106,21 +229,6 @@ TICARI = re.compile(
     r"|\bekonomik\s+(?:tedavi|çözüm|seçenek|paket|fiyat|alternatif)"
     r"|ek bedel|fiyat fark[ıi]|gece fark[ıi]|hafta sonu fark[ıi]",
     re.I)
-
-# ⚠️ 2. tur bulgu 5 — BU MUAFIYET FAIL-OPEN IDI.
-# Aciklama "yalnizca yasak kelimeyi DOGRUDAN olumsuzlayan kalip muaf"
-# diyordu; uygulama ise eslesmenin +-70 karakterinde HERHANGI bir MUAF
-# ariyordu. Sonuc: "Fiyat yayımlayamıyoruz. En iyi kliniğiz." metninde
-# "en iyi" ihlali, yakindaki fiyat aciklamasi yuzunden AFFEDILIYORDU.
-# Ustelik muafiyet butun YASAKLI siniflarina uygulaniyordu.
-#
-# Artik:
-#   * MUAF yalnizca TICARI eslesmelerinde gecerli (YASAKLI'da DEGIL).
-#   * Pencere degil, eslesmenin bulundugu CUMLE inceleniyor.
-MUAF = re.compile(
-    r"(fiyat|ücret|kampanya|indirim|ödeme)[^.]{0,60}"
-    r"(paylaşamıyoruz|yayımlayamıyoruz|veremiyoruz|izin vermiyor"
-    r"|yayımlamasına izin)")
 
 
 
@@ -183,24 +291,40 @@ class _OznitelikToplayici(HTMLParser):
         pass
 
 
+def sadelestir(cumle):
+    """Karsilastirma bicimi: kucult, noktalamayi at, boslugu tekle.
+
+    Onayli cumleler ve taranan metin AYNI islemden geciyor; yoksa
+    "Kliniğimizde kampanya bulunmamaktadır." ile listedeki noktasiz
+    hali eslesmezdi."""
+    c = kucult(cumle)
+    c = re.sub(r"[^\w\s]", " ", c)
+    return re.sub(r"\s+", " ", c).strip()
+
+
+_ONAYLI = frozenset(sadelestir(c) for c in ONAYLI_CUMLE)
+
+
+def _cumle(metin, konum):
+    """`konum`daki karakterin icinde bulundugu cumleyi dondurur."""
+    bas = 0
+    for m in _CUMLE_SINIRI.finditer(metin, 0, konum):
+        bas = m.end()
+    son = _CUMLE_SINIRI.search(metin, konum)
+    return metin[bas:son.start() if son else len(metin)]
+
+
 def _muaf_mi(metin, eslesme):
-    """`eslesme` DOGRUDAN olumsuzlanmis mi?
+    """Eslesmeyi iceren cumlenin TAMAMI onayli mi?
 
-    ⚠️ 3. tur bulgu 5: muafiyet 2. turda "ayni cumle" ile
-    sinirlandirilmisti ama bulunan muafiyetin DENETLENEN eslesmeye ait
-    oldugu dogrulanmiyordu. Sonuc:
-        "Fiyat yayımlayamıyoruz; taksit seçeneğimiz var."
-    cumlesinde fiyat aciklamasi yuzunden TAKSIT de muaf oluyordu.
+    Muafiyetin tek yolu budur. Yasak kelimenin cevresine yazilan her
+    ek — "... demiyoruz", "... sanmayın", "; implant 5000 lira" —
+    cumleyi listedekinden farkli kilar ve muafiyet DUSER.
 
-    Artik muafiyet konuma bagli: MUAF kalibinin ticari kelimesi
-    (1. grup) TAM OLARAK denetlenen eslesmenin konumunda basliyorsa
-    muafiyet ona aittir. Baska bir kelimenin muafiyeti bunu affetmez.
-    Boylece cumle siniri bulmaya da gerek kalmadi — nokta/unlem/soru
-    isareti veya HTML blogu ayrimi sorunu ortadan kalkti."""
-    for mm in MUAF.finditer(metin):
-        if mm.start(1) == eslesme.start():
-            return True
-    return False
+    Muaf olamayan bir eslesmenin cumlesi hata metnine konur; boylece
+    gercekten yazmamiz gereken yeni bir guvenlik cumlesi varsa
+    kopyalanacak hali gozukur."""
+    return sadelestir(_cumle(metin, eslesme.start())) in _ONAYLI
 
 
 def mevzuat_tara(ham_html, etiket):
@@ -215,8 +339,8 @@ def mevzuat_tara(ham_html, etiket):
     taraniyor."""
     sorunlar = []
 
-    # 1) gorunur metin
-    parcalar = [duzlestir(ham_html)]
+    # 1) gorunur metin — blok sinirlari cumle siniri sayilarak
+    parcalar = [mevzuat_metni(ham_html)]
 
     # 2) kullaniciya sunulan oznitelikler + meta content (ayristiriciyla)
     toplayici = _OznitelikToplayici()
@@ -254,31 +378,34 @@ def mevzuat_tara(ham_html, etiket):
         metin = kucult(ham_parca)
         for izin in IZINLI_PARCA:
             metin = metin.replace(kucult(izin), " ")
-        # Onaylanmis guvenlik cumleleri taramadan CIKARILIR (4. tur b4).
-        # Ileri bakis yerine bu yontem: kalibin disina cikan her
-        # kullanim yakalanmaya devam eder.
-        for izin in IZINLI_CUMLE:
-            metin = re.sub(izin, " ", metin)
         if not metin.strip():
             continue
 
-        # YASAKLI — muafiyet YOK, yalnizca kalibin kendi icine yazilmis
-        # dar olumsuzlamalar yesil (bkz. YASAKLI desenlerindeki
-        # negatif ileri bakislar).
+        # ⚠️ 5. tur bulgu 2: onayli cumleler ARTIK METINDEN SILINMIYOR.
+        # Silme, yasak kelimeyi ortadan kaldirip cevresindeki tersine
+        # cevirme ekini yalniz birakiyordu. Muafiyet artik her eslesme
+        # icin AYRI AYRI ve cumlenin tamamina bakilarak veriliyor —
+        # YASAKLI ve TICARI icin ayni mekanizma.
         for ad, desen in YASAKLI.items():
-            m = re.search(desen, metin)
-            if m and ad not in gorulen:
+            if ad in gorulen:
+                continue
+            for m in re.finditer(desen, metin):
+                if _muaf_mi(metin, m):
+                    continue
                 gorulen.add(ad)
                 sorunlar.append("%s: %s" % (ad, m.group(0)[:30]))
-
-        # TICARI — muafiyet gecerli, ama YALNIZCA eslesmenin kendisine ait
-        for m in TICARI.finditer(metin):
-            if not _muaf_mi(metin, m):
-                anahtar = "K15:" + m.group(0)
-                if anahtar not in gorulen:
-                    gorulen.add(anahtar)
-                    sorunlar.append("K15: %s" % m.group(0))
                 break
+
+        for m in TICARI.finditer(metin):
+            if _muaf_mi(metin, m):
+                continue
+            anahtar = "K15:" + m.group(0)
+            if anahtar not in gorulen:
+                gorulen.add(anahtar)
+                sorunlar.append("K15: %s  <- cumle: \"%s\""
+                                % (m.group(0),
+                                   sadelestir(_cumle(metin, m.start()))[:90]))
+            break
 
     for desen in PUAN_IZI:
         if re.search(desen, ham_html, re.I):

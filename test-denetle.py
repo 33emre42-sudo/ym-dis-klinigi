@@ -55,34 +55,42 @@ def sar(govde):
 
 
 # --- 2. tur bulgu 5: MUAF fail-open ------------------------------------
+# ⚠️ 5. tur bulgu 2: muafiyet artik ONAYLI_CUMLE ile TAM CUMLE
+# esitligine dayaniyor. Bu blogun cumleleri, listedeki onayli
+# bicimlere gore yazildi — senaryolar aynen korundu.
 # Fiyat aciklamasi TEK BASINA gecmeli.
 bekle("muaf: fiyat aciklamasi tek basina gecer",
-      sar("<p>Fiyat bilgisini mevzuat gereği yayımlayamıyoruz.</p>"),
+      sar("<p>Mevzuat gereği fiyat bilgisi paylaşamıyoruz.</p>"),
       False)
 
 # Ayni metne eklenen "en iyi" AFFEDILMEMELI. Eski kod bunu geciriyordu.
 bekle("muaf: yakindaki fiyat aciklamasi 'en iyi'yi AFFETMEZ",
-      sar("<p>Fiyat bilgisini yayımlayamıyoruz. En iyi kliniğiz.</p>"),
+      sar("<p>Mevzuat gereği fiyat bilgisi paylaşamıyoruz. "
+          "En iyi kliniğiz.</p>"),
       True)
 
 # Ayni sekilde bagimsiz bir "kampanya" da affedilmemeli.
 bekle("muaf: yakindaki aciklama 'kampanya'yi AFFETMEZ",
-      sar("<p>Fiyat bilgisini yayımlayamıyoruz. Kampanyamız başladı.</p>"),
+      sar("<p>Mevzuat gereği fiyat bilgisi paylaşamıyoruz. "
+          "Kampanyamız başladı.</p>"),
       True)
 
 # Muafiyet AYNI CUMLEDE calismaya devam etmeli.
 bekle("muaf: ayni cumlede ucret aciklamasi gecer",
-      sar("<p>Ücret bilgisini mevzuat gereği paylaşamıyoruz.</p>"),
+      sar("<p>Mevzuat gereği ücret bilgisi yayımlayamıyoruz.</p>"),
       False)
 
 # --- 3. tur bulgu 5: muafiyet KENDI eslesmesine bagli olmali ----------
-# Fiyat aciklamasi, ayni cumledeki BASKA bir ticari iddiayi affetmemeli.
-bekle("muaf: ayni cumledeki 'taksit' AFFEDILMEZ",
-      sar("<p>Fiyat bilgisini yayımlayamıyoruz; taksit seçeneğimiz var.</p>"),
+# Fiyat aciklamasi, komsu yan cumledeki BASKA bir ticari iddiayi
+# affetmemeli.
+bekle("muaf: komsu yan cumledeki 'taksit' AFFEDILMEZ",
+      sar("<p>Mevzuat gereği fiyat bilgisi paylaşamıyoruz; "
+          "taksit seçeneğimiz var.</p>"),
       True, kod="K15: taksit")
 
 bekle("muaf: unlem sonrasi 'gece farki' AFFEDILMEZ",
-      sar("<p>Fiyat yayımlayamıyoruz! Gece farkı almıyoruz.</p>"),
+      sar("<p>Mevzuat gereği fiyat bilgisi paylaşamıyoruz! "
+          "Gece farkı almıyoruz.</p>"),
       True, kod="K15: gece farkı")
 
 # Ayri, noktasiz HTML parcalari birbirini affetmemeli.
@@ -188,6 +196,81 @@ bekle("value: <button value> TEKNIK, alarm VERMEZ",
 bekle("value: <option value> TEKNIK, alarm VERMEZ",
       sar('<select><option value="ekonomik">Standart</option></select>'),
       False)
+
+# --- Cift kodlama tespiti (1 Agu 2026 olayi) --------------------------
+# index.html'in butun Turkce karakterleri bir kabuk komutu yuzunden
+# cift kodlandi ve 20 dakika oyle yayinda kaldi. Hicbir denetim
+# gormedi: dosya gecerli UTF-8, kelime sayisi normal, yasak kelime yok.
+#
+# Ilk yazdigim tespit fonksiyonu HASARI KACIRIYORDU: gercek bozuk
+# dosyada 41 adet U+009E vardi ve `encode("cp1254")` bu karakterde
+# hata verip "temiz" sonucunu donduruyordu. Asagidaki testler tam o
+# durumu yeniden uretiyor.
+def kodlama_bekle(ad, metin, bozuk_olmali):
+    oldu = mevzuat.cift_kodlanmis(metin)
+    sonuc.append((ad, oldu == bozuk_olmali,
+                  "" if oldu == bozuk_olmali
+                  else "BEKLENEN: %s · BULUNAN: %s" % (bozuk_olmali, oldu)))
+
+
+def hasar_uret(saglam):
+    """PowerShell'in yaptigi seyin birebir taklidi."""
+    return mevzuat.ansi_okumasi(saglam.encode("utf-8"))
+
+
+SAGLAM = ("YM Diş Kliniği — Bağcılar/Kirazlı. Şikâyetiniz varsa "
+          "kliniğimize başvurunuz. Çocuk diş hekimliği, implant, "
+          "protez ve kanal tedavisi.")
+
+kodlama_bekle("kodlama: saglam Turkce metin TEMIZ", SAGLAM, False)
+kodlama_bekle("kodlama: cift kodlanmis metin YAKALANIR",
+              hasar_uret(SAGLAM), True)
+# Gercek hasarda 0x9E vardi ("Ş" harfinin ikinci bayti) — ilk
+# fonksiyonu tam bu karakter atlatmisti.
+kodlama_bekle("kodlama: U+009E iceren hasar YAKALANIR",
+              hasar_uret("BAĞCILAR · ŞİŞLİK · DİŞ HEKİMLİĞİ"), True)
+kodlama_bekle("kodlama: sadece ASCII yanlis alarm VERMEZ",
+              "Plain ascii content, nothing to see here.", False)
+kodlama_bekle("kodlama: Turkce + emoji TEMIZ",
+              "Diş 🦷 randevu · ⚠️ acil durumda 112", False)
+kodlama_bekle("kodlama: cift kodlanmis emoji YAKALANIR",
+              hasar_uret("Diş 🦷 randevu"), True)
+
+# --- 5. tur bulgu 2: ONAYLI CUMLENIN SONUNA EK YAZILAMAZ --------------
+# 4. turdaki beyaz liste, onayli parcayi daha uzun bir metnin ICINDEN
+# kosulsuz siliyordu. Yasak kelime silinince geriye anlami TERSINE
+# CEVIREN ek kaliyordu ve tarama temiz sonuc veriyordu.
+bekle("beyaz liste: garanti cumlesi tersine cevrilemez",
+      sar("<p>Hiçbir tedavinin sonucu garanti edilemez demiyoruz.</p>"),
+      True, kod="garanti")
+
+bekle("beyaz liste: kampanya cumlesi uzatilamaz",
+      sar("<p>Kliniğimizde kampanya bulunmamaktadır sanmayın.</p>"),
+      True, kod="kampanya")
+
+bekle("K15 muafiyeti tersine cevrilemez",
+      sar("<p>Fiyat veremiyoruz demiyoruz; implant 5000 lira.</p>"),
+      True, kod="K15: fiyat")
+
+# Onayli cumlenin ONUNE yazilan ek de muafiyeti dusurmeli.
+bekle("beyaz liste: onayli cumlenin onune ek yazilamaz",
+      sar("<p>Sonuçtan eminiz ama hiçbir tedavinin sonucu garanti "
+          "edilemez.</p>"),
+      True, kod="garanti")
+
+# --- 5. tur: blok sinirlari CUMLE siniridir ---------------------------
+# Muafiyet tam cumle esitligine dayaniyor. Etiketler bosluga
+# cevrilseydi baslik ile paragraf tek cumle gorunur ve ALTTAKI mesru
+# guvenlik cumlesi asla eslesmezdi (fail-closed ama kullanilamaz).
+bekle("blok siniri: baslik altindaki onayli cumle GECER",
+      sar("<h2>Tedavi sonucu</h2>"
+          "<p>Hiçbir tedavinin sonucu garanti edilemez.</p>"),
+      False)
+
+bekle("blok siniri: komsu paragraf muafiyeti tasimaz",
+      sar("<p>Mevzuat gereği fiyat bilgisi paylaşamıyoruz</p>"
+          "<p>Taksit imkânı vardır</p>"),
+      True, kod="K15: taksit")
 
 bekle("value: gorunur submit etiketi HALA taranir",
       sar('<input type="submit" value="Kampanyayı gör">'),
