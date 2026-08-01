@@ -17,25 +17,20 @@ metne cevrilir ve FAQPage blogu yeniden yazilir.
 
 Yeni soru eklerken: sadece HTML'e ekleyin, sonra bu betigi calistirin.
 """
-import html as html_mod
 import io
 import json
 import re
 import sys
 
+# ⚠️ Eskiden duzlestir() burada KOPYALANMISTI. Iki kopya ayrisirsa
+# uretilen sema ile denetimin bekledigi metin tutmaz ve denetim kalir.
+# 2. tur Codex denetimi bu riski isaret etti; fonksiyon ortak module
+# tasindi. Ikisi de artik ayni kaynagi kullaniyor.
+from mevzuat import duzlestir
+
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 SAYFA = "sik-sorulan-sorular.html"
-
-
-def duzlestir(metin):
-    """denetle.py icindeki fonksiyonun AYNISI. Ikisi ayrisirsa denetim
-    kalir — degistirirken iki dosyayi birlikte degistirin."""
-    metin = re.sub(r"<(script|style)[^>]*>.*?</\1>", " ", metin,
-                   flags=re.S | re.I)
-    metin = re.sub(r"<[^>]+>", " ", metin)
-    metin = html_mod.unescape(metin)
-    return re.sub(r"\s+", " ", metin).strip()
 
 
 with io.open(SAYFA, encoding="utf-8") as f:

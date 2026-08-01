@@ -49,12 +49,17 @@ Sema elle yazilmaz — `python sss-sema-uret.py` uretir.
 --------------------------------------------------------------------------
 """
 import glob
-import html as html_mod
 import io
 import json
 import os
 import re
 import sys
+
+# Mevzuat desenleri ve metin duzlestirme ORTAK modulde (2. tur bulgusu:
+# duzlestir iki yerde kopyalanmisti; biri degisirse digeri sessizce
+# ayrisirdi). Desenler icin: mevzuat.py · testi: test-denetle.py
+from mevzuat import (duzlestir, kucult, mevzuat_tara,
+                     EMOJI_ISTISNA, YASAKLI, TICARI, MUAF)
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
@@ -68,116 +73,6 @@ def kontrol(ad, kosul, ayrinti=""):
     else:
         print("  HATA   %-46s %s" % (ad, ayrinti))
         hata += 1
-
-
-def duzlestir(metin):
-    """Etiketleri at, HTML varliklarini coz, butun bosluklari tek bosluga
-    indir. Satir sonu yuzunden desen kacmasin diye ZORUNLU."""
-    metin = re.sub(r"<(script|style)[^>]*>.*?</\1>", " ", metin,
-                   flags=re.S | re.I)
-    metin = re.sub(r"<[^>]+>", " ", metin)
-    metin = html_mod.unescape(metin)
-    return re.sub(r"\s+", " ", metin).strip()
-
-
-def kucult(metin):
-    return metin.lower().replace("i̇", "i")
-
-
-# ===========================================================================
-# MEVZUAT DESENLERI — 12 Kasim 2025 tanitim yonetmeligi
-# ===========================================================================
-YASAKLI = {
-    "en iyi": r"\ben iyi\b",
-    "garanti": r"\bgaranti",
-    "agrisiz iddiasi": r"\bağrısız\b",
-    # Ortuk agrisizlik vaadi — 1. tur denetim bulgusu.
-    # "Agri beklenmez" demek de bir sonuc vaadidir; kisisel anestezi
-    # yanitini ve akut iltihapta ek anestezi ihtiyacini disliyor.
-    "ortuk agrisizlik": r"ağrı (?:beklenmez|olmaz|hissetmezsiniz|duymazsınız)"
-                        r"|acı (?:duymazsınız|hissetmezsiniz)"
-                        r"|hiç (?:acımaz|ağrımaz)",
-    "kampanya": r"\bkampanya",
-    "indirim": r"\bindirim",
-    "ucretsiz": r"\bücretsiz\b",
-    "fiyat rakami": r"\d[\d.]*\s*(?:tl|₺)\b",
-    "hasta yorumu": r"\bmemnun kald|\byorumları\b",
-    "once-sonra": r"önce\s*[-/]\s*sonra",
-    "uzman iddiasi": r"\buzman(?:ımız|larımız)\b",
-}
-
-# K15 — ticari dil freni. Eskiden klinik-sitesi-olustur.py icindeydi;
-# uretici 1 Agu 2026'da arsivlendigi icin buraya tasindi.
-TICARI = re.compile(
-    r"[üu]cret|fiyat|[öo]deme|taksit|indirim|kampanya|bedava|bedelsiz"
-    r"|masraf|₺|\bTL\b|dahildir|hari[çc]tir|paket", re.I)
-
-# Muafiyet SADECE yasak kelimeyi dogrudan olumsuzlayan kalipta gecerli.
-# Genis pencere fail-open yaratiyordu (1. tur bulgu 6).
-MUAF = re.compile(
-    r"(fiyat|ücret|kampanya|indirim|ödeme)[^.]{0,60}"
-    r"(paylaşamıyoruz|yayımlayamıyoruz|veremiyoruz|izin vermiyor"
-    r"|yayımlamasına izin)")
-
-# Sitede zaten herkese acik olan degerler yanlis alarm uretmesin
-IZINLI_PARCA = ["0541 732 43 76", "905417324376", "google-site-verification"]
-
-PUAN_IZI = [r"aggregateRating", r"ratingValue", r"reviewCount",
-            r"\bGoogle'?da\s+\d", r"\d\s*[,.]\s*\d\s*·\s*\d+\s*değerlendirme"]
-
-EMOJI_ISTISNA = {"💬", "🦷"}
-
-
-def mevzuat_tara(ham_html, etiket):
-    """Bir HTML dosyasinin TAMAMINI tarar — head dahil.
-
-    head'in disarida birakilmasi 1. tur bulgusuydu: meta description
-    veya JSON-LD icine yazilan bir ihlal denetimden geciyordu."""
-    sorunlar = []
-
-    # 1) gorunur metin + 2) head'deki meta iceriKleri + 3) JSON-LD degerleri
-    parcalar = [duzlestir(ham_html)]
-    for m in re.finditer(r'<meta[^>]+content="([^"]*)"', ham_html, re.I):
-        parcalar.append(m.group(1))
-    for m in re.finditer(r"<title[^>]*>(.*?)</title>", ham_html, re.S | re.I):
-        parcalar.append(m.group(1))
-    for blok in re.findall(
-            r'<script type="application/ld\+json">(.*?)</script>',
-            ham_html, re.S):
-        try:
-            def gez(d):
-                if isinstance(d, dict):
-                    for v in d.values():
-                        gez(v)
-                elif isinstance(d, list):
-                    for v in d:
-                        gez(v)
-                elif isinstance(d, str):
-                    parcalar.append(d)
-            gez(json.loads(blok))
-        except json.JSONDecodeError:
-            pass
-
-    metin = kucult(" ".join(parcalar))
-    for izin in IZINLI_PARCA:
-        metin = metin.replace(kucult(izin), " ")
-
-    for ad, desen in YASAKLI.items():
-        for m in re.finditer(desen, metin):
-            pencere = metin[max(0, m.start() - 70):m.end() + 70]
-            if not MUAF.search(pencere):
-                sorunlar.append("%s: %s" % (ad, m.group(0)[:30]))
-                break
-    for m in TICARI.finditer(metin):
-        pencere = metin[max(0, m.start() - 70):m.end() + 70]
-        if not MUAF.search(pencere):
-            sorunlar.append("K15: %s" % m.group(0))
-            break
-    for desen in PUAN_IZI:
-        if re.search(desen, ham_html, re.I):
-            sorunlar.append("puan/yorum beyani: %s" % desen)
-            break
-    return sorunlar
 
 
 # ===========================================================================

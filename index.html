@@ -1105,6 +1105,16 @@
   .sohbet-msj.ben{background:linear-gradient(135deg,var(--vurgu),var(--vurgu2));
     color:#fff;border-bottom-right-radius:4px;align-self:flex-end}
   .sohbet-msj.acil{border-color:#d33;box-shadow:0 0 0 1px #d33 inset}
+  /* Devir satiri: bot "bunu bir insan gormeli" dediginde cikar.
+     Site kutusu anonim — panele gorusme dusuremiyoruz. O yuzden
+     hastayi tek dokunusla gercek kanala geciriyoruz. */
+  .sohbet-devir{display:flex;gap:7px;padding:2px 12px 8px;flex-wrap:wrap}
+  .sohbet-devir a{flex:1 1 auto;text-align:center;text-decoration:none;
+    font-size:13px;font-weight:600;padding:9px 12px;border-radius:9px;
+    border:1px solid var(--cizgi);color:var(--murekkep);background:var(--kat)}
+  .sohbet-devir a.vurgulu{background:linear-gradient(135deg,var(--vurgu),var(--vurgu2));
+    color:#fff;border-color:transparent}
+  .sohbet-devir a:hover{filter:brightness(1.06)}
   .sohbet-msj a{color:var(--vurgu);text-decoration:underline}
   .sohbet-not{padding:7px 14px;font-size:11px;color:var(--sonuk);
     border-top:1px solid var(--cizgi)}
@@ -1136,7 +1146,7 @@
       akis=document.getElementById("sohbet-akis"),
       form=document.getElementById("sohbet-form"),
       girdi=document.getElementById("sohbet-girdi"),
-      oturum=null, acildi=false, bekliyor=false;
+      oturum=null, acildi=false, bekliyor=false, sonSoru="";
 
   /* Mesajlar DOM ile kurulur (innerHTML YOK — bot metni ne olursa olsun
      betik calistiramaz); http linkleri guvenli bicimde tiklanabilir yapilir. */
@@ -1158,6 +1168,28 @@
     akis.scrollTop=akis.scrollHeight;
   }
 
+  /* Bot "bunu bir insan gormeli" dediginde (acil ya da devir) hastaya
+     gercek kanala gecis sunulur. Site kutusu anonim oldugu icin
+     panele gorusme dusemiyor; hastanin kendi son mesaji WhatsApp'a
+     tasinarak konusma kaybolmadan devam ediyor. */
+  function devirSatiri(){
+    var eski=akis.querySelector(".sohbet-devir");
+    if(eski) eski.parentNode.removeChild(eski);
+    var d=document.createElement("div");
+    d.className="sohbet-devir";
+    var a1=document.createElement("a");
+    a1.className="vurgulu"; a1.href="tel:+905417324376";
+    a1.textContent="Hemen ara";
+    var a2=document.createElement("a");
+    a2.href="https://wa.me/905417324376"+
+            (sonSoru?("?text="+encodeURIComponent(sonSoru)):"");
+    a2.target="_blank"; a2.rel="noopener";
+    a2.textContent="WhatsApp'a aktar";
+    d.appendChild(a1); d.appendChild(a2);
+    akis.appendChild(d);
+    akis.scrollTop=akis.scrollHeight;
+  }
+
   function sor(metin){
     if(bekliyor) return;
     bekliyor=true;
@@ -1169,6 +1201,7 @@
         if(!s.ok) throw new Error((s.v && s.v.hata) || "hata");
         oturum=s.v.oturum||null;
         balon(s.v.cevap,"bot",!!s.v.acil);
+        if(s.v.acil||s.v.devir) devirSatiri();
       })
       .catch(function(e){
         balon("Şu anda yanıt veremiyorum ("+(e.message||"bağlantı yok")+"). "+
@@ -1188,6 +1221,7 @@
     e.preventDefault();
     var m=girdi.value.trim();
     if(!m) return;
+    sonSoru=m;              /* devir olursa WhatsApp'a bu metin tasinir */
     balon(m,"ben",false);
     girdi.value="";
     sor(m);
