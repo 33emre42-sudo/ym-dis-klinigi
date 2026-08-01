@@ -13,8 +13,10 @@ Neyi kontrol eder:
   4. Mevzuat taramasi — 12 Kas 2025 tanitim yonetmeligi
   5. Icerik hacmi ve bolumlerin varligi
 """
+import glob
 import io
 import json
+import os
 import re
 import sys
 
@@ -179,8 +181,83 @@ kontrol("ulasim bolumu var", 'id="ulasim"' in html)
 kontrol("canonical etiketi var", 'rel="canonical"' in html)
 kontrol("meta description var", 'name="description"' in html)
 
+# --- 6. Bilgi yazilari ---
+# Ayri sayfalar da yayina gidiyor; ayni mevzuat ve gecerlilik kurallari
+# onlar icin de gecerli.
+BILGI = ["gece-dis-agrisi.html", "kirilan-dis-ne-yapmali.html",
+         "dis-apsesi.html", "yirmi-yas-disi.html"]
+print("\n--- 6/6  bilgi yazilari (%d sayfa) ---" % len(BILGI))
+
+diskteki = sorted(os.path.basename(y) for y in glob.glob("*.html")
+                  if os.path.basename(y) not in ("index.html", "gizlilik.html"))
+kontrol("listedeki sayfalar diskle ayni", diskteki == sorted(BILGI),
+        "diskte: %s" % ", ".join(diskteki))
+
+for ad in BILGI:
+    if not os.path.exists(ad):
+        kontrol(ad, False, "dosya yok")
+        continue
+    with open(ad, encoding="utf-8") as f:
+        s = f.read()
+    sorun = []
+
+    for blok in re.findall(
+            r'<script type="application/ld\+json">(.*?)</script>', s, re.S):
+        try:
+            json.loads(blok)
+        except json.JSONDecodeError as e:
+            sorun.append("JSON-LD bozuk (%s)" % e)
+
+    for etiket in ("div", "section", "article", "ul", "ol", "li", "p"):
+        ac = len(re.findall(r"<%s[\s>]" % etiket, s))
+        kapa = len(re.findall(r"</%s>" % etiket, s))
+        if ac != kapa:
+            sorun.append("<%s> dengesiz (%d/%d)" % (etiket, ac, kapa))
+
+    g = s[s.find("<body"):]
+    m = re.sub(r"<[^>]+>", " ", g)
+    mk = re.sub(r"\s+", " ", m.lower().replace("i̇", "i"))
+    for etiketAd, desen in YASAKLI.items():
+        for mm in re.finditer(desen, mk):
+            pencere = mk[max(0, mm.start() - 90):mm.end() + 90]
+            if not MUAF_BAGLAM.search(pencere):
+                sorun.append("yasakli: %s" % etiketAd)
+                break
+    for mm in TICARI.finditer(mk):
+        pencere = mk[max(0, mm.start() - 90):mm.end() + 90]
+        if not MUAF_BAGLAM.search(pencere):
+            sorun.append("K15: %s" % mm.group(0))
+            break
+
+    if "canonical" not in s:
+        sorun.append("canonical yok")
+    if 'name="description"' not in s:
+        sorun.append("description yok")
+    if 'href="bilgi.css"' not in s:
+        sorun.append("bilgi.css bagli degil")
+    # not: metin satirlara bolunmus olabilir, bosluklari sadelestirerek ara
+    if "hekim muayenesinin yerine geçmez" not in re.sub(r"\s+", " ", m).lower():
+        sorun.append("sorumluluk notu yok")
+
+    kelimeler = len([k for k in re.split(r"\s+", m) if len(k) > 1])
+    if kelimeler < 500:
+        sorun.append("cok kisa (%d kelime)" % kelimeler)
+
+    kontrol(ad, not sorun,
+            ("; ".join(sorun[:2])) if sorun else "%d kelime" % kelimeler)
+
+kontrol("bilgi.css var", os.path.exists("bilgi.css"))
+
+# sitemap her yayin sayfasini icermeli
+if os.path.exists("sitemap.xml"):
+    with open("sitemap.xml", encoding="utf-8") as f:
+        sm = f.read()
+    eksik = [a for a in BILGI + ["gizlilik.html"] if a not in sm]
+    kontrol("sitemap tum sayfalari iceriyor", not eksik,
+            ("eksik: %s" % eksik) if eksik else "")
+
 print("=" * 74)
 if hata:
     print("*** %d HATA ***" % hata)
     sys.exit(1)
-print("*** HEPSI GECTI  ·  %d kelime ***" % kelime)
+print("*** HEPSI GECTI  ·  ana sayfa %d kelime ***" % kelime)

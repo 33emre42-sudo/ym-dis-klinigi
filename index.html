@@ -393,6 +393,21 @@
     .sss-cevap{padding-bottom:18px}
   }
 
+  /* --- bilgi yazilari dizini --- */
+  .dizin-yazi{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:13px}
+  .yazi-kart{display:block;text-decoration:none;border:1px solid var(--cizgi);
+    border-radius:18px;background:var(--kat);padding:22px 24px 24px;
+    transition:border-color .22s,transform .22s,box-shadow .25s}
+  .yazi-kart:hover{border-color:var(--vurgu);transform:translateY(-4px);
+    box-shadow:0 22px 44px -30px var(--glow)}
+  .yazi-kart b{display:block;font-family:var(--baslik);color:var(--murekkep);
+    font-size:17.5px;font-weight:700;line-height:1.32;letter-spacing:-.02em;
+    margin-bottom:8px}
+  .yazi-kart span{display:block;color:var(--gri);font-size:15px;
+    line-height:1.62}
+  @media (max-width:760px){.dizin-yazi{grid-template-columns:1fr}}
+
   /* --- ulasim --- */
   .ulasim{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
   .ulasim-kutu{border:1px solid var(--cizgi);border-radius:18px;
@@ -1025,6 +1040,37 @@
 </div></section>
 
 <div class="bant" data-plx="0.14" aria-hidden="true"><img src="gorsel-cocuk.jpg" alt="" loading="lazy" decoding="async"><span class="bant-etiket">ÇOCUK DİŞ HEKİMLİĞİ</span></div>
+
+<section style="padding-top:44px" id="bilgi"><div class="sar izle">
+  <div class="bolum-basi">
+    <h2>Bilgi yazıları</h2>
+    <p>Hastalarımızın en çok karşılaştığı durumlar için hazırladığımız
+       bilgilendirme yazıları. Şikâyetiniz varsa yine de muayene
+       gereklidir; bu yazılar hekim muayenesinin yerine geçmez.</p>
+  </div>
+  <div class="dizin-yazi">
+    <a class="yazi-kart" href="gece-dis-agrisi.html">
+      <b>Gece diş ağrısı: evde ne yapabilirsiniz?</b>
+      <span>Ağrı neden geceleri artar, sabaha kadar ne yapılabilir,
+            hangi yöntemler zarar verir ve ne zaman beklememek gerekir.</span>
+    </a>
+    <a class="yazi-kart" href="kirilan-dis-ne-yapmali.html">
+      <b>Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika</b>
+      <span>Düşen dişi nasıl tutmalı, neyin içinde saklamalı ve hangi
+            hata dişi kurtarılamaz hâle getirir.</span>
+    </a>
+    <a class="yazi-kart" href="dis-apsesi.html">
+      <b>Diş apsesi: neden ertelenmemeli?</b>
+      <span>Belirtileri, ağrı geçtiğinde neden iyileşme sayılmadığı ve
+            antibiyotiğin neden tek başına yetmediği.</span>
+    </a>
+    <a class="yazi-kart" href="yirmi-yas-disi.html">
+      <b>20 yaş dişi her zaman çekilir mi?</b>
+      <span>Hangi bulgular çekim gerektirir, hangi durumda diş yerinde
+            bırakılır ve çekim sonrası neler olağandır.</span>
+    </a>
+  </div>
+</div></section>
 
 <section style="padding-top:44px" id="ulasim"><div class="sar izle">
   <div class="bolum-basi">
