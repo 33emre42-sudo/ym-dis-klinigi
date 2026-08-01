@@ -1199,18 +1199,30 @@
       if(yeniSekme){ a.target="_blank"; a.rel="noopener"; }
       return a;
     }
+    /* ⚠️ 4. tur denetimi (b9): bolge gorunur oldugunda ekran okuyucuya
+       DUYURULMUYORDU ve acilde ortak tamamlanma kodu odagi tekrar
+       mesaj girdisine tasiyordu. Yani gormeyen bir kullanici bot
+       metnini duyup "112'yi ara" dugmesinin belirdigini duymuyordu.
+       Acilde artik odak dogrudan 112 dugmesine gidiyor. */
+    var ilk = null;
     if(acil){
       /* Hayati oncelik: 112 birincil ve ilk sirada. */
-      eylemBolge.appendChild(dugme("112'yi ara","tel:112",true,false));
+      ilk = dugme("112'yi ara","tel:112",true,false);
+      eylemBolge.appendChild(ilk);
       eylemBolge.appendChild(dugme("Kliniği ara","tel:+905417324376",false,false));
+      eylemBolge.setAttribute("aria-live","assertive");
+      eylemBolge.setAttribute("aria-label","Acil: hemen arayın");
     } else {
       eylemBolge.appendChild(dugme("Hemen ara","tel:+905417324376",true,false));
       eylemBolge.appendChild(dugme("WhatsApp'a aktar",
         "https://wa.me/905417324376"+
         (sonSoru?("?text="+encodeURIComponent(sonSoru)):""), false, true));
+      eylemBolge.setAttribute("aria-live","polite");
+      eylemBolge.setAttribute("aria-label","Bize ulaşın");
     }
     eylemBolge.hidden=false;
     akis.scrollTop=akis.scrollHeight;
+    if(ilk){ try{ ilk.focus(); }catch(e){} }   /* acilde odak 112'ye */
   }
 
   function eylemleriGizle(){
@@ -1244,9 +1256,23 @@
     bekliyor=true;
     girdi.disabled=true; gonder.disabled=true;
     eylemleriGizle();
+
+    /* ⚠️ 4. tur denetimi (b3): fetch'in ZAMAN ASIMI YOKTU.
+       Baglanti kurulup sunucu yaniti hic tamamlamazsa soz (promise)
+       ne cozulur ne reddedilir: catch calismaz, dugmeler kapali kalir,
+       hasta YENI MESAJ GONDEREMEZ ve hicbir eylem dugmesi cikmaz.
+       Acil belirti yazan biri kutuda kilitli kalabilirdi.
+       AbortController ile 20 saniyede kesiliyor. */
+    var kesici = (typeof AbortController !== "undefined")
+                 ? new AbortController() : null;
+    var zamanAsimi = setTimeout(function(){
+      if(kesici) kesici.abort();
+    }, 20000);
+
     fetch("/api/sohbet",{method:"POST",
       headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({metin:metin,oturum:oturum})})
+      body:JSON.stringify({metin:metin,oturum:oturum}),
+      signal: kesici ? kesici.signal : undefined})
       .then(function(r){return r.json().then(function(v){return {ok:r.ok,v:v};});})
       .then(function(s){
         if(!s.ok) throw new Error((s.v && s.v.hata) || "hata");
@@ -1256,15 +1282,24 @@
         else if(s.v.devir) devirSatiri(false);
       })
       .catch(function(e){
-        balon("Şu anda yanıt veremiyorum ("+(e.message||"bağlantı yok")+"). "+
-              "Bize telefonla ulaşabilirsiniz: 0541 732 43 76","bot",false);
+        var kesildi = e && (e.name === "AbortError");
+        balon(kesildi
+              ? ("Yanıt alınamadı. Acil bir durumdaysanız 112'yi arayın; "
+                 + "diğer durumlarda kliniğe telefonla ya da WhatsApp'tan "
+                 + "ulaşabilirsiniz: 0541 732 43 76")
+              : ("Şu anda yanıt veremiyorum (" + (e.message||"bağlantı yok")
+                 + "). Bize telefonla ulaşabilirsiniz: 0541 732 43 76"),
+              "bot", false);
         devirSatiri(false);
       })
       .then(function(){
+        clearTimeout(zamanAsimi);
         bekliyor=false;
         girdi.disabled=false; gonder.disabled=false;
-        if(kuyruk.length) kuyrukIsle();   /* bekleyen mesaj varsa gonder */
-        else if(!kutu.hidden) girdi.focus();
+        if(kuyruk.length){ kuyrukIsle(); return; }
+        /* Eylem bolgesi acikken odagi GERI ALMA (b9): acilde odak
+           "112'yi ara" dugmesinde durmali. */
+        if(!kutu.hidden && eylemBolge.hidden) girdi.focus();
       });
   }
 

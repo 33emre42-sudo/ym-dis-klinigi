@@ -162,6 +162,37 @@ bekle("ortulu ticari: 'ekonomik tedavi' yakalanir",
       sar("<p>Ekonomik tedavi seçenekleri sunuyoruz.</p>"),
       True, kod="K15: ekonomik tedavi")
 
+# --- 4. tur bulgu 4: OLUMSUZLUGU TERSINE CEVIREN cumleler -------------
+# 3. turdaki ileri bakis bunlari muaf sayiyordu; hepsi ticari iddia.
+bekle("tersine cevirme: 'Garanti etmez değiliz' YAKALANIR",
+      sar("<p>Garanti etmez değiliz.</p>"), True, kod="garanti")
+
+bekle("tersine cevirme: 'Kampanya yoktur sanmayın' YAKALANIR",
+      sar("<p>Kampanya yoktur sanmayın.</p>"), True, kod="kampanya")
+
+bekle("tersine cevirme: 'İndirim yoktur demiyoruz' YAKALANIR",
+      sar("<p>İndirim yoktur demiyoruz.</p>"), True, kod="indirim")
+
+# Onaylanmis TAM cumleler hala yesil:
+bekle("beyaz liste: onayli garanti cumlesi GECER",
+      sar("<p>Hiçbir tedavinin sonucu garanti edilemez; sonuç kişiden "
+          "kişiye değişir.</p>"), False)
+
+bekle("beyaz liste: onayli kampanya cumlesi GECER",
+      sar("<p>Kliniğimizde kampanya bulunmamaktadır.</p>"), False)
+
+# --- 4. tur bulgu 6: teknik value'lar yanlis alarm vermemeli ----------
+bekle("value: <button value> TEKNIK, alarm VERMEZ",
+      sar('<button value="kampanya_v2">Gönder</button>'), False)
+
+bekle("value: <option value> TEKNIK, alarm VERMEZ",
+      sar('<select><option value="ekonomik">Standart</option></select>'),
+      False)
+
+bekle("value: gorunur submit etiketi HALA taranir",
+      sar('<input type="submit" value="Kampanyayı gör">'),
+      True, kod="kampanya")
+
 # --- 2. tur bulgu 7: ortulu ticari dil ---------------------------------
 for kelime, ornek in [
         ("ucuz", "Ucuz implant seçenekleri"),

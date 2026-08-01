@@ -316,7 +316,19 @@ class _KaynakToplayici(HTMLParser):
              "source": ("src", "srcset"), "iframe": ("src",),
              "video": ("src", "poster"), "audio": ("src",),
              "embed": ("src",), "object": ("data",),
-             "track": ("src",), "input": ("src",)}
+             "track": ("src",), "input": ("src",),
+             # ⚠️ 4. tur b5: SVG icindeki dis kaynaklar da istek dogurur
+             "image": ("href", "xlink:href"),
+             "use": ("href", "xlink:href")}
+
+    # ⚠️ 4. tur b5: icon / apple-touch-icon / mask-icon / manifest
+    # ILISKILERI EKSIKTI. Bunlar da sayfa acilisinda yukleniyor;
+    # birinin ucuncu tarafa cevrilmesi gizlilik sayfasindaki
+    # "acilista ucuncu tarafa istek yok" sozunu bozardi ama denetim
+    # gecerdi.
+    YUKLEYEN_REL = ("stylesheet", "preload", "prefetch", "preconnect",
+                    "modulepreload", "dns-prefetch", "icon",
+                    "apple-touch-icon", "mask-icon", "manifest")
 
     def __init__(self):
         HTMLParser.__init__(self, convert_charrefs=True)
@@ -332,11 +344,13 @@ class _KaynakToplayici(HTMLParser):
         # <link>: yalnizca YUKLEME yapan iliskiler
         if etiket == "link":
             rel = (d.get("rel") or "").lower()
-            if any(r in rel for r in ("stylesheet", "preload", "prefetch",
-                                      "preconnect", "modulepreload",
-                                      "dns-prefetch")):
+            if any(r in rel.split() for r in self.YUKLEYEN_REL):
                 if _dis_mi(d.get("href")):
                     self.dis.append("link[%s]=%s" % (rel, d.get("href")[:52]))
+        # ⚠️ 4. tur b5: style="background:url(https://...)" taranmiyordu
+        for m in re.finditer(r"url\(\s*['\"]?([^'\")]+)", d.get("style", "")):
+            if _dis_mi(m.group(1)):
+                self.dis.append("style url()=%s" % m.group(1)[:52])
 
     def handle_startendtag(self, etiket, oznitelikler):
         self.handle_starttag(etiket, oznitelikler)

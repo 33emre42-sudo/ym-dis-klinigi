@@ -38,20 +38,33 @@ def kucult(metin):
 # ===========================================================================
 # MEVZUAT DESENLERI — 12 Kasim 2025 tanitim yonetmeligi
 # ===========================================================================
-# ⚠️ 3. tur bulgu 7: kosulsuz yasak, MESRU GUVENLIK METNINI engelliyordu.
-# "Hiçbir tedavinin sonucu garanti edilemez" cumlesi tam da yazmamiz
-# gereken risk aciklamasi — ama "garanti" koku onu ihlal sayiyordu.
-# Ayni sekilde "kampanya bulunmamaktadır" olumsuzlamasi da engelleniyordu.
-# Cozum: olumsuzlama kalibi desenin ICINE, DAR bir ileri bakis olarak
-# yaziliyor. Genis muafiyet yok — yalnizca dogrudan bagli olumsuzlama.
-_G_OLUMSUZ = (r"(?!\s*(?:edilemez|edilmez|verilemez|verilmez|etmez"
-              r"|yoktur|bulunmamaktadır|söz konusu değildir))")
-_K_OLUMSUZ = (r"(?!\s*(?:bulunmamaktadır|yoktur|düzenlenmemektedir"
-              r"|yapılmamaktadır|uygulanmamaktadır))")
+# ⚠️ 4. tur bulgu 4 — ILERI BAKIS YETMEDI, BEYAZ LISTEYE GECILDI.
+#
+# 3. turda "garanti" ve "kampanya" desenlerine dar bir negatif ileri
+# bakis konulmustu ("garanti" + hemen ardindan "edilemez" -> yesil).
+# Bu FAIL-OPEN cikti: olumsuzlugu TERSINE CEVIREN cumleler geciyordu:
+#     "Garanti etmez değiliz."      -> "etmez" goruldu, muaf sayildi
+#     "Kampanya yoktur sanmayın."   -> "yoktur" goruldu, muaf sayildi
+#     "İndirim yoktur demiyoruz."   -> ayni tuzak
+# Uc ornek de aslinda ticari iddia.
+#
+# Artik ileri bakis YOK. Yasak kelimeler kosulsuz. Bunun yerine
+# yazmamiz GEREKEN risk aciklamalari TAM CUMLE olarak beyaz listede;
+# tarama oncesi metinden cikariliyorlar (telefon numarasiyla ayni
+# yontem). Beyaz listedeki kalibin disina cikan her kullanim yakalanir.
+#
+# Yeni bir guvenlik cumlesi yazilacaksa BURAYA eklenir — bilincli bir
+# karar olur, kazara muafiyet olmaz.
+IZINLI_CUMLE = [
+    r"hiçbir tedavinin sonucu garanti edilemez",
+    r"tedavi sonuçları garanti edilemez",
+    r"kliniğimizde kampanya bulunmamaktadır",
+    r"kampanya ve indirim duyurusu yapılmamaktadır",
+]
 
 YASAKLI = {
     "en iyi": r"\ben iyi\b",
-    "garanti": r"\bgaranti(?:si|miz|li)?\b" + _G_OLUMSUZ,
+    "garanti": r"\bgaranti",
     "agrisiz iddiasi": r"\bağrısız\b",
     # Ortuk agrisizlik vaadi — 1. tur denetim bulgusu.
     # "Agri beklenmez" demek de bir sonuc vaadidir; kisisel anestezi
@@ -59,7 +72,7 @@ YASAKLI = {
     "ortuk agrisizlik": r"ağrı (?:beklenmez|olmaz|hissetmezsiniz|duymazsınız)"
                         r"|acı (?:duymazsınız|hissetmezsiniz)"
                         r"|hiç (?:acımaz|ağrımaz)",
-    "kampanya": r"\bkampanya(?:mız|lar|sı|ları)?\b" + _K_OLUMSUZ,
+    "kampanya": r"\bkampanya",
     "indirim": r"\bindirim",
     "ucretsiz": r"\bücretsiz\b",
     "fiyat rakami": r"\d[\d.]*\s*(?:tl|₺)\b",
@@ -83,10 +96,7 @@ YASAKLI = {
 # duzeltme tek tarafa uygulanmisti).
 TICARI = re.compile(
     r"[üu]cret|fiyat|[öo]deme|taksit|bedava|bedelsiz"
-    r"|indirim(?!\s*(?:bulunmamaktadır|yoktur|yapılmamaktadır))"
-    r"|kampanya(?:mız|lar|sı|ları)?"
-    r"(?!\s*(?:bulunmamaktadır|yoktur|düzenlenmemektedir"
-    r"|yapılmamaktadır|uygulanmamaktadır))"
+    r"|indirim|kampanya"
     r"|masraf|₺|\bTL\b|dahildir|hari[çc]tir|paket"
     r"|\bucuz\b|\bhesapl[ıi]\b|\buygun fiyat"
     # ⚠️ 3. tur bulgu 7: yalin "ekonomik" yanlis alarm veriyordu —
@@ -138,7 +148,12 @@ class _OznitelikToplayici(HTMLParser):
 
     ILGILI = ("alt", "title", "aria-label", "aria-description",
               "placeholder")
-    # value yalnizca kullaniciya GORUNEN kontrollerde metindir
+    # ⚠️ 4. tur bulgu 6: value YALNIZCA <input type="button|submit|reset">
+    # icin kullaniciya gorunen etikettir. <button value="kampanya_v2">
+    # ve <option value="ekonomik"> icinde value TEKNIK gonderim
+    # degeridir; kullanici gorunen METNI okur ve o metin zaten
+    # duzlestir() ile taraniyor. Bunlari taramak yanlis alarm uretip
+    # guvenli yayini gereksiz yere durduruyordu.
     VALUE_INPUT = ("button", "submit", "reset")
 
     def __init__(self):
@@ -159,8 +174,7 @@ class _OznitelikToplayici(HTMLParser):
             tur = (d.get("type") or "text").lower()
             if tur in self.VALUE_INPUT and d.get("value"):
                 self.parcalar.append(d["value"])
-        elif etiket in ("button", "option") and d.get("value"):
-            self.parcalar.append(d["value"])
+        # button / option value BILEREK taranmiyor (yukaridaki not).
 
     def handle_startendtag(self, etiket, oznitelikler):
         self.handle_starttag(etiket, oznitelikler)
@@ -240,6 +254,11 @@ def mevzuat_tara(ham_html, etiket):
         metin = kucult(ham_parca)
         for izin in IZINLI_PARCA:
             metin = metin.replace(kucult(izin), " ")
+        # Onaylanmis guvenlik cumleleri taramadan CIKARILIR (4. tur b4).
+        # Ileri bakis yerine bu yontem: kalibin disina cikan her
+        # kullanim yakalanmaya devam eder.
+        for izin in IZINLI_CUMLE:
+            metin = re.sub(izin, " ", metin)
         if not metin.strip():
             continue
 
