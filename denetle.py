@@ -63,8 +63,9 @@ import xml.etree.ElementTree as ET
 # ayrisirdi). Desenler icin: mevzuat.py · testi: test-denetle.py
 from html.parser import HTMLParser
 
-from mevzuat import (birlestirici_var, cift_kodlanmis, duzlestir, kucult,
-                     mevzuat_tara, EMOJI_ISTISNA, YASAKLI, TICARI)
+from mevzuat import (acil_esik_hatalari, birlestirici_var, cift_kodlanmis,
+                     duzlestir, kucult, mevzuat_tara, EMOJI_ISTISNA,
+                     YASAKLI, TICARI)
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
@@ -78,6 +79,8 @@ def kontrol(ad, kosul, ayrinti=""):
     else:
         print("  HATA   %-46s %s" % (ad, ayrinti))
         hata += 1
+
+
 
 
 # ===========================================================================
@@ -327,6 +330,20 @@ kontrol("hicbir sayfada birlestirici karakter yok", not birlestirici,
         ("BOZUK: %s" % birlestirici[:2]) if birlestirici
         else "%d sayfa" % (len(BILGI) + len(ALT_SAYFA) + 2))
 
+# 112 esigi TUM sayfalarda aranir — bilgi yazilarinda ayrica sayfa
+# bazinda raporlaniyor ama ana sayfa, iletisim ve SSS de 112 yaziyor.
+# Kuralin gerekcesi `acil_esik_hatalari` yaninda.
+_acil_karisik = []
+for ad in ["index.html"] + ALT_SAYFA + BILGI + ["gizlilik.html"]:
+    if not os.path.exists(ad):
+        continue
+    with open(ad, encoding="utf-8") as f:
+        for c in acil_esik_hatalari(f.read()):
+            _acil_karisik.append("%s: %s" % (ad, c))
+kontrol("112 talimati atesle ayni cumlede degil", not _acil_karisik,
+        _acil_karisik[0] if _acil_karisik
+        else "%d sayfa" % (len(BILGI) + len(ALT_SAYFA) + 2))
+
 # --- Sohbet metinleri HTML'de mi? (5. tur bulgu 4) ---
 # mevzuat.py <script> bloklarini bilerek atlar — kod taranmaz. Ama sohbet
 # kutusunun hastaya GOSTERDIGI metinler kod degil icerik. JavaScript
@@ -411,6 +428,9 @@ for ad in BILGI:
     with open(ad, encoding="utf-8") as f:
         s = f.read()
     sorun = []
+
+    for c in acil_esik_hatalari(s):
+        sorun.append("112 ile ates ayni cumlede: %s" % c)
 
     for blok in re.findall(
             r'<script type="application/ld\+json">(.*?)</script>', s, re.S):

@@ -436,6 +436,51 @@ kodlama_bekle("kodlama: bozuk KESME (’) YAKALANIR",
 kodlama_bekle("kodlama: 'Ångström' YANLIS ALARM VERMEZ",
               "Uzunluk Ångström birimiyle de ifade edilebilir.", False)
 
+# --- 10. tur bulgu 1: ACIL ESIGI ATESE BAGLANAMAZ ---------------------
+# 112 gerektiren belirtiler "ve" ile atese baglanirsa cumle "ikisi de
+# olmali" diye okunur. Hava yolu belirtisi TEK BASINA acildir; ates ise
+# ayni gun degerlendirme esigi. Hasta "atesim yok, beklerim" derse
+# gecikme olur.
+def acil_bekle(ad, parca, olmali):
+    bulunan = mevzuat.acil_esik_hatalari(parca)
+    sonuc.append((ad, bool(bulunan) == olmali,
+                  "" if bool(bulunan) == olmali
+                  else "BEKLENEN: %s · BULUNAN: %s" % (olmali, bulunan[:1])))
+
+
+# Gercekte YAYINDA olan cumle — dis-apsesi.html dokuz tur denetimden
+# gecti ve kimse gormedi. Once yakalandigini kanitla.
+acil_bekle("acil esik: 've yüksek ateş' kalibi YAKALANIR",
+           "<p>Göze ya da boyuna yayılan şişlik, nefes veya yutma "
+           "güçlüğü ve yüksek ateş acil durumdur: "
+           "<strong>112'yi arayın.</strong></p>", True)
+
+acil_bekle("acil esik: diyabet sayfasindaki hali YAKALANIR",
+           "<p>Yüzde hızla yayılan şişlik, nefes ya da yutma güçlüğü ve "
+           "yüksek ateş varsa beklemeyin: <strong>112'yi arayın.</strong>"
+           "</p>", True)
+
+# Duzeltilmis hali: ates AYRI cumlede.
+acil_bekle("acil esik: ates ayri cumledeyse TEMIZ",
+           "<p>Nefes ya da yutma güçlüğü, bilinç bulanıklığı varsa "
+           "beklemeyin: <strong>112'yi arayın.</strong> Bu belirtiler "
+           "olmadan yüksek ateş varsa aynı gün değerlendirilmeniz "
+           "gerekir.</p>", False)
+
+# YANLIS ALARM KAPISI: listedeki "Yüksek ateş" maddesi ile alttaki 112
+# paragrafi AYRI bloklardir. Ilk yazdigim surum bunu hata sayiyordu —
+# butun acil kutulari kirmizi yanardi.
+acil_bekle("acil esik: <li> ates + <p> 112 yanlis alarm VERMEZ",
+           "<div class=\"uyari\"><ul>"
+           "<li>Yüksek ateş, titreme, bilinç bulanıklığı</li>"
+           "<li>Ağzı tam açamama</li></ul>"
+           "<p>Nefes alma veya yutkunma güçlüğü varsa "
+           "<strong>112'yi arayın.</strong></p></div>", False)
+
+acil_bekle("acil esik: atessiz 112 cumlesi TEMIZ",
+           "<p>Bilinç değişikliği, nöbet ya da nefes alma güçlüğünde "
+           "112'yi arayın.</p>", False)
+
 # --- 5. tur bulgu 2: ONAYLI CUMLENIN SONUNA EK YAZILAMAZ --------------
 # 4. turdaki beyaz liste, onayli parcayi daha uzun bir metnin ICINDEN
 # kosulsuz siliyordu. Yasak kelime silinince geriye anlami TERSINE

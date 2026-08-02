@@ -156,6 +156,46 @@ def birlestirici_var(metin):
             if unicodedata.combining(k)]
 
 
+# ⚠️ 10. tur bulgu 1 — ACIL YONLENDIRME ESIGI.
+#
+# Ayni hata SINIFI ucuncu kez cikti:
+#   6. tur — sohbet kutusu ag hatasinda 112 yerine klinige yonlendiriyordu
+#   8. tur — macun yutulmasinda klinik degil 114 Zehir Danisma gerekiyordu
+#  10. tur — 112 gerektiren belirtiler "VE" ile birbirine baglanmisti:
+#
+#     "...nefes veya yutma güçlüğü VE yüksek ateş acil durumdur: 112"
+#
+# Duz okunusu: 112 icin IKISININ DE olmasi gerekiyor. Oysa hava yolu
+# belirtisi TEK BASINA acildir; ates ise tek basina "ayni gun
+# degerlendirme" esigidir. Hasta bunu okuyup "atesim yok, sabahi
+# beklerim" diyebilir. Ayni kalip uc sayfada birden vardi ve biri
+# (dis-apsesi.html) DOKUZ turdur denetimden geciyordu — goz yakalamiyor.
+#
+# Kural: 112 talimatiyla AYNI CUMLEDE "ates" gecmez; ates yonlendirmesi
+# ayri cumleye yazilir. Mekanik ama ogretilebilir — yazari "ikisini ayir"
+# diye zorluyor ve yanlis okumaya yer birakmiyor.
+#
+# Bloklar AYRI AYRI bakilir: <li> ve <p> kendi cumlesidir. Aksi halde
+# duzlestir() bir <ul>'un tamamini tek dizgeye ceviriyor ve listedeki
+# "Yüksek ateş" maddesi asagidaki 112 paragrafiyla ayni cumleymis gibi
+# gorunuyor — ilk yazimda tam da bu yanlis alarmi verdi.
+_ACIL_BLOK = re.compile(r"<(p|li)\b[^>]*>(.*?)</\1>", re.S | re.I)
+_ACIL_CUMLE = re.compile(r"(?<=[.!?])\s+")
+
+
+def acil_esik_hatalari(sayfa_html):
+    """112 talimatiyla ayni cumlede 'ates' geciyor mu? Bulunanlari doner."""
+    bulunan = []
+    for m in _ACIL_BLOK.finditer(sayfa_html):
+        blok = duzlestir(m.group(2))
+        if "112" not in blok:
+            continue
+        for cumle in _ACIL_CUMLE.split(blok):
+            if "112" in cumle and "ateş" in kucult(cumle):
+                bulunan.append(cumle.strip()[:110])
+    return bulunan
+
+
 def ansi_okumasi(baytlar):
     """PowerShell'in hatali okumasinin taklidi — YALNIZCA test icin.
 
