@@ -102,7 +102,10 @@ BILGI = ["gece-dis-agrisi.html", "kirilan-dis-ne-yapmali.html",
          "dis-dolgusu.html", "dis-cekimi.html", "protez-kaplama.html",
          "dis-tasi-temizligi.html", "dis-cekimi-sonrasi-sislik.html",
          "dis-hekimi-korkusu.html", "agiz-kokusu.html",
-         "dis-hassasiyeti.html", "curuk-nasil-olusur.html"]
+         "dis-hassasiyeti.html", "curuk-nasil-olusur.html",
+         "florur-nedir.html", "agiz-yarasi-aft.html",
+         "sigara-ve-agiz-sagligi.html", "dis-ipi-kullanimi.html",
+         "dis-beyazlatma-gercekleri.html"]
 ALT_SAYFA = ["hekimlerimiz.html", "sik-sorulan-sorular.html",
              "bilgi-yazilari.html", "ulasim-ve-hizmet-bolgesi.html"]
 SSS_SAYFA = "sik-sorulan-sorular.html"
