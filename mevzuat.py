@@ -210,7 +210,53 @@ _ACIL_BELIRTI = (
     r"|bay[ıi]lma|n[öo]bet"
     r"|a[ğg][ıi]z taban[ıi]nda [şs]i[şs]lik"
     r"|h[ıi]zla yay[ıi]lan [şs]i[şs]lik")
-_ACIL_VE_BAGI = re.compile(r"(?:%s)\s+ve\s" % _ACIL_BELIRTI, re.I)
+# 12. tur bulgu 4 — desen genisletildi ve MIMARI ACIK kapatildi.
+#
+# (a) Belirti listesi eksikti: durdurulamayan kanama listede yoktu, oysa
+#     tek basina 112 sebebi.
+# (b) Bag sozcugu yalnizca duz "ve" idi; "ile", "hem…hem", ters sira
+#     ("siddetli agri ve nefes guclugu") ve hal ekli bicimler
+#     ("nefes guclugunde ve") kaciyordu.
+# (c) ASCII yazim ("ates") kacıyordu — duz eslesme kullaniliyordu.
+# (d) EN ONEMLISI: eski kod "112 gecmiyorsa bu bloga hic bakma" diyordu.
+#     Yani hayati bir belirtiyi SADECE klinige yonlendiren bir kutu
+#     mimari olarak GORUNMEZDI. yirmi-yas-disi.html bunun canli orneğiydi:
+#     "Yüksek ateş, yutkunma ya da nefes güçlüğü" maddesi "hemen arayın"
+#     listesindeydi ve sayfada 112 hic gecmiyordu.
+_ACIL_BELIRTI += (
+    r"|durdurulamayan(?: yo[ğg]un)? kanama"
+    r"|kontrol alt[ıi]na al[ıi]namayan kanama"
+    r"|(?:tekrarlanan )?bask[ıi]ya ra[ğg]men durmayan(?: yo[ğg]un)? kanama"
+    r"|kanama(?:\s+\S+){0,6}\s+durmuyorsa"
+    r"|a[ğg]z[ıi](?:n[ıi]z[ıi])?\s+h[ıi]zla dolduruyorsa")
+_ACIL_BELIRTI_RE = re.compile(_ACIL_BELIRTI, re.I)
+
+# "ates" ASCII yazilsa da yakalanmali.
+_ACIL_ATES = re.compile(r"\bate[şs]\w*", re.I)
+
+# BAG KALIBI — belirtinin HEMEN yanindaki "ve"/"hem". Iki yon de bakilir:
+#   "nefes güçlüğü VE şiddetli ağrı"   (belirti -> bag)
+#   "şiddetli ağrı VE nefes güçlüğü"   (bag -> belirti, ters sira)
+# `\w*` Turkce hal ekini tolere ediyor: "nefes güçlüğüNDE ve …".
+#
+# ⚠️ Denetci burada gevsek bir tarama onerdi (kosul sozcugunden onceki
+# parcada HERHANGI bir yerde "ve" ara). Denendi ve KENDI DOGRU
+# metinlerimizde yanlis alarm verdi: "…, yüzde VE boyunda hızla yayılan
+# şişlik, … ya da bayılma varsa 112" cumlesinde "ve" iki vucut bolgesini
+# birlestiriyor, iki AYRI SART kurmuyor. Yanlis alarm veren bir bekci
+# insanlar tarafindan kapatilir; bu yuzden kalip DAR tutuldu.
+#
+# ⚠️ "ile" BILEREK DISARIDA: "Nefes güçlüğü ile karşılaşırsanız 112'yi
+# arayın" mesru bir cumle ve "ile" orada baglac degil. Nadir bir yazimi
+# kacirmak, her acil kutusunu kirmizi yakmaktan iyidir. Testle sabit.
+_ACIL_VE_BAGI = re.compile(
+    r"(?:%s)\w*\s+(?:ve|hem)\s|\b(?:ve|hem)\s+(?:%s)"
+    % (_ACIL_BELIRTI, _ACIL_BELIRTI), re.I)
+
+# Klinige yonlendiren kalip — "112 yok ama klinik var" durumunu bulmak icin.
+_ACIL_KLINIK = re.compile(
+    r"klini[ğg]i\s+aray[ıi]n|hemen\s+aray[ıi]n|bizi\s+aray[ıi]n"
+    r"|klini[ğg]imize\s+ula[şs]", re.I)
 
 
 def acil_esik_hatalari(sayfa_html):
@@ -229,8 +275,40 @@ def acil_esik_hatalari(sayfa_html):
             if "112" not in cumle:
                 continue
             kucuk = kucult(cumle)
-            if "ateş" in kucuk or _ACIL_VE_BAGI.search(kucuk):
+            if _ACIL_ATES.search(kucuk) or _ACIL_VE_BAGI.search(kucuk):
                 bulunan.append(cumle.strip()[:110])
+    return bulunan
+
+
+# Uyari kutulari — 112'nin HIC gecmedigi kutuyu da gormek icin gerekli.
+_UYARI_KUTU = re.compile(
+    r'<div class="uyari">(.*?)</div>', re.S | re.I)
+
+
+def acil_klinige_yonlendirme_hatalari(sayfa_html):
+    """Hayati belirtiyi SADECE klinige yonlendiren uyari kutulari.
+
+    ⚠️ 12. tur bulgu 4(d): `acil_esik_hatalari` yalnizca 112 GECEN
+    cumlelere bakiyor. Bir kutu hayati belirtiyi sayip "hemen arayın"
+    diyorsa ve sayfada 112 hic gecmiyorsa o kutu GORUNMEZ kaliyordu.
+    yirmi-yas-disi.html tam olarak boyleydi ve dokuz turdur denetimden
+    geciyordu.
+
+    Kural: bir uyari kutusu hem KLINIGE yonlendiriyor hem de tek basina
+    112 gerektiren bir belirti sayiyorsa, ayni kutuda 112 de gecmeli.
+    """
+    bulunan = []
+    for m in _UYARI_KUTU.finditer(sayfa_html):
+        kutu = duzlestir(m.group(1))
+        if "112" in kutu:
+            continue                     # esik zaten ayrilmis
+        kucuk = kucult(kutu)
+        if not _ACIL_KLINIK.search(kucuk):
+            continue                     # klinige yonlendirmiyor
+        belirti = _ACIL_BELIRTI_RE.search(kucuk)
+        if belirti:
+            bulunan.append("%s … (kutuda 112 yok)"
+                           % kutu.strip()[:90])
     return bulunan
 
 

@@ -63,9 +63,9 @@ import xml.etree.ElementTree as ET
 # ayrisirdi). Desenler icin: mevzuat.py · testi: test-denetle.py
 from html.parser import HTMLParser
 
-from mevzuat import (acil_esik_hatalari, birlestirici_var, cift_kodlanmis,
-                     duzlestir, kucult, mevzuat_tara, EMOJI_ISTISNA,
-                     YASAKLI, TICARI)
+from mevzuat import (acil_esik_hatalari, acil_klinige_yonlendirme_hatalari,
+                     birlestirici_var, cift_kodlanmis, duzlestir, kucult,
+                     mevzuat_tara, EMOJI_ISTISNA, YASAKLI, TICARI)
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
@@ -333,16 +333,22 @@ kontrol("hicbir sayfada birlestirici karakter yok", not birlestirici,
 # 112 esigi TUM sayfalarda aranir — bilgi yazilarinda ayrica sayfa
 # bazinda raporlaniyor ama ana sayfa, iletisim ve SSS de 112 yaziyor.
 # Kuralin gerekcesi `acil_esik_hatalari` yaninda.
-_acil_karisik = []
+_acil_karisik, _acil_klinik = [], []
 for ad in ["index.html"] + ALT_SAYFA + BILGI + ["gizlilik.html"]:
     if not os.path.exists(ad):
         continue
     with open(ad, encoding="utf-8") as f:
-        for c in acil_esik_hatalari(f.read()):
-            _acil_karisik.append("%s: %s" % (ad, c))
+        _s = f.read()
+    for c in acil_esik_hatalari(_s):
+        _acil_karisik.append("%s: %s" % (ad, c))
+    for c in acil_klinige_yonlendirme_hatalari(_s):
+        _acil_klinik.append("%s: %s" % (ad, c))
 kontrol("112 esigi atese/ikinci belirtiye baglanmamis", not _acil_karisik,
         _acil_karisik[0] if _acil_karisik
         else "%d sayfa" % (len(BILGI) + len(ALT_SAYFA) + 2))
+kontrol("hayati belirti yalniz klinige yonlendirilmiyor", not _acil_klinik,
+        _acil_klinik[0] if _acil_klinik
+        else "%d sayfa · uyari kutulari" % (len(BILGI) + len(ALT_SAYFA) + 2))
 
 # --- Sohbet metinleri HTML'de mi? (5. tur bulgu 4) ---
 # mevzuat.py <script> bloklarini bilerek atlar — kod taranmaz. Ama sohbet

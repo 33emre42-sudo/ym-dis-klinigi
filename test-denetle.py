@@ -514,6 +514,64 @@ acil_bekle("acil esik: 'yüzde ve boyunda' yanlis alarm VERMEZ",
            "şişlik varsa beklemeyin: <strong>112'yi arayın.</strong></p>",
            False)
 
+# --- 12. tur bulgu 4: desen genisletildi ---------------------------------
+acil_bekle("acil esik: TERS SIRA ('… ve nefes güçlüğü') YAKALANIR",
+           "<p>Şiddetli ağrı ve nefes güçlüğü varsa "
+           "<strong>112'yi arayın.</strong></p>", True)
+
+acil_bekle("acil esik: 'hem … hem' YAKALANIR",
+           "<p>Hem nefes güçlüğü hem şiddetli ağrı varsa "
+           "<strong>112'yi arayın.</strong></p>", True)
+
+acil_bekle("acil esik: HAL EKLI bicim ('güçlüğünde ve') YAKALANIR",
+           "<p>Nefes güçlüğünde ve şiddetli ağrıda "
+           "<strong>112'yi arayın.</strong></p>", True)
+
+acil_bekle("acil esik: ASCII 'ates' YAKALANIR",
+           "<p>Yuksek ates ve nefes guclugu varsa "
+           "<strong>112'yi arayin.</strong></p>", True)
+
+acil_bekle("acil esik: 'durdurulamayan kanama' belirti sayilir",
+           "<p>Durdurulamayan kanama ve ağrı varsa "
+           "<strong>112'yi arayın.</strong></p>", True)
+
+# ⚠️ Denetci "ile"yi de baglac saymayi onerdi. ALINMADI: asagidaki cumle
+# mesru ve "ile" orada baglac degil. Yanlis alarm veren bekci kapatilir.
+acil_bekle("acil esik: 'ile karşılaşırsanız' yanlis alarm VERMEZ",
+           "<p>Nefes güçlüğü ile karşılaşırsanız "
+           "<strong>112'yi arayın.</strong></p>", False)
+
+
+# --- 12. tur bulgu 4(d): 112'siz kutu MIMARI OLARAK gorunmuyordu --------
+# Eski bekci "112 gecmiyorsa bu bloga bakma" diyordu. Hayati belirtiyi
+# yalniz klinige yonlendiren bir kutu bu yuzden GORUNMEZDI —
+# yirmi-yas-disi.html tam olarak boyleydi ve dokuz tur denetimden gecti.
+def klinik_bekle(ad, parca, olmali):
+    bulunan = mevzuat.acil_klinige_yonlendirme_hatalari(parca)
+    sonuc.append((ad, bool(bulunan) == olmali,
+                  "" if bool(bulunan) == olmali
+                  else "BEKLENEN: %s · BULUNAN: %s" % (olmali, bulunan[:1])))
+
+
+klinik_bekle("klinik esigi: hayati belirti + 112 YOK -> YAKALANIR",
+             '<div class="uyari"><b>Şu durumlarda hemen arayın</b><ul>'
+             '<li>Yüksek ateş, yutkunma ya da nefes güçlüğü</li>'
+             '<li>Giderek artan şişlik</li></ul></div>', True)
+
+klinik_bekle("klinik esigi: ayni kutuda 112 varsa TEMIZ",
+             '<div class="uyari"><b>Şunlarda kliniği arayın</b><ul>'
+             '<li>Giderek artan şişlik</li></ul>'
+             '<p>Nefes güçlüğü varsa 112\'yi arayın.</p></div>', False)
+
+klinik_bekle("klinik esigi: hayati belirti YOKSA yanlis alarm VERMEZ",
+             '<div class="uyari"><b>Şunlarda kliniği arayın</b><ul>'
+             '<li>Giderek artan şişlik ve ağrı</li>'
+             '<li>Dikiş erken açıldıysa</li></ul></div>', False)
+
+klinik_bekle("klinik esigi: klinige yonlendirmeyen kutu TEMIZ",
+             '<div class="uyari"><b>Olağan olanlar</b><ul>'
+             '<li>İlk günlerde hafif şişlik</li></ul></div>', False)
+
 # --- 5. tur bulgu 2: ONAYLI CUMLENIN SONUNA EK YAZILAMAZ --------------
 # 4. turdaki beyaz liste, onayli parcayi daha uzun bir metnin ICINDEN
 # kosulsuz siliyordu. Yasak kelime silinince geriye anlami TERSINE
