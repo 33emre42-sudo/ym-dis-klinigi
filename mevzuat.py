@@ -200,14 +200,21 @@ _ACIL_CUMLE = re.compile(r"(?<=[.!?])\s+")
 # belirtinin HEMEN ARDINDAN "ve" geliyor mu? Boylece kacis kapisina gerek
 # kalmiyor ve mesru cumleler ("yüzde ve boyunda hızla yayılan şişlik" —
 # "yüzde" bir belirti degil) yanlis alarm vermiyor.
+#
+# ⚠️ 13. tur: nitelemeler ZORUNLU yapildi. Once hepsi istege bagliydi,
+# yani duz "nefes" / "bilinç" / "yutma" tek basina hayati belirti
+# sayiliyordu. Komsuluk arayan eski taramada bu zararsizdi; blok
+# duzeyinde tarayan yeni surumde agiz-kurulugu.html'deki "burundan
+# nefes almayı destekleyin" cumlesini kirmizi yakti. Yanlis alarm veren
+# bekci kapatilir — bu yuzden niteleme sart, ama niteleme ekleri
+# `\w*` ile serbest ("zorlanıyorsanız", "güçlüğünde").
+_ACIL_ZORLUK = (r"(?:g[üu][çc]l[üu][ğg]\w*|darl[ıi][ğg]\w*|zorlan\w*"
+                r"|s[ıi]k[ıi]nt[ıi]s[ıi])")
 _ACIL_BELIRTI = (
-    r"nefes(?:\s+al(?:ma|makta))?(?:\s+(?:g[üu][çc]l[üu][ğg][üu]"
-    r"|darl[ıi][ğg][ıi]|zorlanma(?:s[ıi])?))?"
-    r"|yut(?:ma|kunma|makta|kunmakta)(?:\s+(?:g[üu][çc]l[üu][ğg][üu]"
-    r"|zorlanma(?:s[ıi])?))?"
-    r"|bilin[çc](?:\s+(?:bulan[ıi]kl[ıi][ğg][ıi]|de[ğg]i[şs]ikli[ğg]i"
-    r"|kayb[ıi]))?"
-    r"|bay[ıi]lma|n[öo]bet"
+    r"nefes(?:\s+al\w*)?\s+" + _ACIL_ZORLUK +
+    r"|yut(?:ma|kunma|makta|kunmakta)\s+" + _ACIL_ZORLUK +
+    r"|bilin[çc]\s+(?:bulan[ıi]kl\w*|de[ğg]i[şs]ikli\w*|kayb\w*|kapan\w*)"
+    r"|bay[ıi]lma|n[öo]bet\b"
     r"|a[ğg][ıi]z taban[ıi]nda [şs]i[şs]lik"
     r"|h[ıi]zla yay[ıi]lan [şs]i[şs]lik")
 # 12. tur bulgu 4 — desen genisletildi ve MIMARI ACIK kapatildi.
@@ -246,25 +253,62 @@ _ACIL_ATES = re.compile(r"\bate[şs]\w*", re.I)
 # birlestiriyor, iki AYRI SART kurmuyor. Yanlis alarm veren bir bekci
 # insanlar tarafindan kapatilir; bu yuzden kalip DAR tutuldu.
 #
-# ⚠️ "ile" BILEREK DISARIDA: "Nefes güçlüğü ile karşılaşırsanız 112'yi
-# arayın" mesru bir cumle ve "ile" orada baglac degil. Nadir bir yazimi
-# kacirmak, her acil kutusunu kirmizi yakmaktan iyidir. Testle sabit.
+# ⚠️ TEK BASINA "ile" BILEREK DISARIDA: "Nefes güçlüğü ile karşılaşırsanız
+# 112'yi arayın" mesru bir cumle ve "ile" orada baglac degil. Nadir bir
+# yazimi kacirmak, her acil kutusunu kirmizi yakmaktan iyidir. Testle
+# sabit. ("ile birlikte" AYRI mesele — asagiya bak.)
 _ACIL_VE_BAGI = re.compile(
-    r"(?:%s)\w*\s+(?:ve|hem)\s|\b(?:ve|hem)\s+(?:%s)"
+    r"(?:%s)\w*\s+(?:ve|hem|yan[ıi]nda)\s|\b(?:ve|hem)\s+(?:%s)"
+    % (_ACIL_BELIRTI, _ACIL_BELIRTI), re.I)
+
+# KESIN BAGLAC — 13. tur bulgu 4. "ile birlikte", "eşlik ediyorsa" gibi
+# ifadeler "ve"den farkli: iki vucut bolgesini birlestirmezler, iki AYRI
+# SARTI birlestirirler. Yine de KOMSULUK sarti korundu; cumle duzeyinde
+# "belirti + kesin baglac" aramak denendi ve kendi DOGRU metnimizi
+# kirmizi yakti:
+#
+#   "…kanama durmuyorsa, ağzınızı hızla dolduruyorsa YA DA kanamaya
+#    baş dönmesi, bayılacak gibi olma, nefes darlığı veya çarpıntı
+#    EŞLIK EDIYORSA."            (kan-sulandirici-dis-tedavisi.html)
+#
+# Burada "eşlik ediyorsa" bir 112 sebebini KISITLAMIYOR, listeye YENI
+# bir sebep EKLIYOR — "ya da" ile baglanmis ayri bir dal. Tehlikeli olan
+# tersidir: tek basina 112 gerektiren belirtinin kendisinin bir baska
+# bulguya bagimli kilinmasi. Iki bicimi de o yuzden dar:
+#   1. belirti HEMEN once  → "nefes güçlüğü ile birlikte ateş varsa"
+#   2. belirti YONELME hali → "nefes güçlüğüne ateş eşlik ediyorsa"
+#      (belirti burada eklenen degil, eklenilen taban)
+_ACIL_KESIN_BAG = re.compile(
+    r"(?:%s)\w*\s+(?:ile birlikte|ile beraber|yan[ıi] s[ıi]ra"
+    r"|e[şs]lik ed\w+|beraberinde|birlikte)"
+    r"|(?:%s)(?:y?[ae]|n[ae])\s+(?:\S+\s+){0,4}e[şs]lik ed\w+"
     % (_ACIL_BELIRTI, _ACIL_BELIRTI), re.I)
 
 # Klinige yonlendiren kalip — "112 yok ama klinik var" durumunu bulmak icin.
+# ⚠️ 13. tur bulgu 3: liste dort kalibi kaciriyordu ve hepsi sitede
+# GERCEKTEN kullaniliyordu — "kliniği arayabilirsiniz" (index),
+# "değerlendirmesi alın" (dis-apsesi), "kliniğe gelin" (kirilan-dis),
+# "kliniğe başvurun" (tedaviler). Emir kipi kadar rica kipi de sayilir;
+# hasta icin ikisi de "acile degil, buraya gel" demektir.
 _ACIL_KLINIK = re.compile(
-    r"klini[ğg]i\s+aray[ıi]n|hemen\s+aray[ıi]n|bizi\s+aray[ıi]n"
-    r"|klini[ğg]imize\s+ula[şs]", re.I)
+    r"klini[ğg]i\s+(?:hemen\s+|aci(?:len|l)\s+|ayn[ıi] g[üu]n\s+)?"
+    r"aray(?:[ıi]n|abilirsiniz|[ıi]n[ıi]z)"
+    r"|klini[ğg]e\s+(?:hemen\s+)?(?:gelin|ba[şs]vurun|ula[şs][ıi]n"
+    r"|gelmeniz|ba[şs]vurman[ıi]z)"
+    r"|klini[ğg]imize\s+(?:ula[şs]|gelin|ba[şs]vurun)"
+    r"|hemen\s+aray[ıi]n|bizi\s+aray[ıi]n|bizimle\s+ileti[şs]im"
+    r"|hekim(?:iniz)?e\s+(?:ba[şs]vurun|g[öo]r[üu]n[üu]n|dan[ıi][şs][ıi]n)"
+    r"|de[ğg]erlendirmesi(?:ni)?\s+al[ıi]n", re.I)
 
 
 def acil_esik_hatalari(sayfa_html):
     """112 esigini atese ya da ikinci bir belirtiye baglayan cumleler.
 
-    Iki kural:
+    Uc kural:
       1. 112 talimatiyla ayni cumlede "ates" gecmez.
       2. Tek basina acil olan bir belirtinin hemen ardindan "ve" gelmez.
+      3. Hayati belirtinin hemen ardindan kesin baglac ("ile birlikte")
+         ya da belirtinin yonelme hali + "eşlik ediyorsa" gelmez.
     """
     bulunan = []
     for m in _ACIL_BLOK.finditer(sayfa_html):
@@ -275,18 +319,19 @@ def acil_esik_hatalari(sayfa_html):
             if "112" not in cumle:
                 continue
             kucuk = kucult(cumle)
-            if _ACIL_ATES.search(kucuk) or _ACIL_VE_BAGI.search(kucuk):
+            if (_ACIL_ATES.search(kucuk) or _ACIL_VE_BAGI.search(kucuk)
+                    or _ACIL_KESIN_BAG.search(kucuk)):
                 bulunan.append(cumle.strip()[:110])
     return bulunan
 
 
-# Uyari kutulari — 112'nin HIC gecmedigi kutuyu da gormek icin gerekli.
+# Uyari kutulari — yonlendirme baslikta, belirti listede olabilir.
 _UYARI_KUTU = re.compile(
     r'<div class="uyari">(.*?)</div>', re.S | re.I)
 
 
 def acil_klinige_yonlendirme_hatalari(sayfa_html):
-    """Hayati belirtiyi SADECE klinige yonlendiren uyari kutulari.
+    """Hayati belirtiyi SADECE klinige yonlendiren metinler.
 
     ⚠️ 12. tur bulgu 4(d): `acil_esik_hatalari` yalnizca 112 GECEN
     cumlelere bakiyor. Bir kutu hayati belirtiyi sayip "hemen arayın"
@@ -294,21 +339,45 @@ def acil_klinige_yonlendirme_hatalari(sayfa_html):
     yirmi-yas-disi.html tam olarak boyleydi ve dokuz turdur denetimden
     geciyordu.
 
-    Kural: bir uyari kutusu hem KLINIGE yonlendiriyor hem de tek basina
-    112 gerektiren bir belirti sayiyorsa, ayni kutuda 112 de gecmeli.
+    ⚠️ 13. tur bulgu 3 — o duzeltmenin ikinci deligi: tarama yalnizca
+    `div.uyari` kutularina bakiyordu ve kutuda 112 GECIYORSA kutunun
+    TAMAMI muaf sayiliyordu. Yani "…112'yi arayın. Nefes güçlüğünde
+    kliniği arayın." diyen bir kutu temiz cikiyordu — muafiyet, tam da
+    korunmasi gereken cumleyi ortuyordu. Ayni desen kutu disindaki
+    paragraflarda da kullaniliyor.
+
+    Simdi iki duzeyli:
+      A. Birimde 112 hic yoksa → birimin tamami degerlendirilir.
+      B. Birimde 112 varsa → cumle cumle bakilir; 112 ICERMEYEN bir
+         cumle hem klinige yonlendirip hem hayati belirti sayamaz.
+
+    Birim = `div.uyari` kutusu VEYA tek basina bir `p`/`li`. Ikisi de
+    gerekli: kutuda yonlendirme cogu zaman BASLIKTA ("Şu durumlarda
+    hemen arayın") ve belirtiler alttaki `<li>`lerde durur — yalnizca
+    `p`/`li` taransa ikisi hic ayni birimde bulusmaz. Kutu disindaki
+    duz paragraflarda ise ayni desen kutusuz kullaniliyor.
     """
     bulunan = []
-    for m in _UYARI_KUTU.finditer(sayfa_html):
-        kutu = duzlestir(m.group(1))
-        if "112" in kutu:
-            continue                     # esik zaten ayrilmis
-        kucuk = kucult(kutu)
-        if not _ACIL_KLINIK.search(kucuk):
-            continue                     # klinige yonlendirmiyor
-        belirti = _ACIL_BELIRTI_RE.search(kucuk)
-        if belirti:
-            bulunan.append("%s … (kutuda 112 yok)"
-                           % kutu.strip()[:90])
+    birimler = [m.group(1) for m in _UYARI_KUTU.finditer(sayfa_html)]
+    birimler += [m.group(2) for m in _ACIL_BLOK.finditer(sayfa_html)]
+    for ham in birimler:
+        birim = duzlestir(ham)
+        if "112" in birim:
+            parcalar = [c for c in _ACIL_CUMLE.split(birim)
+                        if "112" not in c]
+            etiket = "(cumlede 112 yok)"
+        else:
+            parcalar = [birim]
+            etiket = "(birimde 112 yok)"
+        for parca in parcalar:
+            kucuk = kucult(parca)
+            if not _ACIL_KLINIK.search(kucuk):
+                continue                 # klinige yonlendirmiyor
+            if not _ACIL_BELIRTI_RE.search(kucuk):
+                continue                 # hayati belirti saymiyor
+            kayit = "%s … %s" % (parca.strip()[:90], etiket)
+            if kayit not in bulunan:     # kutu + icindeki p ayni bulgu
+                bulunan.append(kayit)
     return bulunan
 
 

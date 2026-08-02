@@ -541,6 +541,40 @@ acil_bekle("acil esik: 'ile karşılaşırsanız' yanlis alarm VERMEZ",
            "<p>Nefes güçlüğü ile karşılaşırsanız "
            "<strong>112'yi arayın.</strong></p>", False)
 
+# --- 13. tur bulgu 4: "ve"/"hem" disindaki baglaclar ---------------------
+# "ile birlikte" ve "eşlik ediyorsa" tek basina acil bir belirtiyi ikinci
+# bir bulguya bagimli kilabiliyordu; desen yalnizca "ve"/"hem" ariyordu.
+acil_bekle("acil esik: 'ile birlikte' YAKALANIR",
+           "<p>Nefes güçlüğü ile birlikte ateş varsa "
+           "<strong>112'yi arayın.</strong></p>", True)
+
+acil_bekle("acil esik: YONELME hali + 'eşlik ediyorsa' YAKALANIR",
+           "<p>Nefes güçlüğüne şiddetli ağrı eşlik ediyorsa "
+           "<strong>112'yi arayın.</strong></p>", True)
+
+acil_bekle("acil esik: 'yanında' YAKALANIR",
+           "<p>Yutkunma güçlüğü yanında ağrı varsa "
+           "<strong>112'yi arayın.</strong></p>", True)
+
+# ⚠️ YANLIS ALARM KAPISI — kan-sulandirici-dis-tedavisi.html'de YAYINDA
+# olan cumle. Burada "eşlik ediyorsa" bir 112 sebebini kisitlamiyor,
+# "ya da" ile listeye YENI bir sebep ekliyor. Cumle duzeyinde
+# "belirti + kesin baglac" arayan ilk surumum bunu kirmizi yakti;
+# komsuluk/yonelme sarti tam da bunu onlemek icin var.
+acil_bekle("acil esik: eklenen sebep olarak 'eşlik ediyorsa' TEMIZ",
+           "<p><strong>Şunlarda 112'yi arayın:</strong> kanama baskıya "
+           "rağmen durmuyorsa, ağzınızı hızla dolduruyorsa ya da kanamaya "
+           "belirgin baş dönmesi, bayılacak gibi olma, nefes darlığı veya "
+           "çarpıntı eşlik ediyorsa.</p>", False)
+
+# --- 13. tur: duz "nefes" hayati belirti DEGILDIR -----------------------
+# Nitelemeler istege bagliydi; blok duzeyinde tarayan yeni surum
+# agiz-kurulugu.html'deki mesru cumleyi kirmizi yakti.
+acil_bekle("acil esik: nitelemesiz 'nefes' yanlis alarm VERMEZ",
+           "<p>Gece odayı nemlendirin ve burundan nefes almayı "
+           "destekleyin. Şikâyet sürerse 112'yi değil kliniği arayın.</p>",
+           False)
+
 
 # --- 12. tur bulgu 4(d): 112'siz kutu MIMARI OLARAK gorunmuyordu --------
 # Eski bekci "112 gecmiyorsa bu bloga bakma" diyordu. Hayati belirtiyi
@@ -571,6 +605,40 @@ klinik_bekle("klinik esigi: hayati belirti YOKSA yanlis alarm VERMEZ",
 klinik_bekle("klinik esigi: klinige yonlendirmeyen kutu TEMIZ",
              '<div class="uyari"><b>Olağan olanlar</b><ul>'
              '<li>İlk günlerde hafif şişlik</li></ul></div>', False)
+
+# --- 13. tur bulgu 3: KUTU BOYU MUAFIYET ve DAR KALIP -------------------
+# (a) Eski kod "kutuda 112 geciyorsa kutuya hic bakma" diyordu. Muafiyet
+#     tam da korunmasi gereken cumleyi ortuyordu: 112 bir belirti icin
+#     verilip DIGERI klinige yonlendirilince kutu temiz cikiyordu.
+klinik_bekle("klinik esigi: kutuda 112 VARKEN ikinci belirti klinige -> YAKALANIR",
+             '<div class="uyari">'
+             '<p>Kanama durmuyorsa 112\'yi arayın.</p>'
+             '<p>Nefes güçlüğü varsa kliniği arayın.</p></div>', True)
+
+# (b) Kalip dort mesru yonlendirme bicimini kaciriyordu ve dordu de
+#     sitede GERCEKTEN kullaniliyor. Rica kipi de emir kipi kadar
+#     "acile degil buraya gel" demektir.
+klinik_bekle("klinik esigi: 'kliniği arayabilirsiniz' YAKALANIR",
+             '<p>Nefes güçlüğü varsa kliniği arayabilirsiniz.</p>', True)
+
+klinik_bekle("klinik esigi: 'kliniğe gelin' YAKALANIR",
+             '<p>Ağız tabanında şişlik varsa kliniğe gelin.</p>', True)
+
+klinik_bekle("klinik esigi: 'kliniğe başvurun' YAKALANIR",
+             '<p>Bilinç değişikliği varsa kliniğe başvurun.</p>', True)
+
+klinik_bekle("klinik esigi: 'değerlendirmesi alın' YAKALANIR",
+             '<p>Yutkunma güçlüğü varsa diş hekimi değerlendirmesi '
+             'alın.</p>', True)
+
+# (c) Kapsam kutu disina cikti: ayni desen duz paragrafta da kullaniliyor.
+klinik_bekle("klinik esigi: kutusuz paragraf da taranir",
+             '<p>Nefes güçlüğünde hemen arayın: 0541 732 43 76</p>', True)
+
+# YANLIS ALARM KAPISI: 112 ile klinik AYNI cumlede ayrilmissa temiz.
+klinik_bekle("klinik esigi: esigi ayiran cumle TEMIZ",
+             '<p>Nefes güçlüğü varsa 112\'yi arayın. Bu belirtiler yoksa '
+             'kliniği arayabilirsiniz.</p>', False)
 
 # --- 5. tur bulgu 2: ONAYLI CUMLENIN SONUNA EK YAZILAMAZ --------------
 # 4. turdaki beyaz liste, onayli parcayi daha uzun bir metnin ICINDEN
