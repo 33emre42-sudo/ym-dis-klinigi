@@ -570,6 +570,27 @@ acil_bekle("acil esik: eklenen sebep olarak 'eşlik ediyorsa' TEMIZ",
 # --- 13. tur: duz "nefes" hayati belirti DEGILDIR -----------------------
 # Nitelemeler istege bagliydi; blok duzeyinde tarayan yeni surum
 # agiz-kurulugu.html'deki mesru cumleyi kirmizi yakti.
+# --- 15. tur SITE bulgu 2: KESIN KIPTE SONUC VAADI ----------------------
+# ⚠️ "Bunların hepsi gece başlatılabilir — ağrı varsa GIDERILIR" cumlesi
+# YAYINA GIRDI. Bekci "ağrısız/garanti/en iyi" ariyordu; kesin kipte
+# cozum vaadini gormuyordu. Her agri tek ziyarette tamamen
+# giderilemeyebilir; hasta kesin rahatlama bekleyip yola cikar.
+for _m in ("Ağrı varsa giderilir.", "Ağrınız giderilir.",
+           "Ağrınız geçer.", "Şikâyetiniz biter.", "Sorununuz çözülür."):
+    bekle("sonuc vaadi: %r YAKALANIR" % _m,
+          "<p>%s</p>" % _m, True, kod="sonuc vaadi")
+# ⚠️ YANLIS ALARM KAPISI — hepsi sitede GERCEKTEN kullanilan mesru
+# ifadeler. Kalip OZNEYE bagli: hastanin sikayetine kesin soz mu
+# veriliyor, yoksa klinik sira/imkan mi anlatiliyor?
+for _m in ("Önceliğimiz ağrının giderilmesi ve durumun kontrolü.",
+           "Yüzeydeki renklenmenin bir kısmı temizlikle giderilebilir.",
+           "Çürük ve dişeti sorunları tedaviye başlamadan önce giderilir.",
+           "Varsa ağrıyı azaltmaya yönelik işlem yapılabilir.",
+           "Hekiminizin önerdiği ağrı kesiciyle geçmeyen ağrı.",
+           "Ağrı kendiliğinden geçerse ne olur?"):
+    bekle("sonuc vaadi: %r yanlis alarm VERMEZ" % _m[:34],
+          "<p>%s</p>" % _m, False)
+
 # --- 14. tur bulgu 2: kesin baglacin TERS yonu ---------------------------
 # 13. turdaki iki bicim de belirtinin ONCE gelmesini bekliyordu. Bagimlilik
 # ters sirayla da kurulabiliyor ve anlami ayni: agrisi olmayan hasta bekler.

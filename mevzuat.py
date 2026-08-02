@@ -608,6 +608,22 @@ YASAKLI = {
     "ortuk agrisizlik": r"ağrı (?:beklenmez|olmaz|hissetmezsiniz|duymazsınız)"
                         r"|acı (?:duymazsınız|hissetmezsiniz)"
                         r"|hiç (?:acımaz|ağrımaz)",
+    # 15. tur site bulgusu 2 — UCUNCU kez icerik duzeyinde vaat dili
+    # kacti. "Bunların hepsi gece başlatılabilir — ağrı varsa GIDERILIR"
+    # cumlesi yayina girdi; bekci "ağrısız/garanti" ariyordu, KESIN
+    # KIPTE cozum vaadini gormuyordu. Her agri tek ziyarette tamamen
+    # giderilemeyebilir; hasta kesin rahatlama bekleyip yola cikar.
+    #
+    # ⚠️ Kalip OZNEYE bagli, fiile degil. Sitede mesru kullanimlar var:
+    #   "önceliğimiz ağrının giderilmesi"        -> isim hali, vaat degil
+    #   "bir kısmı temizlikle giderilebilir"     -> -ebilir, imkan
+    #   "çürük ve dişeti sorunları … giderilir"  -> klinik sira, hastanin
+    #                                               sikayeti degil
+    # Yalnizca HASTANIN sikayetine kesin kiple soz verilmesi yakalanir.
+    "sonuc vaadi (kesin kip)":
+        r"ağrı(?:n[ıi]z)?\s+(?:varsa\s+)?giderilir"
+        r"|(?:ağrınız|şikâyetiniz|şikayetiniz|sorununuz)\s+"
+        r"(?:geçer|biter|diner|çözülür)\b",
     "kampanya": r"\bkampanya",
     "indirim": r"\bindirim",
     "ucretsiz": r"\bücretsiz\b",
