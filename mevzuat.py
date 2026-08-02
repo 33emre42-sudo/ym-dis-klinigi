@@ -18,6 +18,7 @@ degistiren herkes o testi de gunceller.
 import html as html_mod
 import json
 import re
+import unicodedata
 from html.parser import HTMLParser
 
 
@@ -132,6 +133,27 @@ def cift_kodlanmis(metin):
         return True
     except (UnicodeEncodeError, UnicodeDecodeError):
         return False
+
+
+# ⚠️ 9. tur bulgu 4 — YENI BIR BOZUKLUK SINIFI: BIRLESTIRICI KARAKTER.
+# iletisim.html'de baslik "Çalişma saatleri̇." diye yayina cikti.
+# Sebep: sayfayi kuran betikte `"ÇALIŞMA SAATLERİ".capitalize()`
+# kullanilmisti. Python'un capitalize()'i Turkce bilmez:
+#     "I" -> "i"  (olmasi gereken "ı")
+#     "İ" -> "i" + U+0307 COMBINING DOT ABOVE
+# Ekranda neredeyse dogru gorunur ama metin bozuktur: kopyalama, arama
+# ve karsilastirma beklenmedik sonuc verir; ayni metin iki farkli
+# bayt dizisiyle temsil edilir.
+#
+# `cift_kodlanmis()` bunu GORMEZ — farkli bir hasar sinifi. Turkce
+# metinde birlestirici isarete gerek yoktur (butun harfler precomposed),
+# bu yuzden tolerans SIFIR.
+def birlestirici_var(metin):
+    """Metinde birlestirici (combining) karakter var mi?
+
+    Varsa dondurulen liste (konum, karakter) ciftleridir."""
+    return [(i, k) for i, k in enumerate(metin)
+            if unicodedata.combining(k)]
 
 
 def ansi_okumasi(baytlar):
@@ -354,16 +376,26 @@ YASAKLI = {
 # oldugu icin ek listesi yazmak bitmez — artik kok + serbest ek, iki
 # ISTISNA disinda:
 #
-#   `ödemesi`  — hem tibbi (doku ödemi) hem ticari olabilir; belirsiz
-#                oldugu icin BILEREK disarida (7. tur b6 karari).
+#   `ödemesi` VE CEKIMLERI — hem tibbi (doku ödemi) hem ticari olabilir;
+#                belirsiz oldugu icin BILEREK disarida (7. tur b6).
+#                ⚠️ 9. tur b3: istisna yalnizca yalin "ödemesi" icindi;
+#                "ödemesinin", "ödemesine", "ödemesinde" gibi DOGAL
+#                TIBBI cekimler yakalaniyor ve yanlis alarm veriyordu
+#                ("Yumuşak doku ödemesinin azalması beklenir").
 #   `paketle*` — "paketleme/paketlenmis/paketleyin" teknik terimdir;
 #                ama "paketler" (cogul) ticari, o yuzden lem/len/ley
 #                ayrimi yapiliyor.
+#   `steril paket*` — sterilizasyon baglami. 9. tur b3: "steril paketli
+#                alet" ticari sanilıyordu. Istisna YALNIZ onunde
+#                dogrudan "steril" varsa gecerli; "tedavi paketlidir"
+#                yakalanmaya devam ediyor.
 TICARI = re.compile(
-    r"[üu]cret|fiyat|\b[öo]deme(?!si\b)\w*"
+    r"[üu]cret|fiyat"
+    r"|\b[öo]deme(?!si(?:\b|n(?:i|e|de|den|in)\b))\w*"
     r"|taksit|bedava|bedelsiz"
     r"|\bindirim|\bkampanya"
-    r"|masraf|₺|\bTL\b|\bKDV\b|\bpaket(?!lem|len|ley)\w*"
+    r"|masraf|₺|\bTL\b|\bKDV\b"
+    r"|(?<!steril )\bpaket(?!lem|len|ley)\w*"
     r"|\bucuz\b|\bhesapl[ıi]\b|\buygun fiyat"
     # ⚠️ 3. tur bulgu 7: yalin "ekonomik" yanlis alarm veriyordu —
     # "Ekonomik koşullar ağız sağlığına erişimi etkiler" tıbbi/toplumsal

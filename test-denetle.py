@@ -263,6 +263,26 @@ bekle("ticari cekim: 'ödemeye' YAKALANIR",
 bekle("ticari cekim: 'paketimizden' YAKALANIR",
       sar("<p>Tedavi paketimizden yararlanabilirsiniz.</p>"), True)
 
+# --- 9. tur bulgu 3: istisnalar cekimleri kapsamiyordu ---------------
+# `ödemesi` istisnasi yalnizca YALIN hali kapsiyordu; dogal tibbi
+# cekimler yanlis alarm veriyordu. "steril paketli" de ticari sanildi.
+bekle("ticari: tibbi 'doku ödemesinin' YANLIS ALARM VERMEZ",
+      sar("<p>Yumuşak doku ödemesinin azalması beklenir.</p>"), False)
+
+bekle("ticari: tibbi 'doku ödemesine' YANLIS ALARM VERMEZ",
+      sar("<p>Doku ödemesine karşı soğuk uygulama önerilebilir.</p>"),
+      False)
+
+bekle("ticari: 'steril paketli alet' YANLIS ALARM VERMEZ",
+      sar("<p>Steril paketli alet işlem öncesinde açılır.</p>"), False)
+
+# Istisnalar gercek ticari dili ortmemeli:
+bekle("gerileme: 'Ödemeyi kredi kartıyla' YAKALANIR",
+      sar("<p>Ödemeyi kredi kartıyla yapabilirsiniz.</p>"), True)
+
+bekle("gerileme: 'tedavi paketlidir' YAKALANIR",
+      sar("<p>Tedavi paketlidir ve uygun fiyat sunar.</p>"), True)
+
 bekle("mesru devam: 'Gerçekte iyileşme değişir' GECER",
       sar("<p>Hiçbir tedavinin sonucu garanti edilemez. "
           "Gerçekte iyileşme kişiden kişiye değişir.</p>"), False)
@@ -359,6 +379,31 @@ for _ad, _kar in (("telif ©", "©"), ("carpi ×", "×"),
 
 kodlama_bekle("kodlama: saglam ozel karakterler YANLIS ALARM VERMEZ",
               "Resmî açıklama © 2×2 → bilgi ✦ 🦷", False)
+
+# --- 9. tur bulgu 4: BIRLESTIRICI KARAKTER --------------------------
+# iletisim.html'de baslik "Çalişma saatleri̇." diye yayina cikmisti:
+# `"ÇALIŞMA SAATLERİ".capitalize()` Turkce bilmedigi icin "İ" harfini
+# "i" + U+0307 COMBINING DOT ABOVE'a cevirmisti. Ekranda neredeyse
+# dogru gorunuyor; cift kodlama kontrolu de goremiyor — ayri sinif.
+def birlestirici_bekle(ad, metin, olmali):
+    var = bool(mevzuat.birlestirici_var(metin))
+    sonuc.append((ad, var == olmali,
+                  "" if var == olmali
+                  else "BEKLENEN: %s · BULUNAN: %s" % (olmali, var)))
+
+
+# Once hasarin gercekten olustugunu kanitla — yoksa asagidaki test
+# hicbir sey ispatlamaz.
+_capitalize_hatasi = "ÇALIŞMA SAATLERİ".capitalize()
+sonuc.append(("kodlama: capitalize() Turkce'yi gercekten bozuyor",
+              "̇" in _capitalize_hatasi,
+              "" if "̇" in _capitalize_hatasi
+              else "bozukluk uretilemedi: %r" % _capitalize_hatasi))
+
+birlestirici_bekle("kodlama: birlestirici karakter YAKALANIR",
+                   _capitalize_hatasi, True)
+birlestirici_bekle("kodlama: saglam Turkce'de birlestirici YOK",
+                   "Çalışma saatleri · Diş Kliniği · Bağcılar", False)
 
 # --- 6. tur bulgu 5: KISMI ve GEC hasar ------------------------------
 # Tespit iki yerden kaciriyordu: (1) yalnizca ilk 40.000 karaktere

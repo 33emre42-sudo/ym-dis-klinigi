@@ -63,8 +63,8 @@ import xml.etree.ElementTree as ET
 # ayrisirdi). Desenler icin: mevzuat.py · testi: test-denetle.py
 from html.parser import HTMLParser
 
-from mevzuat import (cift_kodlanmis, duzlestir, kucult, mevzuat_tara,
-                     EMOJI_ISTISNA, YASAKLI, TICARI)
+from mevzuat import (birlestirici_var, cift_kodlanmis, duzlestir, kucult,
+                     mevzuat_tara, EMOJI_ISTISNA, YASAKLI, TICARI)
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
@@ -284,8 +284,17 @@ for ad in ["index.html"] + ALT_SAYFA + BILGI:
 # Tespit: cift kodlanmis metin cp1254'e geri cevrilip UTF-8 olarak
 # COZULEBILIR. Saglam Turkce metin cozulemez ("ş" -> 0xFE, gecersiz
 # UTF-8 baslangici). Test bu asimetriye dayaniyor.
+#
+# ⚠️ 9. tur bulgu 4 — IKINCI BIR BOZUKLUK SINIFI EKLENDI.
+# iletisim.html'de baslik "Çalişma saatleri̇." diye yayina cikti:
+# sayfayi kuran betikte `"ÇALIŞMA SAATLERİ".capitalize()` kullanilmisti
+# ve Python'un capitalize()'i Turkce bilmiyor —
+#     "I" -> "i" (olmasi gereken "ı"),  "İ" -> "i" + U+0307
+# Ekranda neredeyse dogru gorunuyordu; cift kodlama kontrolu de bunu
+# GORMEDI, cunku farkli bir hasar. Turkce metinde birlestirici isarete
+# gerek yok (harfler precomposed), o yuzden tolerans sifir.
 print()
-bozuk_kodlama, bomlu = [], []
+bozuk_kodlama, bomlu, birlestirici = [], [], []
 for ad in ["index.html"] + ALT_SAYFA + BILGI + ["gizlilik.html"]:
     if not os.path.exists(ad):
         continue
@@ -294,8 +303,13 @@ for ad in ["index.html"] + ALT_SAYFA + BILGI + ["gizlilik.html"]:
     if ham.startswith(b"\xef\xbb\xbf"):
         bomlu.append(ad)
     try:
-        if cift_kodlanmis(ham.decode("utf-8")):
+        coz = ham.decode("utf-8")
+        if cift_kodlanmis(coz):
             bozuk_kodlama.append(ad)
+        bul = birlestirici_var(coz)
+        if bul:
+            birlestirici.append("%s (%d adet, ilki U+%04X)"
+                                % (ad, len(bul), ord(bul[0][1])))
     except UnicodeDecodeError:
         bozuk_kodlama.append(ad + " (UTF-8 degil)")
 
@@ -304,6 +318,9 @@ kontrol("hicbir sayfa cift kodlanmamis", not bozuk_kodlama,
         else "%d sayfa" % (len(BILGI) + len(ALT_SAYFA) + 2))
 kontrol("hicbir sayfada BOM yok", not bomlu,
         ("BOM'lu: %s" % bomlu[:3]) if bomlu else "")
+kontrol("hicbir sayfada birlestirici karakter yok", not birlestirici,
+        ("BOZUK: %s" % birlestirici[:2]) if birlestirici
+        else "%d sayfa" % (len(BILGI) + len(ALT_SAYFA) + 2))
 
 # --- Sohbet metinleri HTML'de mi? (5. tur bulgu 4) ---
 # mevzuat.py <script> bloklarini bilerek atlar — kod taranmaz. Ama sohbet
