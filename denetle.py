@@ -107,13 +107,19 @@ BILGI = ["gece-dis-agrisi.html", "kirilan-dis-ne-yapmali.html",
          "sigara-ve-agiz-sagligi.html", "dis-ipi-kullanimi.html",
          "dis-beyazlatma-gercekleri.html"]
 ALT_SAYFA = ["hekimlerimiz.html", "sik-sorulan-sorular.html",
-             "bilgi-yazilari.html", "ulasim-ve-hizmet-bolgesi.html"]
+             "bilgi-yazilari.html", "ulasim-ve-hizmet-bolgesi.html",
+             "tedaviler.html", "iletisim.html"]
 SSS_SAYFA = "sik-sorulan-sorular.html"
 
-# Sekmeli menude bulunmasi gereken baglantilar
+# Sekmeli menude bulunmasi gereken baglantilar.
+# ⚠️ 2 Agu 2026: "Tedaviler" ve "İletişim" eskiden `/#tedaviler` ve
+# `/#iletisim` CAPALARIYDI. Bir bilgi yazisindayken tiklaninca once ana
+# sayfaya gidiyor, sonra asagi kaydiriyordu — digger sekmeler (hekimler,
+# SSS, ulasim) ayri sayfa oldugu icin tutarsizdi ve hekim bunu kullanim
+# zorlugu olarak bildirdi. Ikisi de ayri sayfaya tasindi.
 MENU_BAGLARI = ["hekimlerimiz.html", "bilgi-yazilari.html",
                 SSS_SAYFA, "ulasim-ve-hizmet-bolgesi.html",
-                "#tedaviler", "#iletisim"]
+                "tedaviler.html", "iletisim.html"]
 
 # --- 1. JSON-LD ---
 print("\n--- 1/7  index.html JSON-LD yapisal veri ---")
@@ -211,14 +217,40 @@ kontrol("govdede emoji yok (widget haric)", not emoji,
 print("\n--- 5/7  Icerik hacmi, bolumler ve menu ---")
 metin = duzlestir(govde)
 kelime = len([k for k in metin.split(" ") if len(k) > 1])
-kontrol("gorunur metin 1200+ kelime", kelime > 1200, "%d kelime" % kelime)
-kontrol("7 tedavi alaninda acilir ayrinti",
-        len(re.findall(r'<details class="ayrinti">', html)) == 7)
+# ⚠️ 2 Agu 2026 — TEDAVILER VE ILETISIM AYRI SAYFAYA TASINDI.
+# Menude capa (`/#tedaviler`) olduklari icin bir bilgi yazisindan
+# tiklaninca once ana sayfaya gidip sonra kaydiriyorlardi; diger
+# sekmeler ayri sayfa oldugu icin tutarsizdi. Icerik KAYBOLMADI,
+# tasindi — bu yuzden kontroller de tasindi:
+#   * tedavi ayrintilarinin (7 details) sayimi -> tedaviler.html
+#   * ana sayfa kelime esigi 1200 -> 800 (tedavi metni artik orada degil)
+# Ana sayfa hala her bolume KOPRU kurmak zorunda; capa yerine sayfa
+# baglantisi araniyor.
+kontrol("gorunur metin 800+ kelime", kelime > 800, "%d kelime" % kelime)
 for ad, im in (("SSS", 'id="sss"'), ("hekimler", 'id="hekimler"'),
-               ("bilgi yazilari", 'id="bilgi"'), ("ulasim", 'id="ulasim"'),
-               ("tedaviler", 'id="tedaviler"'),
-               ("iletisim", 'id="iletisim"')):
+               ("bilgi yazilari", 'id="bilgi"'), ("ulasim", 'id="ulasim"')):
     kontrol("%s bolumu var" % ad, im in html)
+for ad, bag in (("tedaviler", "tedaviler.html"),
+                ("iletisim", "iletisim.html")):
+    kontrol("ana sayfa %s sayfasina baglaniyor" % ad, bag in html)
+
+# Tedavi ayrintilari artik kendi sayfasinda.
+# ⚠️ Ilk tasima denemesi BOZUK CIKTI: blok `tedavi-bolum`, `tedavi-fon`,
+# `dizin`, `ayrinti`, `kunye` siniflarini kullaniyordu ve bunlarin
+# tamami index.html'in GOMULU <style> blogunda tanimliydi — bilgi.css'te
+# yok. Sayfa stilsiz kaldi, dev fon gorseli ekrani kapladi ve yatay
+# tasma olustu. Canliya cikmisti; geri alindi.
+# Cozum CSS kopyalamak degil, icerigi alt sayfalarda ZATEN calisan
+# yapiya tasimak oldu: `details.sss-ogesi` akordeonu (SSS sayfasiyla
+# ayni). Bu yuzden desen `ayrinti` degil `sss-ogesi`.
+if os.path.exists("tedaviler.html"):
+    with open("tedaviler.html", encoding="utf-8") as f:
+        _ted = f.read()
+    _adet = len(re.findall(r'<details class="sss-ogesi">', _ted))
+    kontrol("7 tedavi alaninda acilir ayrinti (tedaviler.html)",
+            _adet == 7, "%d adet" % _adet)
+else:
+    kontrol("tedaviler.html var", False, "dosya yok")
 kontrol("canonical etiketi var", 'rel="canonical"' in html)
 kontrol("meta description var", 'name="description"' in html)
 kontrol("Search Console dogrulamasi duruyor",
@@ -574,8 +606,14 @@ for ad in ALT_SAYFA:
     if "hekim muayenesinin yerine geçmez" not in duz.lower():
         sorun.append("sorumluluk notu yok")
 
+    # `iletisim.html` bir ICERIK sayfasi degil KUNYE sayfasidir:
+    # telefon, adres, saatler. Onu 400 kelimeye ulastirmak icin metin
+    # eklemek yapay sisirme olurdu ve baska sayfalardaki bilgiyi
+    # tekrarlardi. Esik bu sayfa icin dusuruldu — kural gevsetilmedi,
+    # kapsami duzeltildi.
+    alt_sinir = 120 if ad == "iletisim.html" else 400
     kelimeler = len([k for k in duz.split(" ") if len(k) > 1])
-    if kelimeler < 400:
+    if kelimeler < alt_sinir:
         sorun.append("cok kisa (%d kelime)" % kelimeler)
 
     kontrol(ad, not sorun,
