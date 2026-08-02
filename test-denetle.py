@@ -570,6 +570,39 @@ acil_bekle("acil esik: eklenen sebep olarak 'eşlik ediyorsa' TEMIZ",
 # --- 13. tur: duz "nefes" hayati belirti DEGILDIR -----------------------
 # Nitelemeler istege bagliydi; blok duzeyinde tarayan yeni surum
 # agiz-kurulugu.html'deki mesru cumleyi kirmizi yakti.
+# --- 14. tur bulgu 2: kesin baglacin TERS yonu ---------------------------
+# 13. turdaki iki bicim de belirtinin ONCE gelmesini bekliyordu. Bagimlilik
+# ters sirayla da kurulabiliyor ve anlami ayni: agrisi olmayan hasta bekler.
+acil_bekle("acil esik: TERS 'ile birlikte' YAKALANIR",
+           "<p>Şiddetli ağrıyla birlikte nefes güçlüğü varsa "
+           "<strong>112'yi arayın.</strong></p>", True)
+
+acil_bekle("acil esik: TERS 'eşlik ettiği' YAKALANIR",
+           "<p>Şiddetli ağrının eşlik ettiği nefes güçlüğünde "
+           "<strong>112'yi arayın.</strong></p>", True)
+
+acil_bekle("acil esik: ayri yazilmis 'ile birlikte' YAKALANIR",
+           "<p>Yüksek ateş ile birlikte yutkunma güçlüğü varsa "
+           "<strong>112'yi arayın.</strong></p>", True)
+
+# --- 14. tur bulgu 3: sitede KULLANILAN iki belirti bicimi ---------------
+# Ikisi de dis-cekimi-sonrasi-sislik.html'de gecen dogru ifadeler, ama
+# desende yoktu: "dilinizin altı şişmişse" (agiz tabaninin es anlamlisi)
+# ve "şişlik … hızla yayılıyorsa" (mevcut kalibin ters sozcuk sirasi).
+acil_bekle("acil belirti: 'dilinizin altı şişmişse' baglamasi YAKALANIR",
+           "<p>Dilinizin altı şişmişse ve şiddetli ağrı varsa "
+           "<strong>112'yi arayın.</strong></p>", True)
+
+acil_bekle("acil belirti: TERS sirali 'şişlik hızla yayılıyorsa' YAKALANIR",
+           "<p>Yüzde şişlik hızla yayılıyorsa ve şiddetli ağrı varsa "
+           "<strong>112'yi arayın.</strong></p>", True)
+
+# YANLIS ALARM KAPISI: "dil altı" anatomik olarak da geciyor —
+# sigara-ve-agiz-sagligi.html'de muayene anlatiminda. Sislik sarti var.
+acil_bekle("acil belirti: anatomik 'dil altı' yanlis alarm VERMEZ",
+           "<p>Rutin muayenede yanak içi, dil, dil altı ve damak da "
+           "değerlendirilir. Şüpheli bir bulguda 112 gerekmez.</p>", False)
+
 acil_bekle("acil esik: nitelemesiz 'nefes' yanlis alarm VERMEZ",
            "<p>Gece odayı nemlendirin ve burundan nefes almayı "
            "destekleyin. Şikâyet sürerse 112'yi değil kliniği arayın.</p>",
@@ -639,6 +672,28 @@ klinik_bekle("klinik esigi: kutusuz paragraf da taranir",
 klinik_bekle("klinik esigi: esigi ayiran cumle TEMIZ",
              '<p>Nefes güçlüğü varsa 112\'yi arayın. Bu belirtiler yoksa '
              'kliniği arayabilirsiniz.</p>', False)
+
+# --- 14. tur bulgu 1: BASLIK MIRASI -------------------------------------
+# 13. turdaki cumle bolmenin kalan deligi: noktalamasiz listede kutunun
+# tamami TEK cumle sayiliyor, icinde 112 gectigi icin eleniyor. Tek
+# basina <li> ise yonlendirmeyi tasimiyor — o BASLIKTA. Ikisi hicbir
+# birimde bulusmuyordu.
+klinik_bekle("klinik esigi: BASLIK yonlendirmesi <li>'ye miras -> YAKALANIR",
+             '<div class="uyari">'
+             '<b>Şunlarda kliniği arayın</b>'
+             '<ul><li>Nefes alma güçlüğü</li></ul>'
+             '<p>Kontrol edilemeyen kanamada 112\'yi arayın.</p></div>',
+             True)
+
+klinik_bekle("klinik esigi: 'dilinizin altı' yalniz klinige -> YAKALANIR",
+             '<p>Dilinizin altı şişmişse kliniği arayın.</p>', True)
+
+# YANLIS ALARM KAPISI: baslik klinige yonlendirmiyorsa miras verilmez —
+# yoksa her uyari kutusundaki her madde klinik yonlendirmesi sayilirdi.
+klinik_bekle("klinik esigi: yonlendirmeyen baslik miras VERMEZ",
+             '<div class="uyari"><b>Olağan olanlar</b>'
+             '<ul><li>Nefes alma güçlüğü olmadan hafif şişlik</li></ul>'
+             '</div>', False)
 
 # --- 5. tur bulgu 2: ONAYLI CUMLENIN SONUNA EK YAZILAMAZ --------------
 # 4. turdaki beyaz liste, onayli parcayi daha uzun bir metnin ICINDEN

@@ -216,7 +216,13 @@ _ACIL_BELIRTI = (
     r"|bilin[çc]\s+(?:bulan[ıi]kl\w*|de[ğg]i[şs]ikli\w*|kayb\w*|kapan\w*)"
     r"|bay[ıi]lma|n[öo]bet\b"
     r"|a[ğg][ıi]z taban[ıi]nda [şs]i[şs]lik"
-    r"|h[ıi]zla yay[ıi]lan [şs]i[şs]lik")
+    r"|h[ıi]zla yay[ıi]lan [şs]i[şs]lik"
+    # 14. tur bulgu 3 — ikisi de sitede GERCEKTEN kullanilan bicimler
+    # (dis-cekimi-sonrasi-sislik.html:85-88), ama desende yoktu:
+    #   "dilinizin altı şişmişse"  = agiz tabaninda sislik'in es anlamlisi
+    #   "şişlik … hızla yayılıyorsa" = mevcut kalibin TERS sozcuk sirasi
+    r"|dil(?:\w+)?\s+alt[ıi](?:nda)?\s+[şs]i[şs]\w*"
+    r"|[şs]i[şs]lik(?:\s+\S+){0,6}\s+h[ıi]zla\s+yay[ıi]l\w*")
 # 12. tur bulgu 4 — desen genisletildi ve MIMARI ACIK kapatildi.
 #
 # (a) Belirti listesi eksikti: durdurulamayan kanama listede yoktu, oysa
@@ -284,6 +290,22 @@ _ACIL_KESIN_BAG = re.compile(
     r"|(?:%s)(?:y?[ae]|n[ae])\s+(?:\S+\s+){0,4}e[şs]lik ed\w+"
     % (_ACIL_BELIRTI, _ACIL_BELIRTI), re.I)
 
+# 14. tur bulgu 2 — ayni bagimlilik TERS SIRAYLA da kurulabiliyor ve
+# yukaridaki iki bicim de belirtinin ONCE gelmesini bekliyordu:
+#   "Şiddetli ağrıyla birlikte nefes güçlüğü varsa 112'yi arayın."
+#   "Şiddetli ağrının eşlik ettiği nefes güçlüğünde 112'yi arayın."
+# Ikisinde de nefes guclugu — tek basina 112 sebebi — siddetli agrinin
+# varliğina baglanmis. Agrisi olmayan hasta bekler.
+#
+# ⚠️ Burada da komsuluk sart: baglac ile belirti ARDISIK olmali. Yoksa
+# kan-sulandirici-dis-tedavisi.html'deki dogru cumle yine kirmizi yanar
+# (orada "eşlik ediyorsa" cumlenin SONUNDA ve sebep EKLIYOR). Sinama
+# testi o cumleyi ayrica civiliyor.
+_ACIL_KESIN_BAG_TERS = re.compile(
+    r"(?:\b\S+(?:yl[ae]|l[ae])|\b\S+\s+ile)\s+(?:birlikte|beraber)\s+(?:%s)"
+    r"|(?:e[şs]li[ğg]inde|beraberinde|e[şs]lik etti[ğg]i)\s+(?:%s)"
+    % (_ACIL_BELIRTI, _ACIL_BELIRTI), re.I)
+
 # Klinige yonlendiren kalip — "112 yok ama klinik var" durumunu bulmak icin.
 # ⚠️ 13. tur bulgu 3: liste dort kalibi kaciriyordu ve hepsi sitede
 # GERCEKTEN kullaniliyordu — "kliniği arayabilirsiniz" (index),
@@ -320,7 +342,8 @@ def acil_esik_hatalari(sayfa_html):
                 continue
             kucuk = kucult(cumle)
             if (_ACIL_ATES.search(kucuk) or _ACIL_VE_BAGI.search(kucuk)
-                    or _ACIL_KESIN_BAG.search(kucuk)):
+                    or _ACIL_KESIN_BAG.search(kucuk)
+                    or _ACIL_KESIN_BAG_TERS.search(kucuk)):
                 bulunan.append(cumle.strip()[:110])
     return bulunan
 
@@ -328,6 +351,38 @@ def acil_esik_hatalari(sayfa_html):
 # Uyari kutulari — yonlendirme baslikta, belirti listede olabilir.
 _UYARI_KUTU = re.compile(
     r'<div class="uyari">(.*?)</div>', re.S | re.I)
+_ILK_UL = re.compile(r"<[uo]l\b", re.I)
+_LI = re.compile(r"<li\b[^>]*>(.*?)</li>", re.S | re.I)
+
+
+def _yonlendirmeli_liler(ham):
+    """Kutu basligindaki yonlendirmeyi her liste maddesine MIRAS verir.
+
+    ⚠️ 14. tur bulgu 1. 13. turdaki "birimde 112 varsa cumle cumle bak"
+    duzeltmesinin kalan deligi: liste isaretlemesinde noktalama yoksa
+    kutunun tamami TEK cumle sayiliyor, icinde 112 gectigi icin eleniyor.
+    Tek basina `<li>` ise hayati belirtiyi tasiyor ama yonlendirmeyi
+    tasimiyor — cunku yonlendirme BASLIKTA. Ikisi hicbir birimde
+    bulusmuyordu:
+
+        <div class="uyari">
+          <b>Şunlarda kliniği arayın</b>
+          <ul><li>Nefes alma güçlüğü</li></ul>
+          <p>Kontrol edilemeyen kanamada 112'yi arayın.</p>
+        </div>
+
+    Cozum: baslik klinige yonlendiriyorsa her `<li>` icin
+    "baslik + madde" seklinde AYRI bir birim uretilir. Yalnizca `<li>`
+    sinirina gecmek yetmezdi (test 556 tam bu iliskiyi koruyor).
+    """
+    ul = _ILK_UL.search(ham)
+    if not ul:
+        return []
+    oncul = duzlestir(ham[:ul.start()])
+    if not _ACIL_KLINIK.search(kucult(oncul)):
+        return []                    # baslik klinige yonlendirmiyor
+    return [("%s %s" % (oncul, duzlestir(m.group(1)))).strip()
+            for m in _LI.finditer(ham)]
 
 
 def acil_klinige_yonlendirme_hatalari(sayfa_html):
@@ -358,7 +413,10 @@ def acil_klinige_yonlendirme_hatalari(sayfa_html):
     duz paragraflarda ise ayni desen kutusuz kullaniliyor.
     """
     bulunan = []
-    birimler = [m.group(1) for m in _UYARI_KUTU.finditer(sayfa_html)]
+    birimler = []
+    for m in _UYARI_KUTU.finditer(sayfa_html):
+        birimler.append(m.group(1))
+        birimler += _yonlendirmeli_liler(m.group(1))
     birimler += [m.group(2) for m in _ACIL_BLOK.finditer(sayfa_html)]
     for ham in birimler:
         birim = duzlestir(ham)
