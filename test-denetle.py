@@ -481,6 +481,39 @@ acil_bekle("acil esik: atessiz 112 cumlesi TEMIZ",
            "<p>Bilinç değişikliği, nöbet ya da nefes alma güçlüğünde "
            "112'yi arayın.</p>", False)
 
+# --- 11. tur bulgu 2: tehlike atese ozgu degil --------------------------
+# Tek basina acil olan bir belirtiyi "ve" ile ikinci bir bulguya baglamak
+# atessiz de ayni yanlis okumayi uretiyor.
+acil_bekle("acil esik: atessiz 've' baglamasi YAKALANIR",
+           "<p>Nefes güçlüğü ve şiddetli ağrı varsa "
+           "<strong>112'yi arayın.</strong></p>", True)
+
+acil_bekle("acil esik: 112 basta yazilsa da 've' baglamasi YAKALANIR",
+           "<p>Şunlarda <strong>112'yi arayın:</strong> "
+           "nefes güçlüğü ve şiddetli ağrı.</p>", True)
+
+acil_bekle("acil esik: 'nefes ve yutma güçlüğü' YAKALANIR",
+           "<p>Nefes ve yutma güçlüğünde <strong>112'yi arayın.</strong>"
+           "</p>", True)
+
+acil_bekle("acil esik: acik alternatif ('veya') TEMIZ",
+           "<p>Nefes veya yutma güçlüğü varsa "
+           "<strong>112'yi arayın.</strong></p>", False)
+
+# ⚠️ Denetci "cumlede veya/ya da varsa muaf tut" onerdi; o kacis kapisi
+# asagidaki gercek hatayi SUSTURURDU. Dar kalip kullanildigi icin
+# yakalaniyor — bu test o karari koruyor.
+acil_bekle("acil esik: mesru 'veya' hatayi GIZLEYEMEZ",
+           "<p>Nefes veya yutma güçlüğü ve şiddetli ağrı varsa "
+           "<strong>112'yi arayın.</strong></p>", True)
+
+# Ters yon: belirti olmayan bir kelimeden sonraki "ve" yanlis alarm
+# vermemeli. "yüzde" bir belirti degil, "yüzde ve boyunda" mesru.
+acil_bekle("acil esik: 'yüzde ve boyunda' yanlis alarm VERMEZ",
+           "<p>Nefes ya da yutma güçlüğü, yüzde ve boyunda hızla yayılan "
+           "şişlik varsa beklemeyin: <strong>112'yi arayın.</strong></p>",
+           False)
+
 # --- 5. tur bulgu 2: ONAYLI CUMLENIN SONUNA EK YAZILAMAZ --------------
 # 4. turdaki beyaz liste, onayli parcayi daha uzun bir metnin ICINDEN
 # kosulsuz siliyordu. Yasak kelime silinince geriye anlami TERSINE

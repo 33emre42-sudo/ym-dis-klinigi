@@ -340,7 +340,7 @@ for ad in ["index.html"] + ALT_SAYFA + BILGI + ["gizlilik.html"]:
     with open(ad, encoding="utf-8") as f:
         for c in acil_esik_hatalari(f.read()):
             _acil_karisik.append("%s: %s" % (ad, c))
-kontrol("112 talimati atesle ayni cumlede degil", not _acil_karisik,
+kontrol("112 esigi atese/ikinci belirtiye baglanmamis", not _acil_karisik,
         _acil_karisik[0] if _acil_karisik
         else "%d sayfa" % (len(BILGI) + len(ALT_SAYFA) + 2))
 

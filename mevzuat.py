@@ -182,16 +182,54 @@ def birlestirici_var(metin):
 _ACIL_BLOK = re.compile(r"<(p|li)\b[^>]*>(.*?)</\1>", re.S | re.I)
 _ACIL_CUMLE = re.compile(r"(?<=[.!?])\s+")
 
+# 11. tur bulgu 2 — kural GENISLETILDI.
+#
+# Ilk hal yalnizca "ates" ariyordu, cunku 10. turda cikan ornek oydu. Ama
+# tehlike atese ozgu degil: TEK BASINA acil olan bir belirtiyi "ve" ile
+# ikinci bir bulguya baglamak her durumda ayni yanlis okumayi uretiyor.
+#
+#     "Nefes güçlüğü VE şiddetli ağrı varsa 112'yi arayın"
+#
+# Nefes guclugu tek basina acildir; agri sart degildir.
+#
+# ⚠️ Denetci burada "cumlede veya/ya da geciyorsa muaf tut" onerdi. Oyle
+# YAPILMADI: o kacis kapisi, ayni cumlede baska bir yerde gecen mesru bir
+# "veya" yuzunden gercek hatayi susturur —
+#     "Nefes veya yutma güçlüğü ve şiddetli ağrı varsa 112"
+# kacip giderdi. Bunun yerine daha dar ve daha kesin bir kalip kuruldu:
+# belirtinin HEMEN ARDINDAN "ve" geliyor mu? Boylece kacis kapisina gerek
+# kalmiyor ve mesru cumleler ("yüzde ve boyunda hızla yayılan şişlik" —
+# "yüzde" bir belirti degil) yanlis alarm vermiyor.
+_ACIL_BELIRTI = (
+    r"nefes(?:\s+al(?:ma|makta))?(?:\s+(?:g[üu][çc]l[üu][ğg][üu]"
+    r"|darl[ıi][ğg][ıi]|zorlanma(?:s[ıi])?))?"
+    r"|yut(?:ma|kunma|makta|kunmakta)(?:\s+(?:g[üu][çc]l[üu][ğg][üu]"
+    r"|zorlanma(?:s[ıi])?))?"
+    r"|bilin[çc](?:\s+(?:bulan[ıi]kl[ıi][ğg][ıi]|de[ğg]i[şs]ikli[ğg]i"
+    r"|kayb[ıi]))?"
+    r"|bay[ıi]lma|n[öo]bet"
+    r"|a[ğg][ıi]z taban[ıi]nda [şs]i[şs]lik"
+    r"|h[ıi]zla yay[ıi]lan [şs]i[şs]lik")
+_ACIL_VE_BAGI = re.compile(r"(?:%s)\s+ve\s" % _ACIL_BELIRTI, re.I)
+
 
 def acil_esik_hatalari(sayfa_html):
-    """112 talimatiyla ayni cumlede 'ates' geciyor mu? Bulunanlari doner."""
+    """112 esigini atese ya da ikinci bir belirtiye baglayan cumleler.
+
+    Iki kural:
+      1. 112 talimatiyla ayni cumlede "ates" gecmez.
+      2. Tek basina acil olan bir belirtinin hemen ardindan "ve" gelmez.
+    """
     bulunan = []
     for m in _ACIL_BLOK.finditer(sayfa_html):
         blok = duzlestir(m.group(2))
         if "112" not in blok:
             continue
         for cumle in _ACIL_CUMLE.split(blok):
-            if "112" in cumle and "ateş" in kucult(cumle):
+            if "112" not in cumle:
+                continue
+            kucuk = kucult(cumle)
+            if "ateş" in kucuk or _ACIL_VE_BAGI.search(kucuk):
                 bulunan.append(cumle.strip()[:110])
     return bulunan
 
