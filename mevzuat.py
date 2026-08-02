@@ -105,6 +105,12 @@ _CIFT_IZLER = (
     "Ä±", "Ä°", "ÄŸ", "Äž", "ÅŸ", "Åž",
     # Noktalama/bosluk — "â€" U+2013..U+201D ailesinin ortak oneki
     "Â·", "Â ", "â€",
+    # ⚠️ 8. tur bulgu 6: sitede gecen DIGER karakterlerin kismi bozulma
+    # izleri de listede yoktu ve kaciyordu (yedisi de dogrulandi):
+    #   ©->Â©   ×->Ã—   â->Ã¢   î->Ã®   →->â†’   ✦->âœ¦   🦷->ğŸ¦·
+    # "â" ve "î" Turkce metinde gecer (kâr, resmî) ama bozulmus hali
+    # "Ã¢"/"Ã®" saglam metinde bulunmaz.
+    "Â©", "Ã—", "Ã¢", "Ã®", "â†", "âœ", "ğŸ",
 )
 _C1_IZ = re.compile(r"[\u0080-\u009f]")
 
@@ -156,18 +162,26 @@ def mevzuat_metni(ham):
     ⚠️ 5. tur bulgu 2'nin duzeltmesini yazarken cikti: `duzlestir()`
     butun etiketleri bosluga cevirir. Muafiyet artik tam cumle
     esitligine dayandigi icin bu, iki ayri blogu tek cumle gibi
-    gosteriyordu:
+    gosteriyordu. Onayli cumle listede aynen dursa bile eslesmiyordu.
 
-        <title>Test</title> … <p>Mevzuat gereği fiyat bilgisi
-        paylaşamıyoruz.</p>
-        -> "test mevzuat gereği fiyat bilgisi paylaşamıyoruz"
+    ⚠️ 8. tur bulgu 4 — KONU SINIRI EKLENDI.
+    `_sonraki_cumleler()` tersleme ararken "uc cumle" sayiyordu, ama HER
+    blok etiketi (acilis VE kapanis) bir cumle siniri uretiyor. Yani
+    asagidaki metinde gorunur tek bir notr paragraf olmasina ragmen
+    ucluk butce tukeniyor ve tersleme KACIYORDU:
 
-    Onayli cumle listede aynen dursa bile eslesmiyordu. Yonu
-    fail-CLOSED oldugu icin tehlikeli degildi ama mesru metni
-    engelliyordu: bir baslik ya da komsu paragraf, altindaki guvenlik
-    cumlesini kullanilamaz kiliyordu."""
+        <p>Hiçbir tedavinin sonucu garanti edilemez.</p>
+        <p>Bu yalnızca genel bir açıklamadır.</p>
+        <p>Tam tersi.</p>
+
+    Sabit sayi yerine artik KONU siniri var: baslik, title, summary, dt
+    ve legend yeni bir konu baslatir (U+E000 isareti). Tersleme ayni
+    konu icinde araniyor; sonraki BAGIMSIZ basliktaki "Tam tersi" ise
+    yanlis alarm uretmiyor."""
     metin = re.sub(r"<(script|style)[^>]*>.*?</\1>", " ", ham,
                    flags=re.S | re.I)
+    metin = re.sub(r"</?(?:title|h[1-6]|summary|dt|legend)\b[^>]*>",
+                   " \ue000 ", metin, flags=re.I)
     metin = re.sub(r"</?(?:%s)\b[^>]*>" % _BLOK, " . ", metin, flags=re.I)
     metin = re.sub(r"<[^>]+>", " ", metin)
     metin = html_mod.unescape(metin)
@@ -250,7 +264,8 @@ ONAYLI_CUMLE = [
 # `;` ve `:` BILEREK sinir: "garanti edilemez; iyileşme kişiden kişiye
 # değişir" mesru bir devamdir ve engellenmemeli. Tersine cevirmeyi
 # noktalama degil `_TERSLEME` yakalar (6. tur b3).
-_CUMLE_SINIRI = re.compile(r"[.!?;:]+")
+_CUMLE_SINIRI = re.compile("[.!?;:\ue000]+")
+# Konu isareti (U+E000) de cumle siniridir — 8. tur b4.
 
 # Onayli cumlenin ARDINDAN gelip onu tersine ceviren ifadeler.
 #
@@ -332,15 +347,23 @@ YASAKLI = {
 # ticari kullanimda `fiyat`, `ücret`, `paket`, `TL`, `₺` ya da `KDV`
 # zaten ayrica eslesir.
 #
-# BILINEN TAVIZ: Turkce sondan eklemeli oldugu icin `\b...\b` bazi
-# cekimleri disarida birakir. "ödemesi" hem tibbi (doku ödemi) hem
-# ticari olabildiginden bilerek disarida; "ödeme/ödemeler/ödemeniz"
-# yakalanir.
+# ⚠️ 8. tur bulgu 5 — CEKIM LISTESI YETMIYORDU.
+# `\b[öo]deme(?:ler|niz|nizi|nin)?\b` yalnizca sayilan ekleri taniyordu;
+# "ödemeyi", "ödemeye", "paketimizden" gibi DOGAL ticari ifadeler
+# kaciyordu (ucu de calistirilarak dogrulandi). Turkce sondan eklemeli
+# oldugu icin ek listesi yazmak bitmez — artik kok + serbest ek, iki
+# ISTISNA disinda:
+#
+#   `ödemesi`  — hem tibbi (doku ödemi) hem ticari olabilir; belirsiz
+#                oldugu icin BILEREK disarida (7. tur b6 karari).
+#   `paketle*` — "paketleme/paketlenmis/paketleyin" teknik terimdir;
+#                ama "paketler" (cogul) ticari, o yuzden lem/len/ley
+#                ayrimi yapiliyor.
 TICARI = re.compile(
-    r"[üu]cret|fiyat|\b[öo]deme(?:ler|niz|nizi|nin)?\b"
+    r"[üu]cret|fiyat|\b[öo]deme(?!si\b)\w*"
     r"|taksit|bedava|bedelsiz"
     r"|\bindirim|\bkampanya"
-    r"|masraf|₺|\bTL\b|\bKDV\b|\bpaket(?:ler)?(?:imiz|iniz|i|in)?\b"
+    r"|masraf|₺|\bTL\b|\bKDV\b|\bpaket(?!lem|len|ley)\w*"
     r"|\bucuz\b|\bhesapl[ıi]\b|\buygun fiyat"
     # ⚠️ 3. tur bulgu 7: yalin "ekonomik" yanlis alarm veriyordu —
     # "Ekonomik koşullar ağız sağlığına erişimi etkiler" tıbbi/toplumsal
@@ -434,25 +457,21 @@ def _cumle(metin, konum):
     return metin[bas:son.start() if son else len(metin)]
 
 
-def _sonraki_cumleler(metin, konum, adet=3):
-    """`konum`daki cumleden SONRAKI en fazla `adet` cumleyi dondurur.
+def _sonraki_cumleler(metin, konum):
+    """`konum`daki cumleden sonra gelen AYNI KONU metnini dondurur.
 
-    ⚠️ 7. tur b1: eskiden yalnizca BIR sonraki cumleye bakiliyordu.
-    Araya notr bir cumle koymak terslemeyi gizlemeye yetiyordu:
-        "...garanti edilemez. Bu bir açıklamadır. Tam tersi."
-    """
+    ⚠️ 7. tur b1: eskiden yalnizca BIR sonraki cumleye bakiliyordu;
+    araya notr bir cumle koymak terslemeyi gizlemeye yetiyordu.
+    ⚠️ 8. tur b4: "uc cumle" butcesi de yetmedi — her HTML blok etiketi
+    cumle siniri urettigi icin ayri paragraflara yazilan tersleme
+    butceyi tuketip kaciyordu. Artik sayi degil KONU siniri esas:
+    bir sonraki baslik/summary'e kadar olan metin taraniyor."""
     son = _CUMLE_SINIRI.search(metin, konum)
     if not son:
         return ""
-    ilk = bas = son.end()
-    bit = len(metin)
-    for _ in range(adet):
-        sonraki = _CUMLE_SINIRI.search(metin, bas)
-        if not sonraki:
-            return metin[ilk:]
-        bit = sonraki.start()
-        bas = sonraki.end()
-    return metin[ilk:bit]
+    ilk = son.end()
+    konu_sonu = metin.find("\ue000", ilk)
+    return metin[ilk:konu_sonu if konu_sonu >= 0 else len(metin)]
 
 
 def _muaf_mi(metin, eslesme):

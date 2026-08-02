@@ -233,6 +233,36 @@ bekle("tersleme: araya notr cumle koyarak GIZLENEMEZ",
 
 # YANLIS ALARM veriyordu: yalin "gercekte/aslinda" aciklama baglacidir,
 # tersleme degil. Bunlar yazmamiz GEREKEN cumleler.
+# --- 8. tur bulgu 4: konu siniri --------------------------------------
+# "Uc cumle" butcesi HTML blok ayraclarini da sayiyordu; ayri
+# paragraflara yazilan tersleme butceyi tuketip KACIYORDU.
+bekle("tersleme: AYRI PARAGRAFLARDA gizlenemez",
+      sar("<p>Hiçbir tedavinin sonucu garanti edilemez.</p>"
+          "<p>Bu yalnızca genel bir açıklamadır.</p>"
+          "<p>Tam tersi.</p>"), True, kod="garanti")
+
+bekle("tersleme: ayni paragrafta DORDUNCU cumlede gizlenemez",
+      sar("<p>Hiçbir tedavinin sonucu garanti edilemez. "
+          "Bu açıklama geneldir. Her hasta farklıdır. "
+          "Muayene gerekir. Tam tersi.</p>"), True, kod="garanti")
+
+# Korumanin bedeli: YENI BIR BASLIK altindaki bagimsiz "Tam tersi"
+# yanlis alarm vermemeli. Konu siniri tam bunun icin.
+bekle("mesru: yeni basliktaki bagimsiz 'Tam tersi' GECER",
+      sar("<p>Hiçbir tedavinin sonucu garanti edilemez.</p>"
+          "<h2>Kanayan yeri fırçalamamak doğru mu?</h2>"
+          "<p>Tam tersi. Nazikçe temizliğe devam edilmelidir.</p>"), False)
+
+# --- 8. tur bulgu 5: Turkce cekimler ----------------------------------
+bekle("ticari cekim: 'ödemeyi' YAKALANIR",
+      sar("<p>Ödemeyi çevrim içi yapabilirsiniz.</p>"), True)
+
+bekle("ticari cekim: 'ödemeye' YAKALANIR",
+      sar("<p>Ödemeye ilişkin bilgi alın.</p>"), True)
+
+bekle("ticari cekim: 'paketimizden' YAKALANIR",
+      sar("<p>Tedavi paketimizden yararlanabilirsiniz.</p>"), True)
+
 bekle("mesru devam: 'Gerçekte iyileşme değişir' GECER",
       sar("<p>Hiçbir tedavinin sonucu garanti edilemez. "
           "Gerçekte iyileşme kişiden kişiye değişir.</p>"), False)
@@ -314,6 +344,21 @@ kodlama_bekle("kodlama: Turkce + emoji TEMIZ",
               "Diş 🦷 randevu · ⚠️ acil durumda 112", False)
 kodlama_bekle("kodlama: cift kodlanmis emoji YAKALANIR",
               hasar_uret("Diş 🦷 randevu"), True)
+
+# --- 8. tur bulgu 6: IZOLE karakter bozulmasi -------------------------
+# Yukaridaki emoji testi aslinda emojiyi degil "Diş" icindeki `ÅŸ` izini
+# yakaliyordu. Saglam Turkce metnin icine YALNIZCA bozuk bir ozel
+# karakter girerse (tam metin cozumu saglam Turkce'de patlar, ozel iz de
+# listede yoksa) kismi hasar kaciyordu. Yedisi de dogrulandi.
+for _ad, _kar in (("telif ©", "©"), ("carpi ×", "×"),
+                  ("sapkali a", "â"), ("sapkali i", "î"),
+                  ("sag ok →", "→"), ("yildiz ✦", "✦"),
+                  ("dis emojisi", "🦷")):
+    kodlama_bekle("kodlama: yalniz bozuk %s izi YAKALANIR" % _ad,
+                  SAGLAM + " / " + hasar_uret(_kar), True)
+
+kodlama_bekle("kodlama: saglam ozel karakterler YANLIS ALARM VERMEZ",
+              "Resmî açıklama © 2×2 → bilgi ✦ 🦷", False)
 
 # --- 6. tur bulgu 5: KISMI ve GEC hasar ------------------------------
 # Tespit iki yerden kaciriyordu: (1) yalnizca ilk 40.000 karaktere
