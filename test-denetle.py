@@ -219,6 +219,44 @@ bekle("tersleme: 'tam tersi' YAKALANIR",
       sar("<p>Kliniğimizde kampanya bulunmamaktadır. Tam tersi.</p>"),
       True, kod="kampanya")
 
+# --- 7. tur bulgu 1: _TERSLEME iki yonlu hataliydi ------------------
+# Denetci dort ornek verdi, dordu de calistirilarak dogrulandi.
+# KACIYORDU: listede olmayan tersleme, ve araya notr cumle koyarak gizleme.
+bekle("tersleme: '. Öyle değil.' YAKALANIR",
+      sar("<p>Hiçbir tedavinin sonucu garanti edilemez. Öyle değil.</p>"),
+      True, kod="garanti")
+
+bekle("tersleme: araya notr cumle koyarak GIZLENEMEZ",
+      sar("<p>Hiçbir tedavinin sonucu garanti edilemez. "
+          "Bu yalnızca bir açıklamadır. Tam tersi.</p>"),
+      True, kod="garanti")
+
+# YANLIS ALARM veriyordu: yalin "gercekte/aslinda" aciklama baglacidir,
+# tersleme degil. Bunlar yazmamiz GEREKEN cumleler.
+bekle("mesru devam: 'Gerçekte iyileşme değişir' GECER",
+      sar("<p>Hiçbir tedavinin sonucu garanti edilemez. "
+          "Gerçekte iyileşme kişiden kişiye değişir.</p>"), False)
+
+bekle("mesru devam: 'Aslında bu durum sık görülür' GECER",
+      sar("<p>Hiçbir tedavinin sonucu garanti edilemez. "
+          "Aslında bu durum sık görülür.</p>"), False)
+
+# --- 7. tur bulgu 6: TICARI tibbi kelimeleri yakaliyordu -------------
+bekle("ticari: tibbi 'doku ödemesi' YANLIS ALARM VERMEZ",
+      sar("<p>Çekim sonrası yumuşak doku ödemesi olabilir.</p>"), False)
+
+bekle("ticari: 'steril paketleme' YANLIS ALARM VERMEZ",
+      sar("<p>Aletler steril paketleme sonrasında saklanır.</p>"), False)
+
+bekle("ticari: tibbi 'dahildir' YANLIS ALARM VERMEZ",
+      sar("<p>Bu bulgu değerlendirmeye dahildir.</p>"), False)
+
+bekle("gerileme: gercek 'ödeme' hala YAKALANIR",
+      sar("<p>Ödeme seçenekleri için bizi arayın.</p>"), True)
+
+bekle("gerileme: gercek 'paket' hala YAKALANIR",
+      sar("<p>Tedavi paketlerimiz vardır.</p>"), True)
+
 # Korumanin bedeli olmamali: MESRU devam cumleleri yesil kalmali.
 # Ilk denemede sinirdan `;` cikarilmisti ve bu iki cumle kirmiziya
 # donmustu — yazmamiz GEREKEN durustce aciklamalar tam bu bicimde.
@@ -291,6 +329,22 @@ kodlama_bekle("kodlama: 40.000 karakterden SONRAKI hasar YAKALANIR",
 
 kodlama_bekle("kodlama: uzun SAGLAM metin yanlis alarm VERMEZ",
               (SAGLAM + " ") * 400, False)
+
+# --- 7. tur bulgu 5: iz taramasi tek karaktere bakiyordu -------------
+# Sitede cok kullanilan noktalamanin cift kodlanmis hali Ã/Ä/Å
+# ICERMIYOR: "—" -> "â€”", "·" -> "Â·", "’" -> "â€™". Yalnizca
+# noktalamasi bozulmus kismi hasar tespitten kaciyordu.
+kodlama_bekle("kodlama: bozuk EM DASH (—) YAKALANIR",
+              SAGLAM + " " + hasar_uret("—"), True)
+kodlama_bekle("kodlama: bozuk ORTA NOKTA (·) YAKALANIR",
+              SAGLAM + " " + hasar_uret("·"), True)
+kodlama_bekle("kodlama: bozuk KESME (’) YAKALANIR",
+              SAGLAM + " " + hasar_uret("’"), True)
+
+# Ters yon: tek basina "Å" iceren gecerli bir yabanci ozel ad
+# hasarli sayilmamali.
+kodlama_bekle("kodlama: 'Ångström' YANLIS ALARM VERMEZ",
+              "Uzunluk Ångström birimiyle de ifade edilebilir.", False)
 
 # --- 5. tur bulgu 2: ONAYLI CUMLENIN SONUNA EK YAZILAMAZ --------------
 # 4. turdaki beyaz liste, onayli parcayi daha uzun bir metnin ICINDEN

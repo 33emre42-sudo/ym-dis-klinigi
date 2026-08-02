@@ -84,20 +84,40 @@ def _ansi_baytlari(metin):
 #      gorunur: dosyanin bir bolumu bozulur, gerisi saglam kalir.
 #
 # Artik once IZ taramasi yapiliyor: tum metin, konum siniri yok.
-# Dayanak — saglam Turkce metinde "Ã", "Ä", "Å" karakterleri BULUNMAZ
-# (alfabede yoklar), oysa cift kodlanmis her Turkce karakter bunlardan
-# biriyle baslayan bir cifte donusur ("Diş" -> "DiÅŸ"). C1 kontrol
-# karakterleri (U+0080-U+009F) de gecerli metinde olmaz; gercek hasarda
-# 41 adet U+009E vardi.
-_CIFT_IZ = re.compile(r"[ÃÄÅ]|[\u0080-\u009f]")
+#
+# ⚠️ 7. tur bulgu 5 — ILK IZ TARAMASI TEK KARAKTERE BAKIYORDU (`[ÃÄÅ]`).
+# Iki yonlu hataydi; ikisi de calistirilarak dogrulandi:
+#
+#   YANLIS ALARM: saglam metindeki "Ångström" gibi gecerli bir yabanci
+#                 ozel ad, tek basina "Å" icerdigi icin hasarli sayildi.
+#
+#   KACIRIYORDU : Sitede cok kullanilan noktalama isaretlerinin cift
+#                 kodlanmis hali Ã/Ä/Å ICERMIYOR —
+#                     "—" -> "â€”"      "·" -> "Â·"      "’" -> "â€™"
+#                 Yani yalnizca noktalamasi bozulmus KISMI hasar
+#                 tespitten kaciyordu. Sayfa altlarindaki
+#                 "0541 732 43 76 · Gizlilik" satiri tam bu kalipta.
+#
+# Artik tek karakter degil GERCEK BOZULMA CIFTLERI araniyor.
+_CIFT_IZLER = (
+    # Turkce harflerin cift kodlanmis hali
+    "Ã§", "Ã‡", "Ã¶", "Ã–", "Ã¼", "Ãœ",
+    "Ä±", "Ä°", "ÄŸ", "Äž", "ÅŸ", "Åž",
+    # Noktalama/bosluk — "â€" U+2013..U+201D ailesinin ortak oneki
+    "Â·", "Â ", "â€",
+)
+_C1_IZ = re.compile(r"[\u0080-\u009f]")
 
 
 def cift_kodlanmis(metin):
-    """Metin bir kez fazla kodlanmis mi?
+    """Metinde UTF-8'in cp1254 olarak okunmasina ait iz var mi?
 
-    Iki yontem birlikte: iz taramasi KISMI hasari yakalar, tam metin
-    cozumu ise dosyanin tamaminin bozuldugu hali dogrular."""
-    if _CIFT_IZ.search(metin):
+    Uc katman: bozulma ciftleri KISMI hasari yakalar, C1 kontrol
+    karakterleri gercek olayda gorulen U+009E gibi baytlari yakalar,
+    tam metin cozumu de dosyanin tamaminin bozuldugu hali dogrular."""
+    if any(iz in metin for iz in _CIFT_IZLER):
+        return True
+    if _C1_IZ.search(metin):
         return True
     if all(ord(c) < 128 for c in metin):
         return False                     # ASCII metinde soru yok
@@ -233,13 +253,30 @@ ONAYLI_CUMLE = [
 _CUMLE_SINIRI = re.compile(r"[.!?;:]+")
 
 # Onayli cumlenin ARDINDAN gelip onu tersine ceviren ifadeler.
-# Dar tutuldu: bir guvenlik cumlesinin hemen arkasindan gelmedikce
-# bunlarin cogu masum kelimelerdir, bu yuzden yalnizca o konumda
-# aranirlar. Yanlis alarm verirse metin degistirilir — hata yonu
-# yine fail-CLOSED.
+#
+# ⚠️ 7. tur bulgu 1 — ILK HALI HEM FAIL-OPEN HEM FAIL-CLOSED'DI.
+# Denetci dort ornekle gosterdi, dordu de calistirilarak dogrulandi:
+#   KACIRIYORDU : "...garanti edilemez. Öyle değil."      (listede yok)
+#                 "...garanti edilemez. Bu bir açıklamadır. Tam tersi."
+#                 (araya notr cumle girince _sonraki_cumle goremiyordu)
+#   YANLIS ALARM: "...garanti edilemez. Gerçekte iyileşme kişiden
+#                 kişiye değişir."   <- MESRU ve yazmamiz gereken cumle
+#                 "...garanti edilemez. Aslında bu durum sık görülür."
+# Yalin "aslinda/gercekte/aksine" tersleme sayilamaz; bunlar aciklama
+# baglaclari. Artik yalnizca TERSLEME YAPAN kaliplar araniyor ve
+# arkadan gelen birkac cumle birden taraniyor.
+#
+# DURUSTCE SINIR: bu bir anlam cozumleyici DEGILDIR. Kasitli ve keyfi
+# yeniden yazimlarin tamamini desenle kapatmak mumkun degil; denetci de
+# bunu yaziyor. Katmanin amaci DIKKATSIZLIGI yakalamak.
 _TERSLEME = re.compile(
-    r"\b(demiyoruz|demedik|sanmay[ıi]n|asl[ıi]nda|ger[çc]ekte"
-    r"|tam tersi|aksine|[şs]aka)\b", re.I)
+    r"\b(?:demiyoruz|demedik|sanmay[ıi]n|tam tersi"
+    r"|[şs]aka(?:yd[ıi])?"
+    r"|(?:bu|o|[öo]yle)\s+(?:(?:do[ğg]ru|ger[çc]ek)\s+)?de[ğg]il"
+    r"|bunu\s+kastetmiyoruz|aksini\s+kastediyoruz"
+    r"|(?:asl[ıi]nda|ger[çc]ekte)\s+"
+    r"(?:payla[şs]abiliriz|verebiliriz|var(?:d[ıi]r)?|uygulan[ıi]r"
+    r"|veriyoruz|yap[ıi]yoruz))\b", re.I)
 
 YASAKLI = {
     "en iyi": r"\ben iyi\b",
@@ -280,10 +317,30 @@ YASAKLI = {
 # sorunları" cumlesi bu yuzden K15 hatasi verdi — tibbi bir metin, ticari
 # iddia degil. Yanlis alarm denetimi degersizlestirir (3. tur b7'de
 # "ekonomik" icin ayni ders alinmisti).
+# ⚠️ 7. tur bulgu 6 — TIBBI KELIMELERIN ICINDEN TICARI TERIM CIKIYORDU.
+# `indirim` icin kelime siniri eklenmisti ama ayni sorun diger koklerde
+# suruyordu. Denetci uc ornek verdi, ucu de calistirilarak dogrulandi:
+#     "Çekim sonrası yumuşak doku ödemesi olabilir."  -> K15: ödeme
+#         (ÖDEM tibbi bir terim; dis hekimliginde surekli gecer)
+#     "Aletler steril paketleme sonrasında saklanır." -> K15: paket
+#     "Bu bulgu değerlendirmeye dahildir."            -> K15: dahildir
+# Yanlis alarm bekciyi degersizlestirir ve onu devre disi birakmaya
+# yonelik baski yaratir — 3. tur b7 ("ekonomik") ve 2 Agu ("sindirim")
+# ile ayni sinif.
+#
+# `dahildir|hariçtir` BAGLAMSIZ oldugu icin tamamen cikarildi: gercek
+# ticari kullanimda `fiyat`, `ücret`, `paket`, `TL`, `₺` ya da `KDV`
+# zaten ayrica eslesir.
+#
+# BILINEN TAVIZ: Turkce sondan eklemeli oldugu icin `\b...\b` bazi
+# cekimleri disarida birakir. "ödemesi" hem tibbi (doku ödemi) hem
+# ticari olabildiginden bilerek disarida; "ödeme/ödemeler/ödemeniz"
+# yakalanir.
 TICARI = re.compile(
-    r"[üu]cret|fiyat|[öo]deme|taksit|bedava|bedelsiz"
+    r"[üu]cret|fiyat|\b[öo]deme(?:ler|niz|nizi|nin)?\b"
+    r"|taksit|bedava|bedelsiz"
     r"|\bindirim|\bkampanya"
-    r"|masraf|₺|\bTL\b|dahildir|hari[çc]tir|paket"
+    r"|masraf|₺|\bTL\b|\bKDV\b|\bpaket(?:ler)?(?:imiz|iniz|i|in)?\b"
     r"|\bucuz\b|\bhesapl[ıi]\b|\buygun fiyat"
     # ⚠️ 3. tur bulgu 7: yalin "ekonomik" yanlis alarm veriyordu —
     # "Ekonomik koşullar ağız sağlığına erişimi etkiler" tıbbi/toplumsal
@@ -377,14 +434,25 @@ def _cumle(metin, konum):
     return metin[bas:son.start() if son else len(metin)]
 
 
-def _sonraki_cumle(metin, konum):
-    """`konum`daki karakterin cumlesinden SONRAKI cumleyi dondurur."""
+def _sonraki_cumleler(metin, konum, adet=3):
+    """`konum`daki cumleden SONRAKI en fazla `adet` cumleyi dondurur.
+
+    ⚠️ 7. tur b1: eskiden yalnizca BIR sonraki cumleye bakiliyordu.
+    Araya notr bir cumle koymak terslemeyi gizlemeye yetiyordu:
+        "...garanti edilemez. Bu bir açıklamadır. Tam tersi."
+    """
     son = _CUMLE_SINIRI.search(metin, konum)
     if not son:
         return ""
-    bas = son.end()
-    sonraki = _CUMLE_SINIRI.search(metin, bas)
-    return metin[bas:sonraki.start() if sonraki else len(metin)]
+    ilk = bas = son.end()
+    bit = len(metin)
+    for _ in range(adet):
+        sonraki = _CUMLE_SINIRI.search(metin, bas)
+        if not sonraki:
+            return metin[ilk:]
+        bit = sonraki.start()
+        bas = sonraki.end()
+    return metin[ilk:bit]
 
 
 def _muaf_mi(metin, eslesme):
@@ -407,7 +475,7 @@ def _muaf_mi(metin, eslesme):
     kopyalanacak hali gozukur."""
     if sadelestir(_cumle(metin, eslesme.start())) not in _ONAYLI:
         return False
-    return not _TERSLEME.search(_sonraki_cumle(metin, eslesme.start()))
+    return not _TERSLEME.search(_sonraki_cumleler(metin, eslesme.start()))
 
 
 def mevzuat_tara(ham_html, etiket):
