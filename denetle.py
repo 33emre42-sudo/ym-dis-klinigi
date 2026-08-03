@@ -120,6 +120,25 @@ ALT_SAYFA = ["hekimlerimiz.html", "sik-sorulan-sorular.html",
              "tedaviler.html", "iletisim.html"]
 SSS_SAYFA = "sik-sorulan-sorular.html"
 
+# ==========================================================================
+# INGILIZCE BOLUM — hasta turizmi (COKDILLI-TASARIM.md)
+# ==========================================================================
+# ⚠️ Sayfa YAZILMADAN once denetim yolu kuruldu. Tersi sirada ilk
+# Ingilizce sayfa DENETIMSIZ yayina girerdi: `denetlenmeyen HTML yok`
+# kapisi alt klasordeki her HTML'de denetimi DURDURUYOR (bu kapi bir
+# dis denetim bulgusuydu; icinde "garanti", "5000 TL", "%20 indirim"
+# gecen bir alt klasor sayfasi denetimden gecmisti). O kapi
+# GEVSETILMIYOR — Ingilizce sayfalar listeye AÇIKÇA ekleniyor.
+#
+# Liste su an BOS: mevzuat kapisi (mevzuat.py YASAKLI_COKDILLI) ve
+# asagidaki kontroller hazir, metinler hekim onayi bekliyor.
+EN_SAYFA = []
+
+# Ingilizce sorumluluk notu — Turkce karsiligiyla AYNI islevde.
+# Turkce sayfalarda "hekim muayenesinin yerine gecmez" araniyor;
+# Ingilizce sayfada o cumle bulunmayacagi icin ayri desen sart.
+EN_SORUMLULUK = "does not replace an examination"
+
 # Sekmeli menude bulunmasi gereken baglantilar.
 # ⚠️ 2 Agu 2026: "Tedaviler" ve "İletişim" eskiden `/#tedaviler` ve
 # `/#iletisim` CAPALARIYDI. Bir bilgi yazisindayken tiklaninca once ana
@@ -420,7 +439,8 @@ def _tum_html():
 
 
 _tum = _tum_html()
-_beklenen = sorted(["index.html", "gizlilik.html"] + BILGI + ALT_SAYFA)
+_beklenen = sorted(["index.html", "gizlilik.html"] + BILGI + ALT_SAYFA
+                   + EN_SAYFA)
 _fazla = [y for y in _tum if y not in _beklenen]
 kontrol("denetlenmeyen HTML yok (alt klasorler dahil)",
         _tum == _beklenen,
@@ -739,6 +759,62 @@ if os.path.exists("bilgi-yazilari.html"):
             bool(_say) and int(_say.group(1)) == len(BILGI),
             ("semada %s, diskte %d yazi"
              % (_say.group(1) if _say else "yok", len(BILGI))))
+
+# ==========================================================================
+# INGILIZCE BOLUM KONTROLLERI (COKDILLI-TASARIM.md)
+# ==========================================================================
+# ⚠️ Sayfalar yazilmadan once kuruldu. EN_SAYFA bosken bu blok sessizce
+# geciyor; ilk Ingilizce sayfa eklendigi an devreye giriyor.
+if EN_SAYFA:
+    _en_sorun = []
+    _tr_hedefi = {}          # EN sayfa -> hreflang ile gosterdigi TR sayfa
+    for _ad in EN_SAYFA:
+        if not os.path.exists(_ad):
+            _en_sorun.append("%s: dosya yok" % _ad)
+            continue
+        _s = io.open(_ad, encoding="utf-8").read()
+
+        # 1) Sorumluluk notu — Turkce desen Ingilizce sayfada tutmaz.
+        if EN_SORUMLULUK.lower() not in _s.lower():
+            _en_sorun.append("%s: Ingilizce sorumluluk notu yok" % _ad)
+
+        # 2) canonical KENDINE. TR sayfayi gosterirse Google Ingilizce
+        #    sayfayi hic dizine almaz — cok dilli calismanin tamami
+        #    bosa gider.
+        _kan = re.search(r'<link rel="canonical" href="([^"]+)"', _s)
+        _bekl = "https://ymdisklinigi.com/" + _ad.replace(os.sep, "/")
+        if not _kan or _kan.group(1).rstrip("/") != _bekl.rstrip("/"):
+            _en_sorun.append("%s: canonical kendine degil (%s)"
+                             % (_ad, _kan.group(1) if _kan else "yok"))
+
+        # 3) hreflang: kendisi + TR karsiligi + x-default olmali.
+        _hl = dict(re.findall(
+            r'<link[^>]+hreflang="([^"]+)"[^>]+href="([^"]+)"', _s))
+        if not _hl:
+            _hl = {b: a for a, b in re.findall(
+                r'<link[^>]+href="([^"]+)"[^>]+hreflang="([^"]+)"', _s)}
+        for _dil in ("en", "tr", "x-default"):
+            if _dil not in _hl:
+                _en_sorun.append("%s: hreflang '%s' yok" % (_ad, _dil))
+        if "tr" in _hl:
+            _tr_hedefi[_ad] = _hl["tr"].split("/")[-1] or "index.html"
+
+    # 4) ⚠️ hreflang KARSILIKLI olmali. Tek yonlu hreflang'i Google
+    #    YOK SAYIYOR — yani TR sayfa da EN'i gostermeli. Bu, cok dilli
+    #    kurulumda en sik yapilan ve en sessiz hatadir.
+    for _en, _tr in _tr_hedefi.items():
+        if not os.path.exists(_tr):
+            _en_sorun.append("%s -> %s: TR karsiligi diskte yok" % (_en, _tr))
+            continue
+        _trs = io.open(_tr, encoding="utf-8").read()
+        if _en.replace(os.sep, "/") not in _trs:
+            _en_sorun.append("%s: TR sayfasi (%s) GERI hreflang vermiyor"
+                             % (_en, _tr))
+
+    kontrol("Ingilizce bolum tutarli (canonical + karsilikli hreflang)",
+            not _en_sorun,
+            ("; ".join(_en_sorun[:3])) if _en_sorun
+            else "%d sayfa" % len(EN_SAYFA))
 
 # ⚠️ 3 Agu 2026: ana sayfa "toplam on alti baslik" diyordu — o cumle
 # 16 yazi varken doğruydu, sonra 17 yazi daha eklendi ve kimse cumleye
