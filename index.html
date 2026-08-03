@@ -162,6 +162,43 @@
   .serit-tel .ikon{color:var(--vurgu)}
   @media (max-width:400px){.serit-tel{font-size:14px;padding:8px 13px}.marka b{font-size:15px}}
 
+  /* ⚠️ DIL SECICI — 3 Agu 2026. Bu kurallar `bilgi.css`te vardi ama
+     index.html o dosyayi YUKLEMIYOR (kendi gomulu stili var). Sonuc:
+     alt sayfalarda duzgun acilir menu, ANA SAYFADA ciplak liste.
+     Hekim ekran goruntusuyle bildirdi: cift ok, yan yana akan
+     baglantilar. Ayni tuzak daha once de yasandi (tedaviler.html
+     tasinirken gomulu stile bagli siniflar kullanilmisti). */
+  .dil-sec{position:relative;margin-left:10px}
+  .dil-sec>summary{list-style:none;cursor:pointer;display:inline-flex;
+    align-items:center;gap:7px;padding:9px 13px;border-radius:999px;
+    border:1px solid var(--cizgi);background:var(--kat);
+    color:var(--gri);font:600 14px/1 var(--metin);white-space:nowrap}
+  .dil-sec>summary::-webkit-details-marker{display:none}
+  .dil-sec>summary::marker{content:""}
+  .dil-sec>summary:hover{border-color:var(--vurgu);color:var(--vurgu)}
+  .dil-sec[open]>summary{border-color:var(--vurgu);color:var(--vurgu)}
+  .dil-sec>summary .ok{font-size:10px;opacity:.7;transition:transform .15s}
+  .dil-sec[open]>summary .ok{transform:rotate(180deg)}
+  .dil-liste{position:absolute;right:0;top:calc(100% + 8px);z-index:40;
+    min-width:186px;padding:6px;border-radius:14px;
+    border:1px solid var(--cizgi);background:var(--kat);
+    box-shadow:0 18px 40px -22px rgba(0,0,0,.55)}
+  .dil-liste a{display:flex;align-items:center;gap:10px;padding:9px 11px;
+    border-radius:9px;text-decoration:none;color:var(--gri);
+    font:500 14px/1.2 var(--metin)}
+  .dil-liste a:hover{background:var(--kagit);color:var(--vurgu)}
+  .dil-liste a[aria-current="true"]{color:var(--vurgu);font-weight:700}
+  /* Bayrak emojisi yerine kod rozeti: Windows bolgesel-gosterge
+     ciftlerini bayrak olarak cizmiyor, "TR"/"GB" harfleri gorunuyordu. */
+  .dil-kod{display:inline-flex;align-items:center;justify-content:center;
+    min-width:26px;padding:2px 5px;border-radius:5px;
+    border:1px solid var(--cizgi);background:var(--kagit);
+    font:700 10px/1.4 var(--metin);letter-spacing:.5px;opacity:.85}
+  @media (max-width:520px){
+    .dil-sec>summary{padding:8px 11px;font-size:13px}
+    .dil-sec>summary .dil-ad{display:none}
+  }
+
   /* --- sekmeler: serit'in hemen altinda, yapiskan degil ---
      Dar ekranda yatay kaydirilir; kaydirma cubugu gizli ama parmakla
      kaydirma calisir. Etkin sekme aria-current="page" ile isaretli. */
@@ -590,12 +627,12 @@
   <details class="dil-sec">
     <summary aria-label="Dil sec / Choose language"><span class="dil-ad">T&uuml;rk&ccedil;e</span><span class="ok">&#9660;</span></summary>
     <div class="dil-liste">
-      <a href="/">&#127481;&#127479; T&uuml;rk&ccedil;e</a>
-      <a href="en/">&#127468;&#127463; English</a>
-      <a href="es/">&#127466;&#127480; Espa&ntilde;ol</a>
-      <a href="fr/">&#127467;&#127479; Fran&ccedil;ais</a>
-      <a href="de/">&#127465;&#127466; Deutsch</a>
-      <a href="ru/">&#127479;&#127482; &#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;</a>
+      <a href="/"><span class="dil-kod">TR</span> T&uuml;rk&ccedil;e</a>
+      <a href="en/"><span class="dil-kod">EN</span> English</a>
+      <a href="es/"><span class="dil-kod">ES</span> Espa&ntilde;ol</a>
+      <a href="fr/"><span class="dil-kod">FR</span> Fran&ccedil;ais</a>
+      <a href="de/"><span class="dil-kod">DE</span> Deutsch</a>
+      <a href="ru/"><span class="dil-kod">RU</span> &#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;</a>
     </div>
   </details>
 </div></div>

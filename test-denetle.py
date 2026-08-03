@@ -1048,8 +1048,15 @@ for _grup in _ESI:
             # yayimlanan sayfa -> yayimlanmayan dil: baglanti OLMAMALI
             if (_kod == "tr" or _kod in _YAYIMDA) and                     _hk != "tr" and _hk not in _YAYIMDA:
                 continue
+            # ⚠️ 3 Agu 2026: desen BAYRAK EMOJISINI (`&#\d+;&#\d+;`)
+            # sabit ariyordu. Bayrak emojisi Windows'ta cizilmedigi
+            # (kullaniciya "TR"/"GB" harfleri gorundugu) icin kod
+            # rozetine gecildi ve bu test hakli olarak kirmizi verdi —
+            # isaretleme degisti, test onu yakaladi. Desen yeni bicime
+            # gore guncellendi; iki basamakli kod ve dil adi araniyor.
             _m = _re.search(
-                r'<a href="([^"]*)"[^>]*>&#\d+;&#\d+; ' +
+                r'<a href="([^"]*)"[^>]*>'
+                r'<span class="dil-kod">[A-Z]{2}</span> ' +
                 _re.escape(_AD[_hk]) + r'</a>', _s)
             if not _m:
                 _kirik.append("%s -> %s baglantisi yok" % (_yol, _hk))

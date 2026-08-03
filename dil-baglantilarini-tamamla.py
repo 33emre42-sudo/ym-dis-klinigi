@@ -35,9 +35,18 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 KOK = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ymdisklinigi.com/"
 
-BAYRAK = {"tr": "&#127481;&#127479;", "en": "&#127468;&#127463;",
-          "es": "&#127466;&#127480;", "fr": "&#127467;&#127479;",
-          "de": "&#127465;&#127466;", "ru": "&#127479;&#127482;"}
+# ⚠️ BAYRAK EMOJISI KULLANILMIYOR — 3 Agu 2026.
+# Once `&#127481;&#127479;` (bayrak emojisi) kullaniliyordu. Windows
+# bolgesel-gosterge ciftlerini bayrak olarak CIZMIYOR; kullaniciya
+# kucuk harflerle "TR", "GB" diye gorunuyordu. Hekim ekran goruntusuyle
+# bildirdi. Emoji yerine ACIK bir kod rozeti: her isletim sisteminde,
+# her yazi tipinde ayni gorunur.
+BAYRAK = {"tr": '<span class="dil-kod">TR</span>',
+          "en": '<span class="dil-kod">EN</span>',
+          "es": '<span class="dil-kod">ES</span>',
+          "fr": '<span class="dil-kod">FR</span>',
+          "de": '<span class="dil-kod">DE</span>',
+          "ru": '<span class="dil-kod">RU</span>'}
 AD = {"tr": "T&uuml;rk&ccedil;e", "en": "English", "es": "Espa&ntilde;ol",
       "fr": "Fran&ccedil;ais", "de": "Deutsch", "ru": "&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;"}
 

@@ -231,9 +231,11 @@ footer a{color:var(--vurgu);text-decoration:none}
   border:1px solid var(--cizgi);background:var(--kat);
   color:var(--gri);font:600 14px/1 var(--metin);white-space:nowrap}
 .dil-sec>summary::-webkit-details-marker{display:none}
+.dil-sec>summary::marker{content:""}
 .dil-sec>summary:hover{border-color:var(--vurgu);color:var(--vurgu)}
 .dil-sec[open]>summary{border-color:var(--vurgu);color:var(--vurgu)}
-.dil-sec>summary .ok{font-size:10px;opacity:.7}
+.dil-sec>summary .ok{font-size:10px;opacity:.7;transition:transform .15s}
+.dil-sec[open]>summary .ok{transform:rotate(180deg)}
 .dil-liste{position:absolute;right:0;top:calc(100% + 8px);z-index:40;
   min-width:172px;padding:6px;border-radius:14px;
   border:1px solid var(--cizgi);background:var(--kat);
@@ -243,6 +245,14 @@ footer a{color:var(--vurgu);text-decoration:none}
   font:500 14px/1.2 var(--metin)}
 .dil-liste a:hover{background:var(--kagit);color:var(--vurgu)}
 .dil-liste a[aria-current="true"]{color:var(--vurgu);font-weight:700}
+/* Bayrak emojisi yerine kod rozeti: Windows bolgesel-gosterge
+   ciftlerini bayrak olarak cizmiyor, "TR"/"GB" harfleri
+   gorunuyordu. Rozet her isletim sisteminde ayni. */
+.dil-kod{display:inline-flex;align-items:center;justify-content:center;
+  min-width:26px;padding:2px 5px;border-radius:5px;
+  border:1px solid var(--cizgi);background:var(--kagit);
+  font:700 10px/1.4 var(--metin);letter-spacing:.5px;opacity:.85}
+
 @media (max-width:520px){
   .dil-sec>summary{padding:8px 11px;font-size:13px}
   .dil-sec>summary .dil-ad{display:none}
