@@ -100,7 +100,7 @@ except FileNotFoundError:
 BILGI = ["nobetci-dis-hekimi-acil-dis.html",
          "gece-dis-agrisi.html", "gece-hafta-sonu-dis-hekimi.html",
          "kirilan-dis-ne-yapmali.html",
-         "dis-apsesi.html", "yirmi-yas-disi.html",
+         "dis-apsesi.html", "dolgu-kaplama-dustu.html", "yirmi-yas-disi.html",
          "kanal-tedavisi.html", "implant-sureci.html",
          "diseti-kanamasi.html", "dis-sikma-gece-plagi.html",
          "hamilelikte-dis-sagligi.html", "cocukta-ilk-dis.html",
