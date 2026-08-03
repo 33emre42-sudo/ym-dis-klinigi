@@ -932,6 +932,7 @@ bekle("cokdilli: Fransizca 'nos tarifs' YAKALANIR",
 # Bu testler kapinin CALISTIGINI degil, KAPALI KALDIGINI koruyor.
 # Birisi ileride TURIZM_DILI desenini gevsetirse ya da BELGE_VAR'i
 # yanlislikla True yaparsa burasi kalir.
+import importlib.util as _iu
 import os as _os
 import re as _re
 _KOK = _os.path.dirname(_os.path.abspath(__file__))
@@ -1023,8 +1024,16 @@ exec(compile(_kaynak[_b:_kaynak.index(chr(10) + "]", _b) + 2],
              "esleme", "exec"), _ns2)
 _ESI = _ns2["SAYFA_ESI"]
 
-_AD = {"tr": "T&uuml;rk&ccedil;e", "en": "English",
-       "es": "Espa&ntilde;ol", "fr": "Fran&ccedil;ais"}
+# ⚠️ Dil adlari ELLE YAZILMAZ — `dil-baglantilarini-tamamla.py`
+# zaten tutuyor ve baglantilari O uretiyor. Iki yerde tutulunca
+# ayrisiyor: bu sozluk once "fr", sonra "de" eklendiginde GERIDE
+# KALDI ve test KeyError ile coktu. Uretici ile denetleyici AYNI
+# tablodan okumali.
+_dbt_spec = _iu.spec_from_file_location(
+    "_dbt", _os.path.join(_KOK, "dil-baglantilarini-tamamla.py"))
+_dbt = _iu.module_from_spec(_dbt_spec)
+_dbt_spec.loader.exec_module(_dbt)
+_AD = _dbt.AD
 _kirik = []
 _kirli_url = []
 for _grup in _ESI:
