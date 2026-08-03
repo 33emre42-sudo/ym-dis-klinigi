@@ -921,6 +921,90 @@ bekle("cokdilli: Fransizca 'nos tarifs' YAKALANIR",
       "<p>Consultez nos tarifs pour les implants.</p>",
       True, kod="fiyat (FR)")
 
+# ===========================================================================
+# SAGLIK TURIZMI KAPISI — 3 Agu 2026
+# ===========================================================================
+# ⚠️ NEDEN VAR: yabanci dilde "tedavi icin Istanbul'a gelin" icerigi
+# yayimlamak faaliyeti ULUSLARARASI SAGLIK TURIZMI kapsamina sokuyor
+# ve Uluslararasi Saglik Turizmi Yetki Belgesi ZORUNLU. Klinikte belge
+# yok. Sayfalar yayimlanmak uzereydi; on-olum turu yakaladi.
+#
+# Bu testler kapinin CALISTIGINI degil, KAPALI KALDIGINI koruyor.
+# Birisi ileride TURIZM_DILI desenini gevsetirse ya da BELGE_VAR'i
+# yanlislikla True yaparsa burasi kalir.
+import os as _os
+import re as _re
+_KOK = _os.path.dirname(_os.path.abspath(__file__))
+
+
+def kontrol(ad, gecti, not_=""):
+    sonuc.append((ad, bool(gecti), not_))
+
+_TURIZM = None
+_BELGE = None
+try:
+    # denetle.py calistirilinca butun denetimi kosuyor; yalnizca
+    # sabitleri okumak icin kaynagi ayristirmak yeterli ve hizli.
+    _kaynak = io.open(_os.path.join(_KOK, "denetle.py"),
+                      encoding="utf-8").read()
+    _ns = {}
+    _bas = _kaynak.index("BELGE_VAR =")
+    _son = _kaynak.index("# Ingilizce sorumluluk notu")
+    exec(compile(_kaynak[_bas:_son], "denetle-parca", "exec"), _ns)
+    _BELGE = _ns.get("BELGE_VAR")
+    _TURIZM = _ns.get("TURIZM_DILI")
+except Exception as _e:
+    pass
+
+kontrol("turizm kapisi: BELGE_VAR okunabiliyor", _BELGE is not None,
+        str(_BELGE))
+kontrol("turizm kapisi: belge YOK olarak isaretli (belge gelince True)",
+        _BELGE is False, "belge alinirsa bu test bilerek kalir")
+
+def _turizm_yakalar(metin):
+    if not _TURIZM:
+        return False
+    return any(_re.search(d, metin, _re.I) for d in _TURIZM.values())
+
+for _ad, _metin, _bekle in [
+        ("EN 'if you are travelling'",
+         "If you are travelling to Istanbul for treatment", True),
+        ("EN 'your stay'", "Treatment planning and your stay", True),
+        ("EN 'two trips'", "plan for either two trips", True),
+        ("ES 'si viaja'", "Si viaja a Estambul para recibir tratamiento", True),
+        ("ES 'su estancia'", "Planificacion del tratamiento y su estancia", True),
+        ("FR 'votre sejour'", "Votre sejour a Istanbul", True),
+        ("DE 'Ihr Aufenthalt'", "Ihr Aufenthalt in Istanbul", True),
+        ("RU 'ваше пребывание'", "ваше пребывание в Стамбуле", True),
+        # ⚠️ Yanlis alarm kapisi: bilgi vermek SERBEST. Kapi fazla genis
+        # olursa yabanci dilde hicbir sey yazilamaz hale gelir.
+        ("normal tedavi anlatimi",
+         "The implant is placed and the bone heals around it.", False),
+        ("adres/saat bilgisi",
+         "We are open 24 hours, every day, at a single address.", False),
+        ("randevu cumlesi",
+         "At least two separate appointments are needed.", False)]:
+    kontrol("turizm dili: %s" % _ad, _turizm_yakalar(_metin) == _bekle,
+            "yakalanmali" if _bekle else "yakalanmamali")
+
+# Yayimlanan yabanci sayfalarda turizm dili KALMAMIS olmali
+import glob as _glob
+_kirli = []
+for _y in _glob.glob("en/*.html") + _glob.glob("es/*.html"):
+    if _turizm_yakalar(io.open(_y, encoding="utf-8").read()):
+        _kirli.append(_y)
+kontrol("yayimlanan yabanci sayfalarda turizm dili yok", not _kirli,
+        ("KIRLI: %s" % ", ".join(_kirli)) if _kirli else "temiz")
+
+# belge-bekliyor/ klasoru yukleyicinin ve denetimin DISINDA olmali —
+# ikisi ayrisirsa sayfa yayina cikar ve denetim gormez.
+_yk = io.open(_os.path.join(_os.path.dirname(_KOK),
+                            "hasta-mesajlari", "siteyi-yukle.py"),
+              encoding="utf-8").read()
+kontrol("belge-bekliyor/ yukleyicide de disarida",
+        "belge-bekliyor" in _yk, "siteyi-yukle.py")
+
+
 print("=" * 70)
 print("DENETCI TESTI — denetle.py gercekten yakaliyor mu?")
 print("=" * 70)

@@ -135,15 +135,70 @@ EN_SAYFA = ["en/index.html",
             "en/dental-implants.html",
             "en/crowns-and-veneers.html",
             "en/root-canal-and-general-dentistry.html",
-            "en/treatment-planning-and-your-stay.html",
             "en/our-dentists.html",
             "en/getting-here.html",
             "en/contact.html"]
+
+# ============================================================================
+# SAGLIK TURIZMI KAPISI — 3 Agu 2026
+# ============================================================================
+# ⚠️ Yabanci dilde "tedavi icin Istanbul'a gelin / kac gun kalirsiniz"
+# icerigi yayimlamak, faaliyeti ULUSLARARASI SAGLIK TURIZMI kapsamina
+# sokuyor. Bunun icin Uluslararasi Saglik Turizmi Yetki Belgesi
+# ZORUNLU — secmeli degil. Muayenehane ve poliklinikler AYNI sartlara
+# tabi; "biz kucuguz" muafiyeti yok. Sartlar arasinda saglik turizmi
+# birimi, hizmet dilini B2 seviyesinde BELGELI bilen personel ve
+# yabanci hastalar icin onam/epikriz duzenlemesi var.
+#
+# Klinikte belge HENUZ YOK (3 Agu 2026; basvuru yapilacak).
+#
+# ⚠️ BU KONU 25 TUR KOD DENETIMININ HIC SORMADIGI BIR SORUYDU. Kodda
+# hata yoktu, tasarimda da yoktu — eksik olan bir BELGEYDI. On-olum
+# turu ("bu is 6 ay sonra coktu, nasil coktu?") yakaladi. Sayfalar
+# yayimlanmak uzereydi.
+#
+# Turizm sayfalari SILINMEDI, `belge-bekliyor/` klasorunde duruyor ve
+# siteyi-yukle.py o klasoru atliyor. Belge gelince BELGE_VAR = True
+# yapilip sayfalar geri alinir.
+BELGE_VAR = False
+
+# Bu kaliplar YAYIMLANAN yabanci dil sayfalarinda ARANMAZ olmali.
+# Bilgi vermek serbest; "tedavi icin buraya SEYAHAT ET" demek degil.
+TURIZM_DILI = {
+    "seyahat cagrisi (EN)": r"\btravel(?:l)?ing\s+(?:to|from)\b"
+                            r"|\bif\s+you\s+are\s+travel"
+                            r"|\byour\s+stay\b|\blonger\s+stay\b"
+                            r"|\btwo\s+trips\b|\bbefore\s+you\s+travel\b"
+                            r"|\bhow\s+many\s+days\s+you\b",
+    "seyahat cagrisi (ES)": r"\bsi\s+viaja\b|\bviajar\s+a\s+Estambul\b"
+                            r"|\bsu\s+estancia\b|\bcu[aá]ntos\s+d[ií]as\b",
+    "seyahat cagrisi (FR)": r"\bsi\s+vous\s+voyagez\b|\bvotre\s+s[ée]jour\b"
+                            r"|\bcombien\s+de\s+jours\b",
+    "seyahat cagrisi (DE)": r"\bwenn\s+Sie\s+(?:an)?reisen\b"
+                            r"|\bIhr\s+Aufenthalt\b|\bwie\s+viele\s+Tage\b",
+    "seyahat cagrisi (RU)": r"\bесли\s+вы\s+приезжаете\b|\bваше\s+пребывание\b",
+}
 
 # Ingilizce sorumluluk notu — Turkce karsiligiyla AYNI islevde.
 # Turkce sayfalarda "hekim muayenesinin yerine gecmez" araniyor;
 # Ingilizce sayfada o cumle bulunmayacagi icin ayri desen sart.
 EN_SORUMLULUK = "does not replace an examination"
+
+# --- Ispanyolca (3 Agu 2026, kurulum surüyor) ----------------------
+ES_SAYFA = ["es/index.html"]
+ES_SORUMLULUK = "no sustituye la exploración"
+
+# ⚠️ Diller TEK TEK degil TABLODAN denetleniyor. Eskiden yalnizca
+# Ingilizce icin yazilmis bir blok vardi; her yeni dil o blogun
+# kopyalanmasini gerektirirdi ve dordunculde biri mutlaka atlanirdi.
+# Yeni dil eklemek artik BURAYA IKI SATIR yazmak demek.
+DILLER = {
+    "en": {"ad": "Ingilizce", "sayfalar": EN_SAYFA,
+           "sorumluluk": EN_SORUMLULUK},
+    "es": {"ad": "Ispanyolca", "sayfalar": ES_SAYFA,
+           "sorumluluk": ES_SORUMLULUK},
+}
+COKDILLI_SAYFA = [y for d in DILLER.values() for y in d["sayfalar"]]
 
 # Sekmeli menude bulunmasi gereken baglantilar.
 # ⚠️ 2 Agu 2026: "Tedaviler" ve "İletişim" eskiden `/#tedaviler` ve
@@ -429,7 +484,10 @@ kontrol("listedeki sayfalar diskle ayni",
 #
 # Klasor istisnalari yukleyicideki liste ile AYNI olmali; ayrisirsa
 # ayni acik geri gelir.
-YUKLEYICI_DISI = (".git", "arsiv")
+# belge-bekliyor/ — saglik turizmi belgesi gelene kadar bekleyen
+# sayfalar. siteyi-yukle.py da ayni klasoru atliyor; ikisi
+# ayrisirsa sayfa yayina cikar ve denetim gormez.
+YUKLEYICI_DISI = (".git", "arsiv", "belge-bekliyor")
 
 
 def _tum_html():
@@ -446,7 +504,7 @@ def _tum_html():
 
 _tum = _tum_html()
 _beklenen = sorted(["index.html", "gizlilik.html"] + BILGI + ALT_SAYFA
-                   + EN_SAYFA)
+                   + COKDILLI_SAYFA)
 _fazla = [y for y in _tum if y not in _beklenen]
 kontrol("denetlenmeyen HTML yok (alt klasorler dahil)",
         _tum == _beklenen,
@@ -771,44 +829,73 @@ if os.path.exists("bilgi-yazilari.html"):
 # ==========================================================================
 # ⚠️ Sayfalar yazilmadan once kuruldu. EN_SAYFA bosken bu blok sessizce
 # geciyor; ilk Ingilizce sayfa eklendigi an devreye giriyor.
-if EN_SAYFA:
+if COKDILLI_SAYFA:
     _en_sorun = []
-    _tr_hedefi = {}          # EN sayfa -> hreflang ile gosterdigi TR sayfa
-    for _ad in EN_SAYFA:
-        if not os.path.exists(_ad):
-            _en_sorun.append("%s: dosya yok" % _ad)
-            continue
-        _s = io.open(_ad, encoding="utf-8").read()
+    _tr_hedefi = {}          # yabanci sayfa -> gosterdigi TR sayfa
+    for _kod, _dil in sorted(DILLER.items()):
+      for _ad in _dil["sayfalar"]:
+          if not os.path.exists(_ad):
+              _en_sorun.append("%s: dosya yok" % _ad)
+              continue
+          _s = io.open(_ad, encoding="utf-8").read()
 
-        # 1) Sorumluluk notu — Turkce desen Ingilizce sayfada tutmaz.
-        if EN_SORUMLULUK.lower() not in _s.lower():
-            _en_sorun.append("%s: Ingilizce sorumluluk notu yok" % _ad)
+          # 1) Sorumluluk notu — Turkce desen yabanci sayfada tutmaz.
+          if _dil["sorumluluk"].lower() not in _s.lower():
+              _en_sorun.append("%s: %s sorumluluk notu yok"
+                               % (_ad, _dil["ad"]))
 
-        # 2) canonical KENDINE. TR sayfayi gosterirse Google Ingilizce
-        #    sayfayi hic dizine almaz — cok dilli calismanin tamami
-        #    bosa gider.
-        _kan = re.search(r'<link rel="canonical" href="([^"]+)"', _s)
-        # ⚠️ `en/index.html` TEMIZ ADRESLE (`/en/`) yayimlaniyor;
-        # canonical dosya adini gosterirse ziyaretcinin gordugu adres
-        # ile bildirilen adres ayrisir.
-        _yol = _ad.replace(os.sep, "/")
-        _bekl = ("https://ymdisklinigi.com/en/" if _yol == "en/index.html"
-                 else "https://ymdisklinigi.com/" + _yol)
-        if not _kan or _kan.group(1).rstrip("/") != _bekl.rstrip("/"):
-            _en_sorun.append("%s: canonical kendine degil (%s)"
-                             % (_ad, _kan.group(1) if _kan else "yok"))
+          # 1b) SAGLIK TURIZMI KAPISI. Belge yokken "tedavi icin seyahat
+          #     et" dili yayimlanamaz. Bu kontrol icerik denetimi degil
+          #     MEVZUAT kapisidir: ihlali idari yaptirim doguruyor.
+          if not BELGE_VAR:
+              for _kad, _kdesen in TURIZM_DILI.items():
+                  _bul = re.search(_kdesen, _s, re.I)
+                  if _bul:
+                      _en_sorun.append(
+                          "%s: SAGLIK TURIZMI DILI — %s: \"%s\" "
+                          "(yetki belgesi yok; belge-bekliyor/ klasorune al "
+                          "ya da cumleyi cikar)"
+                          % (_ad, _kad, _bul.group(0)[:40]))
 
-        # 3) hreflang: kendisi + TR karsiligi + x-default olmali.
-        _hl = dict(re.findall(
-            r'<link[^>]+hreflang="([^"]+)"[^>]+href="([^"]+)"', _s))
-        if not _hl:
-            _hl = {b: a for a, b in re.findall(
-                r'<link[^>]+href="([^"]+)"[^>]+hreflang="([^"]+)"', _s)}
-        for _dil in ("en", "tr", "x-default"):
-            if _dil not in _hl:
-                _en_sorun.append("%s: hreflang '%s' yok" % (_ad, _dil))
-        if "tr" in _hl:
-            _tr_hedefi[_ad] = _hl["tr"].split("/")[-1] or "index.html"
+          # 2) canonical KENDINE. TR sayfayi gosterirse Google yabanci
+          #    sayfayi hic dizine almaz — cok dilli calismanin tamami
+          #    bosa gider.
+          _kan = re.search(r'<link rel="canonical" href="([^"]+)"', _s)
+          # ⚠️ Her dilin ana sayfasi TEMIZ ADRESLE (`/en/`, `/es/`)
+          # yayimlaniyor; canonical dosya adini gosterirse ziyaretcinin
+          # gordugu adres ile bildirilen adres ayrisir.
+          _yol = _ad.replace(os.sep, "/")
+          _bekl = ("https://ymdisklinigi.com/%s/" % _kod
+                   if _yol == "%s/index.html" % _kod
+                   else "https://ymdisklinigi.com/" + _yol)
+          if not _kan or _kan.group(1).rstrip("/") != _bekl.rstrip("/"):
+              _en_sorun.append("%s: canonical kendine degil (%s)"
+                               % (_ad, _kan.group(1) if _kan else "yok"))
+
+          # 3) hreflang: kendisi + TR + x-default + AYNI SAYFANIN VAR
+          #    OLDUGU her dil.
+          # ⚠️ Son sart onemli: Ispanyolca eklendiginde Ingilizce sayfa
+          #    da `hreflang="es"` vermeli. Vermezse Google iki bolumu
+          #    ayri ayri degerlendirir ve cok dilli kurulum yarim kalir.
+          #    Dil eklerken en kolay atlanan yer burasi.
+          _hl = dict(re.findall(
+              r'<link[^>]+hreflang="([^"]+)"[^>]+href="([^"]+)"', _s))
+          if not _hl:
+              _hl = {b: a for a, b in re.findall(
+                  r'<link[^>]+href="([^"]+)"[^>]+hreflang="([^"]+)"', _s)}
+          _gerekli = {_kod, "tr", "x-default"}
+          _dosya_adi = _yol.split("/", 1)[1]
+          for _bk, _bd in DILLER.items():
+              if "%s/%s" % (_bk, _dosya_adi) in _bd["sayfalar"]:
+                  _gerekli.add(_bk)
+          # ⚠️ Dongu degiskeni `_bk` — `_dil` KULLANILAMAZ, dis dongunun
+          # dil sozlugunu ezer ve sonraki dilde cokerdi (yazarken
+          # yapildi, buraya not dusuldu).
+          for _bk in sorted(_gerekli):
+              if _bk not in _hl:
+                  _en_sorun.append("%s: hreflang '%s' yok" % (_ad, _bk))
+          if "tr" in _hl:
+              _tr_hedefi[_ad] = _hl["tr"].split("/")[-1] or "index.html"
 
     # 4) ⚠️ hreflang KARSILIKLI olmali. Tek yonlu hreflang'i Google
     #    YOK SAYIYOR — yani TR sayfa da EN'i gostermeli. Bu, cok dilli
@@ -823,16 +910,17 @@ if EN_SAYFA:
         # varsa karsiliklilik saglanmis sayilir.
         _en_yol = _en.replace(os.sep, "/")
         _bicimler = [_en_yol]
-        if _en_yol == "en/index.html":
-            _bicimler.append("/en/")
+        _kk = _en_yol.split("/", 1)[0]
+        if _en_yol == "%s/index.html" % _kk:
+            _bicimler.append("/%s/" % _kk)
         if not any(b in _trs for b in _bicimler):
             _en_sorun.append("%s: TR sayfasi (%s) GERI hreflang vermiyor"
                              % (_en, _tr))
 
-    kontrol("Ingilizce bolum tutarli (canonical + karsilikli hreflang)",
+    kontrol("cok dilli bolum tutarli (canonical + karsilikli hreflang)",
             not _en_sorun,
             ("; ".join(_en_sorun[:3])) if _en_sorun
-            else "%d sayfa" % len(EN_SAYFA))
+            else "%d dil, %d sayfa" % (len(DILLER), len(COKDILLI_SAYFA)))
 
 # ⚠️ 3 Agu 2026: ana sayfa "toplam on alti baslik" diyordu — o cumle
 # 16 yazi varken doğruydu, sonra 17 yazi daha eklendi ve kimse cumleye
@@ -884,13 +972,17 @@ if os.path.exists("sitemap.xml"):
         beklenen = {"https://ymdisklinigi.com/"}
         beklenen.update("https://ymdisklinigi.com/" + a
                         for a in BILGI + ALT_SAYFA + ["gizlilik.html"])
-        # ⚠️ Ingilizce bolumun ana sayfasi TEMIZ ADRESLE (`/en/`)
-        # yayimlanir; diskteki dosya adi `en/index.html`. Sitemap'te
-        # dosya adini yazmak ziyaretcinin gordugu adresten farkli bir
-        # URL bildirmek olurdu — Google ikisini ayri sayfa sanabilir.
-        beklenen.update("https://ymdisklinigi.com/"
-                        + ("en/" if a == "en/index.html" else a)
-                        for a in EN_SAYFA)
+        # ⚠️ Her dil bolumunun ana sayfasi TEMIZ ADRESLE (`/en/`,
+        # `/es/`) yayimlanir; diskteki dosya adi `en/index.html`.
+        # Sitemap'te dosya adini yazmak ziyaretcinin gordugu adresten
+        # farkli bir URL bildirmek olurdu — Google ikisini ayri sayfa
+        # sanabilir. Kural DILDEN BAGIMSIZ yazildi; yeni dil eklenince
+        # burayi guncellemek unutulurdu.
+        for _dk in DILLER:
+            beklenen.update(
+                "https://ymdisklinigi.com/"
+                + ("%s/" % _dk if a == "%s/index.html" % _dk else a)
+                for a in DILLER[_dk]["sayfalar"])
         var = set(loclar)
         yinelenen = len(loclar) != len(var)
         kontrol("sitemap diskle BIREBIR ayni",
