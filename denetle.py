@@ -730,6 +730,53 @@ if os.path.exists("bilgi-yazilari.html"):
             ("dizinde yok: %s" % yetim) if yetim
             else "%d yazi" % len(BILGI))
 
+    # ⚠️ 3 Agu 2026: ItemList semasindaki `numberOfItems` hic
+    # denetlenmiyordu. Yazi eklerken kart konup sayinin unutulmasi
+    # (ya da tersi) skill'in kendi "sik dusulen hatalar" listesinde
+    # yaziyor ama hicbir sey dogrulamiyordu. Artik dogruluyor.
+    _say = re.search(r'"numberOfItems"\s*:\s*(\d+)', dizin)
+    kontrol("ItemList numberOfItems dogru",
+            bool(_say) and int(_say.group(1)) == len(BILGI),
+            ("semada %s, diskte %d yazi"
+             % (_say.group(1) if _say else "yok", len(BILGI))))
+
+# ⚠️ 3 Agu 2026: ana sayfa "toplam on alti baslik" diyordu — o cumle
+# 16 yazi varken doğruydu, sonra 17 yazi daha eklendi ve kimse cumleye
+# dokunmadi. Ziyaretciye yanlis bilgi veriyor ve siteyi olduğundan
+# zayif gosteriyordu. Yazi eklemek bu sayiyi bozdugu icin ARTIK
+# DENETLENIYOR; elle guncel tutmaya guvenmek bir kez zaten tutmadi.
+_ONLUK = {2: "yirmi", 3: "otuz", 4: "kirk", 5: "elli",
+          6: "altmis", 7: "yetmis", 8: "seksen", 9: "doksan"}
+_BIRLIK = {1: "bir", 2: "iki", 3: "uc", 4: "dort", 5: "bes",
+           6: "alti", 7: "yedi", 8: "sekiz", 9: "dokuz"}
+
+
+def _yaziyla(n):
+    """33 -> 'otuz uc'. Turkce karakterler sadelestirilmis halde
+    donuyor; karsilastirma da sadelestirilmis metin uzerinde."""
+    if n < 10:
+        return _BIRLIK.get(n, str(n))
+    onlar, birler = divmod(n, 10)
+    bas = "on" if onlar == 1 else _ONLUK.get(onlar, str(onlar))
+    return bas if birler == 0 else bas + " " + _BIRLIK[birler]
+
+
+def _sadelestir(s_):
+    for a, b in (("ı", "i"), ("ü", "u"), ("ö", "o"), ("ç", "c"),
+                 ("ş", "s"), ("ğ", "g"), ("â", "a")):
+        s_ = s_.replace(a, b)
+    return s_
+
+
+_iy = re.search(r"toplam\s+([a-zA-ZçğıöşüÇĞİÖŞÜâ ]+?)\s+başlık", html)
+_bekleniyor = _yaziyla(len(BILGI))
+_yazan = _iy.group(1).strip() if _iy else None
+_dogru = _yazan is not None and _sadelestir(_yazan) == _bekleniyor
+kontrol("ana sayfadaki yazi sayisi dogru", _dogru,
+        ("'%s' — %d yazi" % (_yazan, len(BILGI))) if _dogru else
+        ("ana sayfa '%s' diyor ama diskte %d yazi var — \"%s\" olmali"
+         % (_yazan or "hic sayi yok", len(BILGI), _bekleniyor)))
+
 # ⚠️ 5. tur bulgu 8: burasi "dosya adi sitemap METNINDE geciyor mu" diye
 # bakiyordu. Alt dizge oldugu icin `dis-cekimi.html` beklenirken sitemap'te
 # yalnizca `eski-dis-cekimi.html` bulunsa da GECIYORDU. Fazladan ya da
