@@ -130,9 +130,15 @@ SSS_SAYFA = "sik-sorulan-sorular.html"
 # gecen bir alt klasor sayfasi denetimden gecmisti). O kapi
 # GEVSETILMIYOR — Ingilizce sayfalar listeye AÇIKÇA ekleniyor.
 #
-# Liste su an BOS: mevzuat kapisi (mevzuat.py YASAKLI_COKDILLI) ve
-# asagidaki kontroller hazir, metinler hekim onayi bekliyor.
-EN_SAYFA = []
+# Metinler 3 Agu'da hekim onayindan gecti. Sekiz sayfa:
+EN_SAYFA = ["en/index.html",
+            "en/dental-implants.html",
+            "en/crowns-and-veneers.html",
+            "en/root-canal-and-general-dentistry.html",
+            "en/treatment-planning-and-your-stay.html",
+            "en/our-dentists.html",
+            "en/getting-here.html",
+            "en/contact.html"]
 
 # Ingilizce sorumluluk notu — Turkce karsiligiyla AYNI islevde.
 # Turkce sayfalarda "hekim muayenesinin yerine gecmez" araniyor;
@@ -782,7 +788,12 @@ if EN_SAYFA:
         #    sayfayi hic dizine almaz — cok dilli calismanin tamami
         #    bosa gider.
         _kan = re.search(r'<link rel="canonical" href="([^"]+)"', _s)
-        _bekl = "https://ymdisklinigi.com/" + _ad.replace(os.sep, "/")
+        # ⚠️ `en/index.html` TEMIZ ADRESLE (`/en/`) yayimlaniyor;
+        # canonical dosya adini gosterirse ziyaretcinin gordugu adres
+        # ile bildirilen adres ayrisir.
+        _yol = _ad.replace(os.sep, "/")
+        _bekl = ("https://ymdisklinigi.com/en/" if _yol == "en/index.html"
+                 else "https://ymdisklinigi.com/" + _yol)
         if not _kan or _kan.group(1).rstrip("/") != _bekl.rstrip("/"):
             _en_sorun.append("%s: canonical kendine degil (%s)"
                              % (_ad, _kan.group(1) if _kan else "yok"))
@@ -807,7 +818,14 @@ if EN_SAYFA:
             _en_sorun.append("%s -> %s: TR karsiligi diskte yok" % (_en, _tr))
             continue
         _trs = io.open(_tr, encoding="utf-8").read()
-        if _en.replace(os.sep, "/") not in _trs:
+        # ⚠️ TR sayfa, EN karsiligini TEMIZ ADRESLE gosterebilir
+        # (`/en/` — ana sayfa icin dogru olan bu). Iki bicimden biri
+        # varsa karsiliklilik saglanmis sayilir.
+        _en_yol = _en.replace(os.sep, "/")
+        _bicimler = [_en_yol]
+        if _en_yol == "en/index.html":
+            _bicimler.append("/en/")
+        if not any(b in _trs for b in _bicimler):
             _en_sorun.append("%s: TR sayfasi (%s) GERI hreflang vermiyor"
                              % (_en, _tr))
 
@@ -866,6 +884,13 @@ if os.path.exists("sitemap.xml"):
         beklenen = {"https://ymdisklinigi.com/"}
         beklenen.update("https://ymdisklinigi.com/" + a
                         for a in BILGI + ALT_SAYFA + ["gizlilik.html"])
+        # ⚠️ Ingilizce bolumun ana sayfasi TEMIZ ADRESLE (`/en/`)
+        # yayimlanir; diskteki dosya adi `en/index.html`. Sitemap'te
+        # dosya adini yazmak ziyaretcinin gordugu adresten farkli bir
+        # URL bildirmek olurdu — Google ikisini ayri sayfa sanabilir.
+        beklenen.update("https://ymdisklinigi.com/"
+                        + ("en/" if a == "en/index.html" else a)
+                        for a in EN_SAYFA)
         var = set(loclar)
         yinelenen = len(loclar) != len(var)
         kontrol("sitemap diskle BIREBIR ayni",

@@ -218,3 +218,32 @@ footer p{margin:0;font-size:13.5px;line-height:1.7;color:var(--soluk);
   max-width:46ch}
 footer b{color:var(--murekkep);font-weight:700;font-family:var(--baslik)}
 footer a{color:var(--vurgu);text-decoration:none}
+
+/* --- dil secici (3 Agu 2026) -----------------------------------
+   ⚠️ DIS KAYNAK YOK: `<details>` ile calisiyor, JavaScript'e
+   BAGIMLI DEGIL. Site gizlilik politikasinda "hicbir ucuncu taraf
+   sunucusuna istek gonderilmez" sozu var; bir bayrak kutuphanesi ya
+   da JS eklentisi o sozu bozardi. Bayraklar da emoji, dosya degil.
+   Klavyeyle acilir, ekran okuyucuyla okunur. */
+.dil-sec{position:relative;margin-left:10px}
+.dil-sec>summary{list-style:none;cursor:pointer;display:inline-flex;
+  align-items:center;gap:7px;padding:9px 13px;border-radius:999px;
+  border:1px solid var(--cizgi);background:var(--kat);
+  color:var(--gri);font:600 14px/1 var(--metin);white-space:nowrap}
+.dil-sec>summary::-webkit-details-marker{display:none}
+.dil-sec>summary:hover{border-color:var(--vurgu);color:var(--vurgu)}
+.dil-sec[open]>summary{border-color:var(--vurgu);color:var(--vurgu)}
+.dil-sec>summary .ok{font-size:10px;opacity:.7}
+.dil-liste{position:absolute;right:0;top:calc(100% + 8px);z-index:40;
+  min-width:172px;padding:6px;border-radius:14px;
+  border:1px solid var(--cizgi);background:var(--kat);
+  box-shadow:0 18px 40px -22px rgba(0,0,0,.55)}
+.dil-liste a{display:flex;align-items:center;gap:9px;padding:9px 11px;
+  border-radius:9px;text-decoration:none;color:var(--gri);
+  font:500 14px/1.2 var(--metin)}
+.dil-liste a:hover{background:var(--kagit);color:var(--vurgu)}
+.dil-liste a[aria-current="true"]{color:var(--vurgu);font-weight:700}
+@media (max-width:520px){
+  .dil-sec>summary{padding:8px 11px;font-size:13px}
+  .dil-sec>summary .dil-ad{display:none}
+}
