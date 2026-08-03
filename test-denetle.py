@@ -1023,7 +1023,8 @@ exec(compile(_kaynak[_b:_kaynak.index(chr(10) + "]", _b) + 2],
              "esleme", "exec"), _ns2)
 _ESI = _ns2["SAYFA_ESI"]
 
-_AD = {"tr": "T&uuml;rk&ccedil;e", "en": "English", "es": "Espa&ntilde;ol"}
+_AD = {"tr": "T&uuml;rk&ccedil;e", "en": "English",
+       "es": "Espa&ntilde;ol", "fr": "Fran&ccedil;ais"}
 _kirik = []
 _kirli_url = []
 for _grup in _ESI:
@@ -1039,7 +1040,12 @@ for _grup in _ESI:
                 _kirik.append("%s -> %s baglantisi yok" % (_yol, _hk))
                 continue
             _hedef = _m.group(1)
-            if _hy in ("index.html", "en/index.html", "es/index.html"):
+            # ⚠️ Ana sayfa listesi ELLE YAZILMAZ. Ilk surumde
+            # ("index.html", "en/index.html", "es/index.html") diye
+            # sabit yazilmisti; Fransizca eklenince `fr/index.html`
+            # listede olmadigi icin DOGRU olan `fr/` baglantisi
+            # "yanlis hedef" sayildi. Dil eklemek bu testi kirmamali.
+            if _hy.endswith("index.html"):
                 if _hedef.endswith("index.html"):
                     _kirli_url.append("%s -> %s (%s)" % (_yol, _hk, _hedef))
             elif not _hedef.endswith(_hy.split("/")[-1]):
@@ -1063,6 +1069,7 @@ for _grup in _ESI:
         _s = io.open(_os.path.join(_KOK, _yol),
                      encoding="utf-8").read().lower()
         for _k in ("especialista", "experto", "specialist", "expert",
+                   "spécialiste", "expert en",
                    "uzmanımız", "uzman kadro"):
             if _k in _s:
                 _uzman.append("%s: %s" % (_yol, _k))

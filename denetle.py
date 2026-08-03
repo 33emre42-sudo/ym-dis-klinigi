@@ -194,6 +194,19 @@ ES_SAYFA = ["es/index.html",
             "es/contacto.html"]
 ES_SORUMLULUK = "no sustituye la exploración"
 
+# --- Fransizca (3 Agu 2026) ----------------------------------------
+FR_SAYFA = ["fr/index.html",
+            "fr/implants-dentaires.html",
+            "fr/couronnes-et-facettes.html",
+            "fr/traitement-de-racine-et-dentisterie-generale.html",
+            "fr/nos-dentistes.html",
+            "fr/comment-venir.html",
+            "fr/contact.html"]
+# ⚠️ DUZ kesme isareti (') — sayfalarda oyle yaziyor. Kivrik (’)
+# yazilmisti ve desen HICBIR sayfada tutmadi; denetim "sorumluluk
+# notu yok" dedi. Ceviri sayfalarinda en kolay atlanan ayrinti.
+FR_SORUMLULUK = "ne remplace pas l'examen"
+
 # ⚠️ AYNI SAYFANIN dillerdeki karsiliklari. Dosya adlari CEVIRILI
 # oldugu icin (dental-implants / implantes-dentales) ad esleme
 # CALISMAZ; ilk surum oyle yazilmisti ve `hreflang` eksigini
@@ -203,25 +216,32 @@ ES_SORUMLULUK = "no sustituye la exploración"
 SAYFA_ESI = [
     {"tr": "index.html",
      "en": "en/index.html",
-     "es": "es/index.html"},
+     "es": "es/index.html",
+     "fr": "fr/index.html"},
     {"tr": "implant-sureci.html",
      "en": "en/dental-implants.html",
-     "es": "es/implantes-dentales.html"},
+     "es": "es/implantes-dentales.html",
+     "fr": "fr/implants-dentaires.html"},
     {"tr": "protez-kaplama.html",
      "en": "en/crowns-and-veneers.html",
-     "es": "es/coronas-y-carillas.html"},
+     "es": "es/coronas-y-carillas.html",
+     "fr": "fr/couronnes-et-facettes.html"},
     {"tr": "kanal-tedavisi.html",
      "en": "en/root-canal-and-general-dentistry.html",
-     "es": "es/endodoncia-y-odontologia-general.html"},
+     "es": "es/endodoncia-y-odontologia-general.html",
+     "fr": "fr/traitement-de-racine-et-dentisterie-generale.html"},
     {"tr": "hekimlerimiz.html",
      "en": "en/our-dentists.html",
-     "es": "es/nuestros-odontologos.html"},
+     "es": "es/nuestros-odontologos.html",
+     "fr": "fr/nos-dentistes.html"},
     {"tr": "ulasim-ve-hizmet-bolgesi.html",
      "en": "en/getting-here.html",
-     "es": "es/como-llegar.html"},
+     "es": "es/como-llegar.html",
+     "fr": "fr/comment-venir.html"},
     {"tr": "iletisim.html",
      "en": "en/contact.html",
-     "es": "es/contacto.html"},
+     "es": "es/contacto.html",
+     "fr": "fr/contact.html"},
 ]
 
 # ⚠️ Diller TEK TEK degil TABLODAN denetleniyor. Eskiden yalnizca
@@ -233,6 +253,8 @@ DILLER = {
            "sorumluluk": EN_SORUMLULUK},
     "es": {"ad": "Ispanyolca", "sayfalar": ES_SAYFA,
            "sorumluluk": ES_SORUMLULUK},
+    "fr": {"ad": "Fransizca", "sayfalar": FR_SAYFA,
+           "sorumluluk": FR_SORUMLULUK},
 }
 COKDILLI_SAYFA = [y for d in DILLER.values() for y in d["sayfalar"]]
 
