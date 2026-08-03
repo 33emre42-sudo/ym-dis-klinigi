@@ -849,6 +849,78 @@ sonuc.append(("kapi: alt klasordeki HTML denetimi DURDURUR",
               _alt_klasor_kapisi(),
               "denetim sifir dondu — sayfa denetimsiz yayina giderdi"))
 
+# ==========================================================================
+# COK DILLI KAPI — hasta turizmi icin dil eklenmesi PLANLANIYOR
+# ==========================================================================
+# ⚠️ Bu testler SAYFALARDAN ONCE yazildi. Bugune kadarki mevzuat
+# korumasi TURKCE desenlerden ibaretti; Ingilizce bir sayfada
+# "painless treatment" ya da "guaranteed results" yazsa denetimden
+# GECERDI. Yonetmelik klinigi baglar, sayfanin dili farketmez.
+# Ilk ceviri sayfa yazilmadan once kapinin tuttugunu kanitlamak sart.
+
+bekle("cokdilli: EN ucretsiz muayene yakalanir",
+      "<p>Free consultation and a 20% discount on all treatments.</p>",
+      True, kod="fiyat (EN)")
+bekle("cokdilli: EN agrisiz + garanti + en iyi yakalanir",
+      "<p>The best painless implant treatment, results guaranteed.</p>",
+      True, kod="en iyi iddiasi (EN)")
+bekle("cokdilli: EN uzman iddiasi yakalanir (K38)",
+      "<p>Our specialists have treated thousands of patients.</p>",
+      True, kod="uzman iddiasi (EN)")
+bekle("cokdilli: DE fiyat/taksit yakalanir",
+      "<p>Kostenlose Beratung, Ratenzahlung moeglich, guenstige Preise.</p>",
+      True, kod="fiyat (DE)")
+bekle("cokdilli: DE agrisiz iddiasi yakalanir",
+      "<p>Schmerzfreie Behandlung beim Zahnarzt.</p>",
+      True, kod="agrisiz iddiasi (DE)")
+bekle("cokdilli: FR ucretsiz yakalanir",
+      "<p>Consultation gratuite dans notre clinique.</p>",
+      True, kod="fiyat (FR)")
+bekle("cokdilli: FR agrisiz iddiasi yakalanir",
+      "<p>Traitement indolore par le dentiste.</p>",
+      True, kod="agrisiz iddiasi (FR)")
+bekle("cokdilli: ES indirim yakalanir",
+      "<p>Consulta gratis, descuento del 20%, precios baratos.</p>",
+      True, kod="fiyat (ES)")
+bekle("cokdilli: ES en iyi + uzman yakalanir",
+      "<p>Tratamiento con el mejor especialista.</p>",
+      True, kod="en iyi iddiasi (ES)")
+bekle("cokdilli: RU bedava/indirim yakalanir",
+      "<p>Бесплатная консультация, скидка и рассрочка.</p>",
+      True, kod="fiyat (RU)")
+bekle("cokdilli: RU en iyi iddiasi yakalanir",
+      "<p>Лечение у лучшего врача.</p>",
+      True, kod="en iyi iddiasi (RU)")
+bekle("cokdilli: EN hasta yorumu yakalanir",
+      "<p>Read our patient reviews — 5 stars!</p>",
+      True, kod="hasta yorumu (EN)")
+bekle("cokdilli: EN once-sonra yakalanir",
+      "<p>See our before and after gallery.</p>",
+      True, kod="once-sonra (EN)")
+bekle("cokdilli: yabanci para birimi yakalanir",
+      "<p>Implant from &euro;450.</p>",
+      True, kod="para birimi")
+
+# --- yanlis alarm kapilari: bunlar TEMIZ gecmeli ------------------
+# Genis desen yazmak mevcut 41 Turkce sayfayi kirmizi yapar ve
+# denetimi kullanilamaz hale getirir. Asagidakiler o siniri tutuyor.
+bekle("cokdilli: sade EN bilgilendirme temiz gecer",
+      "<p>We are open 24/7. Call us if you have a toothache at night.</p>",
+      False)
+bekle("cokdilli: sade DE bilgilendirme temiz gecer",
+      "<p>Wir sind rund um die Uhr geoeffnet. Rufen Sie uns an.</p>",
+      False)
+# ⚠️ Calistirilarak yakalanan gercek yanlis alarm: Fransizca `tarif`
+# deseni TURKCE "tarif" kelimesini yakaliyordu
+# ("çocuk ağrıyı tarif etmekte zorlanır" — sut-disi-curugu.html
+# yayindaydi ve denetim kirmiziya dondu).
+bekle("cokdilli: TURKCE 'tarif' kelimesi yanlis alarm VERMEZ",
+      "<p>Çocuk ağrıyı tarif etmekte zorlanır; şunlar uyarıcıdır.</p>",
+      False)
+bekle("cokdilli: Fransizca 'nos tarifs' YAKALANIR",
+      "<p>Consultez nos tarifs pour les implants.</p>",
+      True, kod="fiyat (FR)")
+
 print("=" * 70)
 print("DENETCI TESTI — denetle.py gercekten yakaliyor mu?")
 print("=" * 70)

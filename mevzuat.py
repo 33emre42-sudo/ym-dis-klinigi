@@ -633,6 +633,94 @@ YASAKLI = {
     "uzman iddiasi": r"\buzman(?:ımız|larımız)\b",
 }
 
+# ==========================================================================
+# COK DILLI KAPI — hasta turizmi icin dil eklenmesi PLANLANIYOR
+# ==========================================================================
+# ⚠️ NEDEN SAYFALARDAN ONCE: bugune kadarki butun mevzuat korumasi
+# TURKCE desenlerden ibaretti. Ingilizce bir sayfada "painless
+# treatment" ya da "guaranteed results" yazsa denetimden GECERDI —
+# hicbir desen eslesmezdi. Oysa 12 Kasim 2025 yonetmeligi klinigi
+# baglar, sayfanin dili farketmez. Yani ceviri sayfa yazmadan ONCE
+# kapinin kurulmasi gerekiyordu; tersi sirada ilk ceviri sayfa
+# denetimsiz yayina girerdi.
+#
+# Diller Medicasimple'in online randevu ekranindakiyle ayni secildi
+# (EN/ES/FR/DE/RU) — hasta turizminde en cok kullanilan diller.
+#
+# Kapsanan kavramlar Turkce tarafla BIREBIR ayni: sonuc vaadi,
+# fiyat/ticari dil, hasta yorumu, once-sonra, uzmanlik iddiasi (K38).
+#
+# ⚠️ Desenler DAR tutuldu. Genis tutmak mevcut 41 Turkce sayfada
+# yanlis alarm verir ve denetimi kullanilamaz hale getirir; bu yuzden
+# eklendikten sonra tum site uzerinde yanlis-pozitif taramasi yapildi.
+YASAKLI_COKDILLI = {
+    # --- sonuc vaadi / ustunluk iddiasi -----------------------------
+    "en iyi iddiasi (EN)": r"\b(?:the\s+)?best\b|\bnumber\s+one\b",
+    "en iyi iddiasi (ES)": r"\bel\s+mejor\b|\bla\s+mejor\b",
+    "en iyi iddiasi (FR)": r"\ble\s+meilleur\b|\bla\s+meilleure\b",
+    "en iyi iddiasi (DE)": r"\bder\s+beste\b|\bdie\s+beste\b|\bbestes?\b",
+    "en iyi iddiasi (RU)": r"\bлучш",
+
+    "garanti (EN)": r"\bguarantee",
+    "garanti (ES)": r"\bgarantiz|\bgarantía",
+    "garanti (FR)": r"\bgaranti",
+    "garanti (DE)": r"\bgarantie|\bgarantiert",
+    "garanti (RU)": r"\bгарант",
+
+    "agrisiz iddiasi (EN)": r"\bpainless\b|\bpain[-\s]free\b"
+                            r"|\bno\s+pain\b|\bwithout\s+(?:any\s+)?pain\b",
+    "agrisiz iddiasi (ES)": r"\bindoloro|\bsin\s+dolor\b",
+    "agrisiz iddiasi (FR)": r"\bindolore|\bsans\s+douleur\b",
+    "agrisiz iddiasi (DE)": r"\bschmerzfrei|\bschmerzlos"
+                            r"|\bohne\s+schmerzen\b",
+    "agrisiz iddiasi (RU)": r"\bбезболезнен",
+
+    # --- fiyat / ticari dil (K15) -----------------------------------
+    "fiyat (EN)": r"\bprices?\b|\bpricing\b|\bcosts?\b|\bfees?\b"
+                  r"|\bdiscount|\bfree\s+(?:consultation|check[-\s]?up"
+                  r"|examination|treatment)\b|\binstallment"
+                  r"|\bcheap\b|\baffordable\b",
+    "fiyat (ES)": r"\bprecios?\b|\bcostos?\b|\bcostes?\b|\bdescuento"
+                  r"|\bgratis\b|\bgratuito\b|\bcuotas\b|\bbarato\b"
+                  r"|\basequible\b",
+    # ⚠️ `\btarifs?\b` YAZILAMAZ: "tarif" yaygin bir TURKCE kelimedir
+    # ("çocuk ağrıyı tarif etmekte zorlanır" — sut-disi-curugu.html).
+    # Calistirilarak yakalandi. Fransizca fiyat anlami cogulda ya da
+    # tanimlikla geliyor; desen ona daraltildi.
+    "fiyat (FR)": r"\bprix\b|\btarifs\b|\b(?:le|les|nos|du)\s+tarif\b"
+                  r"|\bcoûts?\b|\bréduction"
+                  r"|\bgratuit|\bpromotion\b|\bpas\s+cher\b",
+    "fiyat (DE)": r"\bpreis|\bkosten\b|\brabatt|\bkostenlos"
+                  r"|\bgratis\b|\bratenzahlung|\bgünstig",
+    "fiyat (RU)": r"\bцен[аыу]\b|\bстоимост|\bскидк|\bбесплатн"
+                  r"|\bрассрочк",
+    "para birimi": r"[€$£]\s?\d|\d\s?(?:eur|usd|gbp)\b",
+
+    # --- hasta yorumu / puan ----------------------------------------
+    "hasta yorumu (EN)": r"\btestimonial|\bpatient\s+reviews?\b"
+                         r"|\b\d[.,]?\d?\s*[-\s]?stars?\b",
+    "hasta yorumu (ES)": r"\btestimonio|\bopiniones\s+de\s+pacientes\b",
+    "hasta yorumu (FR)": r"\btémoignage|\bavis\s+(?:de\s+)?patients\b",
+    "hasta yorumu (DE)": r"\berfahrungsbericht|\bpatientenbewertung",
+    "hasta yorumu (RU)": r"\bотзыв",
+
+    # --- once/sonra --------------------------------------------------
+    "once-sonra (EN)": r"\bbefore\s*(?:and|/|-|&)\s*after\b",
+    "once-sonra (ES)": r"\bantes\s+y\s+después\b",
+    "once-sonra (FR)": r"\bavant\s*(?:et|/|-)\s*après\b",
+    "once-sonra (DE)": r"\bvorher\s*(?:und|/|-)\s*nachher\b",
+    "once-sonra (RU)": r"\bдо\s+и\s+после\b",
+
+    # --- K38: iki hekim de GENEL DIS HEKIMI, uzman degil -------------
+    "uzman iddiasi (EN)": r"\bspecialists?\b|\bexperts?\b",
+    "uzman iddiasi (ES)": r"\bespecialistas?\b|\bexpertos?\b",
+    "uzman iddiasi (FR)": r"\bspécialistes?\b|\bexperts?\b",
+    "uzman iddiasi (DE)": r"\bspezialist|\bfachar[zt]|\bexperten?\b",
+    "uzman iddiasi (RU)": r"\bспециалист|\bэксперт",
+}
+
+YASAKLI.update(YASAKLI_COKDILLI)
+
 # K15 — ticari dil freni. Eskiden klinik-sitesi-olustur.py icindeydi;
 # uretici 1 Agu 2026'da arsivlendigi icin buraya tasindi.
 #
