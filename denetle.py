@@ -302,6 +302,31 @@ DILLER = {
 }
 COKDILLI_SAYFA = [y for d in DILLER.values() for y in d["sayfalar"]]
 
+
+def _yayimda_diller():
+    """siteyi-yukle.py'nin YAYIMDA_DILLER kumesi — TEK KAYNAK.
+
+    ⚠️ Burada ayri bir liste TUTULMAZ. Iki yerde tutulan her sey
+    ayrisiyor; bu projede uc kez oldu (dil adlari sozlugu, ana sayfa
+    listesi, sorumluluk desenleri). Okunamazsa BOS kume donulur —
+    yani "hicbiri yayimda" — cunku yanlis yayimlamak, fazladan
+    denetim hatasi vermekten pahalidir.
+    """
+    y = os.path.join(os.path.dirname(os.path.abspath(".")),
+                     "hasta-mesajlari", "siteyi-yukle.py")
+    if not os.path.exists(y):
+        y = os.path.join("..", "hasta-mesajlari", "siteyi-yukle.py")
+    try:
+        k = io.open(y, encoding="utf-8").read()
+        m = re.search(r"^YAYIMDA_DILLER = (set\(\)|\{[^}]*\})", k, re.M)
+        if not m:
+            return set()
+        ns = {}
+        exec(compile("D = " + m.group(1), "yd", "exec"), ns)
+        return set(ns["D"])
+    except Exception:
+        return set()
+
 # Sekmeli menude bulunmasi gereken baglantilar.
 # ⚠️ 2 Agu 2026: "Tedaviler" ve "İletişim" eskiden `/#tedaviler` ve
 # `/#iletisim` CAPALARIYDI. Bir bilgi yazisindayken tiklaninca once ana
@@ -1006,6 +1031,17 @@ if COKDILLI_SAYFA:
     #    YOK SAYIYOR — yani TR sayfa da EN'i gostermeli. Bu, cok dilli
     #    kurulumda en sik yapilan ve en sessiz hatadir.
     for _en, _tr in _tr_hedefi.items():
+        # ⚠️ Karsiliklilik yalnizca YAYIMLANAN diller arasinda aranir.
+        # Yayimlanmayan bir dil sayfasi TR'ye isaret edebilir (zararsiz,
+        # canlida degil) ama TR'nin ona GERI isaret etmesi CANLIDA
+        # 404 demek olurdu. Yani burada karsiliklilik istemek, tam da
+        # kacinmak istedigimiz seyi zorunlu kilardi.
+        _ekod = _en.replace(os.sep, "/").split("/")[0]
+        if _ekod not in _yayimda_diller():
+            continue
+        # ⚠️ Bu kontrol bir duzenleme sirasinda ULASILAMAZ hale
+        # gelmisti (ustune `continue` dusmustu) — yani sessizce
+        # kapanmisti. Denetim "gecti" diyordu ama bir kontrol olmustu.
         if not os.path.exists(_tr):
             _en_sorun.append("%s -> %s: TR karsiligi diskte yok" % (_en, _tr))
             continue
@@ -1083,7 +1119,13 @@ if os.path.exists("sitemap.xml"):
         # farkli bir URL bildirmek olurdu — Google ikisini ayri sayfa
         # sanabilir. Kural DILDEN BAGIMSIZ yazildi; yeni dil eklenince
         # burayi guncellemek unutulurdu.
+        # ⚠️ Yalnizca YAYIMLANAN diller sitemap'te olmali. Yayimlanmayan
+        # bir dili bildirmek Google'i 404'e yollar ve sitemap'e guveni
+        # duser — tam da sayfalarin dizine girmeye calistigi donemde.
+        # Kaynak: siteyi-yukle.py -> YAYIMDA_DILLER (tek kaynak).
         for _dk in DILLER:
+            if _dk not in _yayimda_diller():
+                continue
             beklenen.update(
                 "https://ymdisklinigi.com/"
                 + ("%s/" % _dk if a == "%s/index.html" % _dk else a)

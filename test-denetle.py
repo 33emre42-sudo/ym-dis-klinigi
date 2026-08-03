@@ -1034,6 +1034,9 @@ _dbt_spec = _iu.spec_from_file_location(
 _dbt = _iu.module_from_spec(_dbt_spec)
 _dbt_spec.loader.exec_module(_dbt)
 _AD = _dbt.AD
+# ⚠️ Yayimlanmayan dile baglanti OLMAMASI dogru davranistir; test de
+# bunu bilmeli. Kaynak yine tek: siteyi-yukle.py -> YAYIMDA_DILLER.
+_YAYIMDA = _dbt.yayimda_diller() or set()
 _kirik = []
 _kirli_url = []
 for _grup in _ESI:
@@ -1041,6 +1044,9 @@ for _grup in _ESI:
         _s = io.open(_os.path.join(_KOK, _yol), encoding="utf-8").read()
         for _hk, _hy in _grup.items():
             if _hk == _kod:
+                continue
+            # yayimlanan sayfa -> yayimlanmayan dil: baglanti OLMAMALI
+            if (_kod == "tr" or _kod in _YAYIMDA) and                     _hk != "tr" and _hk not in _YAYIMDA:
                 continue
             _m = _re.search(
                 r'<a href="([^"]*)"[^>]*>&#\d+;&#\d+; ' +

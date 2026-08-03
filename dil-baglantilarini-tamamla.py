@@ -52,6 +52,31 @@ def tablolari_oku():
     return ns["SAYFA_ESI"], ["tr"] + diller
 
 
+def yayimda_diller():
+    """siteyi-yukle.py'nin YAYIMDA_DILLER kumesi — tek kaynak.
+
+    ⚠️ Neden onemli: YAYIMLANAN bir sayfa, YAYIMLANMAYAN bir dile
+    `hreflang` ya da dil secici baglantisi verirse canlida 404'e
+    isaret eder. Google bunu "hreflang/sitemap hatali" diye okur ve
+    siteye guveni duser — tam da sayfalarin dizine girmeye calistigi
+    donemde. Kural: **yayimlanan sayfa yalnizca yayimlanan dile
+    atifta bulunur.** (Yayimlanmayan dil sayfalari birbirine serbestce
+    atifta bulunabilir; onlar zaten canlida degil.)
+    """
+    y = os.path.join(os.path.dirname(KOK), "hasta-mesajlari",
+                     "siteyi-yukle.py")
+    try:
+        k = io.open(y, encoding="utf-8").read()
+        m = re.search(r"^YAYIMDA_DILLER = (set\(\)|\{[^}]*\})", k, re.M)
+        if not m:
+            return None                      # bilinmiyor -> dokunma
+        ns = {}
+        exec(compile("D = " + m.group(1), "yd", "exec"), ns)
+        return set(ns["D"])
+    except Exception:
+        return None
+
+
 def url(kod, yol):
     """Yayin adresi. Her dilin ANA SAYFASI temiz adresle yayimlanir."""
     if yol == "index.html":
@@ -79,7 +104,21 @@ def bagil(kaynak, hedef):
     return hedef if not kk else "../" + hedef
 
 
-def hreflang_tamamla(esi, uygula):
+def _izinli(kaynak_kod, hedef_kod, yayimda):
+    """Kaynak sayfa hedef dile atifta bulunabilir mi?
+
+    Kural: YAYIMLANAN sayfa yalnizca YAYIMLANAN dile atifta bulunur.
+    Yayimlanmayan dilin kendi sayfalari serbesttir (canlida degiller).
+    """
+    if yayimda is None:
+        return True
+    kaynak_yayimda = (kaynak_kod == "tr") or (kaynak_kod in yayimda)
+    if not kaynak_yayimda:
+        return True
+    return (hedef_kod == "tr") or (hedef_kod in yayimda)
+
+
+def hreflang_tamamla(esi, uygula, yayimda=None):
     islem = []
     for grup in esi:
         for kod, yol in grup.items():
@@ -91,7 +130,8 @@ def hreflang_tamamla(esi, uygula):
             var = dict(re.findall(
                 r'<link rel="alternate" hreflang="([^"]+)" href="([^"]+)">',
                 s))
-            eksik = [k for k in grup if k not in var]
+            eksik = [k for k in grup if k not in var
+                     and _izinli(kod, k, yayimda)]
             if not eksik:
                 continue
             islem.append(("hreflang", yol, ", ".join(eksik)))
@@ -106,7 +146,7 @@ def hreflang_tamamla(esi, uygula):
     return islem
 
 
-def secici_tamamla(esi, diller, uygula):
+def secici_tamamla(esi, diller, uygula, yayimda=None):
     esli = {y: g for g in esi for y in g.values()}
     islem = []
     for kok, _, dosyalar in os.walk(KOK):
@@ -118,11 +158,48 @@ def secici_tamamla(esi, diller, uygula):
             yol = os.path.relpath(os.path.join(kok, ad),
                                   KOK).replace(os.sep, "/")
             s = io.open(os.path.join(KOK, yol), encoding="utf-8").read()
+            kaynak_on = yol.split("/")[0] if "/" in yol else "tr"
             if 'class="dil-sec"' not in s:
-                continue
+                # ⚠️ Secici, yayimda EN AZ IKI dil varken GERI GELMELI.
+                # Tek dil kalinca kaldiriliyor (bkz. temizle); dil
+                # onaylanip yayima girdiginde blogu yeniden kurmak
+                # gerekiyor, yoksa dil eklendigi halde ziyaretci
+                # gecis yapamaz — sessiz bir eksik.
+                _izin = [d for d in diller if _izinli(kaynak_on, d, yayimda)]
+                if len(_izin) < 2:
+                    continue
+                # ⚠️ `[^<]*` KULLANMA: Turkce sayfalarda telefon
+                # baglantisinin ICINDE bir <svg> ikon var, o desen
+                # eslesmiyordu ve secici sessizce kurulmuyordu.
+                # Sinanarak yakalandi (Ingilizce onayi simulasyonu).
+                _yer = re.search(
+                    r'([ \t]*)<a class="serit-tel".*?</a>\n', s, re.S)
+                if not _yer:
+                    islem.append(("SECICI KURULAMADI", yol, "yer yok"))
+                    continue
+                _g = _yer.group(1)
+                _blok = (
+                    '%s<details class="dil-sec">\n'
+                    '%s  <summary aria-label="Dil sec / Choose language">'
+                    '<span class="dil-ad">%s</span>'
+                    '<span class="ok">&#9660;</span></summary>\n'
+                    '%s  <div class="dil-liste">\n'
+                    '%s  </div>\n'
+                    '%s</details>\n'
+                    % (_g, _g, AD.get(kaynak_on, kaynak_on), _g, _g, _g))
+                s = s.replace(_yer.group(0), _yer.group(0) + _blok, 1)
+                io.open(os.path.join(KOK, yol), "w", encoding="utf-8",
+                        newline="").write(s) if uygula else None
+                islem.append(("secici kuruldu", yol,
+                              "%d dil yayimda" % len(_izin)))
+                if not uygula:
+                    continue
             grup = esli.get(yol)
+            kaynak_kod = yol.split("/")[0] if "/" in yol else "tr"
             for d in diller:
                 if "%s %s</a>" % (BAYRAK[d], AD[d]) in s:
+                    continue
+                if not _izinli(kaynak_kod, d, yayimda):
                     continue
                 hedef = (bagil(yol, grup[d]) if grup and d in grup
                          else bagil(yol, "%s/index.html" % d)
@@ -133,10 +210,21 @@ def secici_tamamla(esi, diller, uygula):
                                 "%s %s</a>" % (BAYRAK[x], AD[x]) in l
                                 for x in diller)]
                 if not satirlar:
-                    islem.append(("SECICI BULUNAMADI", yol, d))
-                    continue
-                son = satirlar[-1]
-                girinti = son[:len(son) - len(son.lstrip())]
+                    # ⚠️ YENI KURULMUS BOS SECICI. Eklenecek yeri
+                    # "mevcut dil satiri" diye aramak burada
+                    # calismiyordu ve blok BOS kaliyordu — dil
+                    # onaylansa bile ziyaretci gecis yapamazdi.
+                    # Bos blokta `<div class="dil-liste">` satirinin
+                    # hemen altina eklenir.
+                    _bos = re.search(r'([ \t]*)<div class="dil-liste">\n', s)
+                    if not _bos:
+                        islem.append(("SECICI BULUNAMADI", yol, d))
+                        continue
+                    son = _bos.group(0)
+                    girinti = _bos.group(1) + "  "
+                else:
+                    son = satirlar[-1]
+                    girinti = son[:len(son) - len(son.lstrip())]
                 islem.append(("secici", yol, "%s -> %s" % (d, hedef)))
                 if uygula:
                     s = s.replace(son, son + '%s<a href="%s">%s %s</a>\n'
@@ -146,7 +234,7 @@ def secici_tamamla(esi, diller, uygula):
     return islem
 
 
-def sitemap_tamamla(esi, uygula):
+def sitemap_tamamla(esi, uygula, yayimda=None):
     p = os.path.join(KOK, "sitemap.xml")
     s = io.open(p, encoding="utf-8").read()
     kalip = re.search(r"(\s*<url>\s*<loc>%s</loc>.*?</url>)"
@@ -157,6 +245,8 @@ def sitemap_tamamla(esi, uygula):
     ekler = []
     for grup in esi:
         for kod, yol in grup.items():
+            if not _izinli("tr", kod, yayimda):
+                continue          # yayimlanmayan dil sitemap'e girmez
             u = url(kod, yol)
             if u in s:
                 continue
@@ -165,6 +255,69 @@ def sitemap_tamamla(esi, uygula):
     if uygula and ekler:
         io.open(p, "w", encoding="utf-8", newline="").write(
             s.replace(kalip.group(1), kalip.group(1) + "".join(ekler), 1))
+    return islem
+
+
+def temizle(esi, yayimda, uygula):
+    """YAYIMLANAN sayfalardan, yayimlanmayan dile atiflari kaldirir.
+
+    Kapsam: hreflang satirlari, dil secici baglantilari, sitemap
+    girdileri. Yayimlanmayan dilin KENDI sayfalarina dokunulmaz.
+    """
+    islem = []
+    kaldirilacak = {d for g in esi for d in g if d != "tr"} - yayimda
+    if not kaldirilacak:
+        return islem
+
+    for kok, klasorler, dosyalar in os.walk(KOK):
+        klasorler[:] = [k for k in klasorler
+                        if k not in (".git", "arsiv", "belge-bekliyor")
+                        and k not in kaldirilacak]      # yayimlanmayan
+        for ad in sorted(dosyalar):                     # dilin kendi
+            if not ad.endswith(".html"):                # sayfalari haric
+                continue
+            yol = os.path.relpath(os.path.join(kok, ad),
+                                  KOK).replace(os.sep, "/")
+            s = io.open(os.path.join(KOK, yol), encoding="utf-8").read()
+            o = s
+            for d in kaldirilacak:
+                s = re.sub(r'[ \t]*<link rel="alternate" hreflang="%s"'
+                           r'[^>]*>\n?' % d, "", s)
+                s = re.sub(r'[ \t]*<a href="[^"]*"[^>]*>%s %s</a>\n?'
+                           % (BAYRAK[d], re.escape(AD[d])), "", s)
+            # ⚠️ TEK SECENEKLI DIL MENUSU OLMAZ. Temizlikten sonra
+            # secicide tek dil kaliyorsa blogun tamami kaldirilir:
+            # "Türkçe" yazan, tiklaninca yalniz Türkçe gosteren bir
+            # acilir menu, hic olmamasindan kotudur. (Ilk yazimda bu
+            # atlandi ve TR sayfalari tek secenekli menuyle kaldi.)
+            _kalan = len(re.findall(r'<a href="[^"]*"[^>]*>&#\d+;&#\d+; ',
+                                    s))
+            if _kalan <= 1:
+                s2 = re.sub(r'[ \t]*<details class="dil-sec">.*?</details>\n?',
+                            "", s, flags=re.S)
+                if s2 != s:
+                    s = s2
+                    islem.append(("secici kaldirildi", yol,
+                                  "tek dil kaldi — menu gizlendi"))
+            if s != o:
+                islem.append(("temizlik", yol,
+                              "yayimlanmayan: " + ", ".join(
+                                  sorted(kaldirilacak))))
+                if uygula:
+                    io.open(os.path.join(KOK, yol), "w", encoding="utf-8",
+                            newline="").write(s)
+
+    p = os.path.join(KOK, "sitemap.xml")
+    s = io.open(p, encoding="utf-8").read()
+    o = s
+    for d in kaldirilacak:
+        s = re.sub(r"\s*<url>\s*<loc>%s%s/[^<]*</loc>.*?</url>"
+                   % (re.escape(SITE), d), "", s, flags=re.S)
+    if s != o:
+        islem.append(("temizlik", "sitemap.xml",
+                      "%d -> %d URL" % (o.count("<url>"), s.count("<url>"))))
+        if uygula:
+            io.open(p, "w", encoding="utf-8", newline="").write(s)
     return islem
 
 
@@ -177,9 +330,19 @@ def main():
     print("=" * 66)
     print("diller: %s · %d sayfa grubu" % (", ".join(diller), len(esi)))
     print("")
-    hepsi = (hreflang_tamamla(esi, uygula)
-             + secici_tamamla(esi, diller, uygula)
-             + sitemap_tamamla(esi, uygula))
+    yayimda = yayimda_diller()
+    if yayimda is None:
+        print("  ⚠️ YAYIMDA_DILLER okunamadi — temizlik atlandi.")
+        hepsi = []
+    else:
+        print("  yayimda olan diller: %s"
+              % (", ".join(sorted(yayimda)) if yayimda else "(hicbiri)"))
+        print("")
+        hepsi = temizle(esi, yayimda, uygula)
+
+    hepsi += (hreflang_tamamla(esi, uygula, yayimda)
+              + secici_tamamla(esi, diller, uygula, yayimda)
+              + sitemap_tamamla(esi, uygula, yayimda))
     if not hepsi:
         print("  Yapacak bir sey yok — baglantilar tam.")
         return 0
