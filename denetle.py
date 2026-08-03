@@ -97,7 +97,8 @@ except FileNotFoundError:
     sys.exit(1)
 
 # Sayfa listeleri — tek kaynak
-BILGI = ["gece-dis-agrisi.html", "gece-hafta-sonu-dis-hekimi.html",
+BILGI = ["nobetci-dis-hekimi-acil-dis.html",
+         "gece-dis-agrisi.html", "gece-hafta-sonu-dis-hekimi.html",
          "kirilan-dis-ne-yapmali.html",
          "dis-apsesi.html", "yirmi-yas-disi.html",
          "kanal-tedavisi.html", "implant-sureci.html",

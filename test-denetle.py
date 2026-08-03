@@ -1100,6 +1100,35 @@ kontrol("dil gruplarindaki her sayfa diskte var", not _eksik,
         else "%d sayfa" % sum(len(_g) for _g in _ESI))
 
 
+# ===========================================================================
+# YAYIMLANAN SAYFA 404'E BAGLANTI VERMEZ
+# ===========================================================================
+# ⚠️ 3 Agu 2026'da CANLIDA yasandi: 32 sayfanin dil secicisinde
+# `href="en/"` duruyordu ama /en/ yayimlanmamisti — yani 32 canli
+# sayfa 404'e baglaniyordu. Temizlik betigi ilk kosusunda bu
+# dosyalari atlamisti ve fark edilmedi; hreflang kapisi da yalnizca
+# `hreflang=` ariyordu, SECICI BAGLANTISINI aramiyordu.
+# Dizine girmeye calisan bir sitede kirik ic baglanti dogrudan zarar.
+_kirik404 = []
+for _yy in _glob.glob("*.html") + _glob.glob("*/*.html"):
+    _p = _yy.replace(_os.sep, "/")
+    if _p.startswith(("arsiv/", "belge-bekliyor/")):
+        continue
+    _dil_on = _p.split("/")[0] if "/" in _p else "tr"
+    if _dil_on != "tr" and _dil_on not in _YAYIMDA:
+        continue                      # yayimlanmayan sayfa; canlida degil
+    _ss = io.open(_yy, encoding="utf-8").read()
+    for _d in ("en", "es", "fr", "de", "ru"):
+        if _d in _YAYIMDA:
+            continue
+        if _re.search(r'href="(?:\.\./)?%s/' % _d, _ss) or                 _re.search(r'hreflang="%s"' % _d, _ss):
+            _kirik404.append("%s -> /%s/" % (_p, _d))
+            break
+kontrol("yayimlanan sayfa yayimlanmayan dile BAGLANMIYOR", not _kirik404,
+        ("KIRIK: %s" % ", ".join(_kirik404[:3])) if _kirik404
+        else "%d dil yayimda" % len(_YAYIMDA))
+
+
 print("=" * 70)
 print("DENETCI TESTI — denetle.py gercekten yakaliyor mu?")
 print("=" * 70)
