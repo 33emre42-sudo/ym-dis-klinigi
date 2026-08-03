@@ -1005,6 +1005,79 @@ kontrol("belge-bekliyor/ yukleyicide de disarida",
         "belge-bekliyor" in _yk, "siteyi-yukle.py")
 
 
+# ===========================================================================
+# DIL SECICI — esi olan sayfaya gitmeli, ana sayfaya DEGIL
+# ===========================================================================
+# ⚠️ Ilk kurulumda her dildeki secici karsi dilin ANA SAYFASINA
+# gidiyordu. Kullanici implant sayfasindayken dil degistirince ana
+# sayfaya dusuyordu — cok dilli sitelerde en sik sikayet edilen sey.
+#
+# ⚠️ Ayrica ana sayfalar TEMIZ ADRESLE baglanmali (`/`, `en/`, `es/`).
+# Duzeltirken `../index.html` yazilmisti: ayni sayfaya gider ama FARKLI
+# bir URL'dir, canonical ile ayrisir ve Google ikisini ayri sayfa
+# sanabilir. Yazarken yakalandi, test buraya kondu.
+_kaynak = io.open(_os.path.join(_KOK, "denetle.py"), encoding="utf-8").read()
+_b = _kaynak.index("SAYFA_ESI = [")
+_ns2 = {}
+exec(compile(_kaynak[_b:_kaynak.index(chr(10) + "]", _b) + 2],
+             "esleme", "exec"), _ns2)
+_ESI = _ns2["SAYFA_ESI"]
+
+_AD = {"tr": "T&uuml;rk&ccedil;e", "en": "English", "es": "Espa&ntilde;ol"}
+_kirik = []
+_kirli_url = []
+for _grup in _ESI:
+    for _kod, _yol in _grup.items():
+        _s = io.open(_os.path.join(_KOK, _yol), encoding="utf-8").read()
+        for _hk, _hy in _grup.items():
+            if _hk == _kod:
+                continue
+            _m = _re.search(
+                r'<a href="([^"]*)"[^>]*>&#\d+;&#\d+; ' +
+                _re.escape(_AD[_hk]) + r'</a>', _s)
+            if not _m:
+                _kirik.append("%s -> %s baglantisi yok" % (_yol, _hk))
+                continue
+            _hedef = _m.group(1)
+            if _hy in ("index.html", "en/index.html", "es/index.html"):
+                if _hedef.endswith("index.html"):
+                    _kirli_url.append("%s -> %s (%s)" % (_yol, _hk, _hedef))
+            elif not _hedef.endswith(_hy.split("/")[-1]):
+                _kirik.append("%s -> %s yanlis hedef (%s)"
+                              % (_yol, _hk, _hedef))
+
+kontrol("dil secici: her sayfa ESININ sayfasina gidiyor", not _kirik,
+        ("; ".join(_kirik[:3])) if _kirik
+        else "%d grup x %d dil" % (len(_ESI), len(_ESI[0])))
+kontrol("dil secici: ana sayfalar TEMIZ ADRESLE baglaniyor",
+        not _kirli_url,
+        ("; ".join(_kirli_url[:3])) if _kirli_url
+        else "/, en/, es/ — canonical ile ayni")
+
+# ⚠️ K38: iki hekim de GENEL dis hekimi. "Uzman" iddiasi hicbir dilde
+# olamaz. Ispanyolca ve Ingilizce karsiliklari da araniyor — mevzuat
+# taramasi Turkce kelimeye bakiyor, ceviri sayfada o kelime hic gecmez.
+_uzman = []
+for _grup in _ESI:
+    for _kod, _yol in _grup.items():
+        _s = io.open(_os.path.join(_KOK, _yol),
+                     encoding="utf-8").read().lower()
+        for _k in ("especialista", "experto", "specialist", "expert",
+                   "uzmanımız", "uzman kadro"):
+            if _k in _s:
+                _uzman.append("%s: %s" % (_yol, _k))
+kontrol("K38: 'uzman' iddiasi hicbir dilde yok", not _uzman,
+        ("; ".join(_uzman[:3])) if _uzman else "TR/EN/ES temiz")
+
+# Her dil grubunda TUM diller diskte olmali — biri eksikse secici
+# kirik baglanti verir.
+_eksik = [("%s (%s)" % (_y, _k)) for _g in _ESI for _k, _y in _g.items()
+          if not _os.path.exists(_os.path.join(_KOK, _y))]
+kontrol("dil gruplarindaki her sayfa diskte var", not _eksik,
+        ("EKSIK: %s" % ", ".join(_eksik[:3])) if _eksik
+        else "%d sayfa" % sum(len(_g) for _g in _ESI))
+
+
 print("=" * 70)
 print("DENETCI TESTI — denetle.py gercekten yakaliyor mu?")
 print("=" * 70)

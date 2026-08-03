@@ -184,9 +184,45 @@ TURIZM_DILI = {
 # Ingilizce sayfada o cumle bulunmayacagi icin ayri desen sart.
 EN_SORUMLULUK = "does not replace an examination"
 
-# --- Ispanyolca (3 Agu 2026, kurulum surüyor) ----------------------
-ES_SAYFA = ["es/index.html"]
+# --- Ispanyolca (3 Agu 2026) ---------------------------------------
+ES_SAYFA = ["es/index.html",
+            "es/implantes-dentales.html",
+            "es/coronas-y-carillas.html",
+            "es/endodoncia-y-odontologia-general.html",
+            "es/nuestros-odontologos.html",
+            "es/como-llegar.html",
+            "es/contacto.html"]
 ES_SORUMLULUK = "no sustituye la exploración"
+
+# ⚠️ AYNI SAYFANIN dillerdeki karsiliklari. Dosya adlari CEVIRILI
+# oldugu icin (dental-implants / implantes-dentales) ad esleme
+# CALISMAZ; ilk surum oyle yazilmisti ve `hreflang` eksigini
+# yakalamiyordu: es/ sayfalari eklendiginde en/ sayfalarinin
+# `hreflang="es"` vermesi gerektigini GORMUYORDU. Tek yonlu hreflang'i
+# Google yok sayar, yani cok dilli kurulum sessizce yarim kalirdi.
+SAYFA_ESI = [
+    {"tr": "index.html",
+     "en": "en/index.html",
+     "es": "es/index.html"},
+    {"tr": "implant-sureci.html",
+     "en": "en/dental-implants.html",
+     "es": "es/implantes-dentales.html"},
+    {"tr": "protez-kaplama.html",
+     "en": "en/crowns-and-veneers.html",
+     "es": "es/coronas-y-carillas.html"},
+    {"tr": "kanal-tedavisi.html",
+     "en": "en/root-canal-and-general-dentistry.html",
+     "es": "es/endodoncia-y-odontologia-general.html"},
+    {"tr": "hekimlerimiz.html",
+     "en": "en/our-dentists.html",
+     "es": "es/nuestros-odontologos.html"},
+    {"tr": "ulasim-ve-hizmet-bolgesi.html",
+     "en": "en/getting-here.html",
+     "es": "es/como-llegar.html"},
+    {"tr": "iletisim.html",
+     "en": "en/contact.html",
+     "es": "es/contacto.html"},
+]
 
 # ⚠️ Diller TEK TEK degil TABLODAN denetleniyor. Eskiden yalnizca
 # Ingilizce icin yazilmis bir blok vardi; her yeni dil o blogun
@@ -884,10 +920,13 @@ if COKDILLI_SAYFA:
               _hl = {b: a for a, b in re.findall(
                   r'<link[^>]+href="([^"]+)"[^>]+hreflang="([^"]+)"', _s)}
           _gerekli = {_kod, "tr", "x-default"}
-          _dosya_adi = _yol.split("/", 1)[1]
-          for _bk, _bd in DILLER.items():
-              if "%s/%s" % (_bk, _dosya_adi) in _bd["sayfalar"]:
-                  _gerekli.add(_bk)
+          # ⚠️ Ad esleme DEGIL, ACIK ESLEME tablosu. Ceviri dosya
+          # adlari farkli oldugu icin ad karsilastirmasi bu sayfalari
+          # hic eslestiremiyordu ve `hreflang` eksigi kaciyordu.
+          for _grup in SAYFA_ESI:
+              if _yol in _grup.values():
+                  _gerekli.update(_grup.keys())
+                  break
           # ⚠️ Dongu degiskeni `_bk` — `_dil` KULLANILAMAZ, dis dongunun
           # dil sozlugunu ezer ve sonraki dilde cokerdi (yazarken
           # yapildi, buraya not dusuldu).
