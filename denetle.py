@@ -222,6 +222,17 @@ DE_SAYFA = ["de/index.html",
 # duselmisti). Ayirt edici TEK parca yeter.
 DE_SORUMLULUK = "zahnärztliche Untersuchung"
 
+# --- Rusca (3 Agu 2026) --------------------------------------------
+RU_SAYFA = ["ru/index.html",
+            "ru/zubnye-implanty.html",
+            "ru/koronki-i-viniry.html",
+            "ru/lechenie-kanalov-i-obshchaya-stomatologiya.html",
+            "ru/nashi-stomatologi.html",
+            "ru/kak-dobratsya.html",
+            "ru/kontakty.html"]
+# Tek parca, satira bolunmeyen kalip (bkz. DE notu).
+RU_SORUMLULUK = "осмотр стоматолога"
+
 # ⚠️ AYNI SAYFANIN dillerdeki karsiliklari. Dosya adlari CEVIRILI
 # oldugu icin (dental-implants / implantes-dentales) ad esleme
 # CALISMAZ; ilk surum oyle yazilmisti ve `hreflang` eksigini
@@ -233,37 +244,44 @@ SAYFA_ESI = [
      "en": "en/index.html",
      "es": "es/index.html",
      "fr": "fr/index.html",
-     "de": "de/index.html"},
+     "de": "de/index.html",
+     "ru": "ru/index.html"},
     {"tr": "implant-sureci.html",
      "en": "en/dental-implants.html",
      "es": "es/implantes-dentales.html",
      "fr": "fr/implants-dentaires.html",
-     "de": "de/zahnimplantate.html"},
+     "de": "de/zahnimplantate.html",
+     "ru": "ru/zubnye-implanty.html"},
     {"tr": "protez-kaplama.html",
      "en": "en/crowns-and-veneers.html",
      "es": "es/coronas-y-carillas.html",
      "fr": "fr/couronnes-et-facettes.html",
-     "de": "de/kronen-und-veneers.html"},
+     "de": "de/kronen-und-veneers.html",
+     "ru": "ru/koronki-i-viniry.html"},
     {"tr": "kanal-tedavisi.html",
      "en": "en/root-canal-and-general-dentistry.html",
      "es": "es/endodoncia-y-odontologia-general.html",
      "fr": "fr/traitement-de-racine-et-dentisterie-generale.html",
-     "de": "de/wurzelbehandlung-und-allgemeine-zahnmedizin.html"},
+     "de": "de/wurzelbehandlung-und-allgemeine-zahnmedizin.html",
+     "ru": "ru/lechenie-kanalov-i-obshchaya-stomatologiya.html"},
     {"tr": "hekimlerimiz.html",
      "en": "en/our-dentists.html",
      "es": "es/nuestros-odontologos.html",
      "fr": "fr/nos-dentistes.html",
-     "de": "de/unsere-zahnaerzte.html"},
+     "de": "de/unsere-zahnaerzte.html",
+     "ru": "ru/nashi-stomatologi.html"},
     {"tr": "ulasim-ve-hizmet-bolgesi.html",
      "en": "en/getting-here.html",
      "es": "es/como-llegar.html",
      "fr": "fr/comment-venir.html",
-     "de": "de/anfahrt.html"},
+     "de": "de/anfahrt.html",
+     "ru": "ru/kak-dobratsya.html"},
     {"tr": "iletisim.html",
      "en": "en/contact.html",
      "es": "es/contacto.html",
      "fr": "fr/contact.html",
-     "de": "de/kontakt.html"},
+     "de": "de/kontakt.html",
+     "ru": "ru/kontakty.html"},
 ]
 
 # ⚠️ Diller TEK TEK degil TABLODAN denetleniyor. Eskiden yalnizca
@@ -279,6 +297,8 @@ DILLER = {
            "sorumluluk": FR_SORUMLULUK},
     "de": {"ad": "Almanca", "sayfalar": DE_SAYFA,
            "sorumluluk": DE_SORUMLULUK},
+    "ru": {"ad": "Rusca", "sayfalar": RU_SAYFA,
+           "sorumluluk": RU_SORUMLULUK},
 }
 COKDILLI_SAYFA = [y for d in DILLER.values() for y in d["sayfalar"]]
 
