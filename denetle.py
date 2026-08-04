@@ -424,6 +424,50 @@ sorunlar = mevzuat_tara(html, "index.html")
 kontrol("index.html mevzuat taramasi", not sorunlar,
         ("; ".join(sorunlar[:3])) if sorunlar else "head + JSON-LD dahil")
 
+# --- SITE-16 B2: YABANCI SAYFALAR DA MEVZUATTAN GECER --------------------
+# ⚠️ Bekci VARDI ama BAGLI DEGILDI. `mevzuat.py` icinde cok dilli yasak
+# desenler tanimli (`specialists`, `especialistas`, `spécialistes`,
+# `Spezialist`, `специалист` — K38; ayrica fiyat, garanti, once-sonra
+# desenlerinin bes dildeki karsiliklari). Ama tarama dongusu YALNIZCA
+# Turkce sayfalari geziyordu:  ["index.html"] + ALT_SAYFA + BILGI
+#
+# Sonuc: 3 Agustos'ta yayina giren 35 yabancı sayfa hicbir mevzuat
+# kontrolunden gecmedi. Tanimli olup cagrilmayan koruma, korumasizliktan
+# daha tehlikeli — "taranıyor" sanılıyor.
+#
+# Dil sayfalari `DILLER` sozlugunden geliyor (tek kaynak). Yayimda
+# olmayan dil taranmaz: dosya diskte durabilir ama yayinda degilse
+# mevzuat konusu da degildir.
+print("\n--- 4b  Mevzuat: yabanci dil sayfalari ---")
+_dil_mevzuat = []
+_dil_sayilan = 0
+for _dk in sorted(DILLER):
+    if _dk not in _yayimda_diller():
+        continue
+    for _ds in DILLER[_dk]["sayfalar"]:
+        if not os.path.exists(_ds):
+            _dil_mevzuat.append("%s: DOSYA YOK" % _ds)
+            continue
+        try:
+            _dh = io.open(_ds, encoding="utf-8").read()
+        except OSError as _e:
+            _dil_mevzuat.append("%s: okunamadi (%s)" % (_ds, _e))
+            continue
+        _dil_sayilan += 1
+        for _s in mevzuat_tara(_dh, _ds):
+            _dil_mevzuat.append("%s — %s" % (_ds, _s))
+
+kontrol("yabanci sayfalar mevzuat taramasindan GECIYOR",
+        not _dil_mevzuat,
+        _dil_mevzuat[0][:96] if _dil_mevzuat
+        else "%d sayfa · %d dil" % (_dil_sayilan, len(_yayimda_diller())))
+
+# ⚠️ Sayfa sayilmadiysa tarama YAPILMAMIS demektir. Bos liste "temiz"
+# ile karistirilmamali — bu projede fail-open'in en sik sekli.
+kontrol("yabanci sayfa taramasi GERCEKTEN kostu",
+        _dil_sayilan > 0 or not _yayimda_diller(),
+        "%d sayfa tarandi" % _dil_sayilan)
+
 govde = html[html.find("<body"):]
 emoji = [e for e in re.findall(r"[\U0001F300-\U0001FAFF]", govde)
          if e not in EMOJI_ISTISNA]
