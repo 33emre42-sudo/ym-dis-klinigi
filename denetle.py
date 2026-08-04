@@ -729,6 +729,42 @@ for ad in BILGI:
 
 kontrol("bilgi.css var", os.path.exists("bilgi.css"))
 
+# --- Tedavi listesi ANLATAN sayfaya bagli mi ----------------------------
+# 4 Agu 2026 olcumu: ana sayfada dokuz `MedicalProcedure` vardi ama
+# hicbirinin `url`'si yoktu. Tedavi sayfalarinin `about` alani ZATEN
+# MedicalProcedure diyordu — yani parcalar iki ucta duruyor, birbirine
+# bagli degildi. Google "bu klinik implant yapiyor" ve "implanti anlatan
+# sayfa su" bilgilerinin AYNI SEY oldugunu bilmiyordu.
+#
+# Baglanti `tedavi-semasini-bagla.py` ile kuruldu. Bu kontrol onu KALICI
+# yapiyor: yeni bir tedavi eklenip sayfasi baglanmazsa denetim durur.
+_bagsiz = []
+try:
+    _ih = io.open("index.html", encoding="utf-8").read()
+    for _b in re.findall(
+            r'<script type="application/ld\+json">(.*?)</script>',
+            _ih, re.S):
+        try:
+            _v = json.loads(_b)
+        except ValueError:
+            continue
+        if _v.get("@type") != "Dentist":
+            continue
+        for _hz in _v.get("availableService") or []:
+            _u = _hz.get("url", "")
+            if not _u:
+                _bagsiz.append("%s: url yok" % _hz.get("name", "?"))
+                continue
+            _dosya = _u.rsplit("/", 1)[-1]
+            if not os.path.exists(_dosya):
+                _bagsiz.append("%s: %s diskte yok"
+                               % (_hz.get("name", "?"), _dosya))
+except OSError as _e:
+    _bagsiz.append("index.html okunamadi: %s" % _e)
+
+kontrol("her tedavi ANLATAN sayfaya bagli",
+        not _bagsiz, _bagsiz[0] if _bagsiz else "9 tedavi")
+
 # --- YMYL sinyalleri: yazar, tarih, hekim unvani ------------------------
 # 4 Agu 2026 arastirmasi: saglik icerigi Google'in YMYL sinifinda — en
 # siki denetlenen kategori. Olculdu: 453 arama gosteriminin TAMAMI ana
