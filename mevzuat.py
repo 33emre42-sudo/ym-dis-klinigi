@@ -562,6 +562,14 @@ ONAYLI_CUMLE = [
     # gizlilik.html — yapay zeka kanalinin sinirlari
     "tıbbi değerlendirme, ilaç önerisi ve ücret bilgisi bu kanalda "
     "verilmez, bu konular hekiminize aktarılır",
+    # gizlilik.html — 4 Agu 2026: yapay zeka kanali KAPATILINCA cumle
+    # yeniden yazildi ("bu kanalda" -> "otomatik yanıtlarda") ve muafiyet
+    # DUSTU, denetim durdu. Kasitli davranis: muafiyet TAM CUMLE
+    # esitligine bagli, boylece cumlenin sonuna kimse ek yazamiyor.
+    # Yeni hali de ayni seyi soyluyor — ucret VERILMEDIGINI beyan ediyor,
+    # ucret REKLAMI yapmiyor. Listeye o yuzden giriyor.
+    "Otomatik yanıtlarda tıbbi değerlendirme, ilaç önerisi ve ücret "
+    "bilgisi verilmez",
 ]
 
 # Cumle siniri. Nokta fazla bolerse zarari yok: parca kisalir, birebir
