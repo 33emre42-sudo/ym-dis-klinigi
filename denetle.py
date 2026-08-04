@@ -685,6 +685,56 @@ for ad in BILGI:
 
 kontrol("bilgi.css var", os.path.exists("bilgi.css"))
 
+# --- YMYL sinyalleri: yazar, tarih, hekim unvani ------------------------
+# 4 Agu 2026 arastirmasi: saglik icerigi Google'in YMYL sinifinda — en
+# siki denetlenen kategori. Olculdu: 453 arama gosteriminin TAMAMI ana
+# sayfaya gidiyordu, 35 yazinin hicbiri gorunmuyordu. Semada "kim
+# inceledi" (reviewedBy) vardi ama "kim yayimladi" ve TARIHLER yoktu.
+#
+# Alanlar `sema-yazar-ekle.py` ile eklendi. Bu kontrol onlarin KALICI
+# olmasini sagliyor: yeni bir yazi eksik semayla eklenirse burada durur.
+# (Yazi eklemenin alti ayri adimi var ve gecmiste ikisi unutuldu.)
+#
+# ⚠️ `author` bir INSAN degil, KLINIK. Yazilari hekimler yazmadi;
+# tibben incelediler ve bu sayfada aleni yaziyor. Uydurma insan yazar
+# koymak, tam da YMYL'in denetledigi seyi ihlal ederdi.
+print("\n--- 6b  bilgi yazilari: YMYL sema sinyalleri ---")
+_ymyl_eksik = []
+for _ad in BILGI:
+    try:
+        _t = io.open(_ad, encoding="utf-8").read()
+    except OSError as e:
+        _ymyl_eksik.append("%s (okunamadi: %s)" % (_ad, e))
+        continue
+    _sayfa = None
+    for _b in re.findall(
+            r'<script type="application/ld\+json">(.*?)</script>', _t, re.S):
+        try:
+            _v = json.loads(_b)
+        except ValueError:
+            continue                     # bozuk JSON ayri kontrolde
+        if _v.get("@type") == "MedicalWebPage":
+            _sayfa = _v
+            break
+    if _sayfa is None:
+        _ymyl_eksik.append("%s: MedicalWebPage semasi yok" % _ad)
+        continue
+    _yok = [_k for _k in ("author", "datePublished", "dateModified",
+                          "lastReviewed", "reviewedBy")
+            if not _sayfa.get(_k)]
+    if _yok:
+        _ymyl_eksik.append("%s: %s eksik" % (_ad, ", ".join(_yok)))
+        continue
+    for _h in _sayfa.get("reviewedBy") or []:
+        if not _h.get("hasCredential"):
+            _ymyl_eksik.append("%s: %s icin hasCredential yok"
+                               % (_ad, _h.get("name", "?")))
+            break
+
+kontrol("her yazida author + tarih + hekim unvani var",
+        not _ymyl_eksik,
+        _ymyl_eksik[0] if _ymyl_eksik else "%d yazi" % len(BILGI))
+
 # --- Yazi tipleri YEREL mi? (Codex 1. tur bulgu 7'nin kalici cozumu) ---
 # Site hicbir ucuncu taraf sunucusuna istek atmamali: hastanin IP'si
 # ve hangi sayfayi actigi disari gitmesin. Bir sayfaya yanlislikla
