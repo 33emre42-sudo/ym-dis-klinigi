@@ -1181,6 +1181,64 @@ kontrol("klinik varligi tek @id (kopya Dentist nesnesi yok)",
         else "%d sayfa yalniz @id ile atifta bulunuyor"
              % (len(ALT_SAYFA) + len(BILGI) + 1))
 
+# --- Hekimler de TEK varlik olmali ----------------------------------
+#
+# ⚠️ 4 Agu 2026 — IKI denetci bunu BAGIMSIZ olarak buldu
+# (SEO-3 B5 ve SITE-16 B7). Ayni iki hekim 36 sayfada kalici `@id` ile
+# tanimliyken ANA SAYFA onlari kimliksiz tanimliyordu; yani sitenin en
+# onemli sayfasi, arama motoru acisindan iki ADSIZ yeni kisi
+# yaratiyordu.
+#
+# Klinik nesnesi icin ayni kontrol yukarida zaten var ve 5. turda
+# konuldu. Hekimler o zaman atlanmisti — ayni ilke, eksik uygulama.
+#
+# Neden onemli: varlik grafigi parcalanınca hekimin diplomasi,
+# unvani ve incelediği yazilar TEK bir kiside toplanmiyor. YMYL
+# icerikte kim yazdigi/inceledigi sinyalinin tamami buna dayaniyor.
+_HEKIM_ID = {
+    "Yunus Emre Çetin":
+        "https://ymdisklinigi.com/hekimlerimiz.html#dt-yunus-emre-cetin",
+    "Mert Daştan":
+        "https://ymdisklinigi.com/hekimlerimiz.html#dt-mert-dastan",
+}
+
+
+def _kimliksiz_hekim(veri, bulunan, dosya):
+    """Adi bizim hekimlerimizden biri olan ama @id'si yanlis/eksik
+    Person dugumlerini toplar."""
+    if isinstance(veri, dict):
+        if veri.get("@type") == "Person":
+            _ad = (veri.get("name") or "").strip()
+            if _ad in _HEKIM_ID and veri.get("@id") != _HEKIM_ID[_ad]:
+                bulunan.append("%s -> %s (@id: %s)"
+                               % (dosya, _ad, veri.get("@id") or "YOK"))
+        for x in veri.values():
+            _kimliksiz_hekim(x, bulunan, dosya)
+    elif isinstance(veri, list):
+        for x in veri:
+            _kimliksiz_hekim(x, bulunan, dosya)
+
+
+_hekim_kopya = []
+_hekim_bakilan = 0
+for ad in ["index.html"] + ALT_SAYFA + BILGI:
+    if not os.path.exists(ad):
+        continue
+    _hekim_bakilan += 1
+    with open(ad, encoding="utf-8") as f:
+        _s = f.read()
+    for blok in re.findall(
+            r'<script type="application/ld\+json">(.*?)</script>', _s, re.S):
+        try:
+            _kimliksiz_hekim(json.loads(blok), _hekim_kopya, ad)
+        except json.JSONDecodeError:
+            pass                      # bozuk JSON ayri kontrolde
+
+kontrol("hekimler her sayfada AYNI kalici @id ile",
+        not _hekim_kopya,
+        _hekim_kopya[0] if _hekim_kopya
+        else "%d sayfa tarandi" % _hekim_bakilan)
+
 # gizlilik.html ALT_SAYFA listesinde degil — menusu ve bicemi farkli.
 # Ama CANLI, herkese acik bir sayfa ve mevzuat taramasinin tamamen
 # disinda kalmasi gozden kacmisti.
