@@ -1418,6 +1418,42 @@ kontrol("ana sayfadaki yazi sayisi dogru", _dogru,
         ("ana sayfa '%s' diyor ama diskte %d yazi var — \"%s\" olmali"
          % (_yazan or "hic sayi yok", len(BILGI), _bekleniyor)))
 
+# --- Hub'in meta aciklamasindaki sayi da GERCEK olmali --------------
+#
+# ⚠️ 4 Agu 2026, SEO-3 B7: `bilgi-yazilari.html` sema tarafinda
+# `numberOfItems:35` derken meta aciklamasi hala "32 bilgilendirme
+# yazisi" diyordu. Ayni sayfa, ayni gun, iki farkli sayi.
+#
+# Ustteki kontrol ANA SAYFAYI yazıyla korurken hub'in KENDI
+# aciklamasi korumasizdi — ve arama sonucunda kullaniciya gorunen
+# metin tam olarak orasi. Yani yanlis sayinin en cok goruldugu yer
+# denetlenmiyordu.
+#
+# Bugun bu sinifin DORDUNCU ornegi (K45-6 bayat istem · SEO-3 B2
+# bayat envanter · gizlilik tarihi · burada). Hepsinde ortak kalip:
+# kaynak degisti, ondan TURETILMIS metin elle guncellenmedi.
+_hub = "bilgi-yazilari.html"
+_hub_sorun = ""
+if not os.path.exists(_hub):
+    _hub_sorun = "bilgi-yazilari.html yok"
+else:
+    _ht = io.open(_hub, encoding="utf-8").read()
+    _hm = re.search(r'<meta name="description" content="([^"]*)"', _ht)
+    if not _hm:
+        _hub_sorun = "meta description bulunamadi"
+    else:
+        _sayilar = [int(x) for x in re.findall(r"\b(\d+)\b", _hm.group(1))]
+        if not _sayilar:
+            # Aciklamada hic sayi yoksa sorun yok — yalnizca YAZILI
+            # bir sayi varsa dogru olmasi gerekiyor.
+            pass
+        elif len(BILGI) not in _sayilar:
+            _hub_sorun = ("aciklama %s diyor, diskte %d yazi var"
+                          % (_sayilar, len(BILGI)))
+
+kontrol("bilgi hub'inin aciklamasindaki sayi gercek",
+        not _hub_sorun, _hub_sorun or "%d yazi" % len(BILGI))
+
 # ⚠️ 5. tur bulgu 8: burasi "dosya adi sitemap METNINDE geciyor mu" diye
 # bakiyordu. Alt dizge oldugu icin `dis-cekimi.html` beklenirken sitemap'te
 # yalnizca `eski-dis-cekimi.html` bulunsa da GECIYORDU. Fazladan ya da
