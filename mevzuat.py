@@ -702,6 +702,25 @@ YASAKLI_COKDILLI = {
                   r"|\bgratis\b|\bratenzahlung|\bgünstig",
     "fiyat (RU)": r"\bцен[аыу]\b|\bстоимост|\bскидк|\bбесплатн"
                   r"|\bрассрочк",
+    # ⚠️ 4 Agu 2026, SITE-16 B6 — KAMPANYA yasagi yalniz TURKCE tarafta
+    # vardi (bkz. "kampanya" deseni yukarida). Cok dilli kapida
+    # karsiligi yoktu: Ispanyolca bir sayfa "campaña", Almanca bir
+    # sayfa "Aktion" yazabilir ve tarama TEMIZ derdi.
+    #
+    # Ayni yonetmelik yabanci dildeki metin icin de gecerli — hatta
+    # saglik turizmi hedefleyen sayfalarda denetim daha gorunur.
+    # Turkce tarafi koruyup yabanci tarafi acik birakmak, korumanin
+    # kendisini anlamsiz kilar.
+    #
+    # `promotion` (FR) ve `promotions` (EN/ES) zaten fiyat desenlerinde
+    # geciyor; burada TEKRAR edilmiyor ki ayni ihlal iki kod altinda
+    # bildirilmesin.
+    "kampanya (EN)": r"\bcampaigns?\b",
+    "kampanya (ES)": r"\bcampañas?\b|\bpromociones?\b",
+    "kampanya (FR)": r"\bcampagnes?\b",
+    "kampanya (DE)": r"\bkampagne(?:n)?\b|\baktion(?:en)?\b",
+    "kampanya (RU)": r"\bкампани(?:я|и|й|ю|ей|ями|ях)\b"
+                     r"|\bакци(?:я|и|й|ю|ей|ями|ях)\b",
     "para birimi": r"[€$£]\s?\d|\d\s?(?:eur|usd|gbp)\b",
 
     # --- hasta yorumu / puan ----------------------------------------

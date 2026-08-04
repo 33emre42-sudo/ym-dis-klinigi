@@ -897,6 +897,26 @@ bekle("cokdilli: EN hasta yorumu yakalanir",
 bekle("cokdilli: EN once-sonra yakalanir",
       "<p>See our before and after gallery.</p>",
       True, kod="once-sonra (EN)")
+# ⚠️ SITE-16 B6: kampanya yasagi yalniz TURKCE tarafta vardi. Bes dilin
+# HEPSI ayri ayri sinaniyor — biri eklenip otekiler unutulursa (bu
+# projede uc kez oldu) test yakalasin.
+bekle("cokdilli: EN kampanya yakalanir",
+      "<p>See our summer campaign.</p>", True, kod="kampanya (EN)")
+bekle("cokdilli: ES kampanya yakalanir",
+      "<p>Nuestra campaña de verano.</p>", True, kod="kampanya (ES)")
+bekle("cokdilli: FR kampanya yakalanir",
+      "<p>Notre campagne de printemps.</p>", True, kod="kampanya (FR)")
+bekle("cokdilli: DE kampanya yakalanir",
+      "<p>Unsere Sommer-Aktion.</p>", True, kod="kampanya (DE)")
+bekle("cokdilli: RU kampanya yakalanir",
+      "<p>Наша летняя "
+      "акция.</p>", True, kod="kampanya (RU)")
+# ⚠️ Yanlis alarm kapisi: "campana" (n harfi, tilde YOK) Ispanyolcada
+# "can" demek — kampanya degil. Desen tildeye dayaniyor; bu ayrimin
+# korunmasi gerekiyor yoksa mesru metin bloke olur.
+bekle("cokdilli: ES 'campana' (can) yanlis alarm VERMEZ",
+      "<p>La campana de la iglesia.</p>", False)
+
 bekle("cokdilli: yabanci para birimi yakalanir",
       "<p>Implant from &euro;450.</p>",
       True, kod="para birimi")
