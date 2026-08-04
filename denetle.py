@@ -53,6 +53,7 @@ import io
 import json
 import os
 import re
+import subprocess
 import sys
 # sitemap.xml BIZIM urettigimiz, depo icindeki bir dosya — disaridan
 # gelen belge ayristirilmiyor. (xml.etree zaten dis varlik cozmez.)
@@ -814,6 +815,134 @@ for _ad in BILGI:
 kontrol("her yazida author + tarih + hekim unvani var",
         not _ymyl_eksik,
         _ymyl_eksik[0] if _ymyl_eksik else "%d yazi" % len(BILGI))
+
+# --- Gizlilik politikasinin "son guncelleme" tarihi GERCEK mi? -------
+#
+# ⚠️ 4 Agu 2026, SITE-16 B8: politika metni 4 Agustos 09:44'te
+# degistirildi ama sayfadaki tarih "31 Temmuz"da kaldi. Yani metin
+# degisti, hastaya "ne zaman degistigi" yanlis soylendi.
+#
+# Bu, bugun UCUNCU kez ayni sinif: TURETILMIS bir bilgi kaynagiyla
+# birlikte guncellenmediginde sessizce yalan soyluyor (K45-6 bayat
+# istem sablonu · SEO-3 B2 bayat envanter · burada bayat tarih).
+# Ucunde de kimse yalan soylemek istemedi; elle adim atlandi.
+#
+# Bir gizlilik politikasinda bu yalnizca ozensizlik degil: sayfanin
+# 132-134. satirlari "politika degisirse bu tarih degisir" diye SOZ
+# VERIYOR. Tutulmayan soz, politikanin kendisini zayiflatir.
+#
+# Cozum elle dikkat degil, olcum: tarih GIT'ten geliyor.
+_giz = "gizlilik.html"
+_giz_sorun = ""
+if not os.path.exists(_giz):
+    _giz_sorun = "gizlilik.html bulunamadi"
+else:
+    _m = re.search(r'class="tarih">Son güncelleme:\s*([^<]+)<',
+                   io.open(_giz, encoding="utf-8").read())
+    if not _m:
+        _giz_sorun = "sayfada 'Son güncelleme' satiri bulunamadi"
+    else:
+        _yazan = _m.group(1).strip()
+        try:
+            # ⚠️ `%-d` (bassiz gun) bir glibc uzantisi; Windows'taki
+            # git onu tanimiyor ve komut 127 ile DUSUYOR. Bassiz hale
+            # Python tarafinda getiriliyor — bicimlendirmeyi platforma
+            # birakmak, bu kontrolu Windows'ta sessizce olcemez yapardi.
+            _g = subprocess.run(
+                ["git", "log", "-1", "--format=%ad", "--date=format:%d %B %Y",
+                 "--", _giz],
+                capture_output=True, text=True,
+                encoding="utf-8", errors="replace", timeout=30)
+            _gercek = (_g.stdout.strip().lstrip("0")
+                       if _g.returncode == 0 else "")
+        except Exception as _e:
+            _gercek = ""
+            _giz_sorun = "git okunamadi (%s)" % type(_e).__name__
+        # ⚠️ Olcemedigimizde TEMIZ demiyoruz. Git yoksa/okunmuyorsa
+        # bu kontrol bir sey soylemeye YETKILI degil; sessizce
+        # gecmek "bakildi" sanilmasina yol acar.
+        if not _gercek and not _giz_sorun:
+            _giz_sorun = "git son degisiklik tarihi alinamadi"
+        elif _gercek:
+            _AY = {"January": "Ocak", "February": "Şubat", "March": "Mart",
+                   "April": "Nisan", "May": "Mayıs", "June": "Haziran",
+                   "July": "Temmuz", "August": "Ağustos",
+                   "September": "Eylül", "October": "Ekim",
+                   "November": "Kasım", "December": "Aralık"}
+            for _en, _tr in _AY.items():
+                _gercek = _gercek.replace(_en, _tr)
+            if _yazan != _gercek:
+                _giz_sorun = ("sayfada '%s' yaziyor, git'e gore son "
+                              "degisiklik '%s'" % (_yazan, _gercek))
+
+kontrol("gizlilik politikasi tarihi GERCEK degisiklikle ayni",
+        not _giz_sorun,
+        _giz_sorun or "git ile dogrulandi")
+
+# --- Dil bolumleri arasinda SOZ ESITLIGI ----------------------------
+#
+# ⚠️ 4 Agu 2026, SITE-16 B5: Almanca, Ispanyolca, Fransizca ve Rusca
+# sayfalarin hepsi "telefonu Turkce yanitliyoruz" diyor. Ingilizce
+# sayfalarda ayni telefon dugmesi var ama bu uyari YOK — yani
+# Ingilizce konusan ziyaretciye otekilerden FARKLI bir hizmet
+# beklentisi veriliyor.
+#
+# Bu, bu projede UCUNCU kez cikan sinif:
+#   · 35 yabanci sayfa mevzuat taramasindan hic gecmiyordu
+#   · bes dilde implant sisligi anlatiliyor ama ACIL ESIGI ve 112 yok
+#   · simdi burada
+#
+# Ucunun de ortak yani: bir dil ilerliyor, otekiler geride kaliyor ve
+# kimse fark etmiyor cunku her dosya KENDI ICINDE dogru gorunuyor.
+# Elle karsilastirma bu isi tutmuyor — dil sayisi 5, sayfa sayisi 35.
+#
+# Burada kontrol edilen sey CEVIRI KALITESI DEGIL: bir dilde verilen
+# operasyonel sozun butun dillerde verilip verilmedigi. Soz esitligi
+# bir durustluk meselesi; ziyaretcinin hangi dili konustugu, ona ne
+# soylendigini degistirmemeli.
+_SOZLER = {
+    # anahtar: her dilde o sozu tasiyan desen (kucuk harf aranir)
+    # ⚠️ Desenler SAYFALARDAN OKUNARAK yazildi, cevrilerek DEGIL.
+    # Ilk yazilista Rusca deseni tahmin edilmisti ("мы говорим
+    # по-турецки") ve sayfada gercekte "мы отвечаем на турецком"
+    # yazdigi icin kontrol, uyari YERINDE DURURKEN eksik bildirdi.
+    # Yanlis alarm da bir arizadir: insani korumayi susturmaya iter.
+    "telefon Turkce yanitlaniyor": {
+        "en": "phone in turkish", "es": "teléfono en turco",
+        "fr": "téléphone en turc", "de": "telefon sprechen wir türkisch",
+        "ru": "по телефону мы отвечаем на турецком",
+    },
+}
+_soz_eksik = []
+for _soz, _desenler in _SOZLER.items():
+    for _dk, _desen in _desenler.items():
+        _bulundu = 0
+        _bakilan = 0
+        for _y in DILLER[_dk]["sayfalar"]:
+            # Soz yalnizca GIRIS sayfalarinda aranir: ana sayfa ve
+            # iletisim. Tedavi sayfalarina da sart kosmak gurultu
+            # uretir — ziyaretci telefonu bu ikisinden ariyor.
+            _t = os.path.basename(_y).lower()
+            if not any(_a in _t for _a in ("index", "contact", "contacto",
+                                           "kontakt", "kontakty")):
+                continue
+            _bakilan += 1
+            if not os.path.exists(_y):
+                continue
+            if _desen in io.open(_y, encoding="utf-8").read().lower():
+                _bulundu += 1
+        if _bakilan == 0:
+            # ⚠️ Hicbir sayfaya bakilamadiysa "gecti" DEME. Kapsam
+            # bosluğu, bulgunun kendisinden tehlikeli: bakildi sanilir.
+            _soz_eksik.append("%s: giris sayfasi bulunamadi" % _dk)
+        elif _bulundu < _bakilan:
+            _soz_eksik.append("%s: %d/%d giris sayfasinda '%s' yok"
+                              % (_dk, _bakilan - _bulundu, _bakilan, _soz))
+
+kontrol("her dil AYNI operasyonel sozu veriyor",
+        not _soz_eksik,
+        _soz_eksik[0] if _soz_eksik
+        else "%d dil x %d soz" % (len(DILLER), len(_SOZLER)))
 
 # --- Yazi tipleri YEREL mi? (Codex 1. tur bulgu 7'nin kalici cozumu) ---
 # Site hicbir ucuncu taraf sunucusuna istek atmamali: hastanin IP'si
