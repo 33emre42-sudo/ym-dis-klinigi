@@ -1156,6 +1156,50 @@ kontrol("yayimlanan sayfa yayimlanmayan dile BAGLANMIYOR", not _kirik404,
         else "%d dil yayimda" % len(_YAYIMDA))
 
 
+# ===========================================================================
+# MOBIL HARITA GORSELI — ORTA DPR ADAYI
+# ===========================================================================
+# 6 Agu 2026 Lighthouse olcumu, 370 CSS px genislikteki harita icin
+# 550 px aday yetmediginden tarayicinin 1100 px / 97 KB dosyayi sectigini
+# ve bunun 46 KB'ini gereksiz saydigini gosterdi. 700 px aday, 370 x
+# yaklasik 1,75 DPR ihtiyacini karsilar; yalniz dosya uretmek yetmez,
+# iki modern bicimin srcset'inde de sunulmalidir.
+from PIL import Image as _Image
+
+_harita_sorun = []
+_ana_html = io.open(_os.path.join(_KOK, "index.html"),
+                    encoding="utf-8").read()
+for _bicim in ("avif", "webp"):
+    _eslesme = _re.search(
+        r'<source[^>]+type="image/%s"[^>]+srcset="([^"]*konum-harita[^"]*)"'
+        % _bicim, _ana_html)
+    if not _eslesme:
+        _harita_sorun.append("%s srcset yok" % _bicim)
+        continue
+    _adaylar = dict(
+        (int(_g), _yol)
+        for _yol, _g in _re.findall(r"(\S+)\s+(\d+)w", _eslesme.group(1)))
+    _yol = _adaylar.get(700)
+    if not _yol:
+        _harita_sorun.append("%s 700w adayi yok" % _bicim)
+        continue
+    _dosya = _os.path.join(_KOK, _yol)
+    _buyuk = _os.path.join(_KOK, _adaylar.get(1100, ""))
+    if not _os.path.exists(_dosya):
+        _harita_sorun.append("%s dosyasi yok" % _yol)
+        continue
+    with _Image.open(_dosya) as _im:
+        if _im.size != (700, 700):
+            _harita_sorun.append("%s boyutu %s" % (_yol, _im.size))
+    if (not _os.path.exists(_buyuk)
+            or _os.path.getsize(_dosya) >= _os.path.getsize(_buyuk)):
+        _harita_sorun.append("%s 1100w adayindan kucuk degil" % _yol)
+
+kontrol("performans: harita 700w orta DPR adayi sunuyor",
+        not _harita_sorun,
+        "; ".join(_harita_sorun) if _harita_sorun else "AVIF + WebP")
+
+
 print("=" * 70)
 print("DENETCI TESTI — denetle.py gercekten yakaliyor mu?")
 print("=" * 70)

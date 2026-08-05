@@ -29,7 +29,7 @@ HEDEF = os.path.join(KOK, "gorsel")
 # (dosya, genislikler) — genislik sayfadaki GERCEK kullanima gore secildi
 GORSELLER = [
     ("gorsel-hero.jpg",        (900, 1600)),   # giris, tam genislik
-    ("konum-harita.jpg",       (550, 1100)),   # kare harita
+    ("konum-harita.jpg",       (550, 700, 1100)),  # mobil retina ara adayi
     ("gorsel-fon-klinik.jpg",  (600, 1200)),
     ("gorsel-fon-bakim.jpg",   (600, 1200)),
     ("gorsel-fon-rontgen.jpg", (600, 1200)),
