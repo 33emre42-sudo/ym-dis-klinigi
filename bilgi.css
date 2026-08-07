@@ -84,6 +84,38 @@ a{color:inherit}
   border-bottom-color:var(--vurgu)}
 @media (max-width:640px){.menu a{padding:12px 12px;font-size:14px}}
 
+/* --- mobil hamburger menu (8 Agu 2026) ---------------------------
+   Dar ekranda sekme seridi yatay kaydirmaliydi ve icerigin 328px'i
+   gizli kaliyordu; kaydirinca satir bosaliyordu. Artik panel olarak
+   aciliyor. Dil secicideki gibi `details` ogesiyle — JS yok.
+   ⚠️ Acilma `:has()` ile; destegi yoksa hamburger gorunmez ve ESKI
+   kaydirilabilir menu yerinde kalir (menusuz sayfa olusmaz). */
+.menu-ac{display:none}
+.menu-ac>summary{list-style:none;cursor:pointer;display:inline-flex;
+  align-items:center;justify-content:center;width:40px;height:40px;
+  border-radius:12px;border:1px solid var(--cizgi);background:var(--kat);
+  color:var(--murekkep);flex:0 0 auto}
+.menu-ac>summary::-webkit-details-marker{display:none}
+.menu-ac>summary::marker{content:""}
+.menu-ac[open]>summary{border-color:var(--vurgu);color:var(--vurgu)}
+
+@media (max-width:640px){
+  @supports selector(:has(*)){
+    .menu-ac{display:block}
+    .menu{display:none}
+    .serit:has(.menu-ac[open]) + .menu{display:block}
+    .menu .sar{flex-direction:column;gap:0;overflow-x:visible}
+    .menu a{padding:14px 2px;font-size:15.5px;
+      border-bottom:1px solid var(--cizgi);border-left:2px solid transparent}
+    .menu a:last-child{border-bottom:none}
+    .menu a[aria-current="page"]{border-bottom-color:var(--cizgi);
+      border-left-color:var(--vurgu);padding-left:10px}
+  }
+  /* Serit tasmasi: numara giris bolumunde ve alt cubukta zaten var. */
+  .serit-tel span{display:none}
+  .serit-tel{padding:9px 12px}
+}
+
 /* --- sayfa basi (hekimler / SSS / bilgi dizini) --- */
 .sayfa-basi{padding:40px 0 6px}
 .sayfa-basi h1{margin:0 0 14px;font-family:var(--baslik);color:var(--murekkep);

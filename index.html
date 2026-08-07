@@ -226,6 +226,41 @@
     border-bottom-color:var(--vurgu)}
   @media (max-width:640px){.menu a{padding:12px 12px;font-size:14px}}
 
+  /* --- mobil hamburger menu (8 Agu 2026) ---------------------------
+     Dar ekranda sekme seridi yatay kaydirmaliydi ve icerigin 328px'i
+     gizli kaliyordu; kaydirinca satir bosaliyordu. Artik panel olarak
+     aciliyor. Dil secicideki gibi `details` ogesiyle — JS yok.
+     ⚠️ Bu yorumda ACIK ETIKET YAZILMAZ: denetle.py etiket dengesini
+     duz metinde sayiyor ve yorumdaki ornek bir etiket GERCEK bir
+     dengesizligi maskeleyebilir.
+     ⚠️ Acilma `:has()` ile; destegi yoksa hamburger gorunmez ve ESKI
+     kaydirilabilir menu yerinde kalir (menusuz sayfa olusmaz). */
+  .menu-ac{display:none}
+  .menu-ac>summary{list-style:none;cursor:pointer;display:inline-flex;
+    align-items:center;justify-content:center;width:40px;height:40px;
+    border-radius:12px;border:1px solid var(--cizgi);background:var(--kat);
+    color:var(--murekkep);flex:0 0 auto}
+  .menu-ac>summary::-webkit-details-marker{display:none}
+  .menu-ac>summary::marker{content:""}
+  .menu-ac[open]>summary{border-color:var(--vurgu);color:var(--vurgu)}
+
+  @media (max-width:640px){
+    @supports selector(:has(*)){
+      .menu-ac{display:block}
+      .menu{display:none}
+      .serit:has(.menu-ac[open]) + .menu{display:block}
+      .menu .sar{flex-direction:column;gap:0;overflow-x:visible}
+      .menu a{padding:14px 2px;font-size:15.5px;
+        border-bottom:1px solid var(--cizgi);border-left:2px solid transparent}
+      .menu a:last-child{border-bottom:none}
+      .menu a[aria-current="page"]{border-bottom-color:var(--cizgi);
+        border-left-color:var(--vurgu);padding-left:10px}
+    }
+    /* Serit tasmasi: numara giris bolumunde ve alt cubukta zaten var. */
+    .serit-tel span{display:none}
+    .serit-tel{padding:9px 12px}
+  }
+
   /* --- giris --- */
   .giris{padding:104px 0 84px;border-bottom:1px solid var(--cizgi);
     position:relative;overflow:hidden}
@@ -645,6 +680,7 @@
 </head><body>
 
 <div class="serit"><div class="sar">
+  <details class="menu-ac"><summary aria-label="Men&uuml; / Menu"><svg class="ikon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary></details>
   <a class="marka" href="/"><picture><source srcset="logo-isaret.png" media="(prefers-color-scheme: dark)"><img class="logo" src="logo-isaret-koyu.png" alt="" width="34" height="34" decoding="async"></picture><span class="marka-metin"><b>YM Diş Kliniği</b><span>BAĞCILAR · KİRAZLI</span></span></a>
   <a class="serit-tel" href="tel:+905417324376"><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 5.5 5.5L16 12l4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4 6.2 2 2 0 0 1 6 4V3Z"/></svg><span>0541 732 43 76</span></a>
   <details class="dil-sec">
