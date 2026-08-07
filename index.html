@@ -247,11 +247,24 @@
   @media (max-width:640px){.giris{padding:46px 0 44px}}
   .giris-izgara{display:grid;grid-template-columns:minmax(0,1fr);gap:48px;
     align-items:center}
+  /* ⚠️ 7 Agu 2026 — line-height 1.07'den 1.14'e cikarildi.
+     Hekim "bastaki yazi cizginin altina kayiyor" diye bildirdi;
+     375px'te olculdu: 32px yazi tipine 34,24px satir yuksekligi
+     dusuyordu. Turkce baslikta hem USTTE hem ALTTA is var —
+     "sagligi" kelimesinde g'nin breve'si yukari, s'nin sedillasi
+     asagi tasiyor. Ustelik .vurgulu `background-clip:text` ile
+     boyandigi icin kutunun disinda kalan her parca KIRPILIYOR,
+     harfin kuyrugu yok oluyor. Cozum iki parcali: satiri gevset
+     ve boyama kutusuna dikey nefes payi ver.
+     ⛔ .vurgulu'ya `display:inline-block` VERILMEZ — cok kelimeli
+     oldugu icin dar ekranda satir bolunmesini engeller ve yatay
+     tasma uretir. */
   h1{margin:0 0 22px;font-family:var(--baslik);font-weight:800;
-    color:var(--murekkep);font-size:clamp(32px,5vw,54px);line-height:1.07;
+    color:var(--murekkep);font-size:clamp(32px,5vw,54px);line-height:1.14;
     letter-spacing:-.035em;max-width:19ch;text-wrap:balance}
   h1 .vurgulu{background:linear-gradient(92deg,var(--vurgu),var(--vurgu2));
-    -webkit-background-clip:text;background-clip:text;color:transparent}
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    padding-block:.03em .12em}
   .giris-ozet{margin:0 0 36px;font-size:17.5px;line-height:1.66;max-width:50ch}
   .eylem{display:flex;gap:11px;flex-wrap:wrap}
   .dugme{display:inline-flex;align-items:center;justify-content:center;gap:9px;
@@ -975,6 +988,22 @@
     max-height:min(540px,calc(100vh - 110px));display:flex;flex-direction:column;
     background:var(--kagit);border:1px solid var(--cizgi);border-radius:16px;
     box-shadow:0 30px 70px -30px rgba(4,10,16,.55);overflow:hidden}
+
+  /* ⚠️ 7 Agu 2026 — MOBILDE CAKISMA (hekim bildirdi, olculdu).
+     `.sabit` arama seridi 720px altinda bottom:0'da tam genislikte
+     duruyor; olculen yuksekligi 82px ve body'ye zaten 88px alt bosluk
+     veriliyor. Sohbet dugmesi ise bottom:18px'te sabitti — 375x812
+     olcumunde 56px TAM ortusme cikti, yani yuvarlak sohbet dugmesi
+     "Mesaj gonder" dugmesinin UZERINDE oturuyor ve onu tiklanamaz
+     yapiyordu. Acil dis hastasi neredeyse tamamen mobilden geliyor;
+     iki eylemin de erisilebilir olmasi sart.
+     ⚠️ Esik `.sabit` ile AYNI (720px) olmak zorunda — ayrisirsa
+     cakisma sessizce geri doner. */
+  @media (max-width:720px){
+    #sohbet-ac{bottom:calc(88px + 14px)}
+    #ym-sohbet{bottom:calc(88px + 14px + 56px + 10px);
+      max-height:min(540px,calc(100vh - 110px - 88px))}
+  }
   .sohbet-bas{display:flex;align-items:center;gap:9px;padding:12px 14px;
     background:var(--kat);border-bottom:1px solid var(--cizgi)}
   .sohbet-bas b{font-size:15px;color:var(--murekkep)}
