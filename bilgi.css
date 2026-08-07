@@ -298,3 +298,23 @@ footer a{color:var(--vurgu);text-decoration:none}
   .marka b{white-space:nowrap;font-size:15px}
   .serit-tel{font-size:14px;padding:8px 13px}
 }
+
+/* --- ekrana yapisik "Ara + WhatsApp" cubugu (8 Agu 2026) ------------
+   index.html disindaki 77 sayfaya yayildi. Acil hasta aramadan bir
+   BILGI YAZISINA dusuyor; o sayfada da tek dokunusla ulasabilmeli.
+   ⚠️ .dugme.ikincil burada tanimlaniyor — index.html kendi gomulu
+   stilinde tanimliyordu ve bilgi.css'te YOKTU; olmadan WhatsApp
+   dugmesi bicemsiz kalirdi. Isaretleme her sayfada ayni olsun diye
+   kural buraya tasindi, isaretleme degil. */
+.dugme.ikincil{border-color:var(--cizgi);color:var(--murekkep);
+  background:var(--kat)}
+.sabit{position:fixed;left:0;right:0;bottom:0;z-index:40;display:none;gap:9px;
+  padding:11px 20px calc(11px + env(safe-area-inset-bottom));
+  background:color-mix(in srgb, var(--kagit) 88%, transparent);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-top:1px solid var(--cizgi)}
+.sabit .dugme{flex:1;justify-content:center}
+@media (max-width:720px){
+  .sabit{display:flex}
+  body{padding-bottom:88px}
+}
