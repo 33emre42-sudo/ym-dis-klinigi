@@ -16,6 +16,9 @@ bir YESIL ornek (yanlis alarm vermemeli) eklenir.
 """
 import io
 import sys
+import tempfile
+import urllib.parse
+import urllib.request
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
@@ -1199,6 +1202,378 @@ kontrol("performans: harita 700w orta DPR adayi sunuyor",
         not _harita_sorun,
         "; ".join(_harita_sorun) if _harita_sorun else "AVIF + WebP")
 
+# --- 7. tur: seo-denetle.py'de dogrulama etiketleri -----------------
+# dogrulama_durumu(yeni) function'inin gerçek davranisini 2 Google + 1 Bing
+# + 1 Yandex kombinasyonundan test et. Fonksiyon bulunmazsa burada FAIL dönülsün;
+# metin bazlı doğrulama yapılmaz, sadece dönen tuple sözleşme doğrulanır.
+_seo_kaynak = io.open(_os.path.join(_KOK, "seo-denetle.py"),
+                     encoding="utf-8").read()
+
+_seo_ns = {"re": _re}
+try:
+    _b = _seo_kaynak.index("def dogrulama_durumu(html):")
+    _e = _seo_kaynak.find("\ndef ", _b + 1)
+    if _e < 0:
+        _e = len(_seo_kaynak)
+    exec(compile(_seo_kaynak[_b:_e], "seo-denetle.py", "exec"), _seo_ns)
+    _dogrulama_durumu = _seo_ns.get("dogrulama_durumu")
+    if not callable(_dogrulama_durumu):
+        kontrol("seo-denetle: dogrulama_durumu fonksiyonu bulunamadi", False)
+except Exception as _e:
+    kontrol("seo-denetle: dogrulama_durumu fonksiyonu yüklenemedi", False,
+            str(_e))
+else:
+    try:
+        _seo_html = """
+        <head>
+          <meta name="google-site-verification" content="google-1" />
+          <meta name="google-site-verification" content="google-2" />
+          <meta name="msvalidate.01" content="bing-1" />
+          <meta name="yandex-verification" content="yandex-1" />
+        </head>
+        """
+        kontrol("seo-denetle: 2G/1B/1Y dogrulama durumu beklenen degeri dondurur",
+                _dogrulama_durumu(_seo_html) == (2, 1, 1, []))
+
+        _seo_html = """
+        <head>
+          <meta name="google-site-verification" content="google-1" />
+          <meta name="google-site-verification" content="google-2" />
+          <meta name="msvalidate.01" content="bing-1" />
+        </head>
+        """
+        kontrol("seo-denetle: Yandex yoksa eksikler listesinde tek kalem döner",
+                _dogrulama_durumu(_seo_html)
+                == (2, 1, 0,
+                    [("Yandex dogrulama etiketi (yandex-verification) YOK", "")]))
+    except Exception as _e:
+        kontrol("seo-denetle: dogrulama_durumu çağrısı hata olmadan çalişmali", False,
+                str(_e))
+
+# --- 8. tur: seo-denetle.py yalniz kendi HTTPS origin'ini okur -------
+# Canli sitemap dis kaynak veya yerel servis URL'si icerirse denetci bu
+# adresi istememeli. Yonlendirmeler de ilk izinli istegin ardindan origin
+# disina kacis yaratmamali.
+_url_ns = {"urllib": urllib, "SITE": "https://ymdisklinigi.com"}
+try:
+    _b = _seo_kaynak.index("def _guvenli_site_adresi(yol):")
+    _e = _seo_kaynak.index("\nclass _YonlendirmeYok", _b)
+    exec(compile(_seo_kaynak[_b:_e], "seo-denetle.py", "exec"), _url_ns)
+    _b = _e + 1
+    _e = _seo_kaynak.index("\n_HTTP_ACICI", _b)
+    exec(compile(_seo_kaynak[_b:_e], "seo-denetle.py", "exec"), _url_ns)
+    _guvenli_site_adresi = _url_ns.get("_guvenli_site_adresi")
+    _yonlendirme_yok = _url_ns.get("_YonlendirmeYok")
+    if not callable(_guvenli_site_adresi) or not callable(_yonlendirme_yok):
+        raise RuntimeError("URL guvenlik yardimcilari bulunamadi")
+except Exception as _e:
+    kontrol("seo-denetle: URL guvenlik yardimcilari yukleniyor", False,
+            str(_e))
+else:
+    kontrol("seo-denetle: bagil yol kendi HTTPS origin'ine donusuyor",
+            _guvenli_site_adresi("/robots.txt")
+            == "https://ymdisklinigi.com/robots.txt")
+    kontrol("seo-denetle: ayni origin tam URL kabul ediliyor",
+            _guvenli_site_adresi(
+                "https://ymdisklinigi.com/bilgi-yazilari.html")
+            == "https://ymdisklinigi.com/bilgi-yazilari.html")
+    _reddedilenler = (
+        "http://ymdisklinigi.com/",
+        "https://ymdisklinigi.com.evil.test/",
+        "https://ymdisklinigi.com@127.0.0.1/",
+        "https://127.0.0.1/",
+        "https://ymdisklinigi.com/?hedef=dis",
+        "https://ymdisklinigi.com/#parca",
+    )
+    kontrol("seo-denetle: origin disi ve karmasik URL'ler reddediliyor",
+            all(_guvenli_site_adresi(_u) is None for _u in _reddedilenler))
+    _yon = _yonlendirme_yok()
+    kontrol("seo-denetle: HTTP yonlendirmesi izlenmiyor",
+            _yon.redirect_request(
+                None, None, 302, "Found", {}, "https://127.0.0.1/") is None)
+
+# --- 9. tur: boş/bozuk/eksik sitemap sessiz başarı olamaz ------------
+from defusedxml import ElementTree as _ET
+from defusedxml.common import DefusedXmlException as _DefusedXmlException
+
+_sitemap_ns = {
+    "ET": _ET,
+    "DefusedXmlException": _DefusedXmlException,
+    "os": _os,
+}
+try:
+    _b = _seo_kaynak.index("def sitemap_hatalari(canli_url, disk_yolu):")
+    _e = _seo_kaynak.index("\n\n# ------------------------------------------------------------------", _b)
+    exec(compile(_seo_kaynak[_b:_e], "seo-denetle.py", "exec"), _sitemap_ns)
+    _sitemap_hatalari = _sitemap_ns.get("sitemap_hatalari")
+    if not callable(_sitemap_hatalari):
+        raise RuntimeError("sitemap_hatalari bulunamadi")
+except Exception as _e:
+    kontrol("seo-denetle: sitemap hata yardimcisi yükleniyor", False, str(_e))
+else:
+    with tempfile.TemporaryDirectory() as _td:
+        _disk = _os.path.join(_td, "sitemap.xml")
+        io.open(_disk, "w", encoding="utf-8").write(
+            '<urlset><url><loc>https://ymdisklinigi.com/</loc></url></urlset>')
+        kontrol("seo-denetle: boş canlı sitemap kırmızı",
+                bool(_sitemap_hatalari(set(), _disk)))
+        kontrol("seo-denetle: eş sitemap temiz",
+                _sitemap_hatalari({"https://ymdisklinigi.com/"}, _disk) == [])
+        kontrol("seo-denetle: sitemap farkı kırmızı",
+                bool(_sitemap_hatalari(
+                    {"https://ymdisklinigi.com/baska.html"}, _disk)))
+        io.open(_disk, "w", encoding="utf-8").write(
+            '<!DOCTYPE urlset [<!ENTITY dis "https://example.com/">]>'
+            '<urlset><url><loc>&dis;</loc></url></urlset>')
+        try:
+            _guvensiz_sonuc = _sitemap_hatalari(
+                {"https://ymdisklinigi.com/"}, _disk)
+        except _DefusedXmlException:
+            _guvensiz_sonuc = None
+        kontrol("seo-denetle: entity içeren sitemap fail-closed raporlanıyor",
+                bool(_guvensiz_sonuc)
+                and _guvensiz_sonuc[0][0] == "Yerel sitemap.xml okunamadi")
+        _os.remove(_disk)
+        kontrol("seo-denetle: yerel sitemap yokluğu kırmızı",
+                bool(_sitemap_hatalari({"https://ymdisklinigi.com/"}, _disk)))
+
+    _seo_duplikat_ns = {"re": _re}
+    try:
+        _b = _seo_kaynak.index("def yinelenen_meta_bulgulari")
+        _e = _seo_kaynak.index("\n# ------------------------------------------------------------------", _b)
+        exec(compile(_seo_kaynak[_b:_e], "seo-denetle.py", "exec"),
+             _seo_duplikat_ns)
+        _yinelenen_meta_bulgulari = _seo_duplikat_ns.get(
+            "yinelenen_meta_bulgulari")
+        if not callable(_yinelenen_meta_bulgulari):
+            raise RuntimeError("yinelenen_meta_bulgulari bulunamadi")
+    except Exception as _e:
+        kontrol("seo-denetle: yinelenen_meta_bulgulari fonksiyonu yukleniyor",
+                False, str(_e))
+    else:
+        kontrol(
+            "seo-denetle: yinelenen_meta_bulgulari tekil icerikte bos dondurur",
+            _yinelenen_meta_bulgulari(
+                {"Ana sayfa": ["/"], "Hakkimizda": ["/hakkimizda"]},
+                {"Kliniğimiz": ["/"], "Hakkimizda": ["/hakkimizda"]}
+            ) == [])
+        kontrol(
+            "seo-denetle: title duplicate kırmızı ve aciklama duplicate sari dondurur",
+            _yinelenen_meta_bulgulari(
+                {"Zeta": ["/zeta", "/alfa"], "Beta": ["/beta"]},
+                {"Iyi fiyat": ["/urun/2", "/urun/1"], "Cok iyi": ["/urun/3"]}
+            ) == [
+                ("KIRMIZI",
+                 "AYNI title birden fazla sayfada",
+                 'metin="Zeta" · sayfalar=/alfa, /zeta'),
+                ("SARI",
+                 "Ayni description birden fazla sayfada",
+                 'metin="Iyi fiyat" · sayfalar=/urun/1, /urun/2')
+            ])
+        kontrol(
+            "seo-denetle: metin ve URL dizisi deterministik sirada kalir",
+            _yinelenen_meta_bulgulari(
+                {"B": ["/b/2", "/b/1"], "A": ["/a/2", "/a/1"]},
+                {"B desc": ["/b/2", "/b/1"], "A desc": ["/a/2", "/a/1"]}
+            ) == [
+                ("KIRMIZI",
+                 "AYNI title birden fazla sayfada",
+                 'metin="A" · sayfalar=/a/1, /a/2'),
+                ("KIRMIZI",
+                 "AYNI title birden fazla sayfada",
+                 'metin="B" · sayfalar=/b/1, /b/2'),
+                ("SARI",
+                 "Ayni description birden fazla sayfada",
+                 'metin="A desc" · sayfalar=/a/1, /a/2'),
+                ("SARI",
+                 "Ayni description birden fazla sayfada",
+                 'metin="B desc" · sayfalar=/b/1, /b/2')
+            ])
+# ===========================================================================
+# WCAG AA RENK KONTRASTI — 6 Agu 2026
+# ===========================================================================
+# Skool yeniden incelemesinde W3C'nin 4,5:1 normal metin ve 3:1 buyuk
+# metin siniri, mevcut denetim hattinda otomatik karsiligi olmayan tek
+# yerel aday olarak bulundu. Kontrol yalnız semantik renk tokenlarini
+# tarar; gercek tarayici/ekran okuyucu testi yerine gecmez.
+try:
+    import kontrast as _kontrast
+except Exception as _e:
+    kontrol("kontrast: denetim modulu yukleniyor", False, str(_e))
+else:
+    kontrol("kontrast: siyah/beyaz orani 21:1",
+            abs(_kontrast.kontrast_orani("#000", "#fff") - 21.0) < 0.001)
+
+    _iyi_tema = """
+    :root {
+      --kagit:#ffffff; --kat:#fefefe; --murekkep:#111111;
+      --gri:#333333; --soluk:#767676; --vurgu:#005a75;
+      --vurgu2:#006c72; --vurgu-metin:#ffffff;
+      --uyari-zemin:#fff8ec;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --kagit:#070d15; --kat:#0d1520; --murekkep:#ecf3f8;
+        --gri:#9aacba; --soluk:#8296a8; --vurgu:#57c8ea;
+        --vurgu2:#7ce0d3; --vurgu-metin:#03181f;
+        --uyari-zemin:#1d1708;
+      }
+    }
+    """
+    kontrol("kontrast: iki temiz tema GECER",
+            _kontrast.token_kontrast_hatalari(_iyi_tema) == [])
+
+    _dusuk_metin = _iyi_tema.replace("--soluk:#767676", "--soluk:#777777")
+    _dusuk_metin_hata = _kontrast.token_kontrast_hatalari(_dusuk_metin)
+    kontrol("kontrast: 4,5 altindaki normal metin YAKALANIR",
+            any("soluk/kagit" in _h for _h in _dusuk_metin_hata),
+            _dusuk_metin_hata[:1])
+
+    _dusuk_gradient = _iyi_tema.replace("--vurgu2:#006c72",
+                                        "--vurgu2:#0f9db1")
+    _dusuk_gradient_hata = _kontrast.token_kontrast_hatalari(_dusuk_gradient)
+    kontrol("kontrast: gradientin her ucu ayri denetlenir",
+            any("vurgu-metin/vurgu2" in _h
+                for _h in _dusuk_gradient_hata),
+            _dusuk_gradient_hata[:1])
+
+    _eksik_token = (_iyi_tema.replace("--vurgu-metin:#ffffff;", "")
+                    + "\n.dugme{color:var(--vurgu-metin)}\n")
+    _eksik_token_hata = _kontrast.token_kontrast_hatalari(_eksik_token)
+    kontrol("kontrast: kullanilan eksik token fail-closed YAKALANIR",
+            any("vurgu-metin eksik" in _h for _h in _eksik_token_hata),
+            _eksik_token_hata[:1])
+
+    _gec_isik = _iyi_tema + "\n:root { --soluk:#9a9a9a; }\n"
+    _gec_isik_hata = _kontrast.token_kontrast_hatalari(_gec_isik)
+    kontrol("kontrast: gec gelen acik tema bildirimi YAKALANIR",
+            any("soluk/kagit" in _h for _h in _gec_isik_hata),
+            _gec_isik_hata[:1])
+
+    _gec_koyu = _iyi_tema + """
+    @media (prefers-color-scheme: dark) {
+      :root { --soluk:#5a6b7a; }
+    }
+    """
+    _gec_koyu_hata = _kontrast.token_kontrast_hatalari(_gec_koyu)
+    kontrol("kontrast: ikinci koyu tema bildirimi YAKALANIR",
+            any("soluk/kagit" in _h for _h in _gec_koyu_hata),
+            _gec_koyu_hata[:1])
+
+    _acik_yorum = (_gec_isik
+                   + "/* :root { --soluk:#767676; } kapanmayan yorum")
+    _acik_yorum_hata = _kontrast.token_kontrast_hatalari(_acik_yorum)
+    kontrol("kontrast: kapanmayan yorum onceki kusuru gizleyemez",
+            any("soluk/kagit" in _h for _h in _acik_yorum_hata),
+            _acik_yorum_hata[:1])
+
+    _desteklenmeyen_root = (
+        _iyi_tema + "\n:root, html { --soluk:#9a9a9a; }\n")
+    _desteklenmeyen_root_hata = _kontrast.token_kontrast_hatalari(
+        _desteklenmeyen_root)
+    kontrol("kontrast: desteklenmeyen :root secicisi fail-closed",
+            any("desteklenmeyen :root secicisi" in _h
+                for _h in _desteklenmeyen_root_hata),
+            _desteklenmeyen_root_hata[:1])
+
+    _yalniz_acik = _iyi_tema.split("@media", 1)[0]
+    _yalniz_acik_hata = _kontrast.token_kontrast_hatalari(_yalniz_acik)
+    kontrol("kontrast: koyu tema yoksa fail-closed",
+            any("acik ve koyu :root" in _h for _h in _yalniz_acik_hata),
+            _yalniz_acik_hata[:1])
+
+    _print_root = _iyi_tema + "\n@media print{:root{--soluk:#9a9a9a}}\n"
+    _print_root_hata = _kontrast.token_kontrast_hatalari(_print_root)
+    kontrol("kontrast: desteklenmeyen medya root'u fail-closed",
+            any("desteklenmeyen kosullu :root" in _h
+                for _h in _print_root_hata),
+            _print_root_hata[:1])
+
+    _dengesiz_medya = (
+        _iyi_tema
+        + "\n@media (prefers-color-scheme: dark){:root{--soluk:#9a9a9a}")
+    _dengesiz_medya_hata = _kontrast.token_kontrast_hatalari(
+        _dengesiz_medya)
+    kontrol("kontrast: dengesiz koyu medya fail-closed",
+            any("dengesiz @media" in _h for _h in _dengesiz_medya_hata),
+            _dengesiz_medya_hata[:1])
+
+    _dolayli_renk = _iyi_tema.replace("--soluk:#767676",
+                                      "--soluk:var(--marka-rengi)")
+    _dolayli_hata = _kontrast.token_kontrast_hatalari(_dolayli_renk)
+    kontrol("kontrast: cozumlenemeyen renk fail-closed YAKALANIR",
+            any("soluk" in _h and "cozumlenemedi" in _h
+                for _h in _dolayli_hata),
+            _dolayli_hata[:1])
+
+    _ana_style = "\n".join(_re.findall(
+        r"<style[^>]*>(.*?)</style>", _ana_html, _re.S | _re.I))
+    _gizlilik_html = io.open(_os.path.join(_KOK, "gizlilik.html"),
+                             encoding="utf-8").read()
+    _gizlilik_style = "\n".join(_re.findall(
+        r"<style[^>]*>(.*?)</style>", _gizlilik_html, _re.S | _re.I))
+    _bilgi_css = io.open(_os.path.join(_KOK, "bilgi.css"),
+                         encoding="utf-8").read()
+    _mevcut_kontrast = []
+    for _ad, _css in (("index.html", _ana_style),
+                      ("gizlilik.html", _gizlilik_style),
+                      ("bilgi.css", _bilgi_css)):
+        _mevcut_kontrast.extend(
+            "%s: %s" % (_ad, _h)
+            for _h in _kontrast.token_kontrast_hatalari(_css))
+    kontrol("kontrast: mevcut acik/koyu site paleti WCAG AA",
+            not _mevcut_kontrast,
+            _mevcut_kontrast[0] if _mevcut_kontrast else "3 tema kaynagi")
+
+    def _kontrast_yayin_kapisi(goreli_yol, eski, yeni, beklenen):
+        import os
+        import shutil
+        import subprocess
+
+        with tempfile.TemporaryDirectory(
+                prefix="kontrast-kapi-",
+                dir=os.path.dirname(_KOK)) as _td:
+            _site = os.path.join(_td, "klinik-sitesi")
+            shutil.copytree(
+                _KOK, _site,
+                ignore=shutil.ignore_patterns("__pycache__", "*.pyc", ".git"))
+            _hasta = os.path.join(_td, "hasta-mesajlari")
+            os.mkdir(_hasta)
+            shutil.copy2(
+                os.path.join(os.path.dirname(_KOK), "hasta-mesajlari",
+                             "siteyi-yukle.py"),
+                os.path.join(_hasta, "siteyi-yukle.py"))
+
+            _hedef = os.path.join(_site, goreli_yol)
+            _icerik = io.open(_hedef, encoding="utf-8").read()
+            _bozuk = _icerik.replace(eski, yeni, 1)
+            if _bozuk == _icerik:
+                return False, "test bozuk kontrast uretemedi: " + goreli_yol
+            with io.open(_hedef, "w", encoding="utf-8", newline="\n") as _f:
+                _f.write(_bozuk)
+
+            _d = subprocess.run(
+                [sys.executable, "denetle.py"], cwd=_site,
+                capture_output=True, text=True,
+                encoding="utf-8", errors="replace", timeout=60)
+            _cikti = (_d.stdout or "") + (_d.stderr or "")
+            _ok = (_d.returncode != 0
+                   and "WCAG AA acik/koyu renk tokenlari" in _cikti
+                   and beklenen in _cikti)
+            return _ok, ("exit=%d" % _d.returncode
+                         if _ok else _cikti[-300:])
+
+    _kapi_ok, _kapi_ayrinti = _kontrast_yayin_kapisi(
+        "bilgi.css", "--vurgu-metin:#fff;", "--vurgu-metin:#777;",
+        "vurgu-metin/vurgu")
+    kontrol("kontrast: bozuk ortak palet yayin kapisini DURDURUR",
+            _kapi_ok, _kapi_ayrinti)
+
+    _gizlilik_kapi_ok, _gizlilik_kapi_ayrinti = _kontrast_yayin_kapisi(
+        "gizlilik.html", "--soluk:#5f7282;", "--soluk:#9a9a9a;",
+        "gizlilik.html: acik: soluk/kagit")
+    kontrol("kontrast: bozuk gizlilik paleti yayin kapisini DURDURUR",
+            _gizlilik_kapi_ok, _gizlilik_kapi_ayrinti)
 
 print("=" * 70)
 print("DENETCI TESTI — denetle.py gercekten yakaliyor mu?")

@@ -14,7 +14,7 @@ Neyi kontrol eder:
   4. Mevzuat taramasi — 12 Kas 2025 tanitim yonetmeligi (TUM sayfalar)
   5. Icerik hacmi, bolumler ve sekmeli menu
   6. Bilgi yazilari — ayni kurallar onlar icin de
-  7. Alt sayfalar (hekimler / SSS / bilgi dizini) ve sitemap
+  7. Alt sayfalar (hekimler / SSS / bilgi dizini), renk kontrasti ve sitemap
 
 --------------------------------------------------------------------------
 1 Agu 2026 — site ayri sekmelere bolundu:
@@ -67,6 +67,7 @@ from html.parser import HTMLParser
 from mevzuat import (acil_esik_hatalari, acil_klinige_yonlendirme_hatalari,
                      birlestirici_var, cift_kodlanmis, duzlestir, kucult,
                      mevzuat_tara, EMOJI_ISTISNA, YASAKLI, TICARI)
+from kontrast import token_kontrast_hatalari
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
@@ -515,9 +516,12 @@ else:
     kontrol("tedaviler.html var", False, "dosya yok")
 kontrol("canonical etiketi var", 'rel="canonical"' in html)
 kontrol("meta description var", 'name="description"' in html)
-kontrol("Search Console dogrulamasi duruyor",
-        "google-site-verification" in html)
-
+g = len(re.findall(r'<meta\s+name=(["\'])google-site-verification\1', html, re.I))
+b = len(re.findall(r'<meta\s+name=(["\'])msvalidate\.01\1', html, re.I))
+y = len(re.findall(r'<meta\s+name=(["\'])yandex-verification\1', html, re.I))
+kontrol("Google dogrulama etiketleri (2 olmali)", g == 2, "%d bulundu" % g)
+kontrol("Bing dogrulama etiketi (msvalidate.01) (1 olmali)", b == 1, "%d bulundu" % b)
+kontrol("Yandex dogrulama etiketi (1 olmali)", y == 1, "%d bulundu" % y)
 # Menu: HER sayfada olmali ve ayni baglantilari icermeli. Bir sayfada
 # menu unutulursa ziyaretci o sayfada kapana kisilir.
 print()
@@ -1056,8 +1060,9 @@ for ad in TARANAN:
     if d_:
         dis_font.append("%s -> %s" % (ad, d_[:2]))
 
-# Ayri CSS dosyalari da taranir (bilgi.css, fontlar.css)
-for ad in ("bilgi.css", "fontlar.css"):
+# Ayri CSS dosyalari da taranir.
+_CSS_DOSYALARI = ("bilgi.css", "fontlar.css")
+for ad in _CSS_DOSYALARI:
     if not os.path.exists(ad):
         continue
     with open(ad, encoding="utf-8") as f:
@@ -1088,6 +1093,33 @@ if os.path.exists("fontlar.css"):
     kontrol("font-display: swap tanimli",
             fcss.count("font-display: swap") == len(istenen),
             "%d/%d" % (fcss.count("font-display: swap"), len(istenen)))
+
+# W3C WCAG 2.1 AA: normal metin 4,5:1; buyuk metin 3:1. Bu statik kapi
+# semantik acik/koyu tema tokenlarini ve gradient metin uc noktalarini
+# denetler. Sayfa envanteri ve harici CSS envanteri ortak kaynak listesidir;
+# :root bulunmayan kaynaklar kontrast modulu tarafindan atlanir.
+_kontrast_sorun = []
+_kontrast_kaynaklari = []
+for _ad in TARANAN:
+    if not os.path.exists(_ad):
+        continue
+    with open(_ad, encoding="utf-8") as _f:
+        _sayfa = _f.read()
+    _sayfa_css = "\n".join(re.findall(
+        r"<style[^>]*>(.*?)</style>", _sayfa, re.S | re.I))
+    _kontrast_kaynaklari.append((_ad, _sayfa_css))
+for _ad in _CSS_DOSYALARI:
+    if not os.path.exists(_ad):
+        continue
+    with open(_ad, encoding="utf-8") as _f:
+        _kontrast_kaynaklari.append((_ad, _f.read()))
+for _ad, _css in _kontrast_kaynaklari:
+    _kontrast_sorun.extend(
+        "%s: %s" % (_ad, _sorun)
+        for _sorun in token_kontrast_hatalari(_css))
+kontrol("WCAG AA acik/koyu renk tokenlari", not _kontrast_sorun,
+        _kontrast_sorun[0] if _kontrast_sorun
+        else "normal metin 4,5:1 · buyuk metin 3:1")
 
 # --- 7. Alt sayfalar + sitemap ---
 print("\n--- 7/7  alt sayfalar (%d) ve sitemap ---" % len(ALT_SAYFA))

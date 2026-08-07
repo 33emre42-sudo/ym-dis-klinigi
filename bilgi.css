@@ -13,7 +13,8 @@
   --soluk:#5f7282;
   --cizgi:#e2e8ee;
   --vurgu:#0e6a8f;
-  --vurgu2:#0f9db1;
+  --vurgu2:#0b7a88;
+  --vurgu-metin:#fff;
   --glow:rgba(14,106,143,.20);
   --uyari-zemin:#fff8ec;
   --uyari-cizgi:#e8c98a;
@@ -24,7 +25,7 @@
 @media (prefers-color-scheme: dark){
   :root{--kagit:#070d15;--kat:#0d1520;--murekkep:#ecf3f8;--gri:#9aacba;
         --soluk:#8296a8;--cizgi:#1d2937;--vurgu:#57c8ea;--vurgu2:#7ce0d3;
-        --glow:rgba(87,200,234,.16);
+        --vurgu-metin:#03181f;--glow:rgba(87,200,234,.16);
         --uyari-zemin:#1d1708;--uyari-cizgi:#6b5520}
 }
 *{box-sizing:border-box}
@@ -59,7 +60,7 @@ a{color:inherit}
   letter-spacing:.14em;margin-top:4px}
 .serit-tel{display:inline-flex;align-items:center;gap:9px;text-decoration:none;
   background:linear-gradient(135deg,var(--vurgu),var(--vurgu2));
-  color:#fff;font-weight:700;font-size:15px;padding:10px 18px;
+  color:var(--vurgu-metin);font-weight:700;font-size:15px;padding:10px 18px;
   border-radius:999px;white-space:nowrap;
   box-shadow:0 12px 26px -16px var(--glow)}
 .serit-tel:hover{filter:brightness(1.06)}
@@ -168,7 +169,7 @@ a{color:inherit}
   margin-bottom:14px}
 .adimlar li::before{content:counter(adim);position:absolute;left:0;top:1px;
   width:29px;height:29px;border-radius:50%;
-  background:linear-gradient(135deg,var(--vurgu),var(--vurgu2));color:#fff;
+  background:linear-gradient(135deg,var(--vurgu),var(--vurgu2));color:var(--vurgu-metin);
   font-family:var(--baslik);font-weight:800;font-size:14px;
   display:flex;align-items:center;justify-content:center}
 
@@ -194,7 +195,7 @@ a{color:inherit}
   font-weight:700;font-size:15.5px;padding:12px 20px;border-radius:999px;
   border:1px solid var(--cizgi);color:var(--murekkep);background:var(--kagit)}
 .dugme.birincil{background:linear-gradient(135deg,var(--vurgu),var(--vurgu2));
-  color:#fff;border-color:transparent;
+  color:var(--vurgu-metin);border-color:transparent;
   box-shadow:0 14px 30px -18px var(--glow)}
 .dugme:hover{filter:brightness(1.05)}
 

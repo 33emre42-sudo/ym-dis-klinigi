@@ -30,8 +30,10 @@ import re
 import ssl
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
-import xml.etree.ElementTree as ET
+from defusedxml import ElementTree as ET
+from defusedxml.common import DefusedXmlException
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
@@ -57,15 +59,47 @@ def sari(baslik, ayrinti=""):
     bulgular.append(("SARI", baslik, ayrinti))
 
 
+def _guvenli_site_adresi(yol):
+    """Yalnizca kliniğin sabit HTTPS origin'indeki sade URL'yi kabul eder."""
+    if not isinstance(yol, str):
+        return None
+    adres = SITE + yol if yol.startswith("/") else yol
+    try:
+        parca = urllib.parse.urlsplit(adres)
+        site = urllib.parse.urlsplit(SITE)
+    except (TypeError, ValueError):
+        return None
+    if (parca.scheme, parca.netloc) != (site.scheme, site.netloc):
+        return None
+    if parca.username is not None or parca.password is not None:
+        return None
+    if parca.query or parca.fragment or not parca.path.startswith("/"):
+        return None
+    return urllib.parse.urlunsplit(
+        (parca.scheme, parca.netloc, parca.path, "", ""))
+
+
+class _YonlendirmeYok(urllib.request.HTTPRedirectHandler):
+    """Izinli URL'den baska bir origin'e sessiz yonlendirmeyi engeller."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
+_HTTP_ACICI = urllib.request.build_opener(
+    urllib.request.HTTPSHandler(context=ssl.create_default_context()),
+    _YonlendirmeYok())
+
+
 def getir(yol):
     """Canli sayfayi indirir. (metin, http_kodu) ya da (None, hata)."""
-    adres = yol if yol.startswith("http") else SITE + yol
+    adres = _guvenli_site_adresi(yol)
+    if adres is None:
+        return None, "guvensiz URL"
     istek = urllib.request.Request(
         adres, headers={"User-Agent": "YM-SEO-Denetim/1.0"})
     try:
-        with urllib.request.urlopen(
-                istek, timeout=ZAMAN,
-                context=ssl.create_default_context()) as c:
+        with _HTTP_ACICI.open(istek, timeout=ZAMAN) as c:
             # Boyut sinirli okuma: kendi sunucumuz da olsa disaridan
             # gelen icerik once XML ayristiricisina giriyor. Ucuz
             # koruma, bagimlilik gerektirmiyor.
@@ -76,9 +110,75 @@ def getir(yol):
         return None, str(e)
 
 
+def dogrulama_durumu(html):
+    desen_google = r'<meta\b[^>]*\bname\s*=\s*(["\'])google-site-verification\1'
+    desen_bing = r'<meta\b[^>]*\bname\s*=\s*(["\'])msvalidate\.01\1'
+    desen_yandex = r'<meta\b[^>]*\bname\s*=\s*(["\'])yandex-verification\1'
+    g = len(re.findall(desen_google, html, re.I | re.S))
+    b = len(re.findall(desen_bing, html, re.I | re.S))
+    y = len(re.findall(desen_yandex, html, re.I | re.S))
+    eksikler = []
+    if g < 2:
+        eksikler.append(("Google dogrulama etiketi eksik",
+                         "%d bulundu, 2 olmali (kisisel + klinik hesabi)" % g))
+    if b < 1:
+        eksikler.append(("Bing dogrulama etiketi (msvalidate.01) YOK", ""))
+    if y < 1:
+        eksikler.append(("Yandex dogrulama etiketi (yandex-verification) YOK", ""))
+    return g, b, y, eksikler
+
+
 def etiket(html, desen):
     e = re.search(desen, html, re.I | re.S)
     return e.group(1).strip() if e else None
+
+
+def yinelenen_meta_bulgulari(basliklar, aciklamalar):
+    """Duplicate title / description bulgularını renkli tuple listesine çevirir."""
+    bulgular = []
+
+    for metin, sayfalar in sorted(basliklar.items(), key=lambda item: item[0]):
+        if len(sayfalar) > 1:
+            urller = ", ".join(sorted(set(sayfalar)))
+            bulgular.append((
+                "KIRMIZI",
+                "AYNI title birden fazla sayfada",
+                'metin="%s" · sayfalar=%s' % (metin, urller)))
+
+    for metin, sayfalar in sorted(aciklamalar.items(), key=lambda item: item[0]):
+        if len(sayfalar) > 1:
+            urller = ", ".join(sorted(set(sayfalar)))
+            bulgular.append((
+                "SARI",
+                "Ayni description birden fazla sayfada",
+                'metin="%s" · sayfalar=%s' % (metin, urller)))
+
+    return bulgular
+
+
+def sitemap_hatalari(canli_url, disk_yolu):
+    """Bos, eksik, bozuk veya canlidan farkli sitemap'i fail-closed bulur."""
+
+    hatalar = []
+    if not canli_url:
+        hatalar.append(("sitemap.xml URL icermiyor", "0 URL"))
+    if not os.path.exists(disk_yolu):
+        hatalar.append(("Yerel sitemap.xml yok", disk_yolu))
+        return hatalar
+    try:
+        dkok = ET.parse(disk_yolu).getroot()
+        disk_url = {e.text.strip() for e in dkok.iter()
+                    if e.tag.endswith("loc") and e.text}
+    except (ET.ParseError, DefusedXmlException, OSError) as e:
+        hatalar.append(("Yerel sitemap.xml okunamadi", str(e)))
+        return hatalar
+    if disk_url != canli_url:
+        hatalar.append((
+            "CANLI sitemap diskle AYNI DEGIL",
+            "yalniz canlida: %s | yalniz diskte: %s"
+            % (sorted(canli_url - disk_url)[:3],
+               sorted(disk_url - canli_url)[:3])))
+    return hatalar
 
 
 # ------------------------------------------------------------------
@@ -109,22 +209,12 @@ else:
         kok = ET.fromstring(ham)
         canli_url = {e.text.strip() for e in kok.iter()
                      if e.tag.endswith("loc") and e.text}
-    except ET.ParseError as e:
+    except (ET.ParseError, DefusedXmlException) as e:
         kirmizi("sitemap.xml bozuk XML", str(e))
 
 disk_yolu = os.path.join(KOK, "sitemap.xml")
-if canli_url and os.path.exists(disk_yolu):
-    try:
-        dkok = ET.parse(disk_yolu).getroot()
-        disk_url = {e.text.strip() for e in dkok.iter()
-                    if e.tag.endswith("loc") and e.text}
-    except ET.ParseError:
-        disk_url = set()
-    if disk_url and disk_url != canli_url:
-        kirmizi("CANLI sitemap diskle AYNI DEGIL",
-                "yalniz canlida: %s | yalniz diskte: %s"
-                % (sorted(canli_url - disk_url)[:3],
-                   sorted(disk_url - canli_url)[:3]))
+for baslik, ayrinti in sitemap_hatalari(canli_url, disk_yolu):
+    kirmizi(baslik, ayrinti)
 print("  sitemap           : %d URL" % len(canli_url))
 
 # --- 3. her sayfa tek tek ----------------------------------------
@@ -173,41 +263,27 @@ for adres in sorted(canli_url):
                  "%s · %d karakter" % (kisa, len(ack)))
         elif len(ack) < ACIKLAMA_ALT:
             sari("description cok kisa", "%s · %d karakter" % (kisa, len(ack)))
-
-print("  acilan sayfa      : %d/%d" % (okunan, len(canli_url)))
-
-# --- 4. yinelenen baslik/aciklama --------------------------------
-# ⚠️ Iki sayfa ayni basligi tasiyorsa Google birini "yinelenen" sayip
-# dizine hic almayabilir. Sessiz kayip.
-for metin, yerler in basliklar.items():
-    if len(yerler) > 1:
-        kirmizi("AYNI title birden fazla sayfada",
-                "%s -> %s" % (yerler, metin[:50]))
-for metin, yerler in aciklamalar.items():
-    if len(yerler) > 1:
-        sari("Ayni description birden fazla sayfada",
-             "%s -> %s" % (yerler, metin[:50]))
-
-# --- 5. dogrulama etiketleri -------------------------------------
-# ⚠️ Uc etiket var: iki Google (kisisel + klinik hesabi) ve bir Bing.
-# Biri silinirse o hesabin Search Console/Webmaster erisimi KOPAR ve
-# bunu ancak aylar sonra fark edersin.
 ana, _ = getir("/")
 if ana is None:
     kirmizi("Ana sayfa okunamadi", "")
 else:
-    g = len(re.findall(r'name="google-site-verification"', ana, re.I))
-    b = len(re.findall(r'name="msvalidate\.01"', ana, re.I))
-    if g < 2:
-        kirmizi("Google dogrulama etiketi eksik",
-                "%d bulundu, 2 olmali (kisisel + klinik hesabi)" % g)
-    if b < 1:
-        kirmizi("Bing dogrulama etiketi (msvalidate.01) YOK", "")
-    print("  dogrulama etiketi : %d Google · %d Bing" % (g, b))
+    g, b, y, eksikler = dogrulama_durumu(ana)
+    for baslik, ayrinti in eksikler:
+        kirmizi(baslik, ayrinti)
+    print("  dogrulama etiketi : %d Google · %d Bing · %d Yandex" % (g, b, y))
+for renk, baslik, ayrinti in yinelenen_meta_bulgulari(basliklar, aciklamalar):
+    if renk == "KIRMIZI":
+        kirmizi(baslik, ayrinti)
+    else:
+        sari(baslik, ayrinti)
+
+
+
 
 # --- rapor --------------------------------------------------------
 print()
 print("=" * 70)
+print("  acilan sayfa      : %d" % okunan)
 k = [x for x in bulgular if x[0] == "KIRMIZI"]
 s = [x for x in bulgular if x[0] == "SARI"]
 if not bulgular:

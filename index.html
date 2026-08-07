@@ -13,6 +13,9 @@
      ymdisklinigi@gmail.com hesabi, Google ile giris). ⛔ SILME:
      kalkarsa dogrulama duser ve Bing sitemap/indeksleme raporlari kesilir. -->
 <meta name="msvalidate.01" content="20003B1765D1F1F9C293B721BA3DC40B">
+<!-- Yandex Webmaster sahibi 6 Agu 2026. SILME: etiket kalkarsa Yandex
+     Webmaster erisimi duser ve yandex verification / indexing islemleri durur. -->
+<meta name="yandex-verification" content="d68267ebcac1b5a2">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0b1119" media="(prefers-color-scheme: dark)">
 <meta name="author" content="7/24 Nöbetçi YM Diş Kliniği">
@@ -108,7 +111,8 @@
     --soluk:#5f7282;
     --cizgi:#e2e8ee;
     --vurgu:#0e6a8f;
-    --vurgu2:#0f9db1;
+    --vurgu2:#0b7a88;
+    --vurgu-metin:#fff;
     --glow:rgba(14,106,143,.20);
     --baslik:"Archivo","Segoe UI",system-ui,-apple-system,sans-serif;
     --metin:"IBM Plex Sans","Segoe UI",system-ui,-apple-system,sans-serif;
@@ -117,7 +121,7 @@
   @media (prefers-color-scheme: dark){
     :root{--kagit:#070d15;--kat:#0d1520;--murekkep:#ecf3f8;--gri:#9aacba;
           --soluk:#8296a8;--cizgi:#1d2937;--vurgu:#57c8ea;--vurgu2:#7ce0d3;
-          --glow:rgba(87,200,234,.16)}
+          --vurgu-metin:#03181f;--glow:rgba(87,200,234,.16)}
   }
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
@@ -258,10 +262,9 @@
   .dugme:hover{transform:translateY(-2px)}
   .dugme:active{transform:translateY(0)}
   .birincil{background:linear-gradient(92deg,var(--vurgu),var(--vurgu2));
-    color:#fff;font-variant-numeric:tabular-nums;letter-spacing:.01em}
+    color:var(--vurgu-metin);font-variant-numeric:tabular-nums;letter-spacing:.01em}
   .birincil:hover{box-shadow:0 14px 30px -14px var(--glow),
     0 4px 14px -8px var(--glow)}
-  @media (prefers-color-scheme: dark){.birincil{color:#03181f}}
   .ikincil{border-color:var(--cizgi);color:var(--murekkep);background:var(--kat)}
   .ikincil:hover{border-color:var(--vurgu)}
 
@@ -336,12 +339,11 @@
   .harita-adres .ikon{color:var(--vurgu)}
   .harita-adres b{font-weight:600}
   .harita-dugme{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;
-    background:linear-gradient(92deg,var(--vurgu),var(--vurgu2));color:#fff;
+    background:linear-gradient(92deg,var(--vurgu),var(--vurgu2));color:var(--vurgu-metin);
     font-weight:600;font-size:14px;padding:10px 17px;border-radius:999px;
     transition:transform .16s,box-shadow .2s}
   .harita:hover .harita-dugme{transform:translateX(2px);
     box-shadow:0 10px 22px -12px var(--glow)}
-  @media (prefers-color-scheme: dark){.harita-dugme{color:#03181f}}
   .harita-kaynak{margin:8px 4px 0;font-size:11px;color:var(--soluk);text-align:right}
   @media (max-width:560px){
     .harita-adres span{display:none}
@@ -963,7 +965,7 @@
 <style>
   #sohbet-ac{position:fixed;right:18px;bottom:18px;z-index:60;width:56px;height:56px;
     border-radius:50%;border:1px solid var(--cizgi);cursor:pointer;font-size:24px;
-    background:linear-gradient(135deg,var(--vurgu),var(--vurgu2));color:#fff;
+    background:linear-gradient(135deg,var(--vurgu),var(--vurgu2));color:var(--vurgu-metin);
     box-shadow:0 12px 30px -12px var(--glow);display:grid;place-items:center}
   #sohbet-ac:hover{transform:translateY(-2px)}
   /* ⚠️ display:flex, [hidden] ozelliginin display:none'unu EZIYOR —
@@ -986,7 +988,7 @@
   .sohbet-msj.bot{background:var(--kat);color:var(--murekkep);
     border:1px solid var(--cizgi);border-bottom-left-radius:4px;align-self:flex-start}
   .sohbet-msj.ben{background:linear-gradient(135deg,var(--vurgu),var(--vurgu2));
-    color:#fff;border-bottom-right-radius:4px;align-self:flex-end}
+    color:var(--vurgu-metin);border-bottom-right-radius:4px;align-self:flex-end}
   .sohbet-msj.acil{border-color:#d33;box-shadow:0 0 0 1px #d33 inset}
   /* Devir satiri: bot "bunu bir insan gormeli" dediginde cikar.
      Site kutusu anonim — panele gorusme dusuremiyoruz. O yuzden
@@ -997,7 +999,7 @@
     font-size:13px;font-weight:600;padding:9px 12px;border-radius:9px;
     border:1px solid var(--cizgi);color:var(--murekkep);background:var(--kat)}
   .sohbet-devir a.vurgulu{background:linear-gradient(135deg,var(--vurgu),var(--vurgu2));
-    color:#fff;border-color:transparent}
+    color:var(--vurgu-metin);border-color:transparent}
   .sohbet-devir a:hover{filter:brightness(1.06)}
   .sohbet-msj a{color:var(--vurgu);text-decoration:underline}
   .sohbet-not{padding:7px 14px;font-size:11px;color:var(--sonuk);
