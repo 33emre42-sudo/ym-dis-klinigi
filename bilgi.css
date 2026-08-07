@@ -236,6 +236,7 @@ footer a{color:var(--vurgu);text-decoration:none}
 .dil-sec>summary:hover{border-color:var(--vurgu);color:var(--vurgu)}
 .dil-sec[open]>summary{border-color:var(--vurgu);color:var(--vurgu)}
 .dil-sec>summary .ok{font-size:10px;opacity:.7;transition:transform .15s}
+.dil-sec>summary .dil-simdi{display:none}
 .dil-sec[open]>summary .ok{transform:rotate(180deg)}
 .dil-liste{position:absolute;right:0;top:calc(100% + 8px);z-index:40;
   min-width:172px;padding:6px;border-radius:14px;
@@ -257,4 +258,11 @@ footer a{color:var(--vurgu);text-decoration:none}
 @media (max-width:520px){
   .dil-sec>summary{padding:8px 11px;font-size:13px}
   .dil-sec>summary .dil-ad{display:none}
+  .dil-sec>summary .dil-simdi{display:inline-flex}
+  /* ⚠️ Marka metni seridin disina tasiyordu (olculdu: 78px icerik,
+     64px serit). Alt satir gizleniyor, ad tek satira sabitleniyor,
+     telefon dugmesi daraltiliyor ki ad bolunmesin. */
+  .marka-metin span{display:none}
+  .marka b{white-space:nowrap;font-size:15px}
+  .serit-tel{font-size:14px;padding:8px 13px}
 }

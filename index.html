@@ -182,6 +182,7 @@
   .dil-sec>summary:hover{border-color:var(--vurgu);color:var(--vurgu)}
   .dil-sec[open]>summary{border-color:var(--vurgu);color:var(--vurgu)}
   .dil-sec>summary .ok{font-size:10px;opacity:.7;transition:transform .15s}
+  .dil-sec>summary .dil-simdi{display:none}
   .dil-sec[open]>summary .ok{transform:rotate(180deg)}
   .dil-liste{position:absolute;right:0;top:calc(100% + 8px);z-index:40;
     min-width:186px;padding:6px;border-radius:14px;
@@ -201,6 +202,13 @@
   @media (max-width:520px){
     .dil-sec>summary{padding:8px 11px;font-size:13px}
     .dil-sec>summary .dil-ad{display:none}
+    .dil-sec>summary .dil-simdi{display:inline-flex}
+    /* ⚠️ Marka metni seridin disina tasiyordu (olculdu: 78px icerik,
+       64px serit). Alt satir gizleniyor, ad tek satira sabitleniyor,
+       telefon dugmesi daraltiliyor ki ad bolunmesin. */
+    .marka-metin span{display:none}
+    .marka b{white-space:nowrap;font-size:15px}
+    .serit-tel{font-size:14px;padding:8px 13px}
   }
 
   /* --- sekmeler: serit'in hemen altinda, yapiskan degil ---
@@ -640,7 +648,7 @@
   <a class="marka" href="/"><picture><source srcset="logo-isaret.png" media="(prefers-color-scheme: dark)"><img class="logo" src="logo-isaret-koyu.png" alt="" width="34" height="34" decoding="async"></picture><span class="marka-metin"><b>YM Diş Kliniği</b><span>BAĞCILAR · KİRAZLI</span></span></a>
   <a class="serit-tel" href="tel:+905417324376"><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 5.5 5.5L16 12l4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4 6.2 2 2 0 0 1 6 4V3Z"/></svg><span>0541 732 43 76</span></a>
   <details class="dil-sec">
-    <summary aria-label="Dil sec / Choose language"><span class="dil-ad">T&uuml;rk&ccedil;e</span><span class="ok">&#9660;</span></summary>
+    <summary aria-label="Dil sec / Choose language"><span class="dil-kod dil-simdi">TR</span><span class="dil-ad">T&uuml;rk&ccedil;e</span><span class="ok">&#9660;</span></summary>
     <div class="dil-liste">
       <a href="/"><span class="dil-kod">TR</span> T&uuml;rk&ccedil;e</a>
       <a href="en/"><span class="dil-kod">EN</span> English</a>
