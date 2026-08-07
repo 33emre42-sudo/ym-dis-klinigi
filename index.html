@@ -321,7 +321,13 @@
     color:var(--vurgu-metin);font-variant-numeric:tabular-nums;letter-spacing:.01em}
   .birincil:hover{box-shadow:0 14px 30px -14px var(--glow),
     0 4px 14px -8px var(--glow)}
-  .ikincil{border-color:var(--cizgi);color:var(--murekkep);background:var(--kat)}
+  /* ⚠️ `.ikincil` idi; bilgi.css `.dugme.ikincil` yaziyordu ve iki
+     kaynak AYRISMISTI (mobil-denetle.py ilk kosusunda yakaladi).
+     Bildirimler ayniydi, secici farkliydi — bugun zarari yoktu cunku
+     sinif hep `dugme` ile kullaniliyor (5/5), ama sonradan `ikincil`
+     baska bir ogeye eklenirse davranis iki kaynakta farklilasirdi.
+     Birlestirildi; ayrica daha isabetli. */
+  .dugme.ikincil{border-color:var(--cizgi);color:var(--murekkep);background:var(--kat)}
   .ikincil:hover{border-color:var(--vurgu)}
 
   .kanit{display:flex;gap:12px;flex-wrap:wrap;margin-top:42px}
@@ -1381,4 +1387,6 @@
   });
 })();
 </script>
+<script src="arayuz.js" defer></script>
+
 </body></html>
