@@ -1646,6 +1646,41 @@ if os.path.exists("sitemap.xml"):
     except ET.ParseError as e:
         kontrol("sitemap.xml gecerli XML", False, str(e))
 
+# --- llms.txt bayat mi? ------------------------------------------------
+#
+# ⚠️ 9 Agu 2026: yapay zeka arama motorlari (ChatGPT, Perplexity)
+# `llms.txt` dosyasini icerik haritasi olarak okuyor. Olculdu: ChatGPT
+# "Bagcilar'da gece acik dis klinigi" sorusunda bizi ONERMIYOR, dort
+# rakibi oneriyor. Harita `llms-uret.py` ile uretiliyor; URETILDIKTEN
+# SONRA sayfa eklenirse sessizce eksik kalir — sitemap gibi.
+#
+# Bu kontrol o sessizligi kapatir: sitemap'teki her URL haritada
+# gecmeli.
+_llms_yol = "llms.txt"
+if not os.path.exists(_llms_yol):
+    kontrol("llms.txt var (yapay zeka icerik haritasi)", False,
+            "yok — `python llms-uret.py --uygula` calistir")
+else:
+    try:
+        _llms = io.open(_llms_yol, encoding="utf-8").read()
+    except OSError as _e:
+        # ⚠️ Olculemeyeni ihlal SAYMA: surekli kirmizi bir gosterge
+        # yok sayilir, sonra kapi gevsetilir. Ama sessiz de kalma.
+        kontrol("llms.txt guncel", True,
+                "olculemedi (%s) — yayin bloke edilmedi" % _e)
+    else:
+        try:
+            _sm = io.open("sitemap.xml", encoding="utf-8").read()
+            _sm_urller = re.findall(r"<loc>([^<]+)</loc>", _sm)
+        except OSError as _e:
+            _sm_urller = []
+        _eksik = [u for u in _sm_urller if u not in _llms]
+        kontrol("llms.txt sitemap ile guncel",
+                not _eksik,
+                ("%d URL haritada YOK: %s — `python llms-uret.py --uygula`"
+                 % (len(_eksik), ", ".join(_eksik[:3])))
+                if _eksik else "%d URL" % len(_sm_urller))
+
 print("=" * 74)
 if hata:
     print("*** %d HATA ***" % hata)
