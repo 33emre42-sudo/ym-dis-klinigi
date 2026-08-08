@@ -28,20 +28,6 @@ HEDEF = os.path.join(KOK, "gorsel")
 
 # (dosya, genislikler) — genislik sayfadaki GERCEK kullanima gore secildi
 GORSELLER = [
-    # --- GERCEK KLINIK FOTOGRAFLARI (9 Agu 2026) --------------------
-    # Tabela takildiktan sonra hekimin cektigi kareler. Bu dosyanin
-    # asagisindaki 5. tur notu "daha iyisi icin gercek klinik
-    # fotograflari gerekiyor" diyordu — geldiler.
-    #
-    # ⚠️ Kaynaklar EXIF donusu PIKSELE islenerek ve TUM ustveri
-    # (GPS dahil) silinerek uretildi. Telefon fotograflari EXIF'te
-    # konum tasiyabilir; sunucuya ham dosya konulmaz.
-    #
-    # Cephe karesi ozellikle degerli: gece gelen hasta KAPIYI TANIYOR.
-    # 24 saat acik olmanin karsiligi, kapinin bulunabilmesidir.
-    ("gorsel-klinik-cephe.jpg",   (600, 1200, 1600)),  # yatay
-    ("gorsel-klinik-oda.jpg",     (600, 1200)),        # dikey
-    ("gorsel-klinik-rontgen.jpg", (600, 1200)),        # dikey
     ("gorsel-hero.jpg",        (900, 1600)),   # giris, tam genislik
     ("konum-harita.jpg",       (550, 700, 1100)),  # mobil retina ara adayi
     ("gorsel-fon-klinik.jpg",  (600, 1200)),
