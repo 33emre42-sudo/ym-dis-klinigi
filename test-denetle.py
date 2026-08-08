@@ -870,6 +870,61 @@ bekle("cokdilli: EN agrisiz + garanti + en iyi yakalanir",
 bekle("cokdilli: EN uzman iddiasi yakalanir (K38)",
       "<p>Our specialists have treated thousands of patients.</p>",
       True, kod="uzman iddiasi (EN)")
+
+# ⚠️ 8 Agu 2026, SITE-16 B2 — UNVAN araniyordu ama UZMANLASMA FIILI
+# aranmiyordu. K38 acisindan ikisi ayni iddia: iki hekim de GENEL dis
+# hekimi. Olculdu: bu bes cumlenin BESI DE eski kapidan geciyordu.
+for _ad, _metin, _kod in [
+        ("EN uzmanlasma fiili",
+         "<p>Our dentist is specialized in implants.</p>",
+         "uzman iddiasi (EN)"),
+        ("ES uzmanlasma fiili",
+         "<p>Nuestro dentista está especializado en implantes.</p>",
+         "uzman iddiasi (ES)"),
+        ("FR uzmanlasma fiili (en)",
+         "<p>Notre dentiste est spécialisé en implantologie.</p>",
+         "uzman iddiasi (FR)"),
+        ("FR uzmanlasma fiili (dans)",
+         "<p>Notre dentiste est spécialisé dans les implants.</p>",
+         "uzman iddiasi (FR)"),
+        # ⛔ Bu cumle raporun ONERDIGI DE yamasindan KACIYORDU:
+        # yama `spezialis\w*\s+(?:auf|in)` istiyordu, ama Almanca
+        # fiil-sonludur — edat fiilden ONCE gelir. Govde arandi.
+        ("DE uzmanlasma fiili (fiil-sonlu)",
+         "<p>Unser Zahnarzt ist auf Implantate spezialisiert.</p>",
+         "uzman iddiasi (DE)"),
+        ("RU uzmanlasma fiili",
+         "<p>Наш врач специализируется на имплантации.</p>",
+         "uzman iddiasi (RU)")]:
+    bekle("cokdilli: %s yakalanir (K38)" % _ad, _metin, True, kod=_kod)
+
+# `\bfachar[zt]` bir KARAKTER SINIFIYDI: "fachar"+(z|t). Almanca dis
+# hekimi unvani `Fachzahnarzt` hic gorulmuyordu.
+for _ad, _metin in [
+        ("DE Fachzahnarzt", "<p>Fachzahnarzt für Implantologie.</p>"),
+        ("DE Fachzahnärzte", "<p>Unsere Fachzahnärzte behandeln Sie.</p>"),
+        ("DE Facharzt", "<p>Facharzt für Oralchirurgie.</p>")]:
+    bekle("cokdilli: %s yakalanir (K38)" % _ad, _metin, True,
+          kod="uzman iddiasi (DE)")
+
+# DISIL bicimler: `expertos?` "expertas"i, `experts?` "expertes"i
+# gormuyordu.
+bekle("cokdilli: ES disil 'expertas' yakalanir (K38)",
+      "<p>Nuestras expertas en ortodoncia.</p>",
+      True, kod="uzman iddiasi (ES)")
+bekle("cokdilli: FR disil 'expertes' yakalanir (K38)",
+      "<p>Nos expertes en orthodontie.</p>",
+      True, kod="uzman iddiasi (FR)")
+
+# Genisletilmis desen YANLIS ALARM vermemeli — kapinin asiri
+# tetiklemesi, gevsetilmesine yol acar ve koruma tumden gider.
+bekle("cokdilli: EN 'specialized instruments' YANLIS ALARM vermez",
+      "<p>We use specialized instruments in every treatment room.</p>",
+      False)
+bekle("cokdilli: DE olagan cumle YANLIS ALARM vermez",
+      "<p>Die Behandlung findet in unserer Praxis statt.</p>",
+      False)
+
 bekle("cokdilli: DE fiyat/taksit yakalanir",
       "<p>Kostenlose Beratung, Ratenzahlung moeglich, guenstige Preise.</p>",
       True, kod="fiyat (DE)")
@@ -1007,7 +1062,50 @@ for _ad, _metin, _bekle in [
         ("adres/saat bilgisi",
          "We are open 24 hours, every day, at a single address.", False),
         ("randevu cumlesi",
-         "At least two separate appointments are needed.", False)]:
+         "At least two separate appointments are needed.", False),
+
+        # ⚠️ 8 Agu 2026, SITE-16 B3 — ARACILIK hic aranmiyordu. Bu on
+        # bir cumlenin ON BIRI DE eski kapidan geciyordu. Turkiye'de
+        # saglik turizmi araciligi yetki belgesine bagli; belge YOK.
+        ("EN konaklama+transfer araciligi",
+         "We arrange your hotel and airport transfer.", True),
+        ("EN 'help with accommodation' (fiil farkli)",
+         "We can help with accommodation during your treatment.", True),
+        ("EN dogrudan tedavi daveti",
+         "Come to Istanbul for dental treatment.", True),
+        ("ES konaklama+transfer araciligi",
+         "Organizamos su alojamiento y el traslado al aeropuerto.", True),
+        ("ES dogrudan tedavi daveti",
+         "Venga a Estambul para recibir tratamiento.", True),
+        ("FR konaklama+transfer araciligi",
+         "Nous organisons votre hébergement et le transfert aéroport.", True),
+        ("FR dogrudan tedavi daveti",
+         "Venez à Istanbul pour un traitement.", True),
+        ("DE konaklama+transfer araciligi",
+         "Wir organisieren Ihre Unterkunft und den Flughafentransfer.", True),
+        ("DE dogrudan tedavi daveti",
+         "Kommen Sie nach Istanbul zur Behandlung.", True),
+        ("RU konaklama+transfer araciligi",
+         "Мы организуем проживание и трансфер.", True),
+        ("RU dogrudan tedavi daveti",
+         "Приезжайте в Стамбул на лечение.", True),
+
+        # ⛔ EN KRITIK KAPI: havalimanindan YOL TARIFI vermek serbest
+        # ve yararlidir. Su an ulasim sayfalarinda 24 yerde mesru
+        # olarak geciyor. "airport" TEK BASINA aransaydi kapi 24
+        # yanlis alarm verir, sonra gevsetilirdi — ONAYLI_CUMLE'de
+        # dort kez yasanan sinif tam buydu. Yalnizca
+        # "airport transfer/pickup" BILESIGI aranir.
+        ("EN havalimanindan YOL TARIFI serbest",
+         "İstanbul Airport (IST) and Sabiha Gökçen (SAW) both connect "
+         "to the metro.", False),
+        ("EN 'from the airport' aciklamasi serbest",
+         "Address, metro directions and how to reach us from the airport.",
+         False),
+        ("ES havalimani yol tarifi serbest",
+         "Cómo llegar en metro, desde el aeropuerto y por la noche.", False),
+        ("FR havalimani yol tarifi serbest",
+         "Comment venir en métro, depuis l'aéroport et la nuit.", False)]:
     kontrol("turizm dili: %s" % _ad, _turizm_yakalar(_metin) == _bekle,
             "yakalanmali" if _bekle else "yakalanmamali")
 

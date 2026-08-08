@@ -167,19 +167,51 @@ BELGE_VAR = False
 
 # Bu kaliplar YAYIMLANAN yabanci dil sayfalarinda ARANMAZ olmali.
 # Bilgi vermek serbest; "tedavi icin buraya SEYAHAT ET" demek degil.
+# ⚠️ 8 Agu 2026, SITE-16 B3 — kapi yalnizca SEYAHAT ifadelerini
+# ariyordu; saglik turizmi ARACILIGINI (konaklama, havaalani transferi)
+# ve dogrudan tedavi davetini hic gormuyordu. Turkiye'de bu aracilik
+# yetki belgesine bagli; klinikte belge YOK.
+#
+# ⛔ Raporun onerdigi yama ALINMADI — fiile bagliydi:
+# "we arrange your hotel" tutuyor ama "we can help with accommodation"
+# kaciyordu. Bunun yerine ARACILIK ISIMLERI'nin kendisi arandi: bir dis
+# klinigi sayfasinin otelden/konaklamadan soz etmesi icin mesru sebep
+# yok. Olculdu: 78 sayfada bu isimler 0 kez geciyor, yani yanlis alarm
+# uretmiyor.
+#
+# ⚠️ "airport" TEK BASINA ARANMAZ — havalimanindan YOL TARIFI vermek
+# serbest ve yararlidir; su an 24 yerde mesru olarak geciyor (ulasim
+# sayfalari). Tek basina aransaydi kapi 24 yanlis alarm verir, sonra
+# gevsetilirdi — ONAYLI_CUMLE'de dort kez yasanan sinif tam buydu.
+# Yalnizca "airport transfer/pickup" BILESIGI aranir: o, yol tarifi
+# degil hizmet ilanidir.
 TURIZM_DILI = {
     "seyahat cagrisi (EN)": r"\btravel(?:l)?ing\s+(?:to|from)\b"
                             r"|\bif\s+you\s+are\s+travel"
                             r"|\byour\s+stay\b|\blonger\s+stay\b"
                             r"|\btwo\s+trips\b|\bbefore\s+you\s+travel\b"
-                            r"|\bhow\s+many\s+days\s+you\b",
+                            r"|\bhow\s+many\s+days\s+you\b"
+                            r"|\bhotels?\b|\baccommodations?\b"
+                            r"|\bairport\s+(?:transfer|pickup)s?\b"
+                            r"|\bcome\s+to\s+(?:istanbul|turkey|t[üu]rkiye)\s+for\b",
     "seyahat cagrisi (ES)": r"\bsi\s+viaja\b|\bviajar\s+a\s+Estambul\b"
-                            r"|\bsu\s+estancia\b|\bcu[aá]ntos\s+d[ií]as\b",
+                            r"|\bsu\s+estancia\b|\bcu[aá]ntos\s+d[ií]as\b"
+                            r"|\bhotel(?:es)?\b|\balojamientos?\b"
+                            r"|\btraslados?\s+(?:al|desde\s+el)\s+aeropuerto\b"
+                            r"|\bveng[ao]\s+a\s+Estambul\s+para\b",
     "seyahat cagrisi (FR)": r"\bsi\s+vous\s+voyagez\b|\bvotre\s+s[ée]jour\b"
-                            r"|\bcombien\s+de\s+jours\b",
+                            r"|\bcombien\s+de\s+jours\b"
+                            r"|\bh[oô]tels?\b|\bh[ée]bergements?\b"
+                            r"|\btransferts?\s+a[ée]roport\b"
+                            r"|\bvenez\s+[àa]\s+Istanbul\s+pour\b",
     "seyahat cagrisi (DE)": r"\bwenn\s+Sie\s+(?:an)?reisen\b"
-                            r"|\bIhr\s+Aufenthalt\b|\bwie\s+viele\s+Tage\b",
-    "seyahat cagrisi (RU)": r"\bесли\s+вы\s+приезжаете\b|\bваше\s+пребывание\b",
+                            r"|\bIhr\s+Aufenthalt\b|\bwie\s+viele\s+Tage\b"
+                            r"|\bhotels?\b|\bunterk[üu]nfte?\b"
+                            r"|\bflughafentransfers?\b"
+                            r"|\bkommen\s+Sie\s+nach\s+Istanbul\b",
+    "seyahat cagrisi (RU)": r"\bесли\s+вы\s+приезжаете\b|\bваше\s+пребывание\b"
+                            r"|\bотел[ьяеи]|\bпрожива|\bтрансфер"
+                            r"|\bприезжайте\s+в\s+Стамбул\b",
 }
 
 # Ingilizce sorumluluk notu — Turkce karsiligiyla AYNI islevde.

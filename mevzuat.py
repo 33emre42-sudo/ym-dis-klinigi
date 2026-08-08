@@ -739,11 +739,35 @@ YASAKLI_COKDILLI = {
     "once-sonra (RU)": r"\bдо\s+и\s+после\b",
 
     # --- K38: iki hekim de GENEL DIS HEKIMI, uzman degil -------------
-    "uzman iddiasi (EN)": r"\bspecialists?\b|\bexperts?\b",
-    "uzman iddiasi (ES)": r"\bespecialistas?\b|\bexpertos?\b",
-    "uzman iddiasi (FR)": r"\bspécialistes?\b|\bexperts?\b",
-    "uzman iddiasi (DE)": r"\bspezialist|\bfachar[zt]|\bexperten?\b",
-    "uzman iddiasi (RU)": r"\bспециалист|\bэксперт",
+    # ⚠️ 8 Agu 2026, SITE-16 B2 — UC AYRI KACAK VARDI:
+    #
+    # 1. `\bfachar[zt]` bir KARAKTER SINIFI: "fachar" + (z ya da t).
+    #    Yani "facharz"/"fachart" ile eslesiyor, `Facharzt`i ancak
+    #    tesadufen yakaliyor, `Fachzahnarzt` / `Fachzahnärzte` hic
+    #    gormuyordu — Almanca'da dis hekimi unvani tam da odur.
+    # 2. Unvan araniyordu ama UZMANLASMA FIILI aranmiyordu:
+    #    "specializes in", "especializado en", "spécialisé dans",
+    #    "специализируется на" hepsi geciyordu. K38 acisindan ikisi
+    #    ayni iddia: iki hekim de GENEL dis hekimi.
+    # 3. DISIL bicimler kaciyordu: `expertos?` "expertas"i,
+    #    `experts?` "expertes"i gormuyordu.
+    #
+    # ⛔ Raporun onerdigi DE yamasi (`spezialis\w*\s+(?:auf|in)`)
+    # ALINMADI: kendi test cumlesini bile gecmiyor. Almanca'da yapi
+    # fiil-sonludur — "ist AUF Implantate SPEZIALISIERT" — yani edat
+    # fiilden ONCE gelir. Gövde aramak hem dogru hem daha basit;
+    # "spezialis" ile baslayan her Almanca kelime zaten uzmanlik
+    # iddiasidir (Spezialist, spezialisiert, Spezialisierung).
+    "uzman iddiasi (EN)": r"\bspecialists?\b|\bexperts?\b"
+                          r"|\bspeciali[sz]\w*\s+in\b",
+    "uzman iddiasi (ES)": r"\bespecialistas?\b|\bexpert[oa]s?\b"
+                          r"|\bespecializ\w*\s+en\b",
+    "uzman iddiasi (FR)": r"\bspécialistes?\b|\bexpert(?:e|es|s)?\b"
+                          r"|\bspécialis\w*\s+(?:en|dans)\b",
+    "uzman iddiasi (DE)": r"\bspezialis|\bfach(?:zahn)?(?:arzt|ärzt)"
+                          r"|\bexperten?\b",
+    "uzman iddiasi (RU)": r"\bспециалист|\bэксперт"
+                          r"|\bспециализ\w*\s+на\b",
 }
 
 YASAKLI.update(YASAKLI_COKDILLI)
