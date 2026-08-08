@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="tr"><head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- ⚠️ `interactive-widget=resizes-content`: klavye acilinca DUZEN ALANI
+     kuculur. Olmadan sohbet kutusunun yazi alani ve son mesajlar
+     klavyenin altinda kaliyordu (hekim bildirdi, 8 Agu 2026). -->
+<meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
 <title>7/24 Nöbetçi YM Diş Kliniği — Bağcılar Acil Diş Hekimi</title>
 <meta name="description" content="Bağcılar Kirazlı'da gece ve hafta sonu her saat açık. Diş ağrısı, kırık diş, acil çekim, kanal tedavisi, implant. Gelmeden önce 0541 732 43 76'yı arayın.">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
@@ -248,7 +251,18 @@
     @supports selector(:has(*)){
       .menu-ac{display:block}
       .menu{display:none}
-      .serit:has(.menu-ac[open]) + .menu{display:block}
+      /* ⚠️ 8 Agu 2026 — MENU YALNIZ SAYFANIN USTUNDEYKEN CALISIYORDU.
+         Hekim bildirdi: "asagi kaydirinca uc cizgiye basinca menu
+         acilmiyor." Olculdu: `.serit` STICKY, `.menu` ise STATIC.
+         Yani baslik yukarida sabit kaliyor ama panel sayfayla birlikte
+         yukari kayiyor. Menu ASILINDA ACILIYORDU — ekranin disinda,
+         gorulmeyen yerde. Panel artik basligin altina SABITLENIYOR.
+         ⚠️ `top:65px` = `.serit .sar{height:64px}` + 1px alt cizgi.
+         Ikisi birlikte degismeli; mobil-denetle.py bunu kontrol eder. */
+      .serit:has(.menu-ac[open]) + .menu{display:block;
+        position:fixed;left:0;right:0;top:65px;z-index:29;
+        max-height:calc(100dvh - 65px);overflow-y:auto;
+        box-shadow:0 18px 40px -22px rgba(0,0,0,.5)}
       .menu .sar{flex-direction:column;gap:0;overflow-x:visible}
       .menu a{padding:14px 2px;font-size:15.5px;
         border-bottom:1px solid var(--cizgi);border-left:2px solid transparent}
@@ -1051,8 +1065,31 @@
      cakisma sessizce geri doner. */
   @media (max-width:720px){
     #sohbet-ac{bottom:calc(88px + 14px)}
-    #ym-sohbet{bottom:calc(88px + 14px + 56px + 10px);
-      max-height:min(540px,calc(100vh - 110px - 88px))}
+
+    /* ⚠️ 8 Agu 2026 — SOHBET MOBILDE MASAUSTU GIBI ACILIYORDU.
+       Hekim bildirdi: "klavye acikken yazilanlar ve cevaplar
+       okunamiyor."
+       Sebep: panel 351px genisliginde, `bottom:80px`e sabit ve
+       `max-height:540px`. Klavye acilinca DUZEN ALANI KUCULMUYOR
+       (viewport meta'sinda `interactive-widget` yoktu), dolayisiyla
+       panelin alt kismi — yani yazi alani ve son mesajlar — klavyenin
+       ALTINDA kaliyordu.
+       Cozum uc parcali:
+        1. viewport meta'sina `interactive-widget=resizes-content`
+           eklendi; klavye acilinca duzen alani gercekten kuculuyor.
+        2. `vh` yerine `dvh`: tarayici cubugu/klavye ile degisen
+           gercek yuksekligi izler.
+        3. Mobilde panel kart degil TABAKA: iki yana yaslanir, alt
+           kenara oturur. Okunan alan boylece en genis hali alir. */
+    #ym-sohbet{left:10px;right:10px;width:auto;
+      bottom:calc(10px + env(safe-area-inset-bottom));
+      max-height:min(72dvh, calc(100dvh - 84px))}
+
+    /* Sohbet acikken alt eylem cubugu gizlenir: ikisi ayni yeri
+       paylasiyor ve sohbet acikken cubuk hem kapatiyor hem gereksiz —
+       hasta zaten iletisim kurmus durumda. */
+    body:has(#ym-sohbet:not([hidden])) .sabit{display:none}
+    body:has(#ym-sohbet:not([hidden])) #sohbet-ac{display:none}
   }
   .sohbet-bas{display:flex;align-items:center;gap:9px;padding:12px 14px;
     background:var(--kat);border-bottom:1px solid var(--cizgi)}
@@ -1089,7 +1126,13 @@
   #sohbet-form .dugme{padding:9px 15px}
   /* <template> zaten cizilmez; eski tarayicilar icin acik guvence. */
   #sohbet-metin{display:none}
-  @media (max-width:520px){#ym-sohbet{right:12px;bottom:80px}}
+  /* ⚠️ Burada `@media (max-width:520px){#ym-sohbet{right:12px;bottom:80px}}`
+     vardi ve KALDIRILDI. Dosyada 720px'lik tabaka kuralindan SONRA
+     geldigi icin dar ekranda onu eziyordu: panel yine sag alt kosede
+     kart gibi duruyor ve klavye acilinca okunamiyordu. Olculdu — 375px'te
+     panelin alt boslugu 10px degil 80px cikiyordu.
+     Yeni kural zaten <=720px'in tamamini kapsiyor; ayri bir 520px
+     ayarina gerek yok. mobil-denetle.py bu sinifi kontrol ediyor. */
 </style>
 <div id="ym-sohbet" hidden role="dialog" aria-label="YM Asistan sohbet penceresi">
   <div class="sohbet-bas"><b>🦷 YM Asistan</b>

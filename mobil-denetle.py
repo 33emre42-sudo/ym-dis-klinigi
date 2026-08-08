@@ -61,6 +61,26 @@ def oku(y):
     return io.open(y, encoding="utf-8").read()
 
 
+def yorumsuz(s):
+    """CSS ve HTML yorumlarini cikarir.
+
+    ⚠️ Yorumlar kodu TARIF eder ve icinde ornek kural/etiket gecebilir.
+    Denetim yorumdaki ornegi GERCEK sanarsa yanlis alarm verir — ya da
+    daha kotusu, gercek bir sorunu maskeler.
+
+    Bu projede iki kez yasandi:
+      · `denetle.py` bir yorumda gecen acik etiketi sayip
+        "<details> 3 ac / 2 kapa" dedi (HTML dengeliydi).
+      · Burada, KALDIRILMIS bir kurali tarif eden yorum yuzunden
+        "daha dar medya sorgusu eziyor" alarmi verildi (kural silinmisti).
+
+    Ornek bazinda duzeltmek yerine sinif kapatiliyor.
+    """
+    s = re.sub(r"/\*.*?\*/", " ", s, flags=re.S)
+    s = re.sub(r"<!--.*?-->", " ", s, flags=re.S)
+    return s
+
+
 def sayfalar():
     s = [a for a in os.listdir(".") if a.endswith(".html")]
     for d in DILLER:
@@ -143,7 +163,7 @@ print("\n--- 3/4  iki stil kaynagi AYRISMIS mi ---")
 # kullaniyor. Bu ayrim daha once tuzak oldu: dil secici bilgi.css'e
 # yazilmis, ana sayfada ciplak liste gorunmustu. Kurallarin IKISINDE
 # DE bulunmasi sart.
-ih, bc = oku("index.html"), oku("bilgi.css")
+ih, bc = yorumsuz(oku("index.html")), yorumsuz(oku("bilgi.css"))
 ORTAK = (
     (".menu-ac", ".menu-ac"),
     ("hamburger :has() kapisi", "@supports selector(:has(*))"),
@@ -193,6 +213,58 @@ esik_sohbet = re.search(r"@media \(max-width:720px\)\{\s*#sohbet-ac\{bottom:calc
 kontrol("cubuk ve sohbet duzeltmesi AYNI esikte (720px)",
         bool(esik_sabit) and bool(esik_sohbet),
         "" if (esik_sabit and esik_sohbet) else "esikler ayrismis — cakisma geri doner")
+
+# ⚠️ MENU PANELI BASLIGIN ALTINA SABITLENIYOR ve `top` degeri baslik
+# yuksekligine BAGLI. Ikisi ayrisirsa panel ya basligi orter ya da
+# altinda bosluk birakir. `.serit .sar{height:64px}` + 1px alt cizgi = 65px.
+for ad, kaynak in (("index.html", ih), ("bilgi.css", bc)):
+    yuk = _px(kaynak, r"\.serit \.sar\{[^}]*height:(\d+)px")
+    ust = _px(kaynak, r"\.serit:has\(\.menu-ac\[open\]\) \+ \.menu\{[^}]*top:(\d+)px")
+    kontrol("%s: menu paneli basligin ALTINDA baslar" % ad,
+            yuk is not None and ust is not None and ust == yuk + 1,
+            "serit %spx + 1 = %s, panel top:%s" % (yuk, (yuk + 1) if yuk else "?", ust))
+
+# ⚠️ Panel SABIT konumda olmali. `static` kalirsa sayfa kaydirilinca
+# ekranin disina cikar — menu "acilmiyor" gorunur (8 Agu, hekim bildirdi).
+for ad, kaynak in (("index.html", ih), ("bilgi.css", bc)):
+    m = re.search(r"\.serit:has\(\.menu-ac\[open\]\) \+ \.menu\{([^}]*)\}", kaynak)
+    kontrol("%s: menu paneli position:fixed" % ad,
+            bool(m) and "position:fixed" in m.group(1),
+            "static kalirsa kaydirinca ekran disinda acilir")
+
+# ⚠️ Klavye acilinca duzen alani kuculmeli; yoksa sohbetin yazi alani
+# ve son mesajlar klavyenin altinda kalir.
+kontrol("viewport meta'sinda interactive-widget",
+        "interactive-widget=resizes-content" in ih,
+        "klavye acikken sohbet okunamiyordu")
+
+# `vh` klavye/tarayici cubugu ile degismez; `dvh` degisir.
+# ⚠️ Dosyada BIRDEN COK `@media (max-width:720px)` blogu var (biri eylem
+# cubugu, biri sohbet). Ilk yazilista desen ILK bloga takilmisti ve
+# kontrol yanlis yerde "dvh yok" diyordu — kendi kontrolumun yanlis
+# pozitifi. Artik dogrudan `#ym-sohbet` kuralina bakiliyor: mobil surum
+# `left:10px` ile ayirt ediliyor.
+_sohbet_kurallari = re.findall(r"#ym-sohbet\{([^}]*)\}", ih)
+_mobil_sohbet = [k for k in _sohbet_kurallari if "left:10px" in k]
+kontrol("mobil sohbet yuksekligi dvh kullaniyor",
+        bool(_mobil_sohbet) and "dvh" in _mobil_sohbet[0]
+        and "100vh" not in _mobil_sohbet[0],
+        "vh klavye acilinca kuculmez"
+        if not _mobil_sohbet else _mobil_sohbet[0][:60])
+
+# ⚠️ DAHA DAR bir medya sorgusu tabaka kuralini EZMEMELI.
+# Gercek olay: dosyanin sonunda kalmis
+#   `@media (max-width:520px){#ym-sohbet{right:12px;bottom:80px}}`
+# 720px'lik tabaka kuralindan SONRA geldigi icin dar ekranda kazaniyordu.
+# Olculdu: 375px'te panelin alt boslugu 10px degil 80px cikiyordu — yani
+# duzeltme yaziliydi ama YURURLUKTE DEGILDI. Bu sinif sessiz: kural
+# dosyada duruyor, kimse ezildigini gormuyor.
+_ezen = []
+for _m in re.finditer(r"@media \(max-width:(\d+)px\)\{[^{]*#ym-sohbet\{([^}]*)\}", ih):
+    if int(_m.group(1)) < 720 and re.search(r"\b(bottom|right|left|width)\s*:", _m.group(2)):
+        _ezen.append("max-width:%spx -> %s" % (_m.group(1), _m.group(2)[:40]))
+kontrol("daha dar medya sorgusu sohbet konumunu EZMIYOR", not _ezen,
+        _ezen[0] if _ezen else "720px tabaka kurali yururlukte")
 
 print("\n" + "=" * 74)
 print("*** %s ***" % ("HEPSI GECTI" if hata == 0 else "%d HATA" % hata))

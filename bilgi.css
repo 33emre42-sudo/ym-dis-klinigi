@@ -103,7 +103,15 @@ a{color:inherit}
   @supports selector(:has(*)){
     .menu-ac{display:block}
     .menu{display:none}
-    .serit:has(.menu-ac[open]) + .menu{display:block}
+    /* ⚠️ 8 Agu 2026 — MENU YALNIZ SAYFANIN USTUNDEYKEN CALISIYORDU.
+       `.serit` STICKY, `.menu` ise STATIC idi: baslik yukarida sabit
+       kaliyor, panel sayfayla yukari kayiyordu. Menu aciliyordu ama
+       ekranin disinda. Panel artik basligin altina sabitleniyor.
+       ⚠️ `top:65px` = `.serit .sar{height:64px}` + 1px alt cizgi. */
+    .serit:has(.menu-ac[open]) + .menu{display:block;
+      position:fixed;left:0;right:0;top:65px;z-index:29;
+      max-height:calc(100dvh - 65px);overflow-y:auto;
+      box-shadow:0 18px 40px -22px rgba(0,0,0,.5)}
     .menu .sar{flex-direction:column;gap:0;overflow-x:visible}
     .menu a{padding:14px 2px;font-size:15.5px;
       border-bottom:1px solid var(--cizgi);border-left:2px solid transparent}
