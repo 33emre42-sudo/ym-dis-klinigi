@@ -15,6 +15,7 @@ Neyi kontrol eder:
   5. Icerik hacmi, bolumler ve sekmeli menu
   6. Bilgi yazilari — ayni kurallar onlar icin de
   7. Alt sayfalar (hekimler / SSS / bilgi dizini), renk kontrasti ve sitemap
+  8. Site duzeyindeki son guncelleme beyani git gecmisinden eski mi
 
 --------------------------------------------------------------------------
 1 Agu 2026 — site ayri sekmelere bolundu:
@@ -55,6 +56,7 @@ import os
 import re
 import subprocess
 import sys
+from datetime import date
 # sitemap.xml BIZIM urettigimiz, depo icindeki bir dosya — disaridan
 # gelen belge ayristirilmiyor. (xml.etree zaten dis varlik cozmez.)
 import xml.etree.ElementTree as ET
@@ -851,6 +853,90 @@ for _ad in BILGI:
 kontrol("her yazida author + tarih + hekim unvani var",
         not _ymyl_eksik,
         _ymyl_eksik[0] if _ymyl_eksik else "%d yazi" % len(BILGI))
+
+# --- Site duzeyindeki "son guncelleme" beyani bayat mi? ------------
+#
+# Bu beyan yalnizca index.html altbilgisinde bulunur. gizlilik.html'deki
+# tarih, politika metninin kendi tarihi oldugu icin bu kontrolun kapsami
+# disindadir ve asagidaki ayri kontrolle dogrulanir.
+_SITE_AYLAR = {
+    "Ocak": 1, "Şubat": 2, "Mart": 3, "Nisan": 4,
+    "Mayıs": 5, "Haziran": 6, "Temmuz": 7, "Ağustos": 8,
+    "Eylül": 9, "Ekim": 10, "Kasım": 11, "Aralık": 12,
+}
+
+
+def _site_turkce_tarih_coz(metin):
+    parcalar = metin.split()
+    if len(parcalar) != 3 or parcalar[1] not in _SITE_AYLAR:
+        raise ValueError("beklenen bicim: 8 Ağustos 2026")
+    return date(int(parcalar[2]), _SITE_AYLAR[parcalar[1]],
+                int(parcalar[0]))
+
+
+def _site_turkce_tarih_yaz(tarih):
+    ay = next(ad for ad, no in _SITE_AYLAR.items() if no == tarih.month)
+    return "%d %s %d" % (tarih.day, ay, tarih.year)
+
+
+_site_kontrol_adi = "site son güncelleme tarihi bayat değil"
+_site_footerlar = re.findall(r"<footer\b[^>]*>(.*?)</footer\s*>",
+                             html, re.I | re.S)
+_site_eslesmeler = ([m.strip() for m in re.findall(
+    r"Son güncelleme:\s*([^<·]+)", _site_footerlar[0])]
+    if len(_site_footerlar) == 1 else [])
+
+if len(_site_footerlar) != 1 or len(_site_eslesmeler) != 1:
+    kontrol(_site_kontrol_adi, False,
+            "index.html footer'inda tek ve gecerli tarih beyani bulunamadi")
+else:
+    _site_yazan_metin = _site_eslesmeler[0]
+    try:
+        _site_yazan = _site_turkce_tarih_coz(_site_yazan_metin)
+    except (TypeError, ValueError) as _e:
+        kontrol(_site_kontrol_adi, False,
+                "beyan tarihi cozulemedi: %s" % _e)
+    else:
+        _site_git_sorun = ""
+        _site_gercek = None
+        try:
+            _site_git = subprocess.run(
+                ["git", "log", "-1", "--format=%ad", "--date=short",
+                 "--", "*.html"],
+                cwd=os.path.dirname(os.path.abspath(__file__)),
+                capture_output=True, text=True,
+                encoding="utf-8", errors="replace", timeout=30)
+            _site_git_metin = _site_git.stdout.strip()
+            if _site_git.returncode != 0 or not _site_git_metin:
+                _site_git_sorun = ("git son HTML commit tarihi alinamadi "
+                                   "(cikis %d)" % _site_git.returncode)
+            else:
+                try:
+                    _site_gercek = date.fromisoformat(_site_git_metin)
+                except ValueError:
+                    _site_git_sorun = ("git tarihi anlasilamadi: %s"
+                                       % _site_git_metin)
+        except Exception as _e:
+            _site_git_sorun = "git calistirilamadi (%s)" % type(_e).__name__
+
+        if _site_git_sorun:
+            kontrol(_site_kontrol_adi, True,
+                    "ölçülemedi: %s; yayın bloke edilmedi"
+                    % _site_git_sorun)
+        else:
+            _site_fark = (_site_gercek - _site_yazan).days
+            if _site_fark > 0:
+                kontrol(
+                    _site_kontrol_adi, False,
+                    "%d gün bayat (beyan: %s; git: %s)"
+                    % (_site_fark, _site_yazan_metin,
+                       _site_turkce_tarih_yaz(_site_gercek)))
+            else:
+                kontrol(
+                    _site_kontrol_adi, True,
+                    "beyan: %s; git: %s"
+                    % (_site_yazan_metin,
+                       _site_turkce_tarih_yaz(_site_gercek)))
 
 # --- Gizlilik politikasinin "son guncelleme" tarihi GERCEK mi? -------
 #
