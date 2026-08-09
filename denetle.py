@@ -1838,6 +1838,75 @@ if _beklenen:
             if _sema_bayat else "index.html ile birebir")
 
 # ======================================================================
+# NAP KILIDI — ad/adres/telefon her sayfada ve semada AYNI  (9 Agu 2026)
+# ======================================================================
+# Google'in yerel siralamada en cok onemsedigi sinyal NAP tutarliligi:
+# ayni isletmenin adi, adresi ve telefonu her kaynakta BIREBIR ayni mi.
+#
+# 15 rakip olculdugunde bu tam da onlarin dustugu yerdi:
+# `ozelbagcilardis`te UC ayri telefon numarasi, devlet hastanesinde iki
+# ayri isletme adi, `eftaldent`te sayfa ile sema arasinda saat celiskisi.
+# Bizde bugun sapma YOK (43 sayfa olculdu) — ama koruyan bir kapi da
+# yoktu. Bu kapi, kazanilmis bir ustunlugu ELDE TUTMAK icin.
+#
+# ⚠️ Tehlike SESSIZ: bir sayfanin altbilgisinde telefonun tek hanesi
+# degisse site calisir, hicbir test kirmizi vermez, sayfa 200 doner —
+# yalnizca Google'in guven sinyali duser ve sebebi hic gorunmez.
+#
+# Kaynak TEK: semadaki degerler (`sema-yay.klinik_dugumu()`, o da
+# index.html'den okuyor). Gorunur metin ona uymak zorunda; boylece
+# "hangisi dogru" tartismasi olmuyor.
+if _beklenen:
+    _sema_tel = re.sub(r"\D", "", _beklenen.get("telephone", ""))
+    _sema_sokak = _beklenen.get("address", {}).get("streetAddress", "")
+    # "No: 47 D" gibi kapi numarasi parcasi — adresin en cok yanlis
+    # yazilan yeri ve GBP'de de tam burasi yanlisti (No:47 / 34000).
+    _m_kapi = re.search(r"No[:.]?\s*\d+\s*[/ ]?\s*[A-Za-z]?", _sema_sokak)
+    _sema_kapi = re.sub(r"\s+", " ", _m_kapi.group(0)).strip() if _m_kapi else ""
+
+    _TEL_DESEN = re.compile(r"(?:\+?90)?[\s/.-]*0?\s*5\d{2}[\s/.-]*"
+                            r"\d{3}[\s/.-]*\d{2}[\s/.-]*\d{2}")
+    _KAPI_DESEN = re.compile(r"No[:.]?\s*\d+\s*[/ ]?\s*[A-Za-z]?")
+
+    _tel_sapan, _kapi_sapan, _kapisiz = [], [], []
+    for _y in TARANAN:
+        if not os.path.exists(_y):
+            continue
+        with open(_y, encoding="utf-8") as _f:
+            _ham = _f.read()
+        # Sema bloklari cikariliyor: onlar zaten ayri kapida
+        # dogrulaniyor ve `+90...` bicimi gorunur metinden farkli.
+        _govde = re.sub(r"(?s)<script.*?</script>", " ", _ham)
+        for _t in set(_TEL_DESEN.findall(_govde)):
+            if re.sub(r"\D", "", _t).lstrip("0")[-10:] != _sema_tel[-10:]:
+                _tel_sapan.append("%s: %r" % (_y, _t.strip()))
+        _kapilar = set(re.sub(r"\s+", " ", _k).strip()
+                       for _k in _KAPI_DESEN.findall(_govde))
+        if not _kapilar:
+            # Her sayfada adres OLMAK ZORUNDA degil (ornegin gizlilik
+            # metni) — bu yuzden ayri ve YUMUSAK sayiliyor, sessizce
+            # yok sayilmiyor.
+            _kapisiz.append(_y)
+        for _k in _kapilar:
+            if _sema_kapi and _k.lower() != _sema_kapi.lower():
+                _kapi_sapan.append("%s: %r" % (_y, _k))
+
+    kontrol("telefon HER sayfada semayla ayni", not _tel_sapan,
+            ("%d sapma: %s — NAP tutarsizligi Google guven sinyalini "
+             "dusurur ve sebebi gorunmez"
+             % (len(_tel_sapan), "; ".join(_tel_sapan[:3])))
+            if _tel_sapan else "%s (%d sayfa)" % (_sema_tel, len(TARANAN)))
+    kontrol("adres kapi numarasi HER sayfada semayla ayni",
+            not _kapi_sapan,
+            ("%d sapma: %s — semada %r"
+             % (len(_kapi_sapan), "; ".join(_kapi_sapan[:3]), _sema_kapi))
+            if _kapi_sapan else "%r (%d sayfada yok, olagan)"
+            % (_sema_kapi, len(_kapisiz)))
+    kontrol("semadaki kapi numarasi OKUNABILDI", bool(_sema_kapi),
+            "okunamazsa yukaridaki adres kapisi hicbir sey olcmez — "
+            "streetAddress=%r" % _sema_sokak)
+
+# ======================================================================
 # YEREL VARLIK REFERANSLARI DISKTE VAR MI  (9 Agu 2026)
 # ======================================================================
 # ⚠️ BU KAPI YOKKEN GERCEK BIR KIRIK YAYINLANABILIRDI. `<picture>`
