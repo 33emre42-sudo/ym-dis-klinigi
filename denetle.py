@@ -1734,6 +1734,66 @@ else:
                 if _eksik else "%d URL" % len(_sm_urller))
 
 # ======================================================================
+# KLINIK SEMASI HER SAYFADA VE TAZE MI  (9 Agu 2026)
+# ======================================================================
+# 15 rakip olculdu: semada koordinat 0/15, 7 gun 24 saat 0/15. Yani
+# "Bagcilar'da gece acik dis klinigi" sorusunun makine okunur cevabi
+# bolgede yalniz bizde var. Ama kendi tarafimizda da yarimdi: klinik
+# semasi 78 sayfanin YALNIZ BIRINDE (index.html) tanimliydi.
+#
+# ⚠️ Sorun "atif var, tanim yok" idi: bilgi sayfalari
+# `"author":{"@id":".../#klinik"}` diye atifta bulunuyordu ama o
+# kimligi yalniz ana sayfa tanimliyordu.
+#
+# ⛔ ASIL RISK BAYATLAMA: kopyalar `sema-yay.py` ile uretiliyor ve
+# degerleri index.html'den okuyor. Ana sayfadaki adres/saat/koordinat
+# degisip kopyalar yenilenmezse, 78 sayfa YANLIS bilgi yayinlar —
+# ustelik makine okunur bicimde. Bu kapi tam olarak onu tutuyor.
+_SEMA_ISARET = "<!-- klinik-semasi: sema-yay.py uretir, ELLE DUZENLEME -->"
+try:
+    import importlib.util as _iu
+    _spec = _iu.spec_from_file_location("_sema_yay", "sema-yay.py")
+    _sy = _iu.module_from_spec(_spec)
+    _spec.loader.exec_module(_sy)
+    _beklenen = _sy.klinik_dugumu()
+except Exception as _e:
+    _beklenen = None
+    kontrol("klinik semasi denetlenebiliyor", False,
+            "sema-yay.py yuklenemedi (%s: %s) — semanin tazeligi "
+            "OLCULEMEDI, temiz SAYILMAZ" % (type(_e).__name__, _e))
+
+if _beklenen:
+    _bekl_metin = json.dumps(_beklenen, ensure_ascii=False,
+                             separators=(",", ":"))
+    _sema_yok, _sema_bayat = [], []
+    for _y in TARANAN:
+        if not os.path.exists(_y):
+            continue
+        with open(_y, encoding="utf-8") as _f:
+            _s = _f.read()
+        if os.path.abspath(_y) == os.path.abspath("index.html"):
+            continue                      # kaynagin kendisi
+        if _SEMA_ISARET not in _s:
+            _sema_yok.append(_y)
+            continue
+        _m = re.search(
+            re.escape(_SEMA_ISARET) +
+            r'\s*<script type="application/ld\+json">\s*(.*?)\s*</script>',
+            _s, re.S)
+        if not _m or _m.group(1).strip() != _bekl_metin:
+            _sema_bayat.append(_y)
+
+    kontrol("klinik semasi HER sayfada", not _sema_yok,
+            ("%d sayfada YOK: %s — `python sema-yay.py --uygula`"
+             % (len(_sema_yok), ", ".join(_sema_yok[:3])))
+            if _sema_yok else "%d sayfa" % (len(TARANAN) - 1))
+    kontrol("klinik semasi kopyalari TAZE", not _sema_bayat,
+            ("%d sayfada BAYAT: %s — ana sayfa degismis, kopyalar "
+             "yenilenmemis. `python sema-yay.py --uygula`"
+             % (len(_sema_bayat), ", ".join(_sema_bayat[:3])))
+            if _sema_bayat else "index.html ile birebir")
+
+# ======================================================================
 # YEREL VARLIK REFERANSLARI DISKTE VAR MI  (9 Agu 2026)
 # ======================================================================
 # ⚠️ BU KAPI YOKKEN GERCEK BIR KIRIK YAYINLANABILIRDI. `<picture>`
