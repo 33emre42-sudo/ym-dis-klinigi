@@ -46,6 +46,7 @@ body{margin:0;background:var(--kagit);color:var(--gri);
 }
 a{color:inherit}
 .ikon{flex:0 0 auto}
+.ok-ici{vertical-align:-2px;margin-left:.25em;display:inline-block}
 :focus-visible{outline:2px solid var(--vurgu);outline-offset:3px;border-radius:6px}
 .sar{max-width:1060px;margin:0 auto;padding:0 30px}
 @media (max-width:640px){.sar{padding:0 20px}}

@@ -1838,6 +1838,46 @@ if _beklenen:
             if _sema_bayat else "index.html ile birebir")
 
 # ======================================================================
+# HARF KAPSAMI — gorunur her karakter altkumede var mi  (9 Agu 2026)
+# ======================================================================
+# Yazi tipleri kendi sunucumuzda ve ALTKUMELI. Altkumede olmayan bir
+# karakter sessizce SISTEM yazi tipiyle cizilir: sayfa calisir, hicbir
+# test kirmizi vermez, sadece o harf baska bir yazi tipinde gorunur —
+# ya da ilgili sistemde hic yoksa BOS KUTU olur.
+#
+# Olculdu: `←` ve `→` altkumede yoktu, `↑` ve `↓` vardi. Yani ayni
+# dortlunun ikisi bizim fontumuzla ikisi baskasiyla ciziliyordu. Ikisi
+# de sitenin KENDI satir ici SVG okuyla degistirildi (9 Agu) ve bu kapi
+# ancak ondan sonra baglanabildi — daha once baglansa yayin kapanirdi.
+#
+# ⚠️ `harf-kapsam.py` `fontlar.css` yoksa OLCULEMEDI deyip 0 donuyor
+# (bilerek fail-open: surekli kirmizi bir gosterge yok sayilir). Burada
+# o hal AYRI raporlaniyor — "olculemedi" sessizce "temiz" olmasin.
+try:
+    _hk = subprocess.run([sys.executable, "harf-kapsam.py"],
+                         cwd=os.path.dirname(os.path.abspath(__file__)),
+                         capture_output=True, text=True,
+                         encoding="utf-8", errors="replace", timeout=180)
+    _hk_cikti = (_hk.stdout or "") + (_hk.stderr or "")
+    if "OLCULEMEDI" in _hk_cikti:
+        kontrol("harf kapsami olculebildi", False,
+                "fontlar.css okunamadi — altkume kapsami OLCULEMEDI, "
+                "temiz SAYILMAZ")
+    else:
+        _eksik = [s.strip() for s in _hk_cikti.splitlines()
+                  if "U+" in s and "sayfa:" in s]
+        kontrol("gorunur her karakter yazi tipi altkumesinde",
+                _hk.returncode == 0,
+                ("%d karakter altkumede YOK: %s — sistem yedegiyle "
+                 "cizilir, bazi cihazlarda bos kutu olur"
+                 % (len(_eksik), "; ".join(_eksik[:2])))
+                if _eksik else "78 sayfa")
+except Exception as _e:
+    kontrol("harf kapsami olculebildi", False,
+            "harf-kapsam.py kosturulamadi (%s: %s)"
+            % (type(_e).__name__, _e))
+
+# ======================================================================
 # NAP KILIDI — ad/adres/telefon her sayfada ve semada AYNI  (9 Agu 2026)
 # ======================================================================
 # Google'in yerel siralamada en cok onemsedigi sinyal NAP tutarliligi:
