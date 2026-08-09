@@ -280,6 +280,70 @@ for renk, baslik, ayrinti in yinelenen_meta_bulgulari(basliklar, aciklamalar):
 
 
 
+# --- 4. GEO: yapay zeka tarayicilari erisebiliyor mu --------------
+# ⚠️ 9 Agu 2026 — NEDEN GUNLUK OLCULUYOR.
+# Bugun klinige ILK KEZ yapay zeka tavsiyesiyle hasta geldi. O akisin
+# tamami iki dosyaya bagli: `llms.txt` (icerik haritasi) ve
+# `llms-full.txt` (tam metin). Bunlar SESSIZCE kirilabilir — robots.txt
+# degisir, sunucu 404 doner, bir yayin dosyayi goturur. Hicbiri siteyi
+# bozmaz; sadece bizi yapay zeka aramasindan siler.
+#
+# Olculdu: 15 rakip klinigin hicbirinde bu dosyalar yok. Elimizdeki tek
+# gercek GEO ustunlugu bu — gunluk bakilmali.
+print()
+print("--- yapay zeka tarayicilari (GEO) ---")
+_AI_TARAYICILAR = ("GPTBot/1.2", "OAI-SearchBot/1.0", "PerplexityBot/1.0",
+                   "ClaudeBot/1.0", "Google-Extended")
+for _dosya in ("llms.txt", "llms-full.txt"):
+    _engelli, _olculemedi = [], []
+    for _ua in _AI_TARAYICILAR:
+        try:
+            # Dosyanin kendi guvenlik kalibi kullaniliyor: adres ak
+            # listeden geciyor ve `_HTTP_ACICI` baska bir origin'e
+            # sessiz yonlendirmeyi engelliyor.
+            _adres = _guvenli_site_adresi("/" + _dosya)
+            if _adres is None:
+                _olculemedi.append("%s (guvensiz URL)" % _ua)
+                continue
+            _i = urllib.request.Request(_adres, headers={"User-Agent": _ua})
+            with _HTTP_ACICI.open(_i, timeout=20) as _c:
+                if _c.status != 200 or not _c.read(64):
+                    _engelli.append(_ua)
+        except Exception as _e:
+            # ⚠️ Olculemeyen ENGELLI sayilmaz ama sessiz de kalmaz.
+            _olculemedi.append("%s (%s)" % (_ua, type(_e).__name__))
+    if _engelli:
+        kirmizi("%s AI tarayicisina KAPALI" % _dosya, ", ".join(_engelli))
+    elif _olculemedi:
+        sari("%s erisimi olculemedi" % _dosya, ", ".join(_olculemedi[:3]))
+    else:
+        print("  TAMAM  %-22s %d tarayici da 200 aliyor"
+              % (_dosya, len(_AI_TARAYICILAR)))
+
+# --- 5. randevu ucu canli mi --------------------------------------
+# ⚠️ Semadaki `ReserveAction` hedefi ve GBP'deki "Web sitesi" alani
+# ayni adrese bakiyor. 9 Agu'da olculdu: 302 ile ucuncu tarafa
+# yonleniyor. Yonlendirmenin KENDISI sorun degil — HEDEFIN OLMESI
+# sorun. O zaman hem randevu ucu kaybolur hem GBP'den gelen hasta
+# bos sayfaya duser, ve hicbiri siteyi bozmadigi icin FARK EDILMEZ.
+print()
+print("--- randevu ucu ---")
+try:
+    # ⚠️ Burada `_HTTP_ACICI` KULLANILMIYOR ve bu BILINCLI: randevu ucu
+    # ucuncu tarafa yonleniyor, olcmek istedigimiz sey tam da hedefin
+    # canli olup olmadigi. Ote yandan adres yine ak listeden geciyor.
+    _radres = _guvenli_site_adresi("/randevu")
+    _rq = urllib.request.Request(_radres,
+                                 headers={"User-Agent": "YM-SEO-denetim"})
+    with urllib.request.urlopen(_rq, timeout=25) as _rc:
+        _son = _rc.geturl()
+        if _rc.status != 200:
+            kirmizi("randevu ucu HTTP %d" % _rc.status, _son)
+        else:
+            print("  TAMAM  randevu ucu 200  -> %s" % _son[:60])
+except Exception as _e:
+    kirmizi("randevu ucu ACILMIYOR", "%s: %s" % (type(_e).__name__, _e))
+
 # --- rapor --------------------------------------------------------
 print()
 print("=" * 70)

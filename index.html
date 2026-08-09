@@ -439,8 +439,11 @@
     position:relative;-webkit-appearance:none;appearance:none}
   .harita-onizleme:focus-visible{outline:3px solid var(--vurgu);
     outline-offset:-3px}
-  .harita-ac{position:absolute;left:50%;top:50%;
-    transform:translate(-50%,-50%);display:inline-flex;align-items:center;
+  /* ⚠️ Dugme ORTADA DEGIL. Ortadayken tam kliniğin pininin ustune
+     denk geliyordu: onizlemenin butun amaci konumu gostermek, dugme
+     de onu ortuyordu — olculdu, hekimin ekraninda goruldu. */
+  .harita-ac{position:absolute;right:15px;top:15px;
+    display:inline-flex;align-items:center;
     gap:8px;padding:11px 20px;border-radius:999px;
     background:color-mix(in srgb, var(--kat) 92%, transparent);
     border:1px solid var(--cizgi);color:var(--murekkep);
@@ -449,7 +452,7 @@
     box-shadow:0 12px 30px -18px var(--glow);
     transition:transform .18s,border-color .2s}
   .harita-ac .ikon{color:var(--vurgu)}
-  .harita-onizleme:hover .harita-ac{transform:translate(-50%,-50%) scale(1.04);
+  .harita-onizleme:hover .harita-ac{transform:scale(1.04);
     border-color:var(--vurgu)}
   /* yuklendikten sonra: iframe onizlemenin yerini alir */
   .harita iframe{display:block;width:100%;border:0;
@@ -491,13 +494,27 @@
      koyu sayfanin ortasinda devasa, acik renkli bir kare.
      Hekim bildirdi: "cok buyuk olmus, kotu gorunuyor."
      Artik iki kutu AYRI boyda; harita kendi olcusunde duruyor. */
-  .cift .harita{display:flex;flex-direction:column;flex:none;
-    align-self:start}
-  .cift .harita-onizleme{flex:none}
-  /* Gorsel ve iframe AYNI yukseklikte — tiklaninca sayfa zıplamasın. */
-  .cift .harita img,
-  .cift .harita iframe{height:clamp(240px,26vw,330px);
-    min-height:0;flex:none;aspect-ratio:auto}
+  /* ⚠️ 9 Agu, IKINCI DUZELTME. Once harita yan sutuna uyum saglamak
+     icin ~610px'e uzuyordu ve hekim "cok buyuk" dedi; 330px'e
+     indirildi. Bu sefer SOL SUTUNDA BUYUK BIR BOSLUK kaldi (sorular
+     sutunu 785px) ve hekim onu bildirdi.
+     Asil sorun boy DEGIL PARLAKLIKTI: acik renkli OSM gorseli koyu
+     sayfada tek parlak kareydi. Parlaklik ayri olarak bastirildi;
+     kutu yeniden esniyor ama UST SINIRI var, boylece ne devlesiyor
+     ne bosluk birakiyor. */
+  .cift .harita{display:flex;flex-direction:column;flex:1}
+  .cift .harita-onizleme{flex:1;display:flex;flex-direction:column}
+  /* ⚠️ ESNEYEN OGE <picture>, <img> DEGIL. Kurallar yalniz `img`ye
+     yazilinca `picture` buyumuyor ve kartin ICINDE 260px'lik koyu bir
+     bant kaliyordu — olculdu (kart 760px, gorsel 488px). */
+  .cift .harita-onizleme picture{flex:1;display:flex;min-height:0}
+  /* Gorsel ve iframe AYNI davranir — tiklaninca sayfa zıplamasın.
+     iframe'e `flex-basis:0` VERILMEZ: gorselin dogal en-boy orani var,
+     iframe'in yok; basis 0 olunca kutu tarayici varsayilanina (150px)
+     cokuyordu — olculdu. */
+  .cift .harita img{height:100%;width:100%;object-fit:cover;
+    flex:1;min-height:0;aspect-ratio:auto}
+  .cift .harita iframe{flex:1 1 380px;min-height:0;height:auto}
   .cift .sorular{flex:1}
   .cift .soru{font-size:16px;padding:14px 2px}
   .cift .harita-kaynak{margin-top:7px}
