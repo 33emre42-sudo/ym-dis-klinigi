@@ -26,6 +26,17 @@ _ESLESMELER = (
     # Dugme ve rozetlerde normal/kucuk metin gradientin iki ucunda da okunur.
     ("vurgu-metin", "vurgu", _NORMAL_ESIK),
     ("vurgu-metin", "vurgu2", _NORMAL_ESIK),
+    # --wa: WhatsApp ikonunun rengi (9 Agu 2026). IKON = metin disi
+    # oge, esik 3.0 (WCAG 2.1 madde 1.4.11).
+    #
+    # ⚠️ Buraya EKLENMESI onemli: markanin klasik yesili #25D366 acik
+    # zeminde 1,86 kontrast veriyor ve esigin ALTINDA kaliyor — koyu
+    # temada ise 9,25. Yani "WhatsApp yesili" tek bir renk degil;
+    # tema basina ayri secilmek ZORUNDA. Denetlenmeyen bir renk
+    # token'i, birinin "markanin gercek yesilini koyalim" demesiyle
+    # sessizce okunmaz hale gelirdi.
+    ("wa", "kagit", _BUYUK_ESIK),
+    ("wa", "kat", _BUYUK_ESIK),
 )
 _TOKEN = re.compile(r"--([a-zA-Z0-9_-]+)\s*:\s*([^;{}]+)")
 _ROOT_SOZ = re.compile(r":root\b", re.I)

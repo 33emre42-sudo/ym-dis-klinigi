@@ -1196,6 +1196,58 @@ kontrol("hicbir sayfa disaridan KAYNAK cekmiyor", not dis_font,
         else "%d sayfa + 2 css · script/img/iframe/link/@import taranir"
              % len(TARANAN))
 
+# ------------------------------------------------------------------
+# ⚠️ 9 Agu 2026 — YUKARIDAKI TARAMANIN KOR NOKTASI: JAVASCRIPT
+# ------------------------------------------------------------------
+# Yukaridaki tarayici HTML ETIKETLERINE bakiyor. Bir dis adres
+# `arayuz.js` icinde DIZGI olarak durup calisma aninda <iframe>'e
+# donusurse HTML'de gorunmez ve tarama sessizce gecer.
+#
+# Tikla-yukle harita tam olarak boyle calisiyor ve bu BILEREK
+# yapildi: `denetle.py`nin kendi ayrimina gore kullanicinin
+# TIKLAMASIYLA acilan sey "sayfa acilisinda istek" degildir
+# (wa.me dugmesiyle ayni kategori). Ama bu muafiyet SESSIZ kalirsa
+# yarin baska bir dis adres ayni bosluktan girer.
+#
+# Bu yuzden muafiyet KOSULA baglandi: JS'te ucuncu taraf harita
+# adresi varsa, `gizlilik.html` bunu ANLATMAK ZORUNDA. Yani kod ile
+# verilen soz birbirine bagli; biri degisince oteki durur.
+_JS = "arayuz.js"
+if os.path.exists(_JS):
+    with open(_JS, encoding="utf-8") as f:
+        _js = f.read()
+    # Yorum satirlarini dusur: gerekce metninde gecen adres bulgu degil.
+    _js_kod = re.sub(r"^\s*(?://|\*|/\*).*$", "", _js, flags=re.M)
+    _js_dis = sorted(set(
+        m.group(0) for m in re.finditer(r"https?://[^\s\"'<>)]+", _js_kod)
+        if _dis_mi(m.group(0))))
+    if _js_dis:
+        _harita_disi = [u for u in _js_dis
+                        if "maps.google.com" not in u
+                        and "google.com/maps" not in u]
+        kontrol("arayuz.js'te BEKLENMEYEN dis adres yok", not _harita_disi,
+                ("SIZINTI: %s" % _harita_disi[:2]) if _harita_disi
+                else "yalniz tikla-yukle haritasi (%d adres)" % len(_js_dis))
+
+        _gz = "gizlilik.html"
+        _anlatiliyor = False
+        if os.path.exists(_gz):
+            with open(_gz, encoding="utf-8") as f:
+                _g = f.read()
+            # Uc sart: dugmenin adi, "yalnizca ... bastiginizda"
+            # kosulu ve Google'in IP gorecegi durustlugu.
+            _anlatiliyor = ('Haritayı aç' in _g
+                            and 'yalnızca siz' in _g
+                            and 'IP adresinizi görür' in _g)
+        kontrol("gizlilik.html tikla-yukle haritasini ANLATIYOR",
+                _anlatiliyor,
+                "" if _anlatiliyor
+                else "JS ucuncu taraf harita yukluyor ama gizlilik metni "
+                     "bunu yazmiyor — verilen soz ile kod ayristi")
+    else:
+        kontrol("arayuz.js hicbir dis adres tasimiyor", True,
+                "tikla-yukle harita yok")
+
 kontrol("fontlar.css var", os.path.exists("fontlar.css"))
 if os.path.exists("fontlar.css"):
     with open("fontlar.css", encoding="utf-8") as f:

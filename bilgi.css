@@ -16,6 +16,11 @@
   --vurgu2:#0b7a88;
   --vurgu-metin:#fff;
   --glow:rgba(14,106,143,.20);
+  /* WhatsApp yesili — TEMA BASINA AYRI. Klasik #25D366 acik zeminde
+     1,86 kontrast veriyor, WCAG metin-disi esigi 3,0'in ALTINDA.
+     Ayni ton (142°) korunup parlaklik dusuruldu. Olculdu; kontrast.py
+     bu token'i da denetliyor. index.html'deki ikizle AYNI kalmali. */
+  --wa:#1B9C4C;
   --uyari-zemin:#fff8ec;
   --uyari-cizgi:#e8c98a;
   --baslik:"Archivo","Segoe UI",system-ui,-apple-system,sans-serif;
@@ -26,6 +31,7 @@
   :root{--kagit:#070d15;--kat:#0d1520;--murekkep:#ecf3f8;--gri:#9aacba;
         --soluk:#8296a8;--cizgi:#1d2937;--vurgu:#57c8ea;--vurgu2:#7ce0d3;
         --vurgu-metin:#03181f;--glow:rgba(87,200,234,.16);
+        --wa:#25D366;
         --uyari-zemin:#1d1708;--uyari-cizgi:#6b5520}
 }
 *{box-sizing:border-box}
@@ -316,6 +322,11 @@ footer a{color:var(--vurgu);text-decoration:none}
    kural buraya tasindi, isaretleme degil. */
 .dugme.ikincil{border-color:var(--cizgi);color:var(--murekkep);
   background:var(--kat)}
+/* WhatsApp ikonu markanin kendi yesili (hekim istedi: "goz asinaligi").
+   Secici BAGLANTIYA bakiyor, sinifa degil — 77 sayfada HTML'e hic
+   dokunmadan calisiyor. index.html'deki ikizle AYNI kalmali. */
+.dugme[href*="wa.me"] .ikon{color:var(--wa)}
+.dugme.ikincil[href*="wa.me"]:hover{border-color:var(--wa)}
 .sabit{position:fixed;left:0;right:0;bottom:0;z-index:40;display:none;gap:9px;
   padding:11px 20px calc(11px + env(safe-area-inset-bottom));
   background:color-mix(in srgb, var(--kagit) 88%, transparent);

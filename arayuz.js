@@ -65,4 +65,53 @@
     if (!t.matches || !t.matches("details.menu-ac, details.dil-sec")) return;
     kapat(t);
   }, true);   // `toggle` kabarmaz — yakalama asamasinda dinleniyor.
+
+  /* ------------------------------------------------------------------
+     TIKLA-YUKLE HARITA — 9 Agu 2026
+     ------------------------------------------------------------------
+     Hekim rakip sitedeki gomulu haritayi gosterip "bizimki de boyle
+     etkilesimli olsun" dedi. Dogru istek; ama duz bir <iframe> BU
+     SITEYE KONULAMAZ:
+
+       gizlilik.html soz veriyor —
+       "Sayfayi actiginizda tarayiciniz hicbir ucuncu taraf sunucusuna
+        istek gondermez; dolayisiyla IP adresiniz ... yurt disina
+        aktarilmaz."
+
+     `denetle.py` bu sozu ZORUNLU tutuyor ve <iframe src> ucuncu
+     tarafa bakiyorsa yayin kapisini kapatiyor (3. tur bulgu 12).
+
+     Cozum sozu bozmak degil: harita ancak ziyaretci DUGMEYE BASINCA
+     yukleniyor. denetle.py'nin kendi yorumundaki ayrim bu:
+     "kullanicinin TIKLAMASIYLA acilan baglantilar kaynak yuklemesi
+     DEGILDIR" — wa.me dugmesiyle ayni kategori.
+
+     ⚠️ ADRES DEGIL KOORDINAT gomuluyor. Yer adiyla gomulunce Google
+     isletme kartini aciyor ve orada YILDIZ PUANI cikiyor; rakip
+     sitede tam olarak bu goruluyor (4,8 · 148 yorum). Saglikta
+     tanitim yonetmeligi hasta yorumu ve puan gosterimini YASAKLIYOR
+     (K15) — puan bizim sayfamizda gorunemez. Koordinat gomulunce
+     yalnizca sade bir isaretci cikiyor.                              */
+  var KOORDINAT = "41.034264,28.8429051";
+  var HARITA_URL = "https://maps.google.com/maps?q=" + KOORDINAT +
+                   "&z=17&hl=tr&output=embed";
+
+  document.addEventListener("click", function (e) {
+    var dugme = e.target.closest && e.target.closest(".harita-onizleme");
+    if (!dugme) return;
+    var kart = dugme.closest("[data-harita]");
+    if (!kart || kart.classList.contains("acildi")) return;
+
+    var cerceve = document.createElement("iframe");
+    cerceve.src = HARITA_URL;
+    cerceve.title = kart.getAttribute("data-harita-baslik") ||
+                    "Klinigin haritadaki konumu";
+    cerceve.loading = "lazy";
+    cerceve.setAttribute("referrerpolicy", "no-referrer");
+    cerceve.setAttribute("allowfullscreen", "");
+    // Onizlemenin YERINE degil ONUNE eklenir; `.acildi` onizlemeyi
+    // gizler. Boylece geri alinabilir ve DOM'da olcu korunur.
+    kart.insertBefore(cerceve, kart.firstChild);
+    kart.classList.add("acildi");
+  });
 })();
