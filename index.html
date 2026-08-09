@@ -423,7 +423,15 @@
   .harita img{display:block;width:100%;height:clamp(190px,28vw,300px);
     object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.3,1)}
   .harita-onizleme:hover img{transform:scale(1.03)}
-  @media (prefers-color-scheme: dark){.harita img{filter:brightness(.97)}}
+  /* ⚠️ Koyu temada acik renkli harita gorseli PARLIYOR. Eski deger
+     `brightness(.97)` idi — olcusuz bir dokunus, gozle farki yok.
+     Hekim bildirdi. Gorsel OpenStreetMap kagit tonunda; koyu sayfada
+     tek parlak kare olmasin diye bastiriliyor. Ters cevirme (invert)
+     denenmedi: yol/etiket renkleri bozulur ve harita yanlis okunur. */
+  @media (prefers-color-scheme: dark){
+    .harita img{filter:brightness(.72) saturate(.8) contrast(1.06)}
+    .harita-onizleme:hover img{filter:brightness(.85) saturate(.9)}
+  }
 
   /* onizleme dugmesi — gorselin kendisi tiklanabilir */
   .harita-onizleme{display:block;width:100%;padding:0;border:0;margin:0;
@@ -476,22 +484,29 @@
   .cift-kutu{display:flex;flex-direction:column;min-width:0}
   .cift-kutu .bolum-basi{margin-bottom:10px}
   .cift-kutu .bolum-basi p{margin-bottom:16px}
-  .cift .harita{display:flex;flex-direction:column;flex:1}
-  .cift .harita-onizleme{flex:1;display:flex;flex-direction:column}
-  .cift .harita img{height:100%;min-height:380px;aspect-ratio:auto;flex:1}
-  /* ⚠️ iframe'e duz `flex:1` VERILMEZ. Gorselin dogal en-boy orani
-     var, iframe'in YOK: `flex-basis:0` ana eksende yuksekligi eziyor
-     ve kutu tarayici varsayilanina (150px) cokuyordu — olculdu.
-     Temeli 380px verilince gorselle AYNI sekilde esniyor, boylece
-     tiklaninca kutu boyu degismiyor (kayma = 0, olculdu). */
-  .cift .harita iframe{flex:1 1 380px;min-height:380px;height:auto}
+  /* ⚠️ 9 Agu 2026 — HARITA YAN SUTUNA ESITLENMEK ICIN ESNEMEZ.
+     Onceden `flex:1` + `height:100%` vardi: harita kutusu "Merak
+     ettikleriniz" sutununa uyum saglamak icin uzuyordu. Olculdu —
+     sorular sutunu 796px, harita da ~610px'e cikiyordu. Sonuc:
+     koyu sayfanin ortasinda devasa, acik renkli bir kare.
+     Hekim bildirdi: "cok buyuk olmus, kotu gorunuyor."
+     Artik iki kutu AYRI boyda; harita kendi olcusunde duruyor. */
+  .cift .harita{display:flex;flex-direction:column;flex:none;
+    align-self:start}
+  .cift .harita-onizleme{flex:none}
+  /* Gorsel ve iframe AYNI yukseklikte — tiklaninca sayfa zıplamasın. */
+  .cift .harita img,
+  .cift .harita iframe{height:clamp(240px,26vw,330px);
+    min-height:0;flex:none;aspect-ratio:auto}
   .cift .sorular{flex:1}
   .cift .soru{font-size:16px;padding:14px 2px}
   .cift .harita-kaynak{margin-top:7px}
   @media (max-width:900px){
     .cift{grid-template-columns:1fr}
-    .cift .harita img{min-height:0;height:clamp(240px,60vw,420px)}
-    .cift .harita iframe{min-height:0;height:clamp(260px,60vw,420px)}
+    /* Tek sutunda genislik daraldigi icin oran ayri ayarlanir —
+       ama gorsel ve iframe yine AYNI yukseklikte kalir. */
+    .cift .harita img,
+    .cift .harita iframe{min-height:0;height:clamp(240px,58vw,360px)}
   }
 
   /* --- sorular: cam kart --- */
