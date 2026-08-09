@@ -1681,6 +1681,85 @@ else:
                  % (len(_eksik), ", ".join(_eksik[:3])))
                 if _eksik else "%d URL" % len(_sm_urller))
 
+# ======================================================================
+# YEREL VARLIK REFERANSLARI DISKTE VAR MI  (9 Agu 2026)
+# ======================================================================
+# ⚠️ BU KAPI YOKKEN GERCEK BIR KIRIK YAYINLANABILIRDI. `<picture>`
+# bloklarina AVIF/WebP `<source>` eklenirken hedef turevler heniz
+# uretilmemis olsaydi, denetim bunu GORMEZDI: `_KaynakToplayici`
+# yalnizca UCUNCU TARAF adreslerini topluyor, yerel yolun diskte
+# karsiligi olup olmadigina hic bakmiyordu.
+#
+# Sessiz olmasinin sebebi HTML'in kendi kurali: tarayici bir <source>'u
+# `type`/`media` olcutune gore SECTIKTEN sonra dosya 404 donerse bir
+# SONRAKI kaynaga DUSMEZ. Yani eksik tek bir AVIF, o gorseli AVIF
+# destekleyen butun tarayicilarda yok eder — yani neredeyse herkeste.
+# HTTP 200 doner, denetim yesil kalir, gorsel yoktur.
+_VARLIK_OZ = {"img": ("src", "srcset"), "source": ("src", "srcset"),
+              "script": ("src",), "video": ("src", "poster"),
+              "audio": ("src",), "track": ("src",), "embed": ("src",),
+              "object": ("data",)}
+_VARLIK_REL = ("stylesheet", "preload", "modulepreload", "icon",
+               "apple-touch-icon", "mask-icon", "manifest")
+
+
+class _YerelVarlikToplayici(HTMLParser):
+    """Sayfanin isaret ettigi YEREL varlik yollarini toplar."""
+
+    def __init__(self):
+        HTMLParser.__init__(self, convert_charrefs=True)
+        self.yollar = []
+
+    def _ekle(self, deger, srcset):
+        if not deger:
+            return
+        adaylar = ([p.strip().split(" ")[0] for p in deger.split(",")]
+                   if srcset else [deger.strip()])
+        for a in adaylar:
+            if not a or _dis_mi(a):
+                continue
+            a = a.split("#")[0].split("?")[0]
+            # data:/mailto:/tel: ve bos degerler disarida
+            if not a or ":" in a.split("/")[0]:
+                continue
+            self.yollar.append(a)
+
+    def handle_starttag(self, etiket, oznitelikler):
+        d = {k.lower(): (v or "") for k, v in oznitelikler}
+        for oz in _VARLIK_OZ.get(etiket, ()):
+            self._ekle(d.get(oz), oz == "srcset")
+        if etiket == "link":
+            rel = d.get("rel", "").lower().split()
+            if any(r in _VARLIK_REL for r in rel):
+                self._ekle(d.get("href"), False)
+
+
+_eksik_varlik = []
+for _sayfa in _tum:
+    try:
+        with open(_sayfa, encoding="utf-8") as _f:
+            _icerik = _f.read()
+    except OSError:
+        continue
+    _t = _YerelVarlikToplayici()
+    try:
+        _t.feed(_icerik)
+        _t.close()
+    except Exception:
+        pass
+    _dizin = os.path.dirname(_sayfa)
+    for _y in _t.yollar:
+        # Kok-bagil ("/x.png") site kokune, digerleri SAYFAYA gore cozulur
+        _tam = (_y.lstrip("/") if _y.startswith("/")
+                else os.path.normpath(os.path.join(_dizin, _y)))
+        if not os.path.exists(_tam.replace("/", os.sep)):
+            _eksik_varlik.append("%s -> %s" % (_sayfa, _y))
+
+kontrol("her yerel varlik referansinin diskte karsiligi var",
+        not _eksik_varlik,
+        ("%d eksik: %s" % (len(_eksik_varlik), "; ".join(_eksik_varlik[:3])))
+        if _eksik_varlik else "%d sayfa tarandi" % len(_tum))
+
 print("=" * 74)
 if hata:
     print("*** %d HATA ***" % hata)

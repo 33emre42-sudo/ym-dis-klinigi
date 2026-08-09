@@ -1667,6 +1667,55 @@ else:
     kontrol("kontrast: bozuk ortak palet yayin kapisini DURDURUR",
             _kapi_ok, _kapi_ayrinti)
 
+    def _eksik_varlik_kapisi():
+        """Silinen bir yerel varlik yayini DURDURMALI (9 Agu 2026).
+
+        `<picture>`e AVIF/WebP `<source>` eklendi. Hedef turev eksikse
+        tarayici SECTIGI kaynaktan bir sonrakine DUSMEZ — gorsel kirik
+        cikar. Eski denetim bunu goremiyordu: yalnizca UCUNCU TARAF
+        adreslerine bakiyor, yerel yolun diskte karsiligini hic
+        sormuyordu. Yani yesil denetimle kirik logo yayinlanabilirdi.
+        """
+        import os
+        import shutil
+        import subprocess
+
+        with tempfile.TemporaryDirectory(
+                prefix="varlik-kapi-",
+                dir=os.path.dirname(_KOK)) as _td:
+            _site = os.path.join(_td, "klinik-sitesi")
+            shutil.copytree(
+                _KOK, _site,
+                ignore=shutil.ignore_patterns("__pycache__", "*.pyc", ".git"))
+            _hasta = os.path.join(_td, "hasta-mesajlari")
+            os.mkdir(_hasta)
+            shutil.copy2(
+                os.path.join(os.path.dirname(_KOK), "hasta-mesajlari",
+                             "siteyi-yukle.py"),
+                os.path.join(_hasta, "siteyi-yukle.py"))
+
+            _kurban = os.path.join(_site, "gorsel",
+                                   "logo-isaret-koyu-102.avif")
+            if not os.path.exists(_kurban):
+                return False, "test kurbani yok: gorsel/logo-isaret-koyu-102.avif"
+            os.remove(_kurban)
+
+            _d = subprocess.run(
+                [sys.executable, "denetle.py"], cwd=_site,
+                capture_output=True, text=True,
+                encoding="utf-8", errors="replace", timeout=120)
+            _cikti = (_d.stdout or "") + (_d.stderr or "")
+            _ok = (_d.returncode != 0
+                   and "her yerel varlik referansinin diskte karsiligi var"
+                   in _cikti
+                   and "logo-isaret-koyu-102.avif" in _cikti)
+            return _ok, ("exit=%d" % _d.returncode
+                         if _ok else _cikti[-300:])
+
+    _varlik_ok, _varlik_ayrinti = _eksik_varlik_kapisi()
+    kontrol("eksik yerel varlik yayin kapisini DURDURUR",
+            _varlik_ok, _varlik_ayrinti)
+
     _gizlilik_kapi_ok, _gizlilik_kapi_ayrinti = _kontrast_yayin_kapisi(
         "gizlilik.html", "--soluk:#5f7282;", "--soluk:#9a9a9a;",
         "gizlilik.html: acik: soluk/kagit")

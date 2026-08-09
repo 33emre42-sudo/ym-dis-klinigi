@@ -53,6 +53,20 @@ GORSELLER = [
     ("gorsel-k-cocuk.jpg",     (400, 800, 900)),   # genis kart (7.)
 ]
 
+# ⚠️ LOGOLAR AYRI LISTEDE — 9 Agu 2026. Ustteki akis `convert("RGB")`
+# diyor; logolar RGBA (seffaf) ve RGB'ye cevrilirse seffaflik SIYAH
+# ZEMINE doner, basligta siyah kare cikar. Bu yuzden ayri donguden
+# geciyorlar ve alfa korunuyor.
+#
+# Genislikler sayfadaki GERCEK gosterime gore:
+#   102 = baslik markasi 34px x 3 (retina)   — bilgi.css `.logo`
+#   320 = giris filigrani 1x                 — `min(30vw,320px)`
+#   480 = filigran retina; kaynak siniri, buyutme YOK
+LOGOLAR = [
+    ("logo-isaret.png",      (102, 320, 480)),
+    ("logo-isaret-koyu.png", (102, 320, 480)),
+]
+
 KALITE = {"avif": 55, "webp": 78}
 
 
@@ -95,6 +109,38 @@ def main():
                     uretildi += 1
         print("  %-26s %4d px kaynak -> %s" % (ad, asil_g,
                                                ", ".join(str(x) for x in genislikler)))
+
+    # Logolar ayri isleniyor: `convert("RGBA")` alfa kanalini korur.
+    # Ustteki JPG akisi BILEREK degistirilmedi.
+    for ad, genislikler in LOGOLAR:
+        kaynak = os.path.join(KOK, ad)
+        if not os.path.exists(kaynak):
+            print("  YOK: %s" % ad)
+            continue
+        kok_ad = os.path.splitext(ad)[0]
+        toplam_once += os.path.getsize(kaynak)
+
+        with Image.open(kaynak) as im:
+            im = im.convert("RGBA")
+            asil_g = im.width
+            for g in genislikler:
+                # Kaynaktan buyutme YAPMA; 480px logo kaynak siniridir.
+                hedef_g = min(g, asil_g)
+                oran = hedef_g / float(im.width)
+                boyut = (hedef_g, max(1, int(round(im.height * oran))))
+                kucuk = im.resize(boyut, Image.LANCZOS)
+                for bicim in ("avif", "webp"):
+                    cikti = os.path.join(HEDEF, "%s-%d.%s"
+                                         % (kok_ad, g, bicim))
+                    if guncel_mi(kaynak, cikti):
+                        atlandi += 1
+                        toplam_sonra += os.path.getsize(cikti)
+                        continue
+                    kucuk.save(cikti, quality=KALITE[bicim])
+                    toplam_sonra += os.path.getsize(cikti)
+                    uretildi += 1
+        print("  %-26s %4d px kaynak -> %s (alfa korunur)"
+              % (ad, asil_g, ", ".join(str(x) for x in genislikler)))
 
     print("")
     print("uretildi : %d dosya (atlanan %d)" % (uretildi, atlandi))
