@@ -1733,6 +1733,50 @@ else:
                  % (len(_eksik), ", ".join(_eksik[:3])))
                 if _eksik else "%d URL" % len(_sm_urller))
 
+# ----------------------------------------------------------------------
+# llms-full.txt — TAM METIN (9 Agu 2026)
+# ----------------------------------------------------------------------
+# `llms.txt` bir icerik HARITASI (baslik + aciklama). `llms-full.txt`
+# ise metnin KENDISI. Fark onemli: bir model "gece dis agrisinda ne
+# yapmaliyim" sorusuna cevap ararken haritadan hangi sayfaya bakacagini
+# anlar, ama CEVABI ancak metinden alir.
+#
+# Olculdu: 15 rakip klinikte llms-full.txt YOK. Bizde de 404 donuyordu.
+#
+# ⛔ RAKIBIN HATASI: ozbudent.com'un dosyasinin %6'si CSS ve JavaScript
+# dolmus. Uretici bunu ariyor ve sizinti varsa DURUYOR; burada da
+# ayrica denetleniyor — uretici atlanip dosya elle duzenlenirse gorunur.
+_lf_yol = "llms-full.txt"
+if not os.path.exists(_lf_yol):
+    kontrol("llms-full.txt var (yapay zeka tam metin)", False,
+            "yok — `python llms-full-uret.py --uygula` calistir")
+else:
+    try:
+        _lf = io.open(_lf_yol, encoding="utf-8").read()
+    except OSError as _e:
+        kontrol("llms-full.txt guncel", True,
+                "olculemedi (%s) — yayin bloke edilmedi" % _e)
+    else:
+        # 1) Sitemap'teki her URL tam metinde de gecmeli.
+        _lf_eksik = [u for u in _sm_urller if ("URL: " + u) not in _lf]
+        kontrol("llms-full.txt sitemap ile guncel", not _lf_eksik,
+                ("%d URL metinde YOK: %s — "
+                 "`python llms-full-uret.py --uygula`"
+                 % (len(_lf_eksik), ", ".join(_lf_eksik[:3])))
+                if _lf_eksik else "%d URL · %d KB"
+                % (len(_sm_urller), len(_lf.encode("utf-8")) / 1024))
+        # 2) CSS/JS sizmamis olmali — rakibin dustugu hata.
+        _lf_sizinti = [ad for desen, ad in (
+            (r"[{}]", "suslu parantez"),
+            (r"\bfunction\s*\(", "function("),
+            (r"\d+px\b", "px olcusu"),
+            (r"@media\b", "@media"),
+            (r"\bdocument\.(querySelector|getElementById)\b", "document.*"),
+        ) if re.search(desen, _lf)]
+        kontrol("llms-full.txt'te CSS/JS sizintisi YOK", not _lf_sizinti,
+                ("SIZINTI: %s" % ", ".join(_lf_sizinti))
+                if _lf_sizinti else "5 iz tarandi")
+
 # ======================================================================
 # KLINIK SEMASI HER SAYFADA VE TAZE MI  (9 Agu 2026)
 # ======================================================================
