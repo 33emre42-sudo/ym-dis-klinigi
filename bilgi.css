@@ -338,3 +338,37 @@ footer a{color:var(--vurgu);text-decoration:none}
   .sabit{display:flex}
   body{padding-bottom:88px}
 }
+
+/* ================= ERISILEBILIRLIK (11 Agu 2026) =================
+   `ui-ux-pro-max` skill'inin 99 UX kilavuzuna karsi olculdu; iki
+   gercek acik cikti ve ikisi de burada kapaniyor.
+   Olcum ve gerekce: hasta-mesajlari/UX-OLCUMU-10AGU.md               */
+
+/* --- 1) Iceriğe atla ---------------------------------------------
+   43 sayfanin SIFIRINDA yoktu. Klavyeyle ya da ekran okuyucuyla
+   gezen biri her sayfada butun menuyu tek tek gecmek zorundaydi.
+   Gorunmez durur, YALNIZCA odaklaninca belirir — yani fareyle
+   gezen icin hicbir sey degismiyor.                                 */
+.atla{
+  position:absolute; left:-9999px; top:0;
+  background:var(--vurgu,#0e6a8f); color:#fff;
+  padding:.7rem 1.1rem; border-radius:0 0 .5rem 0;
+  font:600 1rem/1.2 var(--metin,system-ui,sans-serif);
+  text-decoration:none; z-index:9999;
+}
+.atla:focus{ left:0; outline:3px solid #fff; outline-offset:-6px; }
+
+/* --- 2) Hareket hassasiyeti --------------------------------------
+   Bu dosya 42 sayfada kullaniliyor ve animasyon/gecis kurallari
+   tasiyor, ama `prefers-reduced-motion` korumasi YALNIZCA
+   index.html'de vardi. Migren ve vestibuler duyarliligi olan bir
+   hastada animasyon bas donmesi yapabilir; tarayici ayari var,
+   42 sayfa onu dinlemiyordu.                                        */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+    scroll-behavior:auto !important;
+  }
+}

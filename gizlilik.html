@@ -48,19 +48,34 @@
     padding:18px 20px;margin:0 0 8px}
   footer{border-top:1px solid var(--cizgi);padding:26px 0 34px;
     font-size:13.5px;color:var(--soluk)}
+
+/* ⚠️ Bu sayfa `bilgi.css`i KULLANMIYOR (tek istisna), o yuzden
+   erisilebilirlik kurallari burada tekrarlaniyor. Denetim kapisi
+   (`denetle.py`) her sayfada arar; ayrisirsa yayin durur.          */
+.atla{position:absolute;left:-9999px;top:0;background:#0e6a8f;color:#fff;
+  padding:.7rem 1.1rem;border-radius:0 0 .5rem 0;font-weight:600;
+  text-decoration:none;z-index:9999}
+.atla:focus{left:0;outline:3px solid #fff;outline-offset:-6px}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;scroll-behavior:auto !important}
+}
 </style>
 <!-- klinik-semasi: sema-yay.py uretir, ELLE DUZENLEME -->
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Dentist","@id":"https://ymdisklinigi.com/#klinik","name":"Nöbetçi YM Diş Kliniği","alternateName":["7/24 Nöbetçi YM Diş Kliniği","YM Diş Kliniği"],"url":"https://ymdisklinigi.com/","telephone":"+905417324376","address":{"@type":"PostalAddress","streetAddress":"Kirazlı Mah. Mevlana Cad. No: 47 D","addressLocality":"Bağcılar","addressRegion":"İstanbul","postalCode":"34212","addressCountry":"TR"},"geo":{"@type":"GeoCoordinates","latitude":41.034264,"longitude":28.8429051},"openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"00:00","closes":"23:59"}}
 </script>
 </head><body>
+<a class="atla" href="#icerik">İçeriğe atla</a>
+
 
 <header><div class="sar">
   <a class="marka" href="/">YM DİŞ KLİNİĞİ</a>
-  <a class="don" href="/"><svg class="ikon ok-ici ok-sol" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H6"/><path d="m11.5 6-6 6 6 6"/></svg>Ana sayfa</a>
+  <nav aria-label="Site gezinmesi"><a class="don" href="/"><svg class="ikon ok-ici ok-sol" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H6"/><path d="m11.5 6-6 6 6 6"/></svg>Ana sayfa</a></nav>
 </div></header>
 
-<main><div class="sar">
+<main id="icerik"><div class="sar">
   <h1>Gizlilik ve Kişisel Verilerin Korunması Politikası</h1>
   <p class="tarih">Son güncelleme: 9 Ağustos 2026</p>
 

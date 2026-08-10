@@ -1878,6 +1878,84 @@ except Exception as _e:
             % (type(_e).__name__, _e))
 
 # ======================================================================
+# ERISILEBILIRLIK KAPISI  (11 Agu 2026)
+# ======================================================================
+# `ui-ux-pro-max` skill'inin 99 UX kilavuzuna karsi olculdu (olcen
+# betik: `ux-olc.py`, kayit: `hasta-mesajlari/UX-OLCUMU-10AGU.md`).
+# Uc gercek acik cikti, ucu de kapatildi. Bu kapi TEKRARINI engelliyor.
+#
+# ⚠️ NEDEN KAPI, NEDEN SADECE DUZELTME DEGIL:
+# Ucunden IKISI kendiliginden kalici — hareket korumasi ve `.atla`
+# stili `bilgi.css`te, yani yeni sayfa otomatik aliyor. AMA ATLAMA
+# BAGLANTISININ KENDISI her sayfanin HTML'inde ve sitede ORTAK BIR
+# SABLON DOSYASI YOK: her bilgi yazisi ayri yaziliyor. Yani yeni
+# sayfada unutulabilecek tek sey bu — ve sitede 35+ bilgi yazisi var.
+#
+# 59-65. turlarin en sik hata sinifi tam buydu: bir yerde duzeltilip
+# baska yerde unutulmak. Duzeltme yeter demedik, kapi koyduk.
+_a11y_atlasiz, _a11y_navsiz, _a11y_idsiz = [], [], []
+for _y in TARANAN:
+    if not os.path.exists(_y):
+        continue
+    with open(_y, encoding="utf-8") as _f:
+        _s = _f.read()
+    if 'class="atla"' not in _s:
+        _a11y_atlasiz.append(_y)
+    elif 'id="icerik"' not in _s:
+        # Atlama baglantisi var ama HEDEFI yok: baglanti hicbir yere
+        # gitmez. "Var" gorunup calismayan kapi, olmamasindan kotudur.
+        _a11y_idsiz.append(_y)
+    # ⚠️ Sozcuk siniri kacisi BILEREK kullanilmiyor: ilk yazimda desen
+    # onu iceriyordu ve dosyaya bir KONTROL KARAKTERI olarak yazildi
+    # (kabuk kacisi bozdu). Desen hicbir sayfayla eslesmedi ve kapi 43
+    # sayfanin HEPSINI reddetti — her yayini durduran bir YANLIS ALARM
+    # kapisi olacakti. Acik karakter sinifi hem dogru hem kacisa kapali.
+    if not re.search(r"<nav[ >]|role=[\"']navigation", _s):
+        _a11y_navsiz.append(_y)
+
+kontrol("her sayfada iceriğe atla baglantisi", not _a11y_atlasiz,
+        ("%d sayfada YOK: %s — klavye ya da ekran okuyucu kullanan "
+         "hasta butun menuyu tek tek gecmek zorunda kalir"
+         % (len(_a11y_atlasiz), ", ".join(_a11y_atlasiz[:3])))
+        if _a11y_atlasiz else "%d sayfa" % len(TARANAN))
+kontrol("atlama baglantisinin HEDEFI var", not _a11y_idsiz,
+        ("%d sayfada id=icerik yok: %s — baglanti hicbir yere gitmiyor"
+         % (len(_a11y_idsiz), ", ".join(_a11y_idsiz[:3])))
+        if _a11y_idsiz else "id=icerik her sayfada")
+kontrol("her sayfada gezinme bolgesi (nav)", not _a11y_navsiz,
+        ("%d sayfada YOK: %s"
+         % (len(_a11y_navsiz), ", ".join(_a11y_navsiz[:3])))
+        if _a11y_navsiz else "%d sayfa" % len(TARANAN))
+
+# Hareket korumasi sayfanin KENDISINDE ya da yukledigi bir CSS'te
+# olmali. `bilgi.css` 42 sayfada ortak; `gizlilik.html` tek istisna ve
+# kurali kendi stil blogunda tasiyor.
+_a11y_css = ""
+for _c in sorted(glob.glob("*.css")):
+    try:
+        with open(_c, encoding="utf-8") as _f:
+            _a11y_css += _f.read()
+    except OSError:
+        pass
+_a11y_hareketsiz = []
+for _y in TARANAN:
+    if not os.path.exists(_y):
+        continue
+    with open(_y, encoding="utf-8") as _f:
+        _s = _f.read()
+    _kendi = "prefers-reduced-motion" in _s
+    _ortak = ("prefers-reduced-motion" in _a11y_css
+              and ".css" in _s)
+    if not (_kendi or _ortak):
+        _a11y_hareketsiz.append(_y)
+kontrol("her sayfada hareket hassasiyeti korumasi", not _a11y_hareketsiz,
+        ("%d sayfada YOK: %s — migren ya da vestibuler duyarliligi olan "
+         "hastada animasyon bas donmesi yapabilir"
+         % (len(_a11y_hareketsiz), ", ".join(_a11y_hareketsiz[:3])))
+        if _a11y_hareketsiz else "%d sayfa" % len(TARANAN))
+
+
+# ======================================================================
 # NAP KILIDI — ad/adres/telefon her sayfada ve semada AYNI  (9 Agu 2026)
 # ======================================================================
 # Google'in yerel siralamada en cok onemsedigi sinyal NAP tutarliligi:
