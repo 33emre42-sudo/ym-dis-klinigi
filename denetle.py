@@ -970,13 +970,63 @@ else:
             # git onu tanimiyor ve komut 127 ile DUSUYOR. Bassiz hale
             # Python tarafinda getiriliyor — bicimlendirmeyi platforma
             # birakmak, bu kontrolu Windows'ta sessizce olcemez yapardi.
-            _g = subprocess.run(
-                ["git", "log", "-1", "--format=%ad", "--date=format:%d %B %Y",
-                 "--", _giz],
+            # ⛔ 11 Agu 2026: OLCUT ARTIK DOSYA DEGIL, METIN.
+            #
+            # Eskiden `git log -1 -- gizlilik.html` idi: dosyada
+            # HERHANGI bir degisiklik tarihi bayatlatiyordu. O gun
+            # sayfaya yalnizca <nav> ve erisilebilirlik stilleri
+            # eklendi — politika METNI degismedi. Kapi "tarihi
+            # guncelle" dedi; oysa guncellemek hastaya "gizlilik
+            # politikasi degisti" demek olurdu. Hukuki bir sayfada
+            # bu kucuk bir yalan ve kapinin var olus sebebine aykiri.
+            #
+            # Artik gorunur METNIN en son degistigi commit araniyor;
+            # bicim/markup degisiklikleri tarihi bayatlatmiyor.
+            def _giz_metin(_ham):
+                """POLITIKA METNI = `<main>` icerigi.
+
+                ⚠️ Ilk denemede sayfanin TUM gorunur metni
+                karsilastiriliyordu ve "Iceriğe atla" baglantisi
+                eklenince kapi yine tetiklendi — oysa o bir GEZINME
+                ogesi, politika metni degil. Hastaya "politikaniz
+                degisti" demek icin `<main>` icindeki metnin degismesi
+                gerekir.
+                """
+                _mm = re.search(r"(?s)<main\b[^>]*>(.*?)</main\s*>", _ham)
+                _t = _mm.group(1) if _mm else _ham
+                _t = re.sub(r"(?s)<(script|style)\b.*?</\1>", " ", _t)
+                _t = re.sub(r"(?s)<!--.*?-->", " ", _t)
+                _t = re.sub(r"<[^>]+>", " ", _t)
+                # Tarih satirinin kendisi disarida: yoksa her guncelleme
+                # bir sonrakini tetikler (kendi kendini besleyen dongu).
+                _t = re.sub(r"Son güncelleme:\s*[^\n]*", " ", _t)
+                return re.sub(r"\s+", " ", _t).strip()
+
+            _gercek = ""
+            _gl = subprocess.run(
+                ["git", "log", "--format=%H %ad",
+                 "--date=format:%d %B %Y", "--", _giz],
                 capture_output=True, text=True,
                 encoding="utf-8", errors="replace", timeout=30)
-            _gercek = (_g.stdout.strip().lstrip("0")
-                       if _g.returncode == 0 else "")
+            if _gl.returncode == 0 and _gl.stdout.strip():
+                _satirlar = [x.split(" ", 1) for x in
+                             _gl.stdout.strip().splitlines() if " " in x]
+                _onceki_metin = None
+                for _sha, _tar in _satirlar:
+                    _sh = subprocess.run(
+                        ["git", "show", "%s:%s" % (_sha, _giz)],
+                        capture_output=True, text=True,
+                        encoding="utf-8", errors="replace", timeout=30)
+                    if _sh.returncode != 0:
+                        break
+                    _bu = _giz_metin(_sh.stdout)
+                    if _onceki_metin is None:
+                        _onceki_metin, _gercek = _bu, _tar.strip().lstrip("0")
+                    elif _bu != _onceki_metin:
+                        # Bir onceki (daha YENI) commit metni degistirmis.
+                        break
+                    else:
+                        _gercek = _tar.strip().lstrip("0")
         except Exception as _e:
             _gercek = ""
             _giz_sorun = "git okunamadi (%s)" % type(_e).__name__
