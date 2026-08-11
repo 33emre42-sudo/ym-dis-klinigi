@@ -2186,6 +2186,80 @@ kontrol("onbellek damgalari guncel", not _damga_sorun,
 
 
 # ======================================================================
+# IC BAGLANTI + CAPA KAPISI  (11 Agu 2026)
+# ======================================================================
+# ⚠️ BU KAPI `TARANAN`A BAKMAZ — sitedeki BUTUN HTML dosyalarina bakar.
+#
+# Sebebi olculdu: `/en/ /es/ /fr/ /de/ /ru/` altinda 35 sayfa CANLIDA
+# ve `robots: index,follow` ile dizine acik. Ama butun kapilar
+# `TARANAN` listesine bakiyor ve o liste yalnizca 43 Turkce sayfayi
+# kapsiyor. Yani dil sayfalarinda kirik bir baglanti yasayabilir ve
+# HICBIR KAPI GORMEZ. Yabanci hasta 404'e duser, biz haberdar olmayiz.
+#
+# Kirik baglanti bu klinikte soyut bir kusur degil: site tek isi
+# gece agriyan hastayi telefona ve adrese ulastirmak. Olu bir
+# baglanti o zincirin kopmasidir.
+#
+# CAPA da kontrol edilir (`sayfa.html#bolum`): capasi olmayan
+# baglanti sayfanin BASINA duser. Hata vermez, sessizce yanlis yere
+# goturur — en sinsi turden.
+_bag_sayfalar = sorted(glob.glob("*.html"))
+for _bd in ("en", "es", "fr", "de", "ru"):
+    _bag_sayfalar += sorted(glob.glob(os.path.join(_bd, "*.html")))
+
+_bag_capa = {}          # dosya -> {id,...}
+for _bp in _bag_sayfalar:
+    try:
+        with open(_bp, encoding="utf-8", errors="replace") as _f:
+            _bag_capa[_bp.replace("\\", "/")] = set(
+                re.findall(r'id="([^"]+)"', _f.read()))
+    except OSError:
+        _bag_capa[_bp.replace("\\", "/")] = set()
+
+_bag_kirik, _bag_capasiz = [], []
+for _bp in _bag_sayfalar:
+    try:
+        with open(_bp, encoding="utf-8", errors="replace") as _f:
+            _bs = _f.read()
+    except OSError:
+        continue
+    _bs = re.sub(r"(?s)<!--.*?-->", " ", _bs)
+    _btaban = os.path.dirname(_bp)
+    for _bm in re.finditer(r'href="([^"]+)"', _bs):
+        _bh = _bm.group(1)
+        if _bh.startswith(("http", "mailto:", "tel:", "//", "javascript:",
+                           "#", "data:")):
+            continue
+        _byol, _, _bfrag = _bh.partition("#")
+        _byol = _byol.split("?")[0]
+        if not _byol:
+            continue
+        if _byol.startswith("/"):
+            _bhedef = _byol.lstrip("/")
+        else:
+            _bhedef = os.path.normpath(
+                os.path.join(_btaban, _byol)).replace("\\", "/")
+        # Klasor baglantisi (`en/`) -> index.html
+        if not os.path.splitext(_bhedef)[1]:
+            _bhedef = (_bhedef.rstrip("/") + "/index.html").lstrip("/")
+        if not os.path.exists(_bhedef):
+            _bag_kirik.append("%s -> %s" % (_bp, _bh))
+            continue
+        # Capa: hedef sayfada o id GERCEKTEN var mi?
+        if _bfrag and _bhedef.endswith(".html"):
+            if _bfrag not in _bag_capa.get(_bhedef, set()):
+                _bag_capasiz.append("%s -> %s (capa yok)" % (_bp, _bh))
+
+kontrol("kirik ic baglanti yok (dil sayfalari DAHIL)", not _bag_kirik,
+        ("%d kirik: %s" % (len(_bag_kirik), " · ".join(_bag_kirik[:3])))
+        if _bag_kirik else "%d sayfa tarandi" % len(_bag_sayfalar))
+kontrol("her capa hedefinde var", not _bag_capasiz,
+        ("%d capasiz baglanti: %s — sayfanin BASINA duser, hata vermez"
+         % (len(_bag_capasiz), " · ".join(_bag_capasiz[:3])))
+        if _bag_capasiz else "capali baglantilarin hepsi yerini buluyor")
+
+
+# ======================================================================
 # NAP KILIDI — ad/adres/telefon her sayfada ve semada AYNI  (9 Agu 2026)
 # ======================================================================
 # Google'in yerel siralamada en cok onemsedigi sinyal NAP tutarliligi:
