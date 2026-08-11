@@ -51,6 +51,7 @@ Sema elle yazilmaz — `python sss-sema-uret.py` uretir.
 """
 import glob
 import hashlib
+import importlib.util
 import io
 import json
 import os
@@ -2257,6 +2258,82 @@ kontrol("her capa hedefinde var", not _bag_capasiz,
         ("%d capasiz baglanti: %s — sayfanin BASINA duser, hata vermez"
          % (len(_bag_capasiz), " · ".join(_bag_capasiz[:3])))
         if _bag_capasiz else "capali baglantilarin hepsi yerini buluyor")
+
+
+# ======================================================================
+# YAPAY ZEKA DOSYALARI KAPISI  (11 Agu 2026)
+# ======================================================================
+# `llms.txt` ve `llms-full.txt`, yapay zekaya DOGRUDAN servis ettigimiz
+# metin. Bu klinik icin soyut bir kanal degil: 9 Agustos 2026'da ilk
+# hasta yapay zeka tavsiyesiyle geldi.
+#
+# ⚠️ IKI GERCEK ARIZA OLCULDU, IKISI DE SESSIZDI:
+#
+# 1. BAYATLIK. `llms-full.txt` 9 Agustos'ta uretilmis, site 11
+#    Agustos'ta degismisti. Yani iki gundur yapay zekaya SITENIN ESKI
+#    HALI veriliyordu. Siteyi bozmadigi icin hicbir sey soylemedi.
+#
+# 2. BICIM. Uretilen dosyanin govde satirlarinin %44'u cumle
+#    ORTASINDA kiriliyordu (kaynak HTML'in satir sarmalari metne
+#    tasinmis) ve dosyada tek bir alt baslik, liste ya da kalin vurgu
+#    yoktu (### 0, "- " 0, ** 0) — sayfalar iyi yapilandirilmis
+#    olmasina ragmen. Duzeltme sonrasi: kirilma %10, ### 412,
+#    liste 706, kalin 864.
+#
+# Bu kapi ikisini de olcuyor. Uretici, sitenin BUGUNKU halinden
+# uretilen metinle diskteki dosyayi karsilastirir; fark varsa yayin
+# durur.
+_llms_sorun = []
+for _lad, _lbetik in (("llms.txt", "llms-uret.py"),
+                      ("llms-full.txt", "llms-full-uret.py")):
+    if not (os.path.exists(_lad) and os.path.exists(_lbetik)):
+        _llms_sorun.append("%s ya da ureticisi YOK" % _lad)
+        continue
+    try:
+        _lspec = importlib.util.spec_from_file_location("_l", _lbetik)
+        _lmod = importlib.util.module_from_spec(_lspec)
+        _lspec.loader.exec_module(_lmod)
+        _lbeklenen = _lmod.uret()[0]
+    except Exception as _le:
+        # ⚠️ OLCEMEDIM ≠ TEMIZ. Uretici patliyorsa bu da bir bulgudur.
+        _llms_sorun.append("%s uretilemedi: %s" % (_lad, _le))
+        continue
+    with open(_lad, encoding="utf-8") as _lf:
+        _lmevcut = _lf.read()
+    if _lmevcut != _lbeklenen:
+        _llms_sorun.append(
+            "%s BAYAT — site degismis, dosya uretilmemis "
+            "(python %s --uygula)" % (_lad, _lbetik))
+
+kontrol("yapay zeka dosyalari guncel", not _llms_sorun,
+        (" · ".join(_llms_sorun[:2])) if _llms_sorun
+        else "llms.txt + llms-full.txt sitenin bugunku haliyle ayni")
+
+# Bicim: duz metin duvari yapay zekaya yaramaz. Sayfalar H2/liste/kalin
+# tasiyor; dosya da tasimali. Esikler OLCUMLE kondu (duzeltme sonrasi
+# gercek degerler: ### 412, liste 706, kalin 864) — genis pay birakildi
+# ki normal icerik degisimi yanlis alarm uretmesin.
+if os.path.exists("llms-full.txt"):
+    with open("llms-full.txt", encoding="utf-8") as _lf:
+        _lsat = _lf.read().splitlines()
+    _lalt = sum(1 for _x in _lsat if _x.startswith("### "))
+    _lliste = sum(1 for _x in _lsat if _x.startswith("- "))
+    _lgovde = [_x for _x in _lsat if _x.strip()]
+    _lkirik = [_x for _x in _lgovde
+               if _x and _x[-1] not in '.!?:"»)…›”*'
+               and not _x.startswith("#") and not _x.startswith("URL:")
+               and len(_x) > 40]
+    _lyuzde = (100 * len(_lkirik) // max(1, len(_lgovde)))
+    kontrol("llms-full.txt yapisi korunuyor", _lalt >= 100 and _lliste >= 200,
+            ("alt baslik %d (>=100 olmali) · liste %d (>=200) — yapi "
+             "duzlesmis, uretici tum etiketleri boslugla mi degistiriyor?"
+             % (_lalt, _lliste)) if not (_lalt >= 100 and _lliste >= 200)
+            else "alt baslik %d · liste %d" % (_lalt, _lliste))
+    kontrol("llms-full.txt cumleleri butun", _lyuzde <= 20,
+            ("govde satirlarinin %%%d'u cumle ORTASINDA kiriliyor "
+             "(esik %%20) — kaynak HTML'in satir sarmalari metne "
+             "tasinmis olabilir" % _lyuzde) if _lyuzde > 20
+            else "kirilan satir %%%d" % _lyuzde)
 
 
 # ======================================================================

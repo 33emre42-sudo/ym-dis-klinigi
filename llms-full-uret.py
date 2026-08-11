@@ -112,18 +112,40 @@ def govde(s):
     m = re.search(r"<main\b.*?>(.*?)</main>", s, re.S | re.I)
     if m:
         s = m.group(1)
-    # Blok bitislerini satir sonuna cevir ki cumleler birbirine
-    # yapismasin; kalan etiketler atilir.
+    # ⛔ 11 AGU 2026 — IKI HATA BIRDEN. Olculdu: uretilen dosyanin
+    # govde satirlarinin %44'u cumle ORTASINDA kiriliyordu ve dosyada
+    # tek bir alt baslik, liste ya da kalin vurgu yoktu (### 0, "- " 0,
+    # ** 0). Bu dosya YAPAY ZEKAYA DOGRUDAN servis ettigimiz tam metin;
+    # 9 Agu 2026'da ilk hasta o kanaldan geldi.
+    #
+    # (1) KAYNAKTAKI SATIR SONLARI. HTML dosyalari 70-75 karakterde
+    #     sarilarak yaziliyor; o ham satir sonlari metne aynen tasiniyor
+    #     ve asagidaki bolme onlari da satir sayiyordu. Once bosluga
+    #     cevriliyor — bolmeyi YALNIZCA blok sinirlari yapsin.
+    #
+    # (2) YAPI DUZLESIYORDU. Butun etiketler bosluga cevrildigi icin
+    #     H2 basliklar, listeler ve kalin vurgular kayboluyordu.
+    #     Sayfalar aslinda iyi yapilandirilmis; modelin hangi cumlenin
+    #     baslik, hangisinin madde oldugunu bilmesi degerli.
+    #
+    # Bolme isareti NUL: HTML'de asla bulunmaz, metinle karisamaz.
+    s = re.sub(r"[\r\n]+", " ", s)
+    s = re.sub(r"<(strong|b)\b[^>]*>(.*?)</\1\s*>", r"**\2**",
+               s, flags=re.I | re.S)
+    s = re.sub(r"<h2\b[^>]*>", "\x00### ", s, flags=re.I)
+    s = re.sub(r"<h3\b[^>]*>", "\x00#### ", s, flags=re.I)
+    s = re.sub(r"<li\b[^>]*>", "\x00- ", s, flags=re.I)
     s = re.sub(r"</(p|li|h[1-6]|div|section|tr|summary|details)>",
-               "\n", s, flags=re.I)
-    s = re.sub(r"<br\s*/?>", "\n", s, flags=re.I)
+               "\x00", s, flags=re.I)
+    s = re.sub(r"<br\s*/?>", "\x00", s, flags=re.I)
     s = re.sub(r"<[^>]+>", " ", s)
     s = (s.replace("&nbsp;", " ").replace("&amp;", "&")
           .replace("&lt;", "<").replace("&gt;", ">")
           .replace("&#8220;", "“").replace("&#8221;", "”")
           .replace("&quot;", '"').replace("&#39;", "'"))
-    satirlar = [re.sub(r"[ \t]+", " ", x).strip() for x in s.split("\n")]
-    return "\n".join(x for x in satirlar if x)
+    satirlar = [re.sub(r"[ \t]+", " ", x).strip() for x in s.split("\x00")]
+    # Bos madde imi ("- ") ya da bos baslik ("###") birakilmaz.
+    return "\n".join(x for x in satirlar if x and x.strip("#- *").strip())
 
 
 def uret():
