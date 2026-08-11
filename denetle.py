@@ -50,6 +50,7 @@ Sema elle yazilmaz — `python sss-sema-uret.py` uretir.
 --------------------------------------------------------------------------
 """
 import glob
+import hashlib
 import io
 import json
 import os
@@ -753,7 +754,11 @@ for ad in BILGI:
         sorun.append("canonical yok")
     if 'name="description"' not in s:
         sorun.append("description yok")
-    if 'href="bilgi.css"' not in s:
+    # ⚠️ Damga (`?v=<sha8>`) eklendikten sonra birebir metin araması
+    # 42 sayfayi reddetti — kontrol dogruydu, deseni dardi. Damgali ve
+    # damgasiz iki hali de kabul edilir; damganin GUNCELLIGINI ayri bir
+    # kapi olcuyor (onbellek damgasi kapisi).
+    if not re.search(r'href="bilgi\.css(\?v=[0-9a-f]+)?"', s):
         sorun.append("bilgi.css bagli degil")
     duz = duzlestir(s[s.find("<body"):])
     if "hekim muayenesinin yerine geçmez" not in duz.lower():
@@ -1302,7 +1307,11 @@ kontrol("fontlar.css var", os.path.exists("fontlar.css"))
 if os.path.exists("fontlar.css"):
     with open("fontlar.css", encoding="utf-8") as f:
         fcss = f.read()
-    istenen = re.findall(r"url\(([^)]+\.woff2)\)", fcss)
+    # ⚠️ Damga (`?v=<sha8>`) eklenince bu desen HICBIR SEYLE eslesmedi
+    # ve kontrol "12/0" deyip yayini durdurdu. Yanlis alarm degildi —
+    # desen dardi. Damga istege bagli; dosya varligi bakilirken damga
+    # ATILIR, cunku diskteki ad damgasizdir.
+    istenen = re.findall(r"url\(([^)?]+\.woff2)(?:\?v=[0-9a-f]+)?\)", fcss)
     eksik_font = [y for y in istenen if not os.path.exists(y)]
     kontrol("fontlar.css'teki dosyalar diskte var", not eksik_font,
             ("eksik: %s" % eksik_font[:2]) if eksik_font
@@ -1372,7 +1381,11 @@ for ad in ALT_SAYFA:
         sorun.append("canonical yok")
     if 'name="description"' not in s:
         sorun.append("description yok")
-    if 'href="bilgi.css"' not in s:
+    # ⚠️ Damga (`?v=<sha8>`) eklendikten sonra birebir metin araması
+    # 42 sayfayi reddetti — kontrol dogruydu, deseni dardi. Damgali ve
+    # damgasiz iki hali de kabul edilir; damganin GUNCELLIGINI ayri bir
+    # kapi olcuyor (onbellek damgasi kapisi).
+    if not re.search(r'href="bilgi\.css(\?v=[0-9a-f]+)?"', s):
         sorun.append("bilgi.css bagli degil")
     duz = duzlestir(s[s.find("<body"):])
     if "hekim muayenesinin yerine geçmez" not in duz.lower():
@@ -2078,6 +2091,98 @@ for _dk in ("serit-tel", "menu-ac", "dil-sec"):
 kontrol("dokunma kurali gercek bir ogeye deniyor", not _dok_bos,
         ("; ".join(_dok_bos)) if _dok_bos
         else "3 sinif hem ana sayfada hem icerik sayfalarinda")
+
+
+# ======================================================================
+# ONBELLEK DAMGASI KAPISI  (11 Agu 2026)
+# ======================================================================
+# Sunucu duragan dosyalari 30 GUN onbellege veriyor
+# (`Cache-Control: max-age=2592000`) ve dosya adlarinda surum isareti
+# yoktu. Tarayicida OLCULDU: `transferSize 0` — fontlar.css, yazi
+# tipleri ve gorseller aga HIC gidilmeden onbellekten geldi.
+#
+# Sonucu: bir CSS duzeltmesi yayina girdiginde SITEYE DAHA ONCE GIRMIS
+# ziyaretci onu 30 gune kadar GORMUYOR. O gece dokunma hedefleri
+# 44px'e cikarilmisti; geri donen hastanin dugmeleri eski kalacakti ve
+# canliyi olcen biri bunu goremeyecekti (yeni ziyaretcide dogru gorunur).
+#
+# ⚠️ HTML `no-cache` — metin/tibbi icerik duzeltmeleri hemen ulasiyor.
+# Sorun yalnizca CSS/font/gorsel katmanindaydi.
+#
+# `surum-damgala.py` icerikten turetilen `?v=<sha8>` basar. Bu kapi
+# damganin dosyanin GERCEK ozetiyle esitligini kontrol eder: CSS
+# degisip damga guncellenmezse yayin DURUR. Damgayi elde tutmak
+# insan iradesine dayanirdi; kapi onu gereksiz kilar.
+_damga_sorun = []
+for _dad in ("bilgi.css", "fontlar.css"):
+    if not os.path.exists(_dad):
+        continue
+    with open(_dad, "rb") as _f:
+        _dbeklenen = hashlib.sha256(_f.read()).hexdigest()[:8]
+    for _dy in TARANAN:
+        if not os.path.exists(_dy):
+            continue
+        with open(_dy, encoding="utf-8") as _f:
+            _ds = _f.read()
+        for _dm in re.finditer(
+                r'href="%s(\?v=([0-9a-f]+))?"' % re.escape(_dad), _ds):
+            if _dm.group(2) is None:
+                _damga_sorun.append("%s: %s damgasiz" % (_dy, _dad))
+            elif _dm.group(2) != _dbeklenen:
+                _damga_sorun.append(
+                    "%s: %s damgasi BAYAT (%s, olmasi gereken %s)"
+                    % (_dy, _dad, _dm.group(2), _dbeklenen))
+
+# Yazi tipleri `fontlar.css` icinden cagriliyor; onlar da damgalanmali,
+# yoksa font degisince eski dosya onbellekte kalir.
+if os.path.exists("fontlar.css"):
+    with open("fontlar.css", encoding="utf-8") as _f:
+        _dfont = _f.read()
+    for _dm in re.finditer(r"url\((fontlar/[^)?]+\.woff2)(\?v=([0-9a-f]+))?\)",
+                           _dfont):
+        _dyol = _dm.group(1)
+        if not os.path.exists(_dyol):
+            _damga_sorun.append("fontlar.css: %s DOSYASI YOK" % _dyol)
+            continue
+        with open(_dyol, "rb") as _f:
+            _dbek = hashlib.sha256(_f.read()).hexdigest()[:8]
+        if _dm.group(3) is None:
+            _damga_sorun.append("fontlar.css: %s damgasiz" % _dyol)
+        elif _dm.group(3) != _dbek:
+            _damga_sorun.append("fontlar.css: %s damgasi BAYAT" % _dyol)
+
+# ⚠️ ONYUKLEME ADRESI, CSS'IN ISTEDIGI ADRESLE AYNI OLMALI.
+# Damga ilk eklendiginde `<link rel=preload>` atlandi: CSS damgali
+# adresi istiyordu, onyukleme damgasiz adresi cekiyordu. Iki AYRI
+# adres = ayni font iki kez iniyor VE onyukleme bosa gidiyor.
+# Tarayici konsolu bunu kendisi soyledi ("preloaded ... but not
+# used"). Onyukleme ilk boyamayi hizlandirmak icin var; eslesmeyince
+# tam tersini yapar. Iki yerde duran her adres bir ayrisma adayidir.
+for _dy in TARANAN:
+    if not os.path.exists(_dy):
+        continue
+    with open(_dy, encoding="utf-8") as _f:
+        _ds = _f.read()
+    for _dm in re.finditer(
+            r'href="(fontlar/[^"?]+\.woff2)(\?v=([0-9a-f]+))?"', _ds):
+        _dyol, _dv = _dm.group(1), _dm.group(3)
+        if not os.path.exists(_dyol):
+            _damga_sorun.append("%s: onyukleme %s DOSYASI YOK" % (_dy, _dyol))
+            continue
+        with open(_dyol, "rb") as _f:
+            _dbek = hashlib.sha256(_f.read()).hexdigest()[:8]
+        if _dv is None:
+            _damga_sorun.append(
+                "%s: onyukleme %s DAMGASIZ — CSS damgali adresi ister, "
+                "font iki kez iner" % (_dy, os.path.basename(_dyol)))
+        elif _dv != _dbek:
+            _damga_sorun.append("%s: onyukleme %s damgasi BAYAT"
+                                % (_dy, os.path.basename(_dyol)))
+
+kontrol("onbellek damgalari guncel", not _damga_sorun,
+        ("%d sapma — ilk uc: %s | duzeltme: python surum-damgala.py "
+         "--uygula" % (len(_damga_sorun), " · ".join(_damga_sorun[:3])))
+        if _damga_sorun else "CSS ve yazi tipi damgalari icerikle uyumlu")
 
 
 # ======================================================================
