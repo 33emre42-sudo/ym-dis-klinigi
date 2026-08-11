@@ -1236,6 +1236,28 @@
                       align-items:center; }
   .menu-ac > summary{ min-width:44px; justify-content:center; }
   .serit-tel{ min-width:44px; justify-content:center; }
+
+  /* ⛔ ATLAMA BAGLANTISI STILI — 11 Agu 2026, HEKIM EKRANDA GORDU.
+     `index.html` `bilgi.css`i YUKLEMIYOR (yalniz `fontlar.css` +
+     kendi ic stili). Atlama baglantisi 43 sayfaya eklendi ama stili
+     yalniz `bilgi.css`teydi; ana sayfada HIC stil almadi ve sayfanin
+     tepesinde DUZ GORUNUR bir baglanti olarak durdu.
+     Hekim ekran kaydiyla gosterdi.
+
+     Kapim "class=atla VAR MI" diye bakiyordu, "GIZLI MI" diye
+     bakmiyordu. Var olmak ile calismak ayri seyler — bu gece ayni
+     tuzaga dokunma hedeflerinde de dusmustum. (LESSONS.md 10)
+
+     ⚠️ Bu blok `bilgi.css`tekinin IKIZI. Biri degisirse oteki de
+     degismeli; `denetle.py` ikisini de olcuyor. */
+  .atla{
+    position:absolute; left:-9999px; top:0;
+    background:var(--vurgu,#0e6a8f); color:#fff;
+    padding:.7rem 1.1rem; border-radius:0 0 .5rem 0;
+    font:600 1rem/1.2 var(--metin,system-ui,sans-serif);
+    text-decoration:none; z-index:9999;
+  }
+  .atla:focus{ left:0; outline:3px solid #fff; outline-offset:-6px; }
 </style>
 <div id="ym-sohbet" hidden role="dialog" aria-label="YM Asistan sohbet penceresi">
   <div class="sohbet-bas"><b>🦷 YM Asistan</b>

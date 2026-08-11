@@ -1991,6 +1991,45 @@ kontrol("her sayfada iceriğe atla baglantisi", not _a11y_atlasiz,
          "hasta butun menuyu tek tek gecmek zorunda kalir"
          % (len(_a11y_atlasiz), ", ".join(_a11y_atlasiz[:3])))
         if _a11y_atlasiz else "%d sayfa" % len(TARANAN))
+# ⛔ 11 Agu 2026 — VAR OLMAK, CALISMAK DEGILDIR.
+# Yukaridaki iki kontrol atlama baglantisinin VARLIGINI olcuyordu.
+# Ana sayfada baglanti VARDI, hedefi VARDI, ikisi de yesildi — ama
+# `index.html` `bilgi.css`i yuklemedigi icin baglanti HIC STIL
+# ALMAMIS ve sayfanin tepesinde DUZ GORUNUR durmustu. Hekim ekran
+# kaydiyla gosterdi; uc kapi da yesilken.
+#
+# Atlama baglantisi ekranda GORUNMEMELI; yalnizca klavyeyle
+# odaklaninca cikar. O yuzden artik STILIN VARLIGI da olculuyor:
+# sayfanin yukledigi CSS'lerin ya da kendi stil blogunun icinde
+# `.atla` kurali BULUNMALI.
+_a11y_stilsiz = []
+for _y in TARANAN:
+    if not os.path.exists(_y):
+        continue
+    with open(_y, encoding="utf-8") as _f:
+        _s = _f.read()
+    if 'class="atla"' not in _s:
+        continue          # varlik kontrolu zaten yukarida
+    _stil_var = ".atla" in re.sub(r"(?s)<!--.*?-->", " ", _s)
+    if not _stil_var:
+        # Sayfanin YUKLEDIGI css dosyalarina bak — hepsine degil.
+        for _cm in re.finditer(r'href="([^"]+\.css)(?:\?v=[0-9a-f]+)?"',
+                               _s):
+            _cy = os.path.normpath(os.path.join(os.path.dirname(_y),
+                                                _cm.group(1)))
+            if os.path.exists(_cy):
+                with open(_cy, encoding="utf-8") as _f:
+                    if ".atla" in _f.read():
+                        _stil_var = True
+                        break
+    if not _stil_var:
+        _a11y_stilsiz.append(_y)
+kontrol("atlama baglantisi GIZLI (stili var)", not _a11y_stilsiz,
+        ("%d sayfada `.atla` kurali HICBIR yerde yok: %s — baglanti "
+         "sayfanin tepesinde DUZ GORUNUR durur"
+         % (len(_a11y_stilsiz), ", ".join(_a11y_stilsiz[:3])))
+        if _a11y_stilsiz else "%d sayfa" % len(TARANAN))
+
 kontrol("atlama baglantisinin HEDEFI var", not _a11y_idsiz,
         ("%d sayfada id=icerik yok: %s — baglanti hicbir yere gitmiyor"
          % (len(_a11y_idsiz), ", ".join(_a11y_idsiz[:3])))
