@@ -675,8 +675,13 @@ kontrol("hastaya gosterilen metin kodda DIZGE degil", not kodda,
 # --- 6. Bilgi yazilari ---
 print("\n--- 6/7  bilgi yazilari (%d sayfa) ---" % len(BILGI))
 
+# ⚠️ `404.html` de ozel sayfa: bilgi yazisi ya da alt sayfa DEGIL,
+# sitemap'e girmez, `noindex` tasir. Ama denetimden MUAF DEGIL —
+# asagida `_beklenen` listesinde adiyla yaziyor ve mevzuat/etiket
+# taramalari ona da uygulaniyor.
+OZEL_SAYFA = ("index.html", "gizlilik.html", "404.html")
 diskteki = sorted(os.path.basename(y) for y in glob.glob("*.html")
-                  if os.path.basename(y) not in ("index.html", "gizlilik.html"))
+                  if os.path.basename(y) not in OZEL_SAYFA)
 kontrol("listedeki sayfalar diskle ayni",
         diskteki == sorted(BILGI + ALT_SAYFA),
         ("fark: %s" % sorted(set(diskteki) ^ set(BILGI + ALT_SAYFA)))
@@ -716,7 +721,7 @@ def _tum_html():
 
 
 _tum = _tum_html()
-_beklenen = sorted(["index.html", "gizlilik.html"] + BILGI + ALT_SAYFA
+_beklenen = sorted(list(OZEL_SAYFA) + BILGI + ALT_SAYFA
                    + COKDILLI_SAYFA)
 _fazla = [y for y in _tum if y not in _beklenen]
 kontrol("denetlenmeyen HTML yok (alt klasorler dahil)",
@@ -1221,7 +1226,11 @@ def _dis_kaynaklar(s_):
 
 
 dis_font = []
-TARANAN = ["index.html", "gizlilik.html"] + ALT_SAYFA + BILGI
+# ⚠️ `404.html` de TARANAN icinde: erisilebilirlik, onbellek damgasi,
+# viewport, canonical ve NAP kapilarinin HEPSI ona da uygulanir.
+# Disarida biraksaydik "bir yerde duzeltilip otekinde unutulmak"
+# sinifini yeni bir sayfayla yeniden acmis olurduk.
+TARANAN = list(OZEL_SAYFA) + ALT_SAYFA + BILGI
 for ad in TARANAN:
     if not os.path.exists(ad):
         continue
@@ -2334,6 +2343,159 @@ if os.path.exists("llms-full.txt"):
              "(esik %%20) — kaynak HTML'in satir sarmalari metne "
              "tasinmis olabilir" % _lyuzde) if _lyuzde > 20
             else "kirilan satir %%%d" % _lyuzde)
+
+
+# ======================================================================
+# RAKIPTE OLCULEN HATALARIN KAPISI  (11 Agu 2026)
+# ======================================================================
+# `nobetdis.com` bastan sona olculdu (18 ajanli tur, kayit:
+# `hasta-mesajlari/RAKIP-ANALIZI-11AGU.md`). Teknik tarafi bakimsizdi ve
+# bulunan hatalarin hepsi BIZDE DE kolayca olusabilecek turden. Bizde su
+# an ucu de temiz — ama temizligi koruyan bir kapi YOKTU.
+#
+# Rakipte olculenler: mobilde yakinlastirma kapali (`user-scalable=no`),
+# hala sablondan kalma `mailto:info@example.com`, gorunur metne dusmus
+# etiket kalintilari, hesapsiz bos `facebook.com` baglantisi, ve bozuk
+# `href="Tiklayin Hemen Arayin"`.
+
+# --- 1) Mobilde yakinlastirma ENGELLENMEZ -----------------------------
+# Gozu iyi gormeyen hasta sayfayi buyutebilmeli. Rakipte viewport soyle:
+# `...maximum-scale=1, user-scalable=no, shrink-to-fit=no` — erisilebilirlik
+# ihlali. Bu, 44px dokunma hedefi calismasinin dogal devami.
+_vp_ihlal = []
+for _y in TARANAN:
+    if not os.path.exists(_y):
+        continue
+    with open(_y, encoding="utf-8") as _f:
+        _vs = _f.read()
+    _vm = re.search(r'name="viewport"[^>]*content="([^"]*)"', _vs)
+    if not _vm:
+        continue
+    _vi = _vm.group(1).replace(" ", "")
+    for _kotu in ("user-scalable=no", "user-scalable=0",
+                  "maximum-scale=1", "minimum-scale=1"):
+        if _kotu in _vi:
+            _vp_ihlal.append("%s: %s" % (_y, _kotu))
+kontrol("mobilde yakinlastirma engellenmemis", not _vp_ihlal,
+        ("%d sayfada: %s — gozu iyi gormeyen hasta sayfayi buyutemez"
+         % (len(_vp_ihlal), " · ".join(_vp_ihlal[:3])))
+        if _vp_ihlal else "%d sayfa" % len(TARANAN))
+
+# --- 2) Sablon artigi -------------------------------------------------
+# ⚠️ DESENLER DAR TUTULDU. Genis desen yanlis alarm uretir, yanlis alarm
+# veren kapi susturulur (LESSONS.md 4). Her desen once 43 sayfada
+# olculdu ve SIFIR eslesme verdigi gorulduktan sonra baglandi.
+_sab_bulgu = []
+for _y in TARANAN:
+    if not os.path.exists(_y):
+        continue
+    with open(_y, encoding="utf-8") as _f:
+        _ss = _f.read()
+    if re.search(r"@example\.(com|org)|//example\.(com|org)", _ss):
+        _sab_bulgu.append("%s: example.com artigi" % _y)
+    # href degeri BOS ya da yalnizca kok alan adi (hesapsiz sosyal)
+    for _hm in re.finditer(r'href="(https?://(?:www\.)?'
+                           r'(?:facebook|instagram|twitter|x|youtube)'
+                           r'\.com/?)"', _ss):
+        _sab_bulgu.append("%s: hesapsiz sosyal baglanti %s"
+                          % (_y, _hm.group(1)))
+    # href icinde bosluk + Turkce harf = adres degil, cumle
+    for _hm in re.finditer(r'href="([^"]*\s[^"]*)"', _ss):
+        _d = _hm.group(1)
+        if re.search(r"[a-zA-ZçğıöşüÇĞİÖŞÜ]\s[a-zA-ZçğıöşüÇĞİÖŞÜ]", _d):
+            _sab_bulgu.append("%s: bozuk href=%r" % (_y, _d[:40]))
+kontrol("sablon artigi / bozuk baglanti yok", not _sab_bulgu,
+        ("%d bulgu: %s" % (len(_sab_bulgu), " · ".join(_sab_bulgu[:3])))
+        if _sab_bulgu else "example.com, hesapsiz sosyal, bozuk href yok")
+
+
+# ======================================================================
+# CANONICAL OZ-ESITLIK  (11 Agu 2026)
+# ======================================================================
+# Rakip `nobetdis.com` kendi ana sayfasini `https://nobetdis.com//`
+# adresine kanonikliyor — var olmayan, cift egik cizgili bir adrese.
+# `og:url` de ayni hatayi tasiyor. Yani arama motoruna "asil surumum
+# su" dedigi adres calismiyor.
+#
+# Bizde 43 sayfanin 43'u de OLCULDU ve dogru cikti (sapan 0), yani bu
+# kapi YESIL BASLIYOR — gurultu uretmiyor. Ama koruyan bir sey yoktu:
+# yeni bir sayfa yanlis canonical'la eklenirse kimse gormezdi.
+#
+# ⚠️ DIL SAYFALARI BILEREK DISARIDA. `en/ es/ fr/ de/ ru/` altindaki 35
+# sayfanin canonical kurgusu AYRI ve KASITLI; onlari mevcut denetim
+# kendi mantigiyla olcuyor. Buraya dahil etmek yanlis alarm uretirdi ve
+# yanlis alarm veren kapi susturulur (LESSONS.md 4).
+_kan_taban = "https://ymdisklinigi.com/"
+_kan_sapan = []
+for _y in TARANAN:
+    # ⚠️ `404.html` MUAF ve sebebi yazili: sayfa `noindex` tasiyor
+    # ve her yoldan HTTP 404 donuyor. Kendisi 404 donen bir adres
+    # "asil surum" olamaz; canonical iddia etmesi tutarsiz olurdu.
+    if _y == "404.html":
+        continue
+    if not os.path.exists(_y):
+        continue
+    with open(_y, encoding="utf-8") as _f:
+        _ks = _f.read()
+    _km = (re.search(r'<link[^>]+rel="canonical"[^>]+href="([^"]+)"', _ks)
+           or re.search(r'<link[^>]+href="([^"]+)"[^>]*rel="canonical"', _ks))
+    if not _km:
+        _kan_sapan.append("%s: canonical YOK" % _y)
+        continue
+    _kv = _km.group(1)
+    _kbek = _kan_taban if _y == "index.html" else _kan_taban + _y
+    if _kv != _kbek:
+        _kan_sapan.append("%s: %s (olmasi gereken %s)" % (_y, _kv, _kbek))
+    elif "//" in _kv.replace("https://", "", 1):
+        _kan_sapan.append("%s: CIFT EGIK CIZGI %s" % (_y, _kv))
+kontrol("her sayfa KENDINI kanonikliyor", not _kan_sapan,
+        ("%d sapma: %s" % (len(_kan_sapan), " · ".join(_kan_sapan[:2])))
+        if _kan_sapan else "%d sayfa, cift egik cizgi yok" % len(TARANAN))
+
+# ======================================================================
+# NAP TEKILLIGI (ad-adres-telefon)  (11 Agu 2026)
+# ======================================================================
+# Yerel ve yapay zeka gorunurlugunde ad-adres-telefon tutarliligi temel
+# esik. Rakipte acik adres HIC yok — sokak, kapi no, posta kodu hicbiri
+# gecmiyor; iki subeden hangisinin nerede oldugu belirsiz. Bizde adres
+# hem metinde hem `PostalAddress` semasinda kayitli; bu net bir
+# ustunluk ama bir yerde elle degistirilirse SESSIZCE bozulur.
+#
+# Olculdu: 43 sayfada streetAddress TEK varyant, telephone TEK varyant,
+# ve adres `llms.txt` icinde birebir geciyor. Kapi yesil basliyor.
+#
+# ⚠️ Bu kapi SITE TARAFINI olcer. GBP ve Yandex'teki adresi OLCEMEZ —
+# o ekranlar elle acilmali. "Temiz" cikmasi oralarin da dogru oldugu
+# anlamina GELMEZ. (Olcum disiplini: yonettigin ekrani ac.)
+_nap_adres, _nap_tel = {}, {}
+for _y in TARANAN:
+    if not os.path.exists(_y):
+        continue
+    with open(_y, encoding="utf-8") as _f:
+        _ns = _f.read()
+    for _alan, _hane in (("streetAddress", _nap_adres),
+                         ("telephone", _nap_tel)):
+        _nm = re.search(r'"%s"\s*:\s*"([^"]+)"' % _alan, _ns)
+        if _nm:
+            _hane.setdefault(_nm.group(1), []).append(_y)
+_nap_sorun = []
+for _ad, _hane in (("adres", _nap_adres), ("telefon", _nap_tel)):
+    if len(_hane) > 1:
+        _nap_sorun.append(
+            "%s %d FARKLI bicimde: %s" % (_ad, len(_hane),
+                                          " | ".join(list(_hane)[:2])))
+    elif not _hane:
+        _nap_sorun.append("%s semada HIC yok" % _ad)
+if os.path.exists("llms.txt") and _nap_adres:
+    with open("llms.txt", encoding="utf-8") as _f:
+        _nlt = _f.read()
+    _nadres = list(_nap_adres)[0]
+    if _nadres not in _nlt:
+        _nap_sorun.append(
+            "llms.txt semadaki adresi birebir TASIMIYOR (%s)" % _nadres)
+kontrol("adres ve telefon TEK bicimde", not _nap_sorun,
+        (" · ".join(_nap_sorun)) if _nap_sorun
+        else "%d sayfa + llms.txt ayni adres/telefon" % len(TARANAN))
 
 
 # ======================================================================
