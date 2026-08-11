@@ -1423,12 +1423,37 @@ Dişetinin diş yüzeyine oturduğu yerde küçük bir aralık vardır (dişeti 
 ### Neden ertelenmemeli?
 İltihap dişeti sınırında kaldığı sürece geri döndürülebilir. Ancak aylarca sürerse dişi çenede tutan destek dokuya ve kemiğe ilerleyebilir. Bu aşamada kaybedilen kemik **kendiliğinden geri gelmez**; tedavi artık durumu durdurmaya ve korumaya yöneliktir.
 Erken dönemde tek bir temizlik seansı yeterli olabilecekken, geç kalındığında daha uzun bir tedavi süreci gerekir. Dişeti hastalığı sinsi ilerler: çoğu zaman ağrı yapmadığı için hasta bir sorun olduğunu fark etmez.
+### Ne zaman beklemeden aramalısınız?
+Dişeti kanamasının çoğu fırçalama sırasında olur ve baskıyla durur. Aşağıdakiler bunun dışındadır.
+Şunlardan **herhangi biri** varsa kliniğe gelmeyi beklemeyin, **112'yi arayın** ya da en yakın acile gidin:
+- Nefes almakta ya da yutkunmakta zorlanma
+- Göze, boyna ya da göğse doğru yayılan şişlik
+- Yüksek ateşle birlikte olan şişlik, titreme
+- Bilinç bulanıklığı ya da bayılma
+- Çene kırığı şüphesi ya da kafa travması sonrası baygınlık
+- Tekrarlanan baskıya rağmen durmayan ya da ağzı hızla dolduran kanama
+### Kliniği ne zaman aramalısınız?
+Klinik her gün 24 saat açıktır. Şu durumlarda arayabilirsiniz:
+- Temiz bir gazlı bezle baskı uygulayınca duran kanama bir süre sonra yeniden başlıyorsa
+- Fırçalamadan, kendiliğinden kanama oluyorsa
+- Kan sulandırıcı ilaç kullanıyorsanız ve kanama her zamankinden uzun sürüyorsa
+Emin olamadığınız bir durumda sormaktan çekinmeyin; gece de arayabilirsiniz.
 ### Kanamayı artıran diğer durumlar
 - **Hamilelik:** Hormonal değişiklikler dişetinin iltihaba tepkisini artırır. Bu dönemde kanama daha sık görülür; bakımın gevşetilmemesi gerekir.
 - **Kan sulandırıcı ilaçlar:** Kanamayı uzatabilir. İlacınızı kendi kararınızla bırakmayın, hekiminize bildirin. Ayrıntı: kan sulandırıcı kullananlarda diş tedavisi .
 - **Şeker hastalığı:** Kan şekeri düzensizse dişeti iltihabı hem daha kolay oluşur hem de daha zor geriler. Ayrıntı: şeker hastalığı ve ağız sağlığı .
 - **Sigara:** Damarları büzdüğü için kanamayı gizleyebilir . Yani sigara içen birinde kanama az olabilir ama hastalık daha hızlı ilerler.
 - **Uyumsuz dolgu veya kaplama kenarı:** Taşkın bir kenar, tabakanın tutunduğu bir nokta oluşturur ve o bölgede sürekli kanamaya yol açar.
+### Ağız dışı (sistemik) nedenler
+Dişeti kanamasının kaynağı her zaman ağızda olmaz. Bazı genel sağlık durumları dişetini kanamaya daha yatkın hâle getirebilir:
+- **Bazı ilaçlar:** epilepsi, tansiyon ve bağışıklığı baskılayan ilaç gruplarının bir kısmı dişetinin büyümesine yol açabilir. Büyüyen dişeti daha kolay kanar.
+- **Beslenme:** uzun süre çok kısıtlı beslenmede C vitamini eksikliği dişetini kanamaya açık hâle getirebilir.
+- **Kanın pıhtılaşmasıyla ilgili durumlar:** doğuştan gelen pıhtılaşma bozuklukları ya da kan hücrelerini etkileyen hastalıklar kanamayı artırabilir.
+- **Hormonal dönemler:** hamileliğin yanında ergenlik ve menopoz da dişetinin iltihaba verdiği tepkiyi değiştirebilir.
+- **Bağışıklığın zayıfladığı durumlar:** vücudun enfeksiyona direnci azaldığında dişeti iltihabı daha kolay yerleşir.
+Bu bir tanı listesi değildir. Hangisinin sizin için geçerli olduğu kişiden kişiye değişir ve muayenede değerlendirilir.
+Muayeneye gelirken kullandığınız ilaçları, bilinen hastalıklarınızı ve hamilelik durumunuzu söyleyin. İlacınızı kendi kararınızla bırakmayın.
+Düzenli bakıma ve diş taşı temizliğine rağmen kanama geçmiyorsa, ya da burun kanaması veya ciltte kolay morarma gibi ağız dışında da bulgularınız varsa, diş hekiminiz sizi ileri değerlendirme için yönlendirebilir.
 ### Evde ne yapabilirsiniz?
 - **Fırçalamayı bırakmayın, düzeltin.** Yumuşak kıllı bir fırça kullanın. Fırçayı dişeti sınırına 45 derece açıyla yerleştirip küçük dairesel hareketlerle temizleyin. Sertlik değil, **ulaşabilmek** önemlidir.
 - **Diş arası temizliğini ekleyin.** Fırça diş yüzeyinin yaklaşık üçte ikisine ulaşır. Aradaki yüzeyler için diş ipi ya da arayüz fırçası gerekir. Dişeti hastalığı çoğu zaman tam da bu bölgeden başlar.
