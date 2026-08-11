@@ -2618,6 +2618,73 @@ kontrol("hasta getiren botlar ACIK (arama + yapay zeka)", not _rb_sorun,
 
 
 # ======================================================================
+# KANONIK 112 TRIYAJ LISTESI  (11 Agu 2026 — HEKIM KARARI)
+# ======================================================================
+# ⛔ NEDEN VAR: iki onayli sayfanin 112 listeleri BIRBIRINDEN FARKLIYDI.
+# Biri ates+titremeyi ve cene kirigini sayiyordu, oteki saymiyordu;
+# oteki agzi dolduran kanamayi sayiyordu, biri saymiyordu. Yeni bir
+# sayfa yazilirken "onayli metinden turet" kurali uygulandi ve KISA
+# olan kopyalandi — bayilan hasta o sayfada 112'ye yonlendirilmiyordu.
+# (LESSONS.md 12: bir guvenlik listesinden CIKARMAK da bir iddiadir.)
+#
+# Hekime soruldu, madde madde karar verdi:
+#     ates + titreme ............... ACIL
+#     cene kirigi / kafa travmasi ... ACIL
+#     agzi dolduran kanama ......... ACIL
+#     agiz tabaninda sislik ........ ACIL DEGIL  -> listede YOK
+#
+# ⚠️ KAPSAM DAR TUTULDU ve OLCULDU. Kapi yalnizca GENEL TRIYAJ LISTESI
+# tasiyan sayfalara bakar: "112'yi arayin" talimatinin hemen ardindan
+# gelen madde listesi. Konusuna ozel tek bir durum icin 112 diyen
+# sayfalar (or. `dis-apsesi.html`) KAPSAM DISI — onlarda kanama esigi
+# aramak yanlis alarmdir.
+#
+# Ilk denemede desen `florur-nedir.html`i de yakaladi; oradaki liste
+# "Sunlarda KLINIGI arayin" listesiydi, 112 listesi degil. Desen
+# daraltildi: araya "klinigi arayin" giriyorsa eslesme sayilmaz.
+# Olculdu: kapsama giren sayfa TAM 2, ikisi de 6/6 tasiyor.
+_TRIYAJ_KANONIK = [
+    ("nefes / yutkunma", r"nefes|yutkun"),
+    ("yayilan sislik", r"göze|boyn|göğse"),
+    ("ates + titreme", r"titreme"),
+    # ⚠️ DESENLER CAKISMAMALI. Ilk yazimda bu satir `bayıl|baygın`
+    # da ariyordu ve ters testte KACTI: "Bilinç bulanıklığı" maddesi
+    # silindiginde, "kafa travması sonrası BAYGINLIK" satiri deseni
+    # karsilayip kapiyi yesil tutuyordu. Bir maddenin yoklugunu
+    # BASKA bir madde maskeliyordu — kapinin var olma sebebinin ta
+    # kendisi. Her kategori artik yalniz KENDI ifadesiyle eslesir.
+    ("bilinc bulaniklig[i]", r"bilinç bulanıklığı|bilinç değişikliği"),
+    ("cene kirigi / kafa travmasi", r"çene kırığı|kafa travması"),
+    ("durmayan / agzi dolduran kanama", r"ağzı hızla\s*dolduran|durmayan"),
+]
+_TRIYAJ_DESEN = re.compile(r"(?s)112'yi aray[ıi]n(.{0,200}?)<ul>(.*?)</ul>")
+_triyaj_sorun = []
+for _y in TARANAN:
+    if not os.path.exists(_y):
+        continue
+    with open(_y, encoding="utf-8") as _f:
+        _ts = _f.read()
+    for _tm in _TRIYAJ_DESEN.finditer(_ts):
+        _ara, _liste = _tm.group(1), _tm.group(2)
+        # Araya "klinigi arayin" giriyorsa bu bir 112 listesi DEGIL.
+        if re.search(r"kliniği aray", _ara, re.I):
+            continue
+        _duz = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", _liste))
+        _eksik = [_ad for _ad, _d in _TRIYAJ_KANONIK
+                  if not re.search(_d, _duz, re.I)]
+        if _eksik:
+            _triyaj_sorun.append("%s: EKSIK %s" % (_y, ", ".join(_eksik)))
+        if re.search(r"ağız tabanında", _duz, re.I):
+            _triyaj_sorun.append(
+                "%s: 'agiz tabaninda sislik' listede — hekim bunu ACIL "
+                "DEGIL diye karara bagladi" % _y)
+
+kontrol("112 triyaj listeleri kanonik (hekim karari)", not _triyaj_sorun,
+        (" · ".join(_triyaj_sorun[:2])) if _triyaj_sorun
+        else "triyaj listesi tasiyan sayfalarin hepsi 6/6")
+
+
+# ======================================================================
 # NAP KILIDI — ad/adres/telefon her sayfada ve semada AYNI  (9 Agu 2026)
 # ======================================================================
 # Google'in yerel siralamada en cok onemsedigi sinyal NAP tutarliligi:

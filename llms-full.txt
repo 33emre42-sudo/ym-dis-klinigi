@@ -941,7 +941,13 @@ Kliniğimiz **İstanbul'un Avrupa yakasında**, Kirazlı metro aktarma noktasın
 Trafik ve toplu taşıma saatleri değiştiği için süre vermiyoruz; yola çıkmadan önce güncel durumu kontrol edin. Geç saatte metro kapalı olabilir.
 ### Gece gelirken
 Klinik her gün 24 saat açıktır, resmî tatiller dahil. Gece gelmeyi düşünüyorsanız iki öneri:
-- **Önce acil belirti var mı bakın.** Nefes ya da yutkunma güçlüğü, ağız tabanında şişlik, yüz veya boyuna hızla yayılan şişlik, tekrarlanan baskıya rağmen durmayan ya da ağzı hızla dolduran kanama, bilinç değişikliği veya bayılma varsa **112'yi arayın** ya da en yakın acile başvurun — mesaj yanıtını beklemeyin.
+- **Önce acil belirti var mı bakın.** Aşağıdakilerden herhangi biri varsa **112'yi arayın** ya da en yakın acile başvurun — mesaj yanıtını beklemeyin:
+- Nefes almakta ya da yutkunmakta zorlanma
+- Göze, boyna ya da göğse doğru yayılan şişlik
+- Yüksek ateşle birlikte olan şişlik, titreme
+- Bilinç bulanıklığı ya da bayılma
+- Çene kırığı şüphesi ya da kafa travması sonrası baygınlık
+- Tekrarlanan baskıya rağmen durmayan ya da ağzı hızla dolduran kanama
 - **Bu belirtiler yoksa yola çıkmadan önce yazın ya da arayın.** Şikâyetinizi anlatın; hemen gelmeniz mi gerekiyor, yoksa sabahı beklemek mi daha doğru, açıkça söyleriz. Boşuna yol gelmenizi istemiyoruz.
 - **Ulaşımı önceden planlayın.** Geç saatte metro kapalı olabilir; taksi ya da özel araç gerekebilir.
 Gece ya da hafta sonu gelmeniz uygulanan işlemlerde bir farklılık oluşturmaz; geç saatte geldiniz diye farklı bir uygulamaya tabi tutulmazsınız.
@@ -1034,8 +1040,9 @@ Bazı belirtiler diş kaynaklı olsa bile hastane acili gerektirir. Şu durumlar
 - Nefes almakta ya da yutkunmakta zorlanma
 - Göze, boyna ya da göğse doğru yayılan şişlik
 - Yüksek ateşle birlikte olan şişlik, titreme
-- Bilinç bulanıklığı
+- Bilinç bulanıklığı ya da bayılma
 - Çene kırığı şüphesi ya da kafa travması sonrası baygınlık
+- Tekrarlanan baskıya rağmen durmayan ya da ağzı hızla dolduran kanama
 ### Sabahı bekleyebilecek şikâyetler
 Her rahatsızlık gece yola çıkmayı gerektirmez. Soğuk-sıcak hassasiyeti, yeni fark edilen küçük bir çürük, diş taşı şikâyeti, estetik kaygılar ve rutin kontroller planlı bir randevuda daha rahat ele alınır. Boşuna yola çıkmanızı da istemiyoruz; kararsızsanız önce telefonla sorun.
 ### Yola çıkmadan önce evde
