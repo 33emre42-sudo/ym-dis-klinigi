@@ -1226,6 +1226,19 @@
      panelin alt boslugu 10px degil 80px cikiyordu.
      Yeni kural zaten <=720px'in tamamini kapsiyor; ayri bir 520px
      ayarina gerek yok. mobil-denetle.py bu sinifi kontrol ediyor. */
+
+  /* ⚠️ DOKUNMA HEDEFI — bu blok `bilgi.css`tekinin IKIZI.
+     Sebep: index.html kendi ic stilini bilgi.css'ten SONRA yukluyor,
+     yani ayni ozgullukte olan ortak kural EZILIYOR. Canlida olculdu:
+     icerik sayfalarinda 44px tuttu, index'te 37-40'ta kaldi.
+     Sitede ortak sablon dosyasi yok; ikizi kabul ediyoruz.
+     ⛔ Biri degisirse oteki de degismeli. */
+  .serit-tel,
+  .menu-ac > summary,
+  .dil-sec > summary{ min-height:44px; display:inline-flex;
+                      align-items:center; }
+  .menu-ac > summary{ min-width:44px; justify-content:center; }
+  .serit-tel{ min-width:44px; justify-content:center; }
 </style>
 <div id="ym-sohbet" hidden role="dialog" aria-label="YM Asistan sohbet penceresi">
   <div class="sohbet-bas"><b>🦷 YM Asistan</b>

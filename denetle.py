@@ -2006,6 +2006,81 @@ kontrol("her sayfada hareket hassasiyeti korumasi", not _a11y_hareketsiz,
 
 
 # ======================================================================
+# DOKUNMA HEDEFI — IKIZ KURAL KAPISI  (11 Agu 2026)
+# ======================================================================
+# Ust seritteki telefon/menu/dil dugmeleri parmakla basilacak kadar
+# buyuk olmali (kilavuz: 44x44). Kural IKI YERDE birden duruyor ve bu
+# BILEREK boyle:
+#
+#   `bilgi.css`  → 42 icerik sayfasi icin
+#   `index.html` → ana sayfa kendi stil blogunu bilgi.css'ten SONRA
+#                  yukluyor, ayni ozgullukteki ortak kural EZILIYOR
+#
+# Bu tahmin degil, olcum: kural once yalniz `bilgi.css`e yazildi ve
+# yayinlandi. Tarayicida icerik sayfalari 44px'e cikti, ANA SAYFA
+# 37-40'ta kaldi. Sitede ortak sablon dosyasi yok, ikiz kacinilmaz.
+#
+# Ikiz = ayrisma riski. 59-65. turlarin EN SIK hata sinifi buydu:
+# bir yerde duzeltip otekini unutmak. O yuzden kapi.
+_dok_sec = [".serit-tel", ".menu-ac > summary", ".dil-sec > summary"]
+_dok_eksik = []
+for _dp in ("bilgi.css", "index.html"):
+    if not os.path.exists(_dp):
+        _dok_eksik.append("%s: DOSYA YOK" % _dp)
+        continue
+    with open(_dp, encoding="utf-8") as _f:
+        _dm = re.sub(r"\s+", " ", _f.read())
+    for _ds in _dok_sec:
+        # Secici, min-height:44px iceren bir kural blogunda geciyor mu?
+        _dn = re.escape(_ds).replace(r"\ ", r"\s*")
+        if not re.search(_dn + r"[^{}]*\{[^{}]*min-height\s*:\s*44px", _dm) \
+           and not re.search(_dn + r"\s*,[^{}]*\{[^{}]*min-height\s*:\s*44px",
+                             _dm):
+            _dok_eksik.append("%s → %s" % (_dp, _ds))
+
+kontrol("dokunma hedefi kurali IKI dosyada da var", not _dok_eksik,
+        ("EKSIK: %s — bu kural bilgi.css ve index.html'de AYNI ANDA "
+         "durmali; ana sayfa kendi stilini sonra yukledigi icin yalniz "
+         "birine yazmak ana sayfada sessizce etkisiz kalir (canlida "
+         "olculdu: 43x37)" % ", ".join(_dok_eksik))
+        if _dok_eksik else "bilgi.css + index.html, 3 secici")
+
+# Kural bir seye UYGULANIYOR mu? Ilk yazimda seciciye `.menu-liste`
+# yazmistim — o sinif bu sitede HIC yok, yani kural hicbir seye
+# uygulanmiyordu ama "kural var" gorunuyordu. Sinif adi HTML'de
+# degisirse CSS sessizce etkisiz kalir; kapi bunu yakalar.
+_dok_sinif = ["serit-tel", "menu-ac", "dil-sec"]
+# ⚠️ Ilk yazimda bu kontrol SITE GENELINE bakiyordu ve ters testte
+# YESIL kaldi: sinif adi yalniz index.html'de degistirildiginde diger
+# 42 sayfada durdugu icin "var" gorunuyordu. Oysa index.html'deki
+# kural yalniz index.html'in kendi isaretlemesine uygulanir. Kontrol
+# DOSYA BAZLI olmali — kural nerede duruyorsa orada eslesmeli.
+def _dok_siniflar(_metin):
+    _k = set()
+    for _c in re.findall(r'class="([^"]*)"', _metin):
+        _k.update(_c.split())
+    return _k
+
+with open("index.html", encoding="utf-8") as _f:
+    _dok_ana = _dok_siniflar(_f.read())
+_dok_ortak = set()
+for _dh in TARANAN:
+    if os.path.exists(_dh) and _dh != "index.html":
+        with open(_dh, encoding="utf-8") as _f:
+            _dok_ortak |= _dok_siniflar(_f.read())
+
+_dok_bos = []
+for _dk in ("serit-tel", "menu-ac", "dil-sec"):
+    if _dk not in _dok_ana:
+        _dok_bos.append("index.html icindeki kural bosa dusuyor: .%s" % _dk)
+    if _dk not in _dok_ortak:
+        _dok_bos.append("bilgi.css kurali bosa dusuyor: .%s" % _dk)
+kontrol("dokunma kurali gercek bir ogeye deniyor", not _dok_bos,
+        ("; ".join(_dok_bos)) if _dok_bos
+        else "3 sinif hem ana sayfada hem icerik sayfalarinda")
+
+
+# ======================================================================
 # NAP KILIDI — ad/adres/telefon her sayfada ve semada AYNI  (9 Agu 2026)
 # ======================================================================
 # Google'in yerel siralamada en cok onemsedigi sinyal NAP tutarliligi:

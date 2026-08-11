@@ -372,3 +372,43 @@ footer a{color:var(--vurgu);text-decoration:none}
     scroll-behavior:auto !important;
   }
 }
+
+/* ============ DOKUNMA HEDEFI TABANI (11 Agu 2026) ================
+   `ui-ux-pro-max` Touch kilavuzu: en az 44x44px. Canli sitede 375px
+   genislikte OLCULDU (gercek getBoundingClientRect):
+
+     ana telefon / WhatsApp / randevu   335x59  ✅ zaten saglam
+     menu dugmesi                        40x40  4px eksik
+     ust serit telefon ikonu             43x37  7px eksik
+     dil secici                          66x38  6px eksik
+     menu ici baglantilar (x6)          172x38  6px eksik
+
+   Asil eylem dugmeleri zaten yeterliydi; eksik olanlar IKINCIL
+   gezinme ogeleri. Yine de kapatiliyor: gece agriyla, tek elle,
+   titrek parmakla telefon kullanan hasta icin 6 piksel fark eder.
+
+   ⚠️ Metin ICINDEKI baglantilar (paragraf/liste) BILEREK disarida —
+   44px kurali onlari hedeflemez, satir yuksekligini bozmak metni
+   okunmaz yapar. Bu bilinen bir istisna.                          */
+/* ⚠️ `.menu-ac .menu-liste a` seciciyi ILK YAZIMDA buraya koydum ve
+   HICBIR SEYLE ESLESMIYORDU: `menu-liste` diye bir sinif bu sitede yok,
+   uydurmusum. Menu bagintilari `.serit + .menu` icinde ve tarayicida
+   olculdu: 335x55 — zaten fazlasiyla yeterli, kural gerekmiyor. */
+.serit-tel,
+.menu-ac > summary,
+.dil-sec > summary{
+  min-height:44px;
+  display:inline-flex;
+  align-items:center;
+}
+/* Kare/dar ikon dugmeleri: yukseklik tuttu ama GENISLIK 40-43'te kaldi.
+   Kilavuz iki boyutu da 44 istiyor. */
+.menu-ac > summary{ min-width:44px; justify-content:center; }
+.serit-tel{ min-width:44px; justify-content:center; }
+
+/* Gorsel tasmasi korumasi (11 Agu 2026).
+   Olculdu: bugun mobilde yatay tasma YOK (scrollWidth 375 = viewport),
+   yani zarar veren bir durum degildi. Ama `img` icin hicbir olcek
+   kurali yoktu; genis bir gorsel eklenirse sayfa yatay kayardi ve bu
+   telefonda okumayi bozar. Tek satirlik koruma.                    */
+img{max-width:100%;height:auto}
