@@ -2538,6 +2538,86 @@ kontrol("adres ve telefon TEK bicimde", not _nap_sorun,
 
 
 # ======================================================================
+# ROBOTS KAPISI — HASTA GETIREN KANAL KAPATILAMAZ  (11 Agu 2026)
+# ======================================================================
+# 9 Agustos 2026: klinige gelen bir hasta YAPAY ZEKA TAVSIYESIYLE
+# geldi. O gunden sonra bu kanal soyut bir ihtimal degil, olculmus
+# bir gercek.
+#
+# Olculmus kanit (1.058 alan adi taranmis calisma): GPTBot'u
+# engelleyen sitelerin ChatGPT'deki atif orani medyani 0,003;
+# engellemeyenlerin 0,417 — yaklasik 139 KAT fark. OAI-SearchBot'u
+# engelleyenlerde atif orani TAM SIFIR.
+#
+# `robots.txt` kucuk ve masum gorunen bir dosyadir; iyi niyetli bir
+# "gizlenelim" hamlesi bu kanali tek satirda kapatabilir ve HICBIR
+# SEY hata vermez — trafik aylar icinde sessizce erir. Bu yuzden
+# kapi: asagidaki botlardan biri `Disallow` alirsa YAYIN DURUR.
+#
+# ⚠️ Ayni kapi arama motorlarini da tutuyor. Googlebot'u yanlislikla
+# kapatmak bu klinigi gorunmez yapar.
+_rb_korunan = [
+    # arama
+    "Googlebot", "Googlebot-Image", "Bingbot", "YandexBot", "DuckDuckBot",
+    # yapay zeka — canli arama VE egitim
+    "GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot",
+    "Claude-SearchBot", "Claude-User", "PerplexityBot", "Perplexity-User",
+    "Google-Extended", "Applebot", "CCBot",
+]
+_rb_sorun = []
+if not os.path.exists("robots.txt"):
+    _rb_sorun.append("robots.txt YOK")
+else:
+    with open("robots.txt", encoding="utf-8") as _f:
+        _rb_satir = [x.strip() for x in _f
+                     if x.strip() and not x.strip().startswith("#")]
+    # Bot -> o gruba ait kurallar
+    _rb_grup, _rb_aktif = {}, []
+    for _x in _rb_satir:
+        _ad, _, _deger = _x.partition(":")
+        _ad, _deger = _ad.strip().lower(), _deger.strip()
+        if _ad == "user-agent":
+            if _rb_aktif and _rb_grup.get(_rb_aktif[-1]) is not None:
+                _rb_aktif = []      # yeni blok basladi
+            _rb_aktif.append(_deger)
+            _rb_grup.setdefault(_deger, None)
+        elif _ad in ("allow", "disallow"):
+            for _b in _rb_aktif:
+                _mevcut = _rb_grup.get(_b) or []
+                _mevcut.append((_ad, _deger))
+                _rb_grup[_b] = _mevcut
+    _rb_kucuk = {k.lower(): v for k, v in _rb_grup.items()}
+    for _bot in _rb_korunan:
+        _kural = _rb_kucuk.get(_bot.lower())
+        if _kural is None:
+            # Ozel grubu yoksa `*` grubuna duser; o da acik olmali.
+            _kural = _rb_kucuk.get("*")
+            if _kural is None:
+                _rb_sorun.append("%s: hicbir kural yok" % _bot)
+                continue
+        if any(_a == "disallow" and _d in ("/", "*") for _a, _d in _kural):
+            _rb_sorun.append("%s ENGELLENMIS" % _bot)
+
+# ⚠️ Joker grup AYRI kontrol ediliyor. Yukaridaki kapi 16 adli botu
+# koruyor ama `User-agent: * / Disallow: /` yazilirsa LISTEDE OLMAYAN
+# her bot duser — bugun bilmedigimiz yarinki yapay zeka botlari dahil.
+# Ters testte bu durum yesil kalmisti; sayi degil KAPSAM olculmeliydi.
+_rb_joker = _rb_kucuk.get("*") if os.path.exists("robots.txt") else None
+_rb_joker_kapali = bool(_rb_joker) and any(
+    _a == "disallow" and _d in ("/", "*") for _a, _d in _rb_joker)
+kontrol("joker grup (*) kapali degil", not _rb_joker_kapali,
+        ("`User-agent: *` altinda `Disallow: /` var — listede adi "
+         "gecmeyen HER bot duser, yarin cikacak yapay zeka botlari "
+         "dahil") if _rb_joker_kapali else "listelenmemis botlar da acik")
+
+kontrol("hasta getiren botlar ACIK (arama + yapay zeka)", not _rb_sorun,
+        ("⛔ %s — bu kanal 9 Agu 2026'da GERCEK HASTA getirdi; "
+         "engellemek atif oranini olculmus sekilde ~139 kat dusuruyor"
+         % " · ".join(_rb_sorun[:3]))
+        if _rb_sorun else "%d bot acik" % len(_rb_korunan))
+
+
+# ======================================================================
 # NAP KILIDI — ad/adres/telefon her sayfada ve semada AYNI  (9 Agu 2026)
 # ======================================================================
 # Google'in yerel siralamada en cok onemsedigi sinyal NAP tutarliligi:

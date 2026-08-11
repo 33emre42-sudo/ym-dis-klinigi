@@ -1,3 +1,123 @@
+# ymdisklinigi.com — YM Diş Kliniği
+#
+# Mantık: HASTA GETİREN her botu aç, yalnızca rakibin sayfa içi
+# verimizi çekmesine yarayan SEO istihbarat araçlarını kapat.
+#
+# ⛔ Bir bot YALNIZCA kendisine en özel kuralı okur. Bu yüzden arama
+# ve yapay zekâ botları ayrı ayrı ve AÇIKÇA yazılıyor; aşağıdaki
+# kapatma listesi onları etkilemez.
+
+# ---------------------------------------------------------------
+# ARAMA MOTORLARI — AÇIK
+# ---------------------------------------------------------------
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# ---------------------------------------------------------------
+# YAPAY ZEKÂ BOTLARI — AÇIK, ⛔ ASLA KAPATILMAZ
+# ---------------------------------------------------------------
+# 9 Ağustos 2026: kliniğe gelen bir hasta, yapay zekâ tavsiyesiyle
+# geldi. Bu kanal soyut değil, ölçülmüş.
+#
+# Ölçülmüş kanıt (1.058 alan adı taranmış çalışma): GPTBot'u
+# engelleyen sitelerin ChatGPT'de atıf oranı medyanı 0,003;
+# engellemeyenlerin 0,417 — yaklaşık 139 kat fark. OAI-SearchBot'u
+# engelleyenlerde atıf oranı TAM SIFIR.
+#
+# Bunları kapatmak, hastanın bizi bulduğu kapıyı kendi elimizle
+# kapatmaktır. `denetle.py` içinde bir kapı bunu ölçüyor: bu
+# botlardan biri `Disallow` alırsa YAYIN DURUR.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# ---------------------------------------------------------------
+# SEO İSTİHBARAT ARAÇLARI — KAPALI
+# ---------------------------------------------------------------
+# Bunlar hasta getirmez; rakibin sayfa yapımızı, başlıklarımızı ve
+# iç bağlantı örgümüzü toplu hâlde çekmesine yarar. Kendi resmî
+# belgeleri robots.txt'e uyduklarını yazıyor.
+#
+# ⚠️ DÜRÜST SINIR: bu, "görünmez olmak" DEĞİLDİR. Rakibin en çok
+# işine yarayan iki veri — hangi aramada kaçıncı olduğumuz ve kimin
+# bize bağlantı verdiği — bizim sunucumuzdan gelmiyor; Google sonuç
+# sayfalarından ve BAŞKA sitelerden toplanıyor. Oraya bu dosyanın
+# gücü yetmez. Bir insan da sayfayı açıp kaynağa bakabilir.
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: DataForSeoBot
+Disallow: /
+
+User-agent: Barkrowler
+Disallow: /
+
+User-agent: SEOkicks
+Disallow: /
+
+User-agent: serpstatbot
+Disallow: /
+
+User-agent: ZoominfoBot
+Disallow: /
+
+# ---------------------------------------------------------------
+# Diğer herkes
+# ---------------------------------------------------------------
 User-agent: *
 Allow: /
+
 Sitemap: https://ymdisklinigi.com/sitemap.xml
