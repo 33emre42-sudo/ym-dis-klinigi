@@ -354,6 +354,42 @@
      WhatsApp dugmesi eklendiginde kendiliginden dogru renkte olur. */
   .dugme[href*="wa.me"] .ikon{color:var(--wa)}
   .dugme.ikincil[href*="wa.me"]:hover{border-color:var(--wa)}
+  /* Ana WhatsApp CTA: sitenin cam/hap dilini korurken kanali tek bakista
+     taninir kilar. Koyu yesil degrade beyaz metin kontrastini korur;
+     marka yesili logo ve haloda vurgu olarak kalir. */
+  .dugme.whatsapp-vurgu{
+    --wa-cta-koyu:#096b34;--wa-cta-orta:#0d793b;--wa-cta-parlak:#0f8542;
+    --wa-cta-golge:rgba(37,211,102,.28);
+    color:#fff;border-color:color-mix(in srgb,var(--wa) 42%,transparent);
+    background:linear-gradient(135deg,var(--wa-cta-koyu),var(--wa-cta-orta) 58%,var(--wa-cta-parlak));
+    box-shadow:0 14px 30px -18px var(--wa-cta-golge),
+      inset 0 1px 0 rgba(255,255,255,.18);
+    padding-inline:18px 25px
+  }
+  .dugme.whatsapp-vurgu .wa-logo{
+    width:28px;height:28px;display:inline-grid;place-items:center;
+    flex:0 0 28px;border-radius:50%;background:#fff;
+    box-shadow:0 5px 13px rgba(3,34,17,.24);
+    transition:transform .18s,box-shadow .22s
+  }
+  .dugme.whatsapp-vurgu .wa-logo .ikon{
+    width:18px;height:18px;display:block;color:var(--wa-cta-koyu)
+  }
+  .dugme.whatsapp-vurgu:hover{
+    color:#fff;border-color:color-mix(in srgb,var(--wa) 68%,#fff 12%);
+    background:linear-gradient(135deg,#087137,#117f40 54%,#0f8241);
+    box-shadow:0 18px 34px -16px var(--wa-cta-golge),
+      inset 0 1px 0 rgba(255,255,255,.22)
+  }
+  .dugme.whatsapp-vurgu:hover .wa-logo{
+    transform:scale(1.05) rotate(-2deg);
+    box-shadow:0 7px 16px rgba(3,34,17,.28)
+  }
+  .dugme.whatsapp-vurgu:focus-visible{
+    outline-color:var(--wa);
+    box-shadow:0 0 0 4px color-mix(in srgb,var(--wa) 24%,transparent),
+      0 16px 34px -18px var(--wa-cta-golge)
+  }
   .ikincil:hover{border-color:var(--vurgu)}
 
   .kanit{display:flex;gap:12px;flex-wrap:wrap;margin-top:42px}
@@ -773,6 +809,7 @@
     .js .sirali>*{animation:none}
     .js .izle{opacity:1;transform:none}
     .akar-ic{animation:none}
+    .dugme.whatsapp-vurgu:hover .wa-logo{transform:none}
     html{scroll-behavior:auto}
     *{transition:none!important}
   }
@@ -816,7 +853,7 @@
      WhatsApp üzerinden ulaşabilirsiniz.</p>
   <div class="eylem">
     <a class="dugme birincil" href="tel:+905417324376"><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 5.5 5.5L16 12l4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4 6.2 2 2 0 0 1 6 4V3Z"/></svg>0541 732 43 76</a>
-    <a class="dugme ikincil" href="https://wa.me/905417324376"><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7.5 7.5 0 0 1-11 6.6L4.5 20l1.4-4.4A7.5 7.5 0 1 1 20 12Z"/></svg> WhatsApp’tan yazın</a>
+    <a class="dugme ikincil whatsapp-vurgu" href="https://wa.me/905417324376"><span class="wa-logo" aria-hidden="true"><img class="ikon" src="gorsel/whatsapp-logo.svg" alt="" width="18" height="18"></span><span>WhatsApp’tan yazın</span></a>
     <a class="dugme ikincil" href="https://ymdisklinigi.com/randevu"><svg class="ikon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M8 3.5V7M16 3.5V7M3.5 10.5h17"/></svg> Online randevu</a>
   </div>
   <div class="kanit">
