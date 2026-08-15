@@ -34,6 +34,7 @@ import urllib.parse
 import urllib.request
 from defusedxml import ElementTree as ET
 from defusedxml.common import DefusedXmlException
+from robots_kurallari import kok_erisimi_engelli
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
@@ -191,10 +192,22 @@ robots, kod = getir("/robots.txt")
 if robots is None:
     kirmizi("robots.txt okunamadi", str(kod))
 else:
-    # ⚠️ "Disallow: /" tum siteyi kapatir. Tek satirlik bir hata
-    # butun trafigi sifirlar ve hicbir test bunu gormez.
-    if re.search(r"^\s*Disallow:\s*/\s*$", robots, re.I | re.M):
-        kirmizi("robots.txt TUM SITEYI kapatiyor", "Disallow: /")
+    # ⚠️ Disallow satırı tek başına yorumlanamaz; ait olduğu User-agent
+    # grubu önemlidir. SEO istihbarat botlarını kapatan meşru kurallar,
+    # Google/AI botları için yanlışlıkla "tüm site kapalı" sayılmamalı.
+    kritik_tarayicilar = (
+        "Googlebot", "Googlebot-Image", "Bingbot", "YandexBot", "DuckDuckBot",
+        "GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot",
+        "Claude-SearchBot", "Claude-User", "PerplexityBot", "Perplexity-User",
+        "Google-Extended", "Applebot", "CCBot",
+    )
+    engellenenler = [
+        ajan for ajan in kritik_tarayicilar
+        if kok_erisimi_engelli(robots, ajan)
+    ]
+    if engellenenler:
+        kirmizi("robots.txt kritik tarayicilari kokten engelliyor",
+                ", ".join(engellenenler))
     if "sitemap:" not in robots.lower():
         sari("robots.txt sitemap bildirmiyor", "")
     print("  robots.txt        : okundu (%d bayt)" % len(robots))

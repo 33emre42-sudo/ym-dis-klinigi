@@ -72,6 +72,7 @@ from mevzuat import (acil_esik_hatalari, acil_klinige_yonlendirme_hatalari,
                      birlestirici_var, cift_kodlanmis, duzlestir, kucult,
                      mevzuat_tara, EMOJI_ISTISNA, YASAKLI, TICARI)
 from kontrast import token_kontrast_hatalari
+from robots_kurallari import kok_erisimi_engelli
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
@@ -2565,46 +2566,22 @@ _rb_korunan = [
     "Google-Extended", "Applebot", "CCBot",
 ]
 _rb_sorun = []
+_rb_metin = ""
 if not os.path.exists("robots.txt"):
     _rb_sorun.append("robots.txt YOK")
 else:
     with open("robots.txt", encoding="utf-8") as _f:
-        _rb_satir = [x.strip() for x in _f
-                     if x.strip() and not x.strip().startswith("#")]
-    # Bot -> o gruba ait kurallar
-    _rb_grup, _rb_aktif = {}, []
-    for _x in _rb_satir:
-        _ad, _, _deger = _x.partition(":")
-        _ad, _deger = _ad.strip().lower(), _deger.strip()
-        if _ad == "user-agent":
-            if _rb_aktif and _rb_grup.get(_rb_aktif[-1]) is not None:
-                _rb_aktif = []      # yeni blok basladi
-            _rb_aktif.append(_deger)
-            _rb_grup.setdefault(_deger, None)
-        elif _ad in ("allow", "disallow"):
-            for _b in _rb_aktif:
-                _mevcut = _rb_grup.get(_b) or []
-                _mevcut.append((_ad, _deger))
-                _rb_grup[_b] = _mevcut
-    _rb_kucuk = {k.lower(): v for k, v in _rb_grup.items()}
+        _rb_metin = _f.read()
     for _bot in _rb_korunan:
-        _kural = _rb_kucuk.get(_bot.lower())
-        if _kural is None:
-            # Ozel grubu yoksa `*` grubuna duser; o da acik olmali.
-            _kural = _rb_kucuk.get("*")
-            if _kural is None:
-                _rb_sorun.append("%s: hicbir kural yok" % _bot)
-                continue
-        if any(_a == "disallow" and _d in ("/", "*") for _a, _d in _kural):
+        if kok_erisimi_engelli(_rb_metin, _bot):
             _rb_sorun.append("%s ENGELLENMIS" % _bot)
 
 # ⚠️ Joker grup AYRI kontrol ediliyor. Yukaridaki kapi 16 adli botu
 # koruyor ama `User-agent: * / Disallow: /` yazilirsa LISTEDE OLMAYAN
 # her bot duser — bugun bilmedigimiz yarinki yapay zeka botlari dahil.
 # Ters testte bu durum yesil kalmisti; sayi degil KAPSAM olculmeliydi.
-_rb_joker = _rb_kucuk.get("*") if os.path.exists("robots.txt") else None
-_rb_joker_kapali = bool(_rb_joker) and any(
-    _a == "disallow" and _d in ("/", "*") for _a, _d in _rb_joker)
+_rb_joker_kapali = bool(_rb_metin) and kok_erisimi_engelli(
+    _rb_metin, "YM-Bilinmeyen-Tarayici")
 kontrol("joker grup (*) kapali degil", not _rb_joker_kapali,
         ("`User-agent: *` altinda `Disallow: /` var — listede adi "
          "gecmeyen HER bot duser, yarin cikacak yapay zeka botlari "
