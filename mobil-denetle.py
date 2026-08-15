@@ -228,14 +228,18 @@ for ad, kaynak in (("index.html", ih), ("bilgi.css", bc)):
 # ekranin disina cikar — menu "acilmiyor" gorunur (8 Agu, hekim bildirdi).
 for ad, kaynak in (("index.html", ih), ("bilgi.css", bc)):
     m = re.search(r"\.serit:has\(\.menu-ac\[open\]\) \+ \.menu\{([^}]*)\}", kaynak)
+    sabit = bool(m) and "position:fixed" in m.group(1)
     kontrol("%s: menu paneli position:fixed" % ad,
-            bool(m) and "position:fixed" in m.group(1),
+            sabit,
+            "" if sabit else
             "static kalirsa kaydirinca ekran disinda acilir")
 
 # ⚠️ Klavye acilinca duzen alani kuculmeli; yoksa sohbetin yazi alani
 # ve son mesajlar klavyenin altinda kalir.
+_interactive_widget = "interactive-widget=resizes-content" in ih
 kontrol("viewport meta'sinda interactive-widget",
-        "interactive-widget=resizes-content" in ih,
+        _interactive_widget,
+        "" if _interactive_widget else
         "klavye acikken sohbet okunamiyordu")
 
 # `vh` klavye/tarayici cubugu ile degismez; `dvh` degisir.

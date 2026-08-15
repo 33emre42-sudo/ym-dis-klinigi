@@ -848,8 +848,10 @@ def _alt_klasor_kapisi():
             pass
 
 
+_alt_kapi_ok = _alt_klasor_kapisi()
 sonuc.append(("kapi: alt klasordeki HTML denetimi DURDURUR",
-              _alt_klasor_kapisi(),
+              _alt_kapi_ok,
+              "" if _alt_kapi_ok else
               "denetim sifir dondu — sayfa denetimsiz yayina giderdi"))
 
 # ==========================================================================
@@ -1389,6 +1391,85 @@ else:
     kontrol("seo-denetle: HTTP yonlendirmesi izlenmiyor",
             _yon.redirect_request(
                 None, None, 302, "Found", {}, "https://127.0.0.1/") is None)
+
+# --- 8b. tur: canli tarama ag gecikmesinde sonsuza uzayamaz ----------
+# Gercek ağa cikmadan, enjekte edilen saat ve sahte opener ile hem basarili
+# istegi hem timeout/deadline yollarini siniyoruz. Eksik kapsam, tekil istek
+# zaten hata yazmis olsa bile ayrica fail-closed raporlanmali.
+import time as _time
+
+_sure_ns = {
+    "urllib": urllib,
+    "time": _time,
+    "ZAMAN": 20,
+    "EN_BUYUK": 4 * 1024 * 1024,
+    "_HTTP_ACICI": None,
+    "_guvenli_site_adresi": _guvenli_site_adresi,
+}
+try:
+    _b = _seo_kaynak.index("def _istek_zaman_asimi(")
+    _e = _seo_kaynak.index("\ndef dogrulama_durumu", _b)
+    exec(compile(_seo_kaynak[_b:_e], "seo-denetle.py", "exec"), _sure_ns)
+    _istek_zaman_asimi = _sure_ns.get("_istek_zaman_asimi")
+    _getir = _sure_ns.get("getir")
+    _canli_kapsam_hatasi = _sure_ns.get("canli_kapsam_hatasi")
+    if not all(callable(x) for x in
+               (_istek_zaman_asimi, _getir, _canli_kapsam_hatasi)):
+        raise RuntimeError("sure/kapsam yardimcilari bulunamadi")
+except Exception as _e:
+    kontrol("seo-denetle: sure ve kapsam yardimcilari yukleniyor", False,
+            str(_e))
+else:
+    class _SahteYanit:
+        status = 200
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return False
+
+        def read(self, _sinir):
+            return b"<html>ok</html>"
+
+    class _SahteAcici:
+        def __init__(self, hata=None):
+            self.cagrilar = []
+            self.hata = hata
+
+        def open(self, istek, timeout):
+            self.cagrilar.append((istek.full_url, timeout))
+            if self.hata:
+                raise self.hata
+            return _SahteYanit()
+
+    _acici = _SahteAcici()
+    _icerik, _kod = _getir(
+        "/", acici=_acici, deadline=105.0, saat=lambda: 100.0)
+    kontrol("seo-denetle: kalan toplam sure tek istek timeoutunu kisaltir",
+            (_icerik == "<html>ok</html>" and _kod == 200
+             and len(_acici.cagrilar) == 1
+             and abs(_acici.cagrilar[0][1] - 5.0) < 0.001))
+
+    _acici = _SahteAcici()
+    _sonuc = _getir(
+        "/", acici=_acici, deadline=99.0, saat=lambda: 100.0)
+    kontrol("seo-denetle: dolan toplam sure ag istegini BASLATMAZ",
+            _sonuc == (None, "toplam sure doldu")
+            and not _acici.cagrilar)
+
+    _acici = _SahteAcici(TimeoutError("sahte timeout"))
+    _sonuc = _getir(
+        "/", acici=_acici, deadline=120.0, saat=lambda: 100.0)
+    kontrol("seo-denetle: sahte opener timeoutu temiz sayilmaz",
+            _sonuc[0] is None and "sahte timeout" in str(_sonuc[1]))
+
+    kontrol("seo-denetle: eksik canli kapsam fail-closed",
+            bool(_canli_kapsam_hatasi(78, 77, False)))
+    kontrol("seo-denetle: sure dolumu tam sayida bile fail-closed",
+            bool(_canli_kapsam_hatasi(78, 78, True)))
+    kontrol("seo-denetle: tam canli kapsam temiz",
+            _canli_kapsam_hatasi(78, 78, False) is None)
 
 # --- 9. tur: boş/bozuk/eksik sitemap sessiz başarı olamaz ------------
 from defusedxml import ElementTree as _ET

@@ -124,9 +124,9 @@ rapor("Responsive", "Image Scaling", _imax,
 _kucuk = [(d, b) for d, b in
           re.findall(r"font-size:\s*(\d+(?:\.\d+)?)(px|rem)", stil)
           if (float(d) * (16 if b == "rem" else 1)) < 16]
-rapor("Responsive", "Readable Font Size", True,
-      "16px altinda %d bildirim var (kucuk metin/etiket olabilir) — "
-      "govde tabani ayrica gozle bakildi" % len(_kucuk))
+elle_bak("Responsive", "Readable Font Size",
+         "16px altinda %d bildirim var; kucuk etiket ile govde metni "
+         "ayrimi tarayicida olculmeli" % len(_kucuk))
 _bp = sorted(set(int(x) for x in re.findall(r"@media[^{]*?(\d{3,4})px", stil)))
 rapor("Responsive", "Breakpoint Testing", len(_bp) >= 2,
       "kirilma noktalari: %s" % ", ".join(str(x) for x in _bp[:8]))
@@ -136,8 +136,9 @@ elle_bak("Responsive", "Table Handling", "tablo kaydirma davranisi tarayicida")
 print("\n--- Performance")
 _img = len(re.findall(r"<img\b", tum_govde))
 _lazy = len(re.findall(r'loading="lazy"', tum_govde))
-rapor("Perf", "Lazy Loading", _lazy > 0,
-      "%d/%d gorselde loading=lazy" % (_lazy, _img))
+elle_bak("Perf", "Lazy Loading",
+         "%d/%d gorselde loading=lazy; LCP/ekran-ustu ayrimi "
+         "tarayicida olculmeli" % (_lazy, _img))
 rapor("Perf", "Font Loading", "font-display" in stil + "".join(ham.values()),
       "font-display bildirimi var"
       if "font-display" in stil + "".join(ham.values())

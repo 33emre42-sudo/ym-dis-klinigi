@@ -29,6 +29,7 @@ import os
 import re
 import ssl
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -36,11 +37,13 @@ from defusedxml import ElementTree as ET
 from defusedxml.common import DefusedXmlException
 from robots_kurallari import kok_erisimi_engelli
 
-sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+sys.stdout.reconfigure(encoding="utf-8", errors="replace",
+                       line_buffering=True, write_through=True)
 
 KOK = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ymdisklinigi.com"
 ZAMAN = 20
+TOPLAM_ZAMAN = 300
 EN_BUYUK = 4 * 1024 * 1024        # tek sayfa icin fazlasiyla yeterli
 
 # Google aciklamayi ~158 karakterde kesiyor; baslikta ~60 pikselden
@@ -92,15 +95,30 @@ _HTTP_ACICI = urllib.request.build_opener(
     _YonlendirmeYok())
 
 
-def getir(yol):
+def _istek_zaman_asimi(deadline=None, tek_istek_suresi=ZAMAN, saat=None):
+    """Tek istegi hem kendi timeout'u hem toplam audit suresiyle sinirlar."""
+    saat = time.monotonic if saat is None else saat
+    if deadline is None:
+        return float(tek_istek_suresi)
+    kalan = float(deadline) - float(saat())
+    if kalan <= 0:
+        return None
+    return min(float(tek_istek_suresi), kalan)
+
+
+def getir(yol, acici=None, deadline=None, saat=None):
     """Canli sayfayi indirir. (metin, http_kodu) ya da (None, hata)."""
     adres = _guvenli_site_adresi(yol)
     if adres is None:
         return None, "guvensiz URL"
+    zaman_asimi = _istek_zaman_asimi(deadline, ZAMAN, saat)
+    if zaman_asimi is None:
+        return None, "toplam sure doldu"
+    acici = _HTTP_ACICI if acici is None else acici
     istek = urllib.request.Request(
         adres, headers={"User-Agent": "YM-SEO-Denetim/1.0"})
     try:
-        with _HTTP_ACICI.open(istek, timeout=ZAMAN) as c:
+        with acici.open(istek, timeout=zaman_asimi) as c:
             # Boyut sinirli okuma: kendi sunucumuz da olsa disaridan
             # gelen icerik once XML ayristiricisina giriyor. Ucuz
             # koruma, bagimlilik gerektirmiyor.
@@ -109,6 +127,15 @@ def getir(yol):
         return None, e.code
     except Exception as e:
         return None, str(e)
+
+
+def canli_kapsam_hatasi(beklenen, okunan, toplam_sure_doldu):
+    """Eksik URL kapsamini ya da sure dolumunu fail-closed ayrintilandirir."""
+    if okunan == beklenen and not toplam_sure_doldu:
+        return None
+    return ("beklenen=%d · okunan=%d · toplam_sure_doldu=%s"
+            % (beklenen, okunan,
+               "evet" if toplam_sure_doldu else "hayir"))
 
 
 def dogrulama_durumu(html):
@@ -183,12 +210,14 @@ def sitemap_hatalari(canli_url, disk_yolu):
 
 
 # ------------------------------------------------------------------
+_denetim_deadline = time.monotonic() + TOPLAM_ZAMAN
+_toplam_sure_doldu = False
 print("=" * 70)
 print("CANLI SEO DENETIMI  ·  %s" % SITE)
 print("=" * 70)
 
 # --- 1. robots.txt ------------------------------------------------
-robots, kod = getir("/robots.txt")
+robots, kod = getir("/robots.txt", deadline=_denetim_deadline)
 if robots is None:
     kirmizi("robots.txt okunamadi", str(kod))
 else:
@@ -213,7 +242,7 @@ else:
     print("  robots.txt        : okundu (%d bayt)" % len(robots))
 
 # --- 2. sitemap: canli mi, diskle ayni mi -------------------------
-ham, kod = getir("/sitemap.xml")
+ham, kod = getir("/sitemap.xml", deadline=_denetim_deadline)
 canli_url = set()
 if ham is None:
     kirmizi("sitemap.xml okunamadi", str(kod))
@@ -234,11 +263,22 @@ print("  sitemap           : %d URL" % len(canli_url))
 basliklar = collections.defaultdict(list)
 aciklamalar = collections.defaultdict(list)
 okunan = 0
+denenen = 0
+toplam_sayfa = len(canli_url)
 
-for adres in sorted(canli_url):
-    html, kod = getir(adres)
+for sira, adres in enumerate(sorted(canli_url), 1):
     kisa = adres.replace(SITE, "") or "/"
+    if _istek_zaman_asimi(_denetim_deadline) is None:
+        _toplam_sure_doldu = True
+        break
+    denenen += 1
+    print("  sayfa             : %d/%d %s"
+          % (sira, toplam_sayfa, kisa), flush=True)
+    html, kod = getir(adres, deadline=_denetim_deadline)
     if html is None:
+        if kod == "toplam sure doldu":
+            _toplam_sure_doldu = True
+            break
         kirmizi("Sayfa acilmiyor", "%s -> %s" % (kisa, kod))
         continue
     okunan += 1
@@ -276,9 +316,18 @@ for adres in sorted(canli_url):
                  "%s · %d karakter" % (kisa, len(ack)))
         elif len(ack) < ACIKLAMA_ALT:
             sari("description cok kisa", "%s · %d karakter" % (kisa, len(ack)))
-ana, _ = getir("/")
+_kapsam_hatasi = canli_kapsam_hatasi(
+    toplam_sayfa, okunan, _toplam_sure_doldu)
+if _kapsam_hatasi:
+    kirmizi("CANLI tarama kapsami eksik", _kapsam_hatasi)
+print("  sayfa kapsami     : %d/%d okundu · %d denendi"
+      % (okunan, toplam_sayfa, denenen))
+
+ana, _ana_kod = getir("/", deadline=_denetim_deadline)
 if ana is None:
-    kirmizi("Ana sayfa okunamadi", "")
+    if _ana_kod == "toplam sure doldu":
+        _toplam_sure_doldu = True
+    kirmizi("Ana sayfa okunamadi", str(_ana_kod))
 else:
     g, b, y, eksikler = dogrulama_durumu(ana)
     for baslik, ayrinti in eksikler:
@@ -318,8 +367,14 @@ for _dosya in ("llms.txt", "llms-full.txt"):
             if _adres is None:
                 _olculemedi.append("%s (guvensiz URL)" % _ua)
                 continue
+            _timeout = _istek_zaman_asimi(
+                _denetim_deadline, tek_istek_suresi=20)
+            if _timeout is None:
+                _toplam_sure_doldu = True
+                _olculemedi.append("%s (toplam sure doldu)" % _ua)
+                break
             _i = urllib.request.Request(_adres, headers={"User-Agent": _ua})
-            with _HTTP_ACICI.open(_i, timeout=20) as _c:
+            with _HTTP_ACICI.open(_i, timeout=_timeout) as _c:
                 if _c.status != 200 or not _c.read(64):
                     _engelli.append(_ua)
         except Exception as _e:
@@ -346,9 +401,14 @@ try:
     # ucuncu tarafa yonleniyor, olcmek istedigimiz sey tam da hedefin
     # canli olup olmadigi. Ote yandan adres yine ak listeden geciyor.
     _radres = _guvenli_site_adresi("/randevu")
+    _timeout = _istek_zaman_asimi(
+        _denetim_deadline, tek_istek_suresi=25)
+    if _timeout is None:
+        _toplam_sure_doldu = True
+        raise TimeoutError("toplam sure doldu")
     _rq = urllib.request.Request(_radres,
                                  headers={"User-Agent": "YM-SEO-denetim"})
-    with urllib.request.urlopen(_rq, timeout=25) as _rc:
+    with urllib.request.urlopen(_rq, timeout=_timeout) as _rc:
         _son = _rc.geturl()
         if _rc.status != 200:
             kirmizi("randevu ucu HTTP %d" % _rc.status, _son)
@@ -356,6 +416,12 @@ try:
             print("  TAMAM  randevu ucu 200  -> %s" % _son[:60])
 except Exception as _e:
     kirmizi("randevu ucu ACILMIYOR", "%s: %s" % (type(_e).__name__, _e))
+
+if _istek_zaman_asimi(_denetim_deadline) is None:
+    _toplam_sure_doldu = True
+if _toplam_sure_doldu:
+    kirmizi("CANLI denetim toplam sure sinirina ulasti",
+            "%d saniye · eksik olcum temiz sayilmadi" % TOPLAM_ZAMAN)
 
 # --- rapor --------------------------------------------------------
 print()
