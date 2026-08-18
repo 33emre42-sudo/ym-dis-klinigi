@@ -586,6 +586,29 @@ for ad in ["index.html"] + ALT_SAYFA + BILGI:
             ("eksik: %s" % eksik_bag[:3]) if eksik_bag
             else ("menu yok" if not m_ else ""))
 
+# --- Altbilgide GORUNUR calisma saati ---
+# ⚠️ 18 Agu 2026, 12 Istanbul klinigi olculdu: dordu calisma saatini HER
+# SAYFANIN altbilgisinde gosteriyor. Bizde saat semada (7 gun 00:00-23:59)
+# ve govde metinlerinde vardi ama ALTBILGIDE YOKTU — yani gece 3'te
+# sayfaya dusen hastanin gozunun ilk gittigi sabit yerde yoktu.
+# "24 saat acik" bu klinigin olculmus tek gercek ustunlugu; goze
+# gorunmedigi yerde ustunluk degildir.
+# Ifade UYDURULMADI: `ulasim-ve-hizmet-bolgesi.html` icinde zaten yayinda
+# olan "her gun 24 saat aciktir, resmi tatiller dahil." cumlesinden alindi.
+print()
+_saatsiz = []
+for ad in ["index.html"] + ALT_SAYFA + BILGI:
+    if not os.path.exists(ad):
+        continue
+    with open(ad, encoding="utf-8") as f:
+        _s = f.read()
+    _m = re.search(r"<footer>.*?</footer>", _s, re.S)
+    if not _m or "Her gün 24 saat açıktır" not in _m.group(0):
+        _saatsiz.append(ad)
+kontrol("altbilgide calisma saati GORUNUR", not _saatsiz,
+        ("eksik: %s" % _saatsiz[:3]) if _saatsiz
+        else "44 sayfa · 'Her gün 24 saat açıktır'")
+
 # --- Metin kodlamasi saglam mi? ---
 # 1 Agu 2026: index.html'deki BUTUN Turkce karakterler cift kodlandi ve
 # 20 dakika oyle yayinda kaldi. Sebep PowerShell 5.1'in klasik tuzagi:
