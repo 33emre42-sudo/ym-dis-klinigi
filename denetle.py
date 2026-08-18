@@ -375,7 +375,13 @@ def _yayimda_diller():
 # zorlugu olarak bildirdi. Ikisi de ayri sayfaya tasindi.
 MENU_BAGLARI = ["hekimlerimiz.html", "bilgi-yazilari.html",
                 SSS_SAYFA, "ulasim-ve-hizmet-bolgesi.html",
-                "tedaviler.html", "iletisim.html"]
+                "tedaviler.html", "iletisim.html",
+                # 18 Agu 2026: acil sayfasi menuye alindi. Olculmustu:
+                # Google sayfayi "> Bilgi yazilari" kirintisiyla blog
+                # yazisi sayiyordu ve sayfa 43 sayfanin hicbirinden
+                # menu baglantisi almiyordu. Menuden dusurulurse
+                # ayni hal geri gelir; kapi bunu durdurur.
+                "nobetci-dis-hekimi-acil-dis.html"]
 
 # --- 1. JSON-LD ---
 print("\n--- 1/7  index.html JSON-LD yapisal veri ---")
@@ -567,11 +573,18 @@ for ad in ["index.html"] + ALT_SAYFA + BILGI:
         continue
     with open(ad, encoding="utf-8") as f:
         s_ = f.read()
-    eksik_bag = [b for b in MENU_BAGLARI if b not in s_]
+    # ⚠️ 18 Agu 2026 — BU KAPI SAHTEYDI. Eskiden bag SAYFANIN TAMAMINDA
+    # aranıyordu. Olculdu: `tedaviler.html`ten menu baglantisi SILINDI ve
+    # kapi yine "TAMAM" dedi, cunku ayni adres sayfanin GOVDESINDE de
+    # geciyordu. Yani menusu bozulmus bir sayfa denetimden gecebilirdi.
+    # Artik yalniz <nav class="menu"> BLOGUNUN ICINE bakiliyor.
+    m_ = re.search(r'<nav class="menu".*?</nav>', s_, re.S)
+    menu_ici = m_.group(0) if m_ else ""
+    eksik_bag = [b for b in MENU_BAGLARI if b not in menu_ici]
     kontrol("menu · %s" % ad,
-            'class="menu"' in s_ and not eksik_bag,
+            bool(m_) and not eksik_bag,
             ("eksik: %s" % eksik_bag[:3]) if eksik_bag
-            else ("menu yok" if 'class="menu"' not in s_ else ""))
+            else ("menu yok" if not m_ else ""))
 
 # --- Metin kodlamasi saglam mi? ---
 # 1 Agu 2026: index.html'deki BUTUN Turkce karakterler cift kodlandi ve
