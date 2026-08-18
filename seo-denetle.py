@@ -417,6 +417,46 @@ try:
 except Exception as _e:
     kirmizi("randevu ucu ACILMIYOR", "%s: %s" % (type(_e).__name__, _e))
 
+# --- olmayan yol GERCEKTEN 404 mu? (soft-404 kapisi) ---------------
+# ⚠️ 18 Agu 2026 — 20 rakip taranirken IKI sitede olculdu: olmayan HER
+# yol HTTP 200 donuyor (biri de 404'u baska bir adrese yonlendiriyor).
+# Sonuc: arama motoru sonsuz sayida bos sayfayi "gecerli icerik" sanar,
+# tarama butcesi harcanir ve kalitesiz URL dizine girer.
+#
+# Bizde ayni gun ELLE olculdu ve dort yolun dordu de dogru 404 donuyordu.
+# Ama OLCULEN sey KORUNAN sey degildir: nginx yapilandirmasi degisirse
+# ya da bir "her seyi ana sayfaya yonlendir" kurali eklenirse hicbir
+# mevcut kontrol bunu gormez. Kapi bu yuzden burada.
+print()
+print("--- olmayan yol 404 donuyor mu ---")
+_yok_yolu = "/ym-denetim-olmayan-yol-404-sinavi"
+_yok_adres = _guvenli_site_adresi(_yok_yolu)
+_yok_timeout = _istek_zaman_asimi(_denetim_deadline, tek_istek_suresi=15)
+if _yok_adres is None:
+    kirmizi("soft-404 sinavi kurulamadi", "adres reddedildi")
+elif _yok_timeout is None:
+    _toplam_sure_doldu = True
+    sari("soft-404 OLCULEMEDI", "toplam sure doldu")
+else:
+    try:
+        _yok_istek = urllib.request.Request(
+            _yok_adres, headers={"User-Agent": "YM-SEO-denetim"})
+        with _HTTP_ACICI.open(_yok_istek, timeout=_yok_timeout) as _yok_c:
+            kirmizi("SOFT-404: olmayan yol HTTP %d donuyor" % _yok_c.status,
+                    _yok_yolu)
+    except urllib.error.HTTPError as _yok_h:
+        if _yok_h.code in (404, 410):
+            print("  TAMAM  olmayan yol HTTP %d" % _yok_h.code)
+        elif 300 <= _yok_h.code < 400:
+            kirmizi("SOFT-404: olmayan yol YONLENDIRILIYOR (HTTP %d)"
+                    % _yok_h.code, _yok_yolu)
+        else:
+            sari("olmayan yol 404 degil (HTTP %d)" % _yok_h.code, _yok_yolu)
+    except Exception as _yok_e:
+        # ⛔ Olculemeyen sey TEMIZ degildir (LESSONS §2) — sari, yesil degil.
+        sari("soft-404 OLCULEMEDI",
+             "%s: %s" % (type(_yok_e).__name__, _yok_e))
+
 if _istek_zaman_asimi(_denetim_deadline) is None:
     _toplam_sure_doldu = True
 if _toplam_sure_doldu:
