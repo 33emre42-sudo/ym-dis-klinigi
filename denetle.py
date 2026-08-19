@@ -609,6 +609,47 @@ kontrol("altbilgide calisma saati GORUNUR", not _saatsiz,
         ("eksik: %s" % _saatsiz[:3]) if _saatsiz
         else "44 sayfa · 'Her gün 24 saat açıktır'")
 
+# --- GORUNUR "son guncelleme" tarihi ve semayla TUTARLILIGI ---
+# ⚠️ 19 Agu 2026 — MEVZUAT ZORUNLULUGU, olculdu ve acikti.
+# 12 Kasim 2025 saglikta tanitim yonetmeligi Md.5/1-i:
+#   "Internet sitelerindeki bilgilendirmenin son guncelleme tarihi ile
+#    internet sitesi editorune ulasilabilecek iletisim bilgileri
+#    ACIKCA BELIRTILIR."
+# Editor iletisimi 43 sayfada vardi ama gorunur GUNCELLEME tarihi yalniz
+# 2 sayfadaydi (index, gizlilik). Tibbi sayfalarda "SON GOZDEN GECIRME"
+# vardi — o baska bir sey: gozden gecirme, guncelleme degil. Ustelik
+# ikisi ayrisiyordu: gorunur 1 Agustos, semada dateModified 4 Agustos.
+#
+# Bu kapi IKI seyi birden tutar (LESSONS §5): tarih GORUNUR olacak VE
+# semadaki dateModified ile BIREBIR ayni olacak. Ayni verinin iki
+# gosterimi varsa tek kanonik kaynaktan beslenir.
+print()
+_AYLAR_TR = {"01": "OCAK", "02": "ŞUBAT", "03": "MART", "04": "NİSAN",
+             "05": "MAYIS", "06": "HAZİRAN", "07": "TEMMUZ", "08": "AĞUSTOS",
+             "09": "EYLÜL", "10": "EKİM", "11": "KASIM", "12": "ARALIK"}
+_tarihsiz, _ayrisan = [], []
+for ad in sorted(glob.glob("*.html")):
+    with open(ad, encoding="utf-8") as f:
+        _s = f.read()
+    if 'class="yazi-bilgi"' not in _s:
+        continue
+    _md = re.search(r'"dateModified":"(\d{4})-(\d{2})-(\d{2})"', _s)
+    _gor = re.search(r'SON GÜNCELLEME: (\d{1,2}) ([A-ZÇĞİÖŞÜ]+) (\d{4})', _s)
+    if not _gor:
+        _tarihsiz.append(ad)
+        continue
+    if _md:
+        _bek = (str(int(_md.group(3))), _AYLAR_TR[_md.group(2)], _md.group(1))
+        if (_gor.group(1), _gor.group(2), _gor.group(3)) != _bek:
+            _ayrisan.append("%s (gorunur %s %s %s / sema %s)"
+                            % (ad, _gor.group(1), _gor.group(2), _gor.group(3),
+                               _md.group(0)))
+kontrol("gorunur 'son guncelleme' tarihi VAR (mevzuat Md.5/1-ı)",
+        not _tarihsiz, ("eksik: %s" % _tarihsiz[:3]) if _tarihsiz else "35 sayfa")
+kontrol("gorunur tarih SEMADAKI dateModified ile ayni",
+        not _ayrisan, ("ayrisan: %s" % _ayrisan[:2]) if _ayrisan
+        else "gorunur metin ve JSON-LD tek kaynaktan")
+
 # --- Metin kodlamasi saglam mi? ---
 # 1 Agu 2026: index.html'deki BUTUN Turkce karakterler cift kodlandi ve
 # 20 dakika oyle yayinda kaldi. Sebep PowerShell 5.1'in klasik tuzagi:
