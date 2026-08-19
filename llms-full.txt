@@ -3053,6 +3053,38 @@ BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ
 
 ---
 
+## Hasta Hakları ve Sorumlulukları — YM Diş Kliniği
+URL: https://ymdisklinigi.com/hasta-haklari.html
+
+Hasta hakları ve sorumlulukları
+Son güncelleme: 19 Ağustos 2026
+Bu sayfa, sağlık mevzuatının hastaya tanıdığı hakların kliniğimizde nasıl uygulandığını özetler. Hakların kaynağı **Hasta Hakları Yönetmeliği**'dir; bu metin onun yerine geçmez, uygulamamızı anlatır.
+### 1. Bilgi isteme hakkı
+Uygulanacak işlemi, varsa seçeneklerini ve sürecin nasıl ilerleyeceğini anlayacağınız bir dille öğrenme hakkınız vardır. Anlamadığınız bir şey olduğunda sormanız beklenir; soru sormak süreci aksatmaz.
+### 2. Kabul ve ret hakkı
+Önerilen işlemi kabul edebilir ya da reddedebilirsiniz. Reddettiğiniz durumda bunun olası sonuçları size anlatılır. Kararınızı işlem başlamadan önce değiştirebilirsiniz.
+### 3. Mahremiyet hakkı
+Muayene ve tedavi, mahremiyete uygun bir ortamda yapılır. Sağlık bilgileriniz, mevzuatın zorunlu kıldığı hâller dışında üçüncü kişilerle paylaşılmaz. Kişisel verilerinizin işlenmesine dair ayrıntı Gizlilik Politikası sayfamızdadır.
+### 4. Kayıtlarınıza erişim
+Kendinize ait tedavi kayıtlarını ve görüntüleri isteyebilirsiniz. Talebinizi klinikte sözlü olarak ya da telefonla iletebilirsiniz.
+### 5. Hekim seçme
+Kliniğin işleyişi elverdiği ölçüde hangi hekimin tedavinizi yürüteceğini tercih edebilirsiniz. Gece ve hafta sonu başvurularında o saatte görevli hekim değerlendirir.
+### 6. Şikâyet ve başvuru
+Memnun kalmadığınız bir durumu önce doğrudan kliniğe iletmenizi rica ederiz; çözemediğimiz hâllerde başvurabileceğiniz merciler şunlardır:
+- İstanbul İl Sağlık Müdürlüğü
+- İstanbul Diş Hekimleri Odası
+- Sağlık Bakanlığı iletişim hatları
+### 7. Hastanın sorumlulukları
+Tedavinin güvenli ilerlemesi için bizim de sizden beklediklerimiz var:
+- **Kullandığınız ilaçları ve hastalıklarınızı bildirin.** Özellikle kan sulandırıcı, kemik ilacı, şeker hastalığı ve gebelik işlemin nasıl planlanacağını doğrudan değiştirir.
+- **Randevunuza gelin ya da haber verin.** Gelemeyeceğiniz durumda önceden bildirmeniz, o saati bekleyen başka bir hastaya açar.
+- **Tedavi planına uyun.** Şikâyet geçtiği için devamını bırakmak, aynı sorunun daha büyüğüyle dönmesine yol açabilir.
+- **Klinik kurallarına ve diğer hastaların mahremiyetine saygı gösterin.**
+### 8. İletişim
+7/24 Nöbetçi YM Diş Kliniği · Kirazlı Mah. Mevlana Cad. No: 47 D, Bağcılar / İstanbul · 0541 732 43 76
+
+---
+
 ## Gizlilik Politikası — YM Diş Kliniği
 URL: https://ymdisklinigi.com/gizlilik.html
 

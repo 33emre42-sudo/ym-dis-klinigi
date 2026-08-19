@@ -675,7 +675,7 @@ kontrol("gorunur tarih SEMADAKI dateModified ile ayni",
 # gerek yok (harfler precomposed), o yuzden tolerans sifir.
 print()
 bozuk_kodlama, bomlu, birlestirici = [], [], []
-for ad in ["index.html"] + ALT_SAYFA + BILGI + ["gizlilik.html"]:
+for ad in ["index.html"] + ALT_SAYFA + BILGI + ["gizlilik.html", "hasta-haklari.html"]:
     if not os.path.exists(ad):
         continue
     with open(ad, "rb") as f:
@@ -706,7 +706,7 @@ kontrol("hicbir sayfada birlestirici karakter yok", not birlestirici,
 # bazinda raporlaniyor ama ana sayfa, iletisim ve SSS de 112 yaziyor.
 # Kuralin gerekcesi `acil_esik_hatalari` yaninda.
 _acil_karisik, _acil_klinik = [], []
-for ad in ["index.html"] + ALT_SAYFA + BILGI + ["gizlilik.html"]:
+for ad in ["index.html"] + ALT_SAYFA + BILGI + ["gizlilik.html", "hasta-haklari.html"]:
     if not os.path.exists(ad):
         continue
     with open(ad, encoding="utf-8") as f:
@@ -757,7 +757,11 @@ print("\n--- 6/7  bilgi yazilari (%d sayfa) ---" % len(BILGI))
 # sitemap'e girmez, `noindex` tasir. Ama denetimden MUAF DEGIL —
 # asagida `_beklenen` listesinde adiyla yaziyor ve mevzuat/etiket
 # taramalari ona da uygulaniyor.
-OZEL_SAYFA = ("index.html", "gizlilik.html", "404.html")
+# 19 Agu 2026: hasta-haklari.html eklendi — kurumsal/hukuki sayfa,
+# gizlilik.html ile ayni sablonda; menu ve tibbi kunye kapilarina
+# girmez, bu yuzden OZEL_SAYFA listesinde.
+OZEL_SAYFA = ("index.html", "gizlilik.html", "404.html",
+              "hasta-haklari.html")
 diskteki = sorted(os.path.basename(y) for y in glob.glob("*.html")
                   if os.path.basename(y) not in OZEL_SAYFA)
 kontrol("listedeki sayfalar diskle ayni",
@@ -1515,7 +1519,7 @@ def _klinik_kopyalari(veri, bulunan):
 
 
 kopyalar = []
-for ad in ALT_SAYFA + BILGI + ["gizlilik.html"]:
+for ad in ALT_SAYFA + BILGI + ["gizlilik.html", "hasta-haklari.html"]:
     if not os.path.exists(ad):
         continue
     with open(ad, encoding="utf-8") as f:
@@ -1819,7 +1823,7 @@ if os.path.exists("sitemap.xml"):
         loclar = [x.text.strip() for x in kok.findall("s:url/s:loc", ns)]
         beklenen = {"https://ymdisklinigi.com/"}
         beklenen.update("https://ymdisklinigi.com/" + a
-                        for a in BILGI + ALT_SAYFA + ["gizlilik.html"])
+                        for a in BILGI + ALT_SAYFA + ["gizlilik.html", "hasta-haklari.html"])
         # ⚠️ Her dil bolumunun ana sayfasi TEMIZ ADRESLE (`/en/`,
         # `/es/`) yayimlanir; diskteki dosya adi `en/index.html`.
         # Sitemap'te dosya adini yazmak ziyaretcinin gordugu adresten
