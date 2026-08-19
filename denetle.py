@@ -650,6 +650,73 @@ kontrol("gorunur tarih SEMADAKI dateModified ile ayni",
         not _ayrisan, ("ayrisan: %s" % _ayrisan[:2]) if _ayrisan
         else "gorunur metin ve JSON-LD tek kaynaktan")
 
+# --- Bilgi yazilarinda DIS OTORITE KAYNAGI var mi? ---
+# 8 Agu 2026 olcumu: 35 bilgi yazisinin 35'inde de dis otorite bagi YOKTU,
+# kaynak bolumu de yoktu. YMYL saglik icerigi Google'in en siki denetledigi
+# sinif; GEO arastirmasinda (KDD 2024) alintilanmayi artiran ikinci etken
+# de kaynak gostermek. 19 Agu 2026'da 36 sayfaya kaynak yazildi.
+#
+# Kapi UC seyi birden tutar:
+#   1. Tibbi sayfada GORUNUR kaynak bolumu ve en az bir bag olacak
+#   2. Bagin ana makinesi OTORITE ak listesinde olacak. Liste kara degil
+#      AK: yarin biri rakip klinigi ya da icerik ciftligini kaynak diye
+#      eklerse kapi durur. (seo-geo: "Rakip klinik sitesi, icerik
+#      ciftligi, ticari blog — kaynak sayilmaz.")
+#   3. Gorunur baglar ile semadaki citation BIREBIR ayni kume olacak
+#      (LESSONS §5 — ayni verinin iki gosterimi tek kaynaktan beslenir)
+print()
+_OTORITE = ("who.int", "nhs.uk", "nice.org.uk", "sdcep.org.uk", "cochrane.org",
+            "ncbi.nlm.nih.gov", "iadt-dentaltrauma.org", "fda.gov",
+            "mevzuat.gov.tr", "resmigazete.gov.tr", "saglik.gov.tr",
+            "tdb.org.tr")
+# Tibbi iddia tasimayan sayfalar: dizin, hekim kunyesi, yol tarifi.
+_KAYNAK_MUAF = {"bilgi-yazilari.html", "hekimlerimiz.html",
+                "ulasim-ve-hizmet-bolgesi.html"}
+
+
+def _makine(_u):
+    _h = re.sub(r"^https?://", "", _u).split("/")[0].split("?")[0].lower()
+    return _h[4:] if _h.startswith("www.") else _h
+
+
+def _otorite_mi(_u):
+    _h = _makine(_u)
+    return any(_h == _d or _h.endswith("." + _d) for _d in _OTORITE)
+
+
+_kaynaksiz, _yabanci, _kayan = [], [], []
+for ad in sorted(glob.glob("*.html")):
+    with open(ad, encoding="utf-8") as f:
+        _s = f.read()
+    if 'class="yazi-bilgi"' not in _s or ad in _KAYNAK_MUAF:
+        continue
+    _blok = re.search(r'<div class="kaynaklar">.*?</div>', _s, re.S)
+    _gorunur = re.findall(r'href="(https?://[^"]+)"', _blok.group(0)) if _blok else []
+    if not _gorunur:
+        _kaynaksiz.append(ad)
+        continue
+    for _u in _gorunur:
+        if not _otorite_mi(_u):
+            _yabanci.append("%s -> %s" % (ad, _makine(_u)))
+    _cit = re.search(r'"citation":(\[.*?\]),\n"lastReviewed"', _s, re.S)
+    if _cit:
+        try:
+            _semadaki = [_k.get("url", "") for _k in json.loads(_cit.group(1))]
+        except ValueError:
+            _semadaki = ["<bozuk JSON>"]
+        if sorted(_semadaki) != sorted(_gorunur):
+            _kayan.append(ad)
+
+kontrol("tibbi sayfada dis otorite KAYNAGI var",
+        not _kaynaksiz, ("kaynaksiz: %s" % _kaynaksiz[:3]) if _kaynaksiz
+        else "36 sayfa · gorunur bag + kunye")
+kontrol("kaynaklarin hepsi OTORITE ak listesinde",
+        not _yabanci, ("liste disi: %s" % _yabanci[:3]) if _yabanci
+        else "%d alan adi kabul ediliyor" % len(_OTORITE))
+kontrol("gorunur kaynaklar SEMADAKI citation ile ayni",
+        not _kayan, ("ayrisan: %s" % _kayan[:3]) if _kayan
+        else "35 sayfada iki gosterim birebir")
+
 # --- Metin kodlamasi saglam mi? ---
 # 1 Agu 2026: index.html'deki BUTUN Turkce karakterler cift kodlandi ve
 # 20 dakika oyle yayinda kaldi. Sebep PowerShell 5.1'in klasik tuzagi:

@@ -1803,6 +1803,74 @@ else:
     kontrol("kontrast: bozuk gizlilik paleti yayin kapisini DURDURUR",
             _gizlilik_kapi_ok, _gizlilik_kapi_ayrinti)
 
+    def _kaynak_kapisi(bozan, kapi_adi):
+        """Dis kaynak kapilarinin GERCEKTEN kirmizi verdigini kanitlar.
+
+        19 Agu 2026: 36 tibbi sayfaya dis otorite kaynagi yazildi
+        (8 Agu olcumunde 35/35 sayfada hicbiri yoktu). Kapi olmadan bu
+        bolum sessizce curur: biri sayfayi yeniden uretir, kaynak duser,
+        denetim yesil kalir. LESSONS §3 — cikis koduna baglanmayan kapi
+        kapi degildir; o yuzden UC bozma da burada test ediliyor.
+        """
+        import os
+        import re as _re2
+        import shutil
+        import subprocess
+
+        with tempfile.TemporaryDirectory(
+                prefix="kaynak-kapi-", dir=os.path.dirname(_KOK)) as _td:
+            _site = os.path.join(_td, "klinik-sitesi")
+            shutil.copytree(
+                _KOK, _site,
+                ignore=shutil.ignore_patterns("__pycache__", "*.pyc", ".git"))
+            _hasta = os.path.join(_td, "hasta-mesajlari")
+            os.mkdir(_hasta)
+            shutil.copy2(
+                os.path.join(os.path.dirname(_KOK), "hasta-mesajlari",
+                             "siteyi-yukle.py"),
+                os.path.join(_hasta, "siteyi-yukle.py"))
+
+            _hedef = os.path.join(_site, "dis-apsesi.html")
+            with open(_hedef, encoding="utf-8") as _f:
+                _s = _f.read()
+            _yeni = bozan(_s)
+            if _yeni == _s:
+                return False, "test mutasyonu dosyayi hic degistirmedi"
+            with open(_hedef, "w", encoding="utf-8", newline="") as _f:
+                _f.write(_yeni)
+
+            _d = subprocess.run(
+                [sys.executable, "denetle.py"], cwd=_site,
+                capture_output=True, text=True,
+                encoding="utf-8", errors="replace", timeout=120)
+            _c = (_d.stdout or "") + (_d.stderr or "")
+            _ok = bool(_d.returncode != 0
+                       and _re2.search(r"HATA\s+" + _re2.escape(kapi_adi), _c))
+            return _ok, ("exit=%d" % _d.returncode if _ok else _c[-300:])
+
+    import re as _re3
+
+    _ok1, _a1 = _kaynak_kapisi(
+        lambda s: _re3.sub(
+            r'    <h2 id="kaynaklar">Kaynaklar</h2>\n'
+            r'    <div class="kaynaklar">.*?</div>\n', "", s, flags=_re3.S),
+        "tibbi sayfada dis otorite KAYNAGI var")
+    kontrol("kaynak bolumu SILINIRSE yayin kapisi DURDURUR", _ok1, _a1)
+
+    _ok2, _a2 = _kaynak_kapisi(
+        lambda s: s.replace(
+            '<li><a href="https://www.nhs.uk/conditions/toothache/"',
+            '<li><a href="https://ornek-rakip-klinik.com/apse"', 1),
+        "kaynaklarin hepsi OTORITE ak listesinde")
+    kontrol("otorite OLMAYAN kaynak yayin kapisini DURDURUR", _ok2, _a2)
+
+    _ok3, _a3 = _kaynak_kapisi(
+        lambda s: s.replace(
+            '"url":"https://www.nhs.uk/conditions/toothache/"',
+            '"url":"https://www.nhs.uk/conditions/baska-bir-sey/"', 1),
+        "gorunur kaynaklar SEMADAKI citation ile ayni")
+    kontrol("sema ile gorunur kaynak AYRISIRSA kapi DURDURUR", _ok3, _a3)
+
 print("=" * 70)
 print("DENETCI TESTI — denetle.py gercekten yakaliyor mu?")
 print("=" * 70)
