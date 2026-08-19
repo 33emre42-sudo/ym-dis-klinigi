@@ -1168,6 +1168,8 @@ Gece başvuran hastalarda önceliğimiz ağrının giderilmesi ve enfeksiyonun k
 Şeker hastalığı, bağışıklık sistemini baskılayan ilaç kullanımı, kemoterapi öyküsü ve sigara, enfeksiyonun daha hızlı yayılmasına zemin hazırlar. Bu durumlardan biri sizde varsa apseyi hiç geciktirmeyin ve başvururken mutlaka belirtin.
 Kalp kapak hastalığı, protez kapak ya da eklem protezi olanlarda işlem öncesi ek önlem gerekebilir; bu bilgiyi de paylaşın.
 ### Sık sorulanlar
+**"Diş apsesi nedir?"** Apse, diş ya da dişeti kaynaklı bir enfeksiyonun sonucunda **irin birikmesidir**. Kendiliğinden geçmez ve bulunduğu yerde kalmaz; bu yüzden diş hekimliğinde ertelenmemesi gereken durumların başında gelir.
+**"Diş apsesine ne iyi gelir?"** Kliniğe gelene kadar **dışarıdan soğuk uygulama**, başı yüksekte tutmak ve ılık tuzlu suyla nazikçe çalkalamak rahatlatabilir. **Bunların hiçbiri tedavi değildir**; apsenin kaynağı ortadan kaldırılmadan geçmez. Sıcak uygulamayın, şişliği patlatmaya ya da sıkmaya çalışmayın, ağrı kesici tableti dişin üzerine koymayın.
 **"Apse kendiliğinden patladı, geçti mi?"** Hayır. Boşalma geçici rahatlama sağlar ama enfeksiyon kaynağı yerinde durur ve tekrarlar. Tedavi edilmesi gerekir.
 **"Antibiyotik alsam yeter mi?"** Antibiyotik tek başına kaynağı ortadan kaldırmaz; asıl tedavi enfeksiyonun kaynağına yöneliktir. İlaç kullanımına hekiminiz karar verir.
 **"Şişlik yüzüme yayıldı, bekleyebilir miyim?"** Hayır. Göze ya da boyuna yayılan şişlik, nefes veya yutma güçlüğü, bilinç bulanıklığı — bunlardan **herhangi biri** tek başına acil durumdur: **112'yi arayın.** Bu belirtiler yokken yüksek ateş ve belirgin halsizlik varsa da aynı gün değerlendirilmeniz gerekir; kliniği arayın ya da acile başvurun.
@@ -1270,6 +1272,8 @@ Bunlar **olağan** bulgulardır, endişelenmeyin:
 Kullandığınız **kan sulandırıcılar** (varfarin, Xarelto, Eliquis, Plavix ve benzerleri), kemik ilaçları, şeker ve tansiyon ilaçları planlamayı doğrudan etkiler. **İlacınızı kendi kararınızla bırakmayın**; gerekiyorsa bu, ilacı yazan hekimle görüşülerek düzenlenir.
 Gebelik, bilinen kalp hastalığı, protez kapak veya eklem protezi, bağışıklık baskılayıcı tedavi ve alerji öykünüz de önemlidir.
 ### Sık sorulanlar
+**"20'lik diş ne zaman çıkar?"** Yirmi yaş dişleri ağza en son gelen dişlerdir; genellikle **17-25 yaşları arasında** sürerler.
+**"Her 20'lik diş çekilir mi?"** Hayır. Diş ağızda düzgün konumlanmışsa, karşı çenedeki dişle sağlıklı temas kuruyorsa, fırçalanabiliyorsa ve herhangi bir şikâyete yol açmıyorsa **çekmek için bir neden yoktur**.
 **"Ağrımıyor, yine de çektirmeli miyim?"** Ağrı tek ölçüt değildir. Komşu dişe baskı, temizlenemeyen bir konum, tekrarlayan dişeti iltihabı ya da röntgende görülen bir sorun varsa çekim gündeme gelebilir. Şikâyet yoksa ve bulgu da yoksa diş yerinde bırakılabilir.
 **"Çekimden sonra yüzüm ne kadar şişer?"** Şişliğin derecesi işlemin zorluğuna göre değişir; gömülü bir dişin cerrahi çekiminde daha belirgin olur. Seyri ve ne zaman aranması gerektiği çekim sonrası şişlik yazımızda.
 **"Alt çenede uyuşma riski var mı?"** Alt 20 yaş dişleri bazı olgularda sinire yakın konumdadır. Bu yüzden çekim öncesi görüntüleme yapılır ve risk sizinle konuşulur.
