@@ -650,6 +650,30 @@ kontrol("gorunur tarih SEMADAKI dateModified ile ayni",
         not _ayrisan, ("ayrisan: %s" % _ayrisan[:2]) if _ayrisan
         else "gorunur metin ve JSON-LD tek kaynaktan")
 
+# --- Klinik semasi bir sayfada IKI KEZ durmasin ---
+# 20 Agu 2026'da ben yaptim: gizlilik.html'e sayfa tipi semasi eklerken
+# blogu `klinik-semasi` ISARETININ ARDINA koydum. `sema-yay.py` isaretin
+# hemen ardindaki blogu silip yerine taze klinik semasi yaziyor — yani
+# BENIM blogumu sildi, sonuna da yeni bir Dentist ekledi. Sayfada IKI
+# Dentist blogu kaldi ve denetim bunu GORMEDI.
+#
+# Cift @id'li dugum, Google'in hangisini alacagini belirsizlestirir; NAP
+# kilidinin butun degeri de tek ve tutarli bir dugum olmasindan geliyor.
+# Kapi ucuz, hata sinifi gercek: bir kez yasandi.
+print()
+_cift_sema = []
+for _y in sorted(glob.glob("*.html")) + sorted(glob.glob("*/*.html")):
+    with open(_y, encoding="utf-8") as _f:
+        _cs = _f.read()
+    _n = len(re.findall(r'"@id":"https://ymdisklinigi\.com/#klinik"\s*,\s*"name"',
+                        _cs))
+    if _n > 1:
+        _cift_sema.append("%s (%d kez)" % (_y, _n))
+
+kontrol("klinik semasi sayfada TEK kez",
+        not _cift_sema, ("cift: %s" % _cift_sema[:3]) if _cift_sema
+        else "80 sayfada tek dugum")
+
 # --- TRIYAJ DORTLUSU tek kaynaktan mi besleniyor? ---
 # 19 Agu 2026: acil temali yazilarda "bunlari yapmayin" listesi yalniz
 # dis-apsesi.html'de vardi. Bes sayfaya daha yazildi — ama BES KOPYA,

@@ -1892,6 +1892,21 @@ else:
         hedef="yirmi-yas-disi.html")
     kontrol("'agiz tabaninda' tek basina kalirsa kapi DURDURUR", _ok5, _a5)
 
+    # Klinik semasi bir sayfada IKI KEZ durmamali. 20 Agu 2026'da tam bu
+    # oldu: sayfa tipi semasi `klinik-semasi` isaretinin ARDINA konunca
+    # sema-yay.py yanlis blogu sildi ve sayfada iki Dentist dugumu kaldi.
+    # Denetim o gun bunu goremiyordu; kapi sonradan eklendi.
+    _KLINIK_BLOK = (r'(<script type="application/ld\+json">\s*'
+                    r'\{"@context":"https://schema\.org","@type":"Dentist".*?</script>)')
+
+    def _blogu_ikile(s):
+        return _re3.sub(_KLINIK_BLOK, lambda m: m.group(1) + "\n" + m.group(1),
+                        s, count=1, flags=_re3.S)
+
+    _ok6, _a6 = _kaynak_kapisi(_blogu_ikile, "klinik semasi sayfada TEK kez",
+                               hedef="gizlilik.html")
+    kontrol("ayni sayfada IKI klinik semasi kapiyi DURDURUR", _ok6, _a6)
+
 print("=" * 70)
 print("DENETCI TESTI — denetle.py gercekten yakaliyor mu?")
 print("=" * 70)
