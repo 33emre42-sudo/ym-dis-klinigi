@@ -1907,6 +1907,16 @@ else:
                                hedef="gizlilik.html")
     kontrol("ayni sayfada IKI klinik semasi kapiyi DURDURUR", _ok6, _a6)
 
+    # Yinelenen id — 20 Agu 2026'da yayina gitti. Bir bolumu ekleyen
+    # betigin degistirme metni CAPANIN KENDISIYLE bitiyordu; capa
+    # uygulamadan sonra yerinde kaldigi icin betik ikinci kosuda ayni
+    # bolumu tekrar yazdi ve iki ayni id'li <h2> olustu.
+    _ok7, _a7 = _kaynak_kapisi(
+        lambda s: s.replace("</main>", '<div id="icerik"></div></main>', 1),
+        "ayni sayfada YINELENEN id yok",
+        hedef="gizlilik.html")
+    kontrol("yinelenen id yayin kapisini DURDURUR", _ok7, _a7)
+
 print("=" * 70)
 print("DENETCI TESTI — denetle.py gercekten yakaliyor mu?")
 print("=" * 70)

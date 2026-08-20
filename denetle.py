@@ -650,6 +650,35 @@ kontrol("gorunur tarih SEMADAKI dateModified ile ayni",
         not _ayrisan, ("ayrisan: %s" % _ayrisan[:2]) if _ayrisan
         else "gorunur metin ve JSON-LD tek kaynaktan")
 
+# --- Ayni sayfada YINELENEN id olmasin ---
+# 20 Agu 2026'da ben yaptim: bir bolumu ekleyen betigin degistirme metni
+# CAPANIN KENDISIYLE bitiyordu, yani capa uygulamadan sonra da yerinde
+# kaliyordu. Betik ikinci kez kosunca ayni bolum BIR DAHA yazildi;
+# sayfada ayni id'li iki <h2> olustu ve YAYINA GITTI.
+#
+# Iki sey birden kacirdi: (a) denetimde boyle bir kapi yoktu,
+# (b) betigin ciktisini `grep` ile filtreleyip yalniz beklediğim
+# satirlara baktim — ikinci yazma satiri elemenin icinde kayboldu.
+# Tarayicida H2 listesine bakinca gorundu.
+#
+# Yinelenen id gecersiz HTML'dir; `#capa` baglantilari ilk esleseni
+# acar, digeri erisilemez kalir. Ucuz kapi, yasanmis hata.
+print()
+_yinelenen_id = []
+for _y in sorted(glob.glob("*.html")) + sorted(glob.glob("*/*.html")):
+    with open(_y, encoding="utf-8") as _f:
+        _ys = _f.read()
+    _sayac = {}
+    for _id in re.findall(r'\sid="([^"]+)"', _ys):
+        _sayac[_id] = _sayac.get(_id, 0) + 1
+    for _id, _kac in _sayac.items():
+        if _kac > 1:
+            _yinelenen_id.append("%s: id='%s' %d kez" % (_y, _id, _kac))
+
+kontrol("ayni sayfada YINELENEN id yok",
+        not _yinelenen_id, (" · ".join(_yinelenen_id[:2])) if _yinelenen_id
+        else "80 sayfa tarandi")
+
 # --- Klinik semasi bir sayfada IKI KEZ durmasin ---
 # 20 Agu 2026'da ben yaptim: gizlilik.html'e sayfa tipi semasi eklerken
 # blogu `klinik-semasi` ISARETININ ARDINA koydum. `sema-yay.py` isaretin
