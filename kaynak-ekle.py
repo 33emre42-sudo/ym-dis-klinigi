@@ -73,6 +73,9 @@ SDCEP_KAN = ("https://www.sdcep.org.uk/published-guidance/anticoagulants-and-ant
 
 COCH_PLAK = ("https://www.cochrane.org/evidence/CD005514_occlusal-splints-treating-sleep-bruxism-tooth-grinding",
              "Occlusal splints for treating sleep bruxism", "Cochrane sistematik derlemesi")
+COCH_TASTEMIZ = ("https://www.cochrane.org/evidence/CD004625_routine-scale-and-polish-periodontal-health-adults",
+                 "Routine scale and polish for periodontal health in adults",
+                 "Cochrane sistematik derlemesi")
 COCH_ARAYUZ = ("https://www.cochrane.org/evidence/CD012018_home-use-devices-cleaning-between-teeth-addition-toothbrushing-prevent-and-control-gum-diseases-and",
                "Home use of devices for cleaning between the teeth",
                "Cochrane sistematik derlemesi")
@@ -108,7 +111,7 @@ HARITA = {
     "dis-ipi-kullanimi.html":        [COCH_ARAYUZ, NHS_TEMIZ],
     "dis-rontgeni.html":             [FDA_RONTGEN],
     "dis-sikma-gece-plagi.html":     [NHS_SIKMA, COCH_PLAK],
-    "dis-tasi-temizligi.html":       [NHS_DISETI, NHS_TEMIZ],
+    "dis-tasi-temizligi.html":       [NHS_DISETI, COCH_TASTEMIZ],
     "dis-teli-ortodonti.html":       [NHS_TEL],
     "diseti-cekilmesi.html":         [NHS_DISETI, WHO_AGIZ],
     "diseti-kanamasi.html":          [NHS_DISETI],
