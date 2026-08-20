@@ -1803,7 +1803,7 @@ else:
     kontrol("kontrast: bozuk gizlilik paleti yayin kapisini DURDURUR",
             _gizlilik_kapi_ok, _gizlilik_kapi_ayrinti)
 
-    def _kaynak_kapisi(bozan, kapi_adi):
+    def _kaynak_kapisi(bozan, kapi_adi, hedef="dis-apsesi.html"):
         """Dis kaynak kapilarinin GERCEKTEN kirmizi verdigini kanitlar.
 
         19 Agu 2026: 36 tibbi sayfaya dis otorite kaynagi yazildi
@@ -1830,7 +1830,7 @@ else:
                              "siteyi-yukle.py"),
                 os.path.join(_hasta, "siteyi-yukle.py"))
 
-            _hedef = os.path.join(_site, "dis-apsesi.html")
+            _hedef = os.path.join(_site, hedef)
             with open(_hedef, encoding="utf-8") as _f:
                 _s = _f.read()
             _yeni = bozan(_s)
@@ -1870,6 +1870,27 @@ else:
             '"url":"https://www.nhs.uk/conditions/baska-bir-sey/"', 1),
         "gorunur kaynaklar SEMADAKI citation ile ayni")
     kontrol("sema ile gorunur kaynak AYRISIRSA kapi DURDURUR", _ok3, _a3)
+
+    # Triyaj "bunlari yapmayin" listesi bes sayfada BIREBIR ayni olmali.
+    # Bes kopya, kapi olmadan bes ayri gercek demektir: biri elle
+    # duzeltilirse hasta hangi sayfaya dustugune gore FARKLI uyari gorur.
+    _ok4, _a4 = _kaynak_kapisi(
+        lambda s: s.replace("Şişliğe sıcak uygulamayın.",
+                            "Şişliğe sıcak uygulayabilirsiniz.", 1),
+        "triyaj 'yapmayin' listesi TEK kaynaktan",
+        hedef="gece-dis-agrisi.html")
+    kontrol("triyaj listesi TEK sayfada degisirse kapi DURDURUR", _ok4, _a4)
+
+    # 'agiz tabaninda sislik' hava yolu baglamindan KOPARILIRSA durmali.
+    # ⚠️ Bu testin ILK yazimi KACIRMISTI: duz metin degistirme HTML'deki
+    # satir sarmasi yuzunden hic eslesmemis, mutasyon uygulanmamis ve
+    # kapi haksiz yere yesil gorunmustu. Desen artik bosluga toleransli.
+    _ok5, _a5 = _kaynak_kapisi(
+        lambda s: _re3.sub(r"nefes veya yutkunma\s+güçlüğü,\s*ağız tabanında",
+                           "ağız tabanında", s),
+        "'agiz tabaninda sislik' nefes/yutkunma ile birlikte",
+        hedef="yirmi-yas-disi.html")
+    kontrol("'agiz tabaninda' tek basina kalirsa kapi DURDURUR", _ok5, _a5)
 
 print("=" * 70)
 print("DENETCI TESTI — denetle.py gercekten yakaliyor mu?")

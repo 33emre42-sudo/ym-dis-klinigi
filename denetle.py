@@ -650,6 +650,74 @@ kontrol("gorunur tarih SEMADAKI dateModified ile ayni",
         not _ayrisan, ("ayrisan: %s" % _ayrisan[:2]) if _ayrisan
         else "gorunur metin ve JSON-LD tek kaynaktan")
 
+# --- TRIYAJ DORTLUSU tek kaynaktan mi besleniyor? ---
+# 19 Agu 2026: acil temali yazilarda "bunlari yapmayin" listesi yalniz
+# dis-apsesi.html'de vardi. Bes sayfaya daha yazildi — ama BES KOPYA,
+# bes ayri gercek demektir. Biri elle duzenlenirse hasta hangi sayfaya
+# dustugune gore FARKLI uyari gorur ve bu sessizce olur.
+#
+# Kapi metni `triyaj-yay.py`den okur; tasiyan her sayfada BIREBIR ayni
+# olmak zorunda (LESSONS §5 — tek kanonik gosterim).
+#
+# ⚠️ dis-apsesi.html KAPSAM DISI ve bu bilerek: onun "Sunlari
+# yapmayin" listesi konuya ozel yazilmis (sisligi patlatma, alkolle
+# calkalama). Genel listeyi uzerine basmak ozellesmis tibbi uyariyi
+# genel olanla degistirmek olurdu.
+print()
+_triyaj_kaynak = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                              "triyaj-yay.py")
+_ty_kanonik, _ty_sapan, _ty_sayi = None, [], 0
+if os.path.exists(_triyaj_kaynak):
+    _tyspec = importlib.util.spec_from_file_location("_triyaj_yay",
+                                                     _triyaj_kaynak)
+    _tymod = importlib.util.module_from_spec(_tyspec)
+    _tyspec.loader.exec_module(_tymod)
+    _ty_kanonik = re.search(r'<div class="uyari">.*?</div>',
+                            _tymod.YAPMAYIN, re.S).group(0)
+    _ty_norm = re.sub(r"\s+", " ", _ty_kanonik).strip()
+    for _y in sorted(glob.glob("*.html")):
+        if _y == "dis-apsesi.html":
+            continue
+        with open(_y, encoding="utf-8") as _f:
+            _ts = _f.read()
+        _tm = re.search(r'<div class="uyari">\s*<b>Bunları yapmayın</b>.*?</div>',
+                        _ts, re.S)
+        if not _tm:
+            continue
+        _ty_sayi += 1
+        if re.sub(r"\s+", " ", _tm.group(0)).strip() != _ty_norm:
+            _ty_sapan.append(_y)
+
+kontrol("triyaj 'yapmayin' listesi TEK kaynaktan",
+        _ty_kanonik is not None and not _ty_sapan,
+        ("triyaj-yay.py YOK" if _ty_kanonik is None else
+         ("sapan: %s" % _ty_sapan[:3]) if _ty_sapan
+         else "%d sayfa birebir ayni" % _ty_sayi))
+
+# --- 'agiz tabaninda sislik' TEK BASINA olcut olarak durmasin ---
+# 11 Agu 2026 hekim karari: bu bulgu kanonik 112 listesinde AYRI MADDE
+# olarak YOK. Ama 19 Agu'da olculdu: sitede 12 yerde geciyor ve
+# 12'sinde de "nefes / yutkunma guclugu"nun HEMEN YANINDA duruyor —
+# yani tek basina olcut degil, hava yolunu anlatan bir aciklama.
+#
+# Bu tutarli hal SILINMEDI (bir hava yolu uyarisini kaldirmak yanlis
+# yon — LESSONS §12), ama kapiya baglandi: ifade, ayni cumlede nefes
+# ya da yutkunma gecmeden kullanilamaz. Boylece yarin biri onu tek
+# basina bir maddeye tasirsa yayin durur.
+_agiz_yalniz = []
+for _y in sorted(glob.glob("*.html")):
+    with open(_y, encoding="utf-8") as _f:
+        _as_ = _f.read()
+    _duz = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", _as_))
+    for _par in re.split(r"[.;:]", _duz):
+        if "ağız tabanında" in _par and not re.search(
+                r"nefes|yutkun|yutma", _par, re.I):
+            _agiz_yalniz.append("%s: %s" % (_y, _par.strip()[:60]))
+
+kontrol("'agiz tabaninda sislik' nefes/yutkunma ile birlikte",
+        not _agiz_yalniz, ("YALNIZ: %s" % _agiz_yalniz[:2]) if _agiz_yalniz
+        else "12 gecisin hepsinde hava yolu baglami var")
+
 # --- Bilgi yazilarinda DIS OTORITE KAYNAGI var mi? ---
 # 8 Agu 2026 olcumu: 35 bilgi yazisinin 35'inde de dis otorite bagi YOKTU,
 # kaynak bolumu de yoktu. YMYL saglik icerigi Google'in en siki denetledigi
