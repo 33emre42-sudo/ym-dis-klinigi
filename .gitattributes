@@ -1,0 +1,51 @@
+# YM Dis Klinigi — satir sonu sozlesmesi
+#
+# NEDEN: 22 Agu 2026'da otomatik yayin zinciri kilitlendi. Kok sebep,
+# ayni dosyanin iki farkli bayt halinin olmasiydi:
+#   - git deposunda LF      -> sha8 = 7fb6ebff
+#   - Windows diskinde CRLF -> sha8 = 4e2be596   (autocrlf=true)
+#
+# `surum-damgala.py` HTML'e BELLEKTEKI LF metninin ozetini yaziyor
+# (satir 97: fmetin.encode("utf-8")), ama `denetle.py` diskteki dosyayi
+# BINARY okuyup ozetliyor (satir 2440). Iki sayi tutmayinca denetim
+# "damga bayat" deyip cikis 1 veriyor; betigi tekrar calistirmak
+# duzeltmiyor cunku her checkout dosyayi yeniden CRLF yapiyor.
+#
+# COZUM: yayimlanan varliklar depoda da diskte de LF olsun. Boylece
+# damga = diskteki bayt = sunucudaki bayt. Sunucu (nginx/Linux) zaten
+# LF servis ediyor; bu ayar yerel kopyayi canliyla ayni hale getirir.
+#
+# ⚠️ Bu dosya bir DENETIM BARIYERIDIR. Degistiren, once
+# `python surum-damgala.py --uygula && python denetle.py` ile
+# damga zincirinin hala kapandigini olcmeli (LESSONS §1, §3).
+
+# Varsayilan: metin dosyalarini git normalize etsin.
+* text=auto
+
+# Yayimlanan varliklar — diskte de LF (damga tutarliligi icin ZORUNLU)
+*.css   text eol=lf
+*.html  text eol=lf
+*.js    text eol=lf
+*.json  text eol=lf
+*.xml   text eol=lf
+*.txt   text eol=lf
+*.svg   text eol=lf
+*.webmanifest text eol=lf
+CNAME   text eol=lf
+
+# Betikler
+*.py    text eol=lf
+*.sh    text eol=lf
+
+# Ikili dosyalar — dokunma
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.webp  binary
+*.avif  binary
+*.ico   binary
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.otf   binary
+*.pdf   binary
