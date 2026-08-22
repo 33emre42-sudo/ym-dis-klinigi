@@ -1,0 +1,68 @@
+# AMAÇ
+Breadcrumb hiyerarşisi değiştirilecek: 'Ana sayfa > Bilgi yazıları > X' yerine
+'Ana sayfa > X'. Yalnız aşağıdaki BreadcrumbList JSON-LD bloğunda position=2
+ListItem'ı SİL ve position=3 olanın position değerini 2 yap. Görünür kırıntı
+bloğundaki 'Bilgi yazıları' bağlantısını da aynı şekilde kaldır.
+
+# KURAL: Görünür/tıbbi metne, telefon/adres bilgilerine dokunma. Yalnız
+# breadcrumb öğeleri değişir. Sonrası denetle.py kapısından geçmeli.
+
+# DOSYA: nobetci-dis-hekimi-acil-dis.html — MEVCUT BreadcrumbList JSON-LD (redakte edilmemiş şema bloğu; telefon içermez)
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList",
+"itemListElement":[
+{"@type":"ListItem","position":1,"name":"Ana sayfa","item":"https://ymdisklinigi.com/"},
+{"@type":"ListItem","position":2,"name":"Bilgi yazıları","item":"https://ymdisklinigi.com/bilgi-yazilari.html"},
+{"@type":"ListItem","position":3,"name":"Nöbetçi diş hekimi ve acil diş","item":"https://ymdisklinigi.com/nobetci-dis-hekimi-acil-dis.html"}]}
+</script>
+# DOSYA: nobetci-dis-hekimi-acil-dis.html — GÖRÜNÜR KIRINTI BÖLGESİ (redakte)
+80;&#1081;</a>
+    </div>
+  </details>
+</div></div>
+
+<nav class="menu" aria-label="Site menüsü"><div class="sar">
+  <a href="/">Ana sayfa</a>
+  <a href="nobetci-dis-hekimi-acil-dis.html" aria-current="page">Nöbetçi diş hekimi</a>
+  <a href="tedaviler.html">Tedaviler</a>
+  <a href="hekimlerimiz.html">Hekimlerimiz</a>
+  <a href="bilgi-yazilari.html">Bilgi yazıları</a>
+  <a href="sik-sorulan-sorular.html">Sık sorulan sorular</a>
+  <a href="ulasim-ve-hizmet-bolgesi.html">Ulaşım</a>
+  <a href="iletisim.html">İletişim</a>
+</div></nav>
+
+<main id="icerik" class="sar">
+
+<article class="yazi">
+  <p clas
+
+# DOSYA: gece-hafta-sonu-dis-hekimi.html — MEVCUT BreadcrumbList JSON-LD (redakte edilmemiş şema bloğu; telefon içermez)
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList",
+"itemListElement":[
+{"@type":"ListItem","position":1,"name":"Ana sayfa","item":"https://ymdisklinigi.com/"},
+{"@type":"ListItem","position":2,"name":"Bilgi yazıları","item":"https://ymdisklinigi.com/bilgi-yazilari.html"},
+{"@type":"ListItem","position":3,"name":"Gece ve hafta sonu diş hekimi","item":"https://ymdisklinigi.com/gece-hafta-sonu-dis-hekimi.html"}]}
+</script>
+# DOSYA: gece-hafta-sonu-dis-hekimi.html — GÖRÜNÜR KIRINTI BÖLGESİ (redakte)
+80;&#1081;</a>
+    </div>
+  </details>
+</div></div>
+
+<nav class="menu" aria-label="Site menüsü"><div class="sar">
+  <a href="/">Ana sayfa</a>
+  <a href="nobetci-dis-hekimi-acil-dis.html">Nöbetçi diş hekimi</a>
+  <a href="tedaviler.html">Tedaviler</a>
+  <a href="hekimlerimiz.html">Hekimlerimiz</a>
+  <a href="bilgi-yazilari.html" aria-current="page">Bilgi yazıları</a>
+  <a href="sik-sorulan-sorular.html">Sık sorulan sorular</a>
+  <a href="ulasim-ve-hizmet-bolgesi.html">Ulaşım</a>
+  <a href="iletisim.html">İletişim</a>
+</div></nav>
+
+<main id="icerik" class="sar">
+
+<article class="yazi">
+  <p clas
