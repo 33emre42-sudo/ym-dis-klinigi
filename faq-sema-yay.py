@@ -78,6 +78,12 @@ def sorulari_cikar(sayfa_metni):
         cevap = _duz_metin(cevap_ham)
         if "?" not in soru or len(soru) < 10 or len(cevap) < 20:
             continue
+        # GUVENLIK: 112 / acil triyaj iceren cift semaya girmez. Mekanik
+        # yayin kapisi (RTK 9.1) diff'te 112 satirini otomatik seritte
+        # yasaklar; triyaj metni yalniz gorunur icerikte, hekim onayli
+        # degisikliklerle yasar. Alt kume semasi Google politikasina uygun.
+        if "112" in soru or "112" in cevap:
+            continue
         ciftler.append((soru, cevap))
     return ciftler
 
