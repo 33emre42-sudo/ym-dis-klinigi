@@ -943,6 +943,7 @@ Komşu ilçelerden gelen hastalarımız da var:
 - **Güngören** — Bağcılar'a komşudur; cadde bağlantısıyla ya da toplu taşımayla gelinir. Merter, Haznedar, Tozkoparan ve Gençosman yönünden hem araçla hem toplu taşımayla bağlantı vardır.
 - **Bahçelievler** — M1B hattı ve karayolu bağlantısıyla ulaşılır. Şirinevler, Yenibosna ve Kocasinan yönünden metro ile Kirazlı'ya gelinebilir.
 - **Küçükçekmece** — M3 hattı Kirazlı'da M1B ile buluşur. Halkalı, Sefaköy, Cennet ve İkitelli yönünden metro ya da karayolu ile gelinebilir.
+- **Başakşehir** — M3 hattı Kirazlı'ya doğrudan bağlanır. Başak, Başakşehir merkez ve Kayaşehir yönünden M3 ile aktarmasız Kirazlı'ya gelinebilir.
 Kliniğimiz **İstanbul'un Avrupa yakasında**, Kirazlı metro aktarma noktasının hemen yanındadır. Gece saatlerinde metro kapalıyken çevre ilçelerden taksiyle ulaşım kısa sürer; sürücüye "Kirazlı Metro, Mevlana Caddesi" demeniz yeterlidir.
 **Bu ilçelerde şubemiz yoktur;** hepsi tek adresimize, Kirazlı'daki kliniğe gelmektedir. Semt adlarını yazmamızın sebebi yol tarifini kolaylaştırmak — o semtlerde ayrı bir muayenehanemiz olduğu anlamına gelmez.
 Trafik ve toplu taşıma saatleri değiştiği için süre vermiyoruz; yola çıkmadan önce güncel durumu kontrol edin. Geç saatte metro kapalı olabilir.
