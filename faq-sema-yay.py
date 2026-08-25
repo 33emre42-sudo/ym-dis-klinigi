@@ -46,6 +46,30 @@ BLOK = re.compile(
     r'\n?' + re.escape(ISARET) +
     r'\n<script type="application/ld\+json">.*?</script>', re.S)
 
+# Mekanik yayin kapisinin (mekanik-kapi-yayin.py YASAK_DIFF_DESEN) otomatik
+# seritte yasakladigi desenlerin kopyasi. Bu desenlerden birini iceren
+# soru-cevap cifti SEMAYA GIRMEZ; boylece uretilen diff otomatik yayin
+# kapisindan gecebilir. Gorunur metin degismez — sema, gorunur icerigin
+# kapi-uyumlu ALT KUMESIDIR (Google FAQ politikasi alt kumeye izin verir).
+# Kaynak listeyle senkron tutulmali; senkron bozulursa kapi zaten durdurur.
+KAPI_YASAK = [
+    r"112",
+    r"\bacil\b",
+    r"\bbayil",
+    r"\bkanama\b",
+    r"\btitreme\b",
+    r"\bates\b|\bateş\b",
+    r"\bTL\b|\b₺|\bfiyat|\bucret|\bücret|\bindirim|\bkampanya",
+    r"\bgaranti|\bkesin sonuc|\bkesin sonuç|\bagrisiz|\bağrısız",
+    r"\ben iyi\b|\ben basarili|\ben başarılı|\buzman kadro|\blider\b",
+    r"\byorum|\böncesi-sonrası|\boncesi-sonrasi|\bhasta memnuniyet",
+]
+
+
+def kapiya_uygun(metin):
+    dusuk = metin.lower()
+    return not any(re.search(desen, dusuk) for desen in KAPI_YASAK)
+
 
 def _oku(yol):
     with io.open(yol, encoding="utf-8") as f:
@@ -78,11 +102,9 @@ def sorulari_cikar(sayfa_metni):
         cevap = _duz_metin(cevap_ham)
         if "?" not in soru or len(soru) < 10 or len(cevap) < 20:
             continue
-        # GUVENLIK: 112 / acil triyaj iceren cift semaya girmez. Mekanik
-        # yayin kapisi (RTK 9.1) diff'te 112 satirini otomatik seritte
-        # yasaklar; triyaj metni yalniz gorunur icerikte, hekim onayli
-        # degisikliklerle yasar. Alt kume semasi Google politikasina uygun.
-        if "112" in soru or "112" in cevap:
+        # GUVENLIK: mekanik yayin kapisinin yasakladigi deseni (112, acil,
+        # kanama, fiyat...) iceren cift semaya girmez — bkz. KAPI_YASAK.
+        if not kapiya_uygun(soru + " " + cevap):
             continue
         ciftler.append((soru, cevap))
     return ciftler
