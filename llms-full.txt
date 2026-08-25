@@ -39,7 +39,7 @@ Genel diş hekimliği alanında çalışmaktadır; kliniğimizde uygulanan tedav
 Genel diş hekimliği alanında çalışmaktadır; kliniğimizde uygulanan tedavilerin tamamını yürütmektedir.
 Hekimlerimizi ve muayene sürecinin nasıl işlediğini okuyun
 ### Bilgi yazıları
-Hastalarımızın en çok karşılaştığı durumlar için hazırladığımız bilgilendirme yazıları — toplam otuz altı başlık. Şikâyetiniz varsa yine de muayene gereklidir; bu yazılar hekim muayenesinin yerine geçmez.
+Hastalarımızın en çok karşılaştığı durumlar için hazırladığımız bilgilendirme yazıları — toplam otuz yedi başlık. Şikâyetiniz varsa yine de muayene gereklidir; bu yazılar hekim muayenesinin yerine geçmez.
 **Nöbetçi diş hekimi ve acil diş** Hangi şikâyet beklemez, hangisi sabahı bekleyebilir; gece ne yapılabilir ve hangi belirtide 112 aranır. **Gece ya da hafta sonu diş hekimine gitmeli miyim?** Nöbetçi klinikte gece neler yapılır, neler yapılmaz; hangi şikâyet sabahı bekleyebilir, hangisi bekleyemez. **Gece diş ağrısı: evde ne yapabilirsiniz?** Ağrı neden geceleri artar, sabaha kadar ne yapılabilir, hangi yöntemler zarar verir ve ne zaman beklememek gerekir. **Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** Düşen dişi nasıl tutmalı, neyin içinde saklamalı ve hangi hata dişi kurtarılamaz hâle getirir. **Diş apsesi: neden ertelenmemeli?** Belirtileri, ağrı geçtiğinde neden iyileşme sayılmadığı ve antibiyotiğin neden tek başına yetmediği. **Kanal tedavisi: dişi çekmeden kurtarmak** Ne zaman gerekir, ağrının geçmesi neden iyileşme değildir ve sonrasında neden kaplama yapılır. **Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** Sağlıklı dişeti kanar mı, kanayan bölgeyi fırçalamamak neden hata ve hangi bulgularda beklenmemeli. **Diş sıkma ve gece plağı** Sabah çene ağrısı, aşınan dişler, kırılan dolgular ve gece plağının gerçekte ne yaptığı. **Diş çekimi sonrası şişlik: ne zaman olağan?** Şişliğin günlere göre seyri, soğuk-sıcak uygulamanın sırası ve hangi bulguda beklenmeden aranmalı. **Diş hekimi korkusu: ilk randevu nasıl ilerler?** Korkuyu önceden söylemenin ne değiştirdiği, durma işareti ve yıllardır ertelemiş olanlar için izlenen yol.
 On altı bilgi yazısının tamamını görün
 ### Ulaşım
@@ -901,7 +901,7 @@ Yazıların hiçbiri muayenenin yerine geçmez. Bir şikâyetiniz varsa okuduğu
 ### Acil durumlar
 **Nöbetçi diş hekimi ve acil diş** Hangi şikâyet acildir, gece ne yapılabilir, hangi belirtide 112 aranır? **Gece ya da hafta sonu diş hekimine gitmeli miyim?** Nöbetçi klinikte gece neler yapılır, neler yapılmaz; hangi şikâyet sabahı bekleyebilir, hangisi bekleyemez. **Gece diş ağrısı: evde ne yapabilirsiniz?** Ağrı neden geceleri artar, sabaha kadar ne yapılabilir, hangi yöntemler zarar verir ve ne zaman beklememek gerekir. **Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** Düşen dişi nasıl tutmalı, neyin içinde saklamalı ve hangi hata dişi kurtarılamaz hâle getirir. **Diş apsesi: neden ertelenmemeli?** Belirtileri, ağrı geçtiğinde neden iyileşme sayılmadığı ve antibiyotiğin neden tek başına yetmediği. **Diş çekimi sonrası şişlik: ne zaman olağan?** Şişliğin günlere göre seyri, soğuk-sıcak uygulamanın sırası ve hangi bulguda beklenmeden aranmalı. **Dolgu veya kaplama düştü: acil mi, ne yapmalı?** İlk yapılacaklar, ne zaman beklenip ne zaman klinik aranmalı ve kendi kendine yapıştırmanın neden risk taşıdığı.
 ### Tedaviler
-**Diş dolgusu: ne zaman gerekir, işlem nasıl yapılır?** Çürük hangi aşamada dolguyla durur, işlem sırasında ne hissedilir ve sonrasındaki hassasiyet ne kadar sürer. **Kanal tedavisi: dişi çekmeden kurtarmak** Ne zaman gerekir, kaç seans sürer, ağrının geçmesi neden iyileşme değildir ve sonrasında neden kaplama yapılır. **Diş çekimi: işlem öncesi, çekim ve sonrası** Hangi durumda çekim kaçınılmaz olur, işlem nasıl ilerler ve ilk 24 saatte nelere dikkat edilir. **Diş protezi ve kaplama: seçenekler ve süreç** Kaplama, köprü, hareketli protez ve implant üstü protez arasındaki farklar ve alışma dönemi. **İmplant tedavisi adım adım** Adımların sırası, iyileşme süresinin neye göre değiştiği, kemik yetersizliği ve implant sonrası bakım. **20 yaş dişi her zaman çekilir mi?** Hangi bulgular çekim gerektirir, hangi durumda diş yerinde bırakılır ve çekim sonrası neler olağandır. **Diş beyazlatma: gerçekte ne yapar, ne yapmaz?** Dolgu ve kaplamaların neden beyazlamadığı, sonucun neden kalıcı olmadığı ve ev yöntemlerinin mineye verdiği zarar. **Diş teli tedavisi: süreç nasıl işler?** Adımların sırası, ilk günlerde hissedilenler, süreyi belirleyen etkenler ve pekiştirme döneminin neden atlanmaması gerektiği. **Şeffaf plak: diş teline alternatif mi?** Nasıl çalıştığı, günlük kullanım süresinin neden belirleyici olduğu ve hangi durumlarda uygun olmadığı. **Diş röntgeni: neden çekilir, güvenli midir?** Gözle görülemeyen sorunlar, alınan korunma önlemleri, hamilelikte ve çocuklarda yaklaşım.
+**Diş dolgusu: ne zaman gerekir, işlem nasıl yapılır?** Çürük hangi aşamada dolguyla durur, işlem sırasında ne hissedilir ve sonrasındaki hassasiyet ne kadar sürer. **Kanal tedavisi: dişi çekmeden kurtarmak** Ne zaman gerekir, kaç seans sürer, ağrının geçmesi neden iyileşme değildir ve sonrasında neden kaplama yapılır. **Kanal tedavisi sonrası ağrı: ne zaman hekime danışmalı?** İşlem sonrası hassasiyet neden görülebilir, evde nelere dikkat edilir ve hangi belirtiler kontrole götürmeli. **Diş çekimi: işlem öncesi, çekim ve sonrası** Hangi durumda çekim kaçınılmaz olur, işlem nasıl ilerler ve ilk 24 saatte nelere dikkat edilir. **Diş protezi ve kaplama: seçenekler ve süreç** Kaplama, köprü, hareketli protez ve implant üstü protez arasındaki farklar ve alışma dönemi. **İmplant tedavisi adım adım** Adımların sırası, iyileşme süresinin neye göre değiştiği, kemik yetersizliği ve implant sonrası bakım. **20 yaş dişi her zaman çekilir mi?** Hangi bulgular çekim gerektirir, hangi durumda diş yerinde bırakılır ve çekim sonrası neler olağandır. **Diş beyazlatma: gerçekte ne yapar, ne yapmaz?** Dolgu ve kaplamaların neden beyazlamadığı, sonucun neden kalıcı olmadığı ve ev yöntemlerinin mineye verdiği zarar. **Diş teli tedavisi: süreç nasıl işler?** Adımların sırası, ilk günlerde hissedilenler, süreyi belirleyen etkenler ve pekiştirme döneminin neden atlanmaması gerektiği. **Şeffaf plak: diş teline alternatif mi?** Nasıl çalıştığı, günlük kullanım süresinin neden belirleyici olduğu ve hangi durumlarda uygun olmadığı. **Diş röntgeni: neden çekilir, güvenli midir?** Gözle görülemeyen sorunlar, alınan korunma önlemleri, hamilelikte ve çocuklarda yaklaşım.
 ### Günlük bakım ve korunma
 **Diş ipi ve arayüz fırçası: doğru kullanım** Fırçanın ulaşamadığı yüzey, adım adım kullanım ve ilk günlerdeki kanamanın neden bırakma sebebi olmadığı. **Çürük nasıl oluşur ve nasıl önlenir?** Şekerin miktarı değil temas sıklığı neden belirleyici, erken evre nasıl geri döndürülebilir. **Diş taşı temizliği: ne zaman gerekir?** Diş taşı nasıl oluşur, temizlik dişleri aşındırır mı ve sonrasındaki boşluk hissi neden olur. **Florür nedir, zararlı mı?** Dişte ne yaptığı, güvenlik sınırları, florozis ve çocuklarda macun miktarının neden önemsendiği. **Diş sıkma ve gece plağı** Sabah çene ağrısı, aşınan dişler, kırılan dolgular ve gece plağının gerçekte ne yaptığı.
 ### Ağız içi şikâyetler
@@ -915,7 +915,7 @@ SON GÜNCELLEME: 1 AĞUSTOS 2026 · BU SAYFADAKİ BİLGİLER GENEL BİLGİLENDİ
 
 ---
 
-## Kliniğe Ulaşım: Bağcılar, Esenler, Güngören, Bahçelievler | YM Diş
+## Ulaşım: Bağcılar, Esenler, Güngören, Bahçelievler | YM Diş
 URL: https://ymdisklinigi.com/ulasim-ve-hizmet-bolgesi.html
 
 ANA SAYFA · ULAŞIM
@@ -1452,7 +1452,55 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 1 AĞUSTOS 2026 · SON GÜNCELLEME: 19 AĞUSTOS 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Diş apsesi: neden ertelenmemesi gereken bir durum?** **Gece diş ağrısı: evde ne yapabilirsiniz?** **Tüm bilgi yazıları**
+**Kanal tedavisi sonrası ağrı: ne zaman hekime danışmalı?** **Diş apsesi: neden ertelenmemesi gereken bir durum?** **Gece diş ağrısı: evde ne yapabilirsiniz?** **Tüm bilgi yazıları**
+
+---
+
+## Kanal Tedavisi Sonrası Ağrı: Ne Zaman Hekime Danışmalı?
+URL: https://ymdisklinigi.com/kanal-tedavisi-sonrasi-agri.html
+
+ANA SAYFA · BİLGİ YAZILARI
+Kanal tedavisi sonrası ağrı: ne zaman hekime danışmalı?
+Kanal tedavisinden sonraki günlerde hassasiyet ya da ağrı bazı kişilerde görülebilir. Bu yazıda bunun nedenlerini, evde nelere dikkat edebileceğinizi ve hangi belirtilerde **beklemeden hekimle görüşmeniz** gerektiğini anlattık.
+**Önce şunları okuyun — bunlarda beklemeyin** **Yutkunmakta ya da nefes almakta zorlanıyorsanız, yüzünüzde veya boynunuzda hızla artan şişlik varsa: 112'yi arayın veya en yakın acil servise gidin.** Bu belirtiler yayılan bir enfeksiyonun işareti olabilir ve çevrim içi içerikle izlenmemelidir.
+**Ateş, ağız açmada güçlük veya günlük yaşamı belirgin etkileyen artan ağrı varsa:** planlanan kontrolü beklemeden kliniğinizi arayın.
+### İşlemden sonra hassasiyet neden görülebilir?
+Kanal tedavisi, dişin iç kısmındaki pulpa dokusunun hastalık veya hasar nedeniyle değerlendirilmesini ve gerekli işlemlerin yapılmasını içeren bir tedavidir. İşlem sırasında dişin içindeki dokular ve kök ucunu çevreleyen alan ele alınır. İşlem öncesinde iltihap veya belirgin ağrı varsa, çevre dokuların sakinleşmesi zaman alabilir. Çiğneme kuvveti ya da geçici dolgunun yüksek hissedilmesi de rahatsızlık algısını etkileyebilir.
+Hassasiyetin süresi ve şiddeti; işlem öncesindeki enfeksiyon durumu, dişe uygulanan işlemler, çevre dokuların hassasiyeti ve kişinin genel sağlık durumu gibi etkenlere göre değişebilir. Bazı kişiler yalnızca dişe basarken sızlama hissederken, bazılarında farklı bir rahatsızlık olabilir. İnternetteki deneyimler kişisel değerlendirme yerine geçmez; ağrının niteliğini, ne zaman başladığını ve nelerin artırdığını not ederek hekiminizle paylaşmanız daha yararlıdır.
+#### Çiğneme sırasında ağrı neyi düşündürebilir?
+Tedavi görmüş dişe bastırınca ağrı veya yükseklik hissi oluşması, kontrol gerektirebilecek bir durumdur. Geçici veya kalıcı dolgunun kapanışla ilişkisi, kök çevresindeki dokuların durumu ve dişin restorasyon ihtiyacı muayene ile değerlendirilir. Dişi zorlayarak kendiniz test etmeyin; şikâyet sürüyorsa kliniğe bilgi verin.
+### Evde nelere dikkat edilebilir?
+Hekiminiz aksini söylemedikçe tedavi gören dişi sert gıdalarla zorlamamak, ağız bakımını düzenli sürdürmek ve verilen talimatlara uymak önemlidir. Ağrının zamanı, süresi, şişlik olup olmadığı ve çiğnemeyle ilişkisi gibi ayrıntıları kısa notlar hâlinde tutabilirsiniz; bu notlar kontrolde hekime net bilgi vermeyi kolaylaştırır. Diş ipi ve fırçalama alışkanlığını, işlem bölgesini tahriş etmeden sürdürün — temel hatırlatmalar diş ipi kullanımı sayfasında.
+**Şunlara dikkat edin**
+- **İlaçları kendi kararınızla başlatmayın, bırakmayın veya dozunu değiştirmeyin.** Başkasına iyi gelen bir ilacı kullanmak ya da antibiyotiğe kendi başına başlamak güvenli değildir; size uygun yönlendirme için hekiminize ya da eczacınıza danışın.
+- **Ağrı kesiciyi diş etinin üzerine koymayın.** Temas ettiği yerde tahrişe yol açabilir.
+- Tedavi gören dişi sert gıdalarla ya da bastırarak "test" etmeyin.
+### Hangi belirtilerde gecikmeden hekimle görüşülmeli?
+Artan veya günlük yaşamı belirgin etkileyen ağrı, yüz ya da diş eti bölgesinde şişlik, ateş ve ağız açmada güçlük çevrim içi içerikle izlenmemelidir; bu belirtilerde kliniğinizle gecikmeden iletişime geçin. Yutma veya nefes alma güçlüğünde 112'yi arayın ya da acil servise başvurun.
+Ağrı bir süre azalıp tekrar başlarsa, dolgu kırılırsa veya tedavi gören dişte farklı bir his oluşursa da hekiminize haber verin. Bu belirtiler tek başına tanı koydurmaz; bireysel değerlendirme gerekip gerekmediğini hekim belirler. Şişlik eşlik eden yakınmaların genel çerçevesi için diş apsesi sayfasına bakabilirsiniz.
+### Kontrol randevusu neden önemlidir?
+Kanal tedavisi çoğu zaman yalnızca işlem günüyle sınırlı bir süreç değildir. Hekim, dişin belirtilerini, kapanışını ve gerekirse görüntüleme sonuçlarını kontrol eder. Bazı dişlerde üst yapının korunması için dolgu ya da kaplama gibi ek planlama gerekebilir; bunun gerekliliği dişin kalan dokusu ve kişisel koşullara göre değerlendirilir. Restorasyon seçenekleri hakkında genel bilgi diş dolgusu ve protez ve kaplama sayfalarında.
+Kontrolde ağrının ne zaman başladığını, hangi hareketle arttığını, kullandığınız ilaçları ve genel sağlık durumunuzdaki değişiklikleri belirtin. Hamilelik, düzenli ilaç kullanımı, diyabet, kan sulandırıcı kullanımı veya alerji gibi durumlar değerlendirmeyi etkileyebilir.
+### Ağrı geçtiğinde kontrolü atlamak doğru mu?
+Belirtinin azalması, değerlendirme ihtiyacının ortadan kalktığı anlamına gelmez. Takip planı, dişin durumu ve yapılan işlemin aşamalarına göre belirlenir. Özellikle geçici bir uygulama yapıldıysa veya tamamlanması gereken başka bir aşama varsa, randevu takvimini hekiminizle netleştirin.
+Kanal tedavisinin ne olduğu ve işlem aşamaları hakkında daha geniş bilgi kanal tedavisi sayfasında. Gece ortaya çıkan diş ağrısında güvenli genel yaklaşım için gece diş ağrısı sayfası da başlangıç bilgisi sağlar.
+### Hekime hangi bilgileri aktarmalısınız?
+Randevu veya telefon görüşmesinde, işlemin hangi gün yapıldığını ve ağrının ne zaman başladığını söylemek değerlendirmeye yardımcı olur. Ağrının sürekli mi yoksa yalnızca çiğnemeyle mi hissedildiğini, şişlik ya da ateş olup olmadığını ve dişte geçici dolgu bulunup bulunmadığını da belirtin. Kullandığınız düzenli ilaçları ve alerjileri paylaşın; anlamadığınız bir talimat varsa tahminde bulunmayın, kliniğe sorun.
+### Sık sorulanlar
+**"Kanal tedavisinden sonra ağrı normal midir?"** İşlem sonrası hassasiyet bazı kişilerde görülebilir; ancak ağrının nedeni, süresi ve şiddeti kişiye göre değişir. Artan, devam eden veya sizi endişelendiren ağrı için hekiminize danışın.
+**"Kanal tedavili dişle ne zaman çiğneyebilirim?"** Bu süre uygulanan işlem ve dişin geçici ya da kalıcı restorasyon durumuna göre değişebilir. Tedaviyi yapan hekiminizin talimatını izleyin; dişi sert gıdalarla zorlamayın.
+**"Şişlik olursa ne yapmalıyım?"** Şişlik, hekim değerlendirmesi gerektirebilir; kliniğinizle gecikmeden iletişime geçin. Yutma veya nefes alma güçlüğü varsa 112'yi arayın ya da acil servise başvurun.
+**"Ağrı kesici veya antibiyotiği kendim başlayabilir miyim?"** İlaçları kendi kendinize başlatmayın, bırakmayın veya dozunu değiştirmeyin. Size uygun yönlendirme için hekiminize ya da eczacınıza danışın.
+### Kanal tedavisi sonrası ağrınız mı var?
+Durumu yazın ya da arayın; kontrol gerekip gerekmediğini birlikte değerlendirelim. Yutma veya nefes güçlüğünde **112**.
+0541 732 43 76 WhatsApp'tan yazın
+### Kaynaklar
+Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlantılar yeni sekmede açılır ve kliniğimizle ilgisi yoktur.
+- Root canal treatment — NHS
+TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 25 AĞUSTOS 2026 · SON GÜNCELLEME: 25 AĞUSTOS 2026
+BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
+### Diğer bilgi yazıları
+**Kanal tedavisi: dişi çekmeden kurtarmak** **Gece diş ağrısı: evde ne yapabilirsiniz?** **Diş apsesi: neden ertelenmemesi gereken bir durum?** **Tüm bilgi yazıları**
 
 ---
 
