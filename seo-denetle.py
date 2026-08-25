@@ -201,11 +201,24 @@ def sitemap_hatalari(canli_url, disk_yolu):
         hatalar.append(("Yerel sitemap.xml okunamadi", str(e)))
         return hatalar
     if disk_url != canli_url:
-        hatalar.append((
-            "CANLI sitemap diskle AYNI DEGIL",
-            "yalniz canlida: %s | yalniz diskte: %s"
-            % (sorted(canli_url - disk_url)[:3],
-               sorted(disk_url - canli_url)[:3])))
+        # 25 Agu 2026 (K86): iki yon AYRI anlam tasir.
+        #  - YALNIZ CANLIDA olan URL = sunucuda repo disi icerik (drift)
+        #    -> KIRMIZI, yayin durur.
+        #  - YALNIZ DISKTE olan URL = henuz deploy edilmemis YENI sayfa
+        #    (bekleyen yayin). Kapi deploy'dan ONCE kostugu icin bu
+        #    durum yeni sayfa yayininin dogal on-hali; bloke ederse
+        #    hicbir yeni sayfa kapidan cikamaz (tavuk-yumurta).
+        #    -> SARI uyari, yayin devam eder; deploy sonrasi esitlenir.
+        sadece_canli = sorted(canli_url - disk_url)
+        sadece_disk = sorted(disk_url - canli_url)
+        if sadece_canli:
+            hatalar.append((
+                "CANLI sitemap diskle AYNI DEGIL",
+                "yalniz canlida: %s | yalniz diskte: %s"
+                % (sadece_canli[:3], sadece_disk[:3])))
+        elif sadece_disk:
+            sari("sitemap'te bekleyen yeni URL (deploy sonrasi esitlenir)",
+                 ", ".join(sadece_disk[:3]))
     return hatalar
 
 
