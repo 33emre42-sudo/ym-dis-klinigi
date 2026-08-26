@@ -158,7 +158,7 @@
   .serit.kaydi{box-shadow:0 10px 30px -18px var(--glow),0 1px 0 var(--cizgi)}
   .serit .sar{display:flex;align-items:center;justify-content:space-between;
     gap:16px;height:64px}
-  .marka{display:flex;align-items:center;gap:11px;text-decoration:none}
+  .marka{display:flex;align-items:center;gap:11px;text-decoration:none;min-height:44px}
   .logo{display:block;height:34px;width:34px;object-fit:contain}
   .marka-metin{display:flex;flex-direction:column;line-height:1.2}
   .marka b{font-family:var(--baslik);font-size:16.5px;font-weight:800;
@@ -173,7 +173,7 @@
   .serit-tel:hover{border-color:var(--vurgu);transform:translateY(-1px);
     box-shadow:0 8px 22px -14px var(--glow)}
   .serit-tel .ikon{color:var(--vurgu)}
-  @media (max-width:400px){.serit-tel{font-size:14px;padding:8px 13px}.marka b{font-size:15px}}
+  @media (max-width:400px){.serit-tel{font-size:0;gap:0;padding:8px 12px}.marka b{font-size:15px}}
 
   /* ⚠️ DIL SECICI — 3 Agu 2026. Bu kurallar `bilgi.css`te vardi ama
      index.html o dosyayi YUKLEMIYOR (kendi gomulu stili var). Sonuc:
@@ -197,7 +197,7 @@
     min-width:186px;padding:6px;border-radius:14px;
     border:1px solid var(--cizgi);background:var(--kat);
     box-shadow:0 18px 40px -22px rgba(0,0,0,.55)}
-  .dil-liste a{display:flex;align-items:center;gap:10px;padding:9px 11px;
+  .dil-liste a{display:flex;align-items:center;gap:10px;padding:9px 11px;min-height:44px;
     border-radius:9px;text-decoration:none;color:var(--gri);
     font:500 14px/1.2 var(--metin)}
   .dil-liste a:hover{background:var(--kagit);color:var(--vurgu)}
@@ -215,9 +215,10 @@
     /* ⚠️ Marka metni seridin disina tasiyordu (olculdu: 78px icerik,
        64px serit). Alt satir gizleniyor, ad tek satira sabitleniyor,
        telefon dugmesi daraltiliyor ki ad bolunmesin. */
-    .marka-metin span{display:none}
+    .marka-metin{display:flex}
+    .marka-metin>span{display:none}
     .marka b{white-space:nowrap;font-size:15px}
-    .serit-tel{font-size:14px;padding:8px 13px}
+    .serit-tel{font-size:0;gap:0;padding:8px 12px}
   }
 
   /* --- sekmeler: serit'in hemen altinda, yapiskan degil ---
@@ -277,8 +278,7 @@
         border-left-color:var(--vurgu);padding-left:10px}
     }
     /* Serit tasmasi: numara giris bolumunde ve alt cubukta zaten var. */
-    .serit-tel span{display:none}
-    .serit-tel{padding:9px 12px}
+    .serit-tel{font-size:0;gap:0;padding:9px 12px}
   }
 
   /* --- giris --- */
@@ -786,8 +786,11 @@
     padding:11px 20px calc(11px + env(safe-area-inset-bottom));
     background:color-mix(in srgb, var(--kagit) 88%, transparent);
     backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-    border-top:1px solid var(--cizgi)}
+    border-top:1px solid var(--cizgi);opacity:0;pointer-events:none;
+    transform:translateY(calc(100% + env(safe-area-inset-bottom)));
+    transition:opacity .18s ease,transform .18s ease}
   .sabit .dugme{flex:1}
+  .sabit.sabit-gorunur{opacity:1;pointer-events:auto;transform:translateY(0)}
   @media (max-width:720px){
     .sabit{display:flex}
     body{padding-bottom:88px}

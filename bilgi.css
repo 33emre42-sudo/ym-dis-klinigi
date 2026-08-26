@@ -58,7 +58,7 @@ a{color:inherit}
   border-bottom:1px solid var(--cizgi)}
 .serit .sar{display:flex;align-items:center;justify-content:space-between;
   gap:16px;height:64px}
-.marka{display:flex;align-items:center;gap:11px;text-decoration:none}
+.marka{display:flex;align-items:center;gap:11px;text-decoration:none;min-height:44px}
 .logo{display:block;height:34px;width:34px;object-fit:contain}
 .marka-metin{display:flex;flex-direction:column;line-height:1.2}
 .marka b{font-family:var(--baslik);font-size:16.5px;font-weight:800;
@@ -72,8 +72,9 @@ a{color:inherit}
   box-shadow:0 12px 26px -16px var(--glow)}
 .serit-tel:hover{filter:brightness(1.06)}
 @media (max-width:520px){
-  .serit-tel{font-size:14px;padding:9px 14px}
-  .marka span{display:none}
+  .serit-tel{font-size:0;gap:0;padding:9px 12px}
+  .marka-metin{display:flex}
+  .marka-metin>span{display:none}
 }
 
 /* --- sekmeler (ana sayfadakiyle ayni) ---
@@ -127,8 +128,7 @@ a{color:inherit}
       border-left-color:var(--vurgu);padding-left:10px}
   }
   /* Serit tasmasi: numara giris bolumunde ve alt cubukta zaten var. */
-  .serit-tel span{display:none}
-  .serit-tel{padding:9px 12px}
+  .serit-tel{font-size:0;gap:0;padding:9px 12px}
 }
 
 /* --- sayfa basi (hekimler / SSS / bilgi dizini) --- */
@@ -289,7 +289,7 @@ footer a{color:var(--vurgu);text-decoration:none}
   min-width:172px;padding:6px;border-radius:14px;
   border:1px solid var(--cizgi);background:var(--kat);
   box-shadow:0 18px 40px -22px rgba(0,0,0,.55)}
-.dil-liste a{display:flex;align-items:center;gap:9px;padding:9px 11px;
+.dil-liste a{display:flex;align-items:center;gap:9px;padding:9px 11px;min-height:44px;
   border-radius:9px;text-decoration:none;color:var(--gri);
   font:500 14px/1.2 var(--metin)}
 .dil-liste a:hover{background:var(--kagit);color:var(--vurgu)}
@@ -309,9 +309,9 @@ footer a{color:var(--vurgu);text-decoration:none}
   /* ⚠️ Marka metni seridin disina tasiyordu (olculdu: 78px icerik,
      64px serit). Alt satir gizleniyor, ad tek satira sabitleniyor,
      telefon dugmesi daraltiliyor ki ad bolunmesin. */
-  .marka-metin span{display:none}
+  .marka-metin>span{display:none}
   .marka b{white-space:nowrap;font-size:15px}
-  .serit-tel{font-size:14px;padding:8px 13px}
+  .serit-tel{font-size:0;gap:0;padding:8px 12px}
 }
 
 /* --- ekrana yapisik "Ara + WhatsApp" cubugu (8 Agu 2026) ------------
@@ -332,8 +332,11 @@ footer a{color:var(--vurgu);text-decoration:none}
   padding:11px 20px calc(11px + env(safe-area-inset-bottom));
   background:color-mix(in srgb, var(--kagit) 88%, transparent);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  border-top:1px solid var(--cizgi)}
+  border-top:1px solid var(--cizgi);opacity:0;pointer-events:none;
+  transform:translateY(calc(100% + env(safe-area-inset-bottom)));
+  transition:opacity .18s ease,transform .18s ease}
 .sabit .dugme{flex:1;justify-content:center}
+.sabit.sabit-gorunur{opacity:1;pointer-events:auto;transform:translateY(0)}
 @media (max-width:720px){
   .sabit{display:flex}
   body{padding-bottom:88px}

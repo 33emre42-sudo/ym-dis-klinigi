@@ -67,6 +67,48 @@
   }, true);   // `toggle` kabarmaz — yakalama asamasinda dinleniyor.
 
   /* ------------------------------------------------------------------
+     MOBIL SABIT CTA — okurken icerigi ortmesin
+     ------------------------------------------------------------------
+     K89 canli 390x844 olcumunde cubuk 74,8px'lik ilk uyari kartini
+     fiziksel olarak kapatiyordu. Header telefonu zaten sticky: cubuk
+     sayfa basinda ve asagi okurken gizli, yukari donuste / sayfa sonunda
+     gorunur. Gizliyken inert + aria-hidden ile odak tuzagi da yok. */
+  var sabit = document.querySelector(".sabit");
+  if (sabit) {
+    var sonY = Math.max(0, window.scrollY || 0);
+    var ctaKareBekliyor = false;
+
+    function ctaGoster(goster) {
+      sabit.classList.toggle("sabit-gorunur", goster);
+      sabit.setAttribute("aria-hidden", goster ? "false" : "true");
+      if (goster) sabit.removeAttribute("inert");
+      else sabit.setAttribute("inert", "");
+    }
+
+    function ctaKonumGuncelle() {
+      var y = Math.max(0, window.scrollY || 0);
+      var son = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      var asagi = y > sonY + 6;
+      var yukari = y < sonY - 6;
+      var sonaYakin = son - y <= 24;
+
+      if (y < 120 || asagi) ctaGoster(false);
+      else if (yukari || sonaYakin) ctaGoster(true);
+
+      sonY = y;
+      ctaKareBekliyor = false;
+    }
+
+    ctaGoster(false);
+    window.addEventListener("scroll", function () {
+      if (ctaKareBekliyor) return;
+      ctaKareBekliyor = true;
+      window.requestAnimationFrame(ctaKonumGuncelle);
+    }, {passive:true});
+    window.addEventListener("resize", ctaKonumGuncelle);
+  }
+
+  /* ------------------------------------------------------------------
      TIKLA-YUKLE HARITA — 9 Agu 2026
      ------------------------------------------------------------------
      Hekim rakip sitedeki gomulu haritayi gosterip "bizimki de boyle

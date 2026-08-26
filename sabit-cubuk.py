@@ -76,8 +76,11 @@ CSS = """
   padding:11px 20px calc(11px + env(safe-area-inset-bottom));
   background:color-mix(in srgb, var(--kagit) 88%, transparent);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  border-top:1px solid var(--cizgi)}
+  border-top:1px solid var(--cizgi);opacity:0;pointer-events:none;
+  transform:translateY(calc(100% + env(safe-area-inset-bottom)));
+  transition:opacity .18s ease,transform .18s ease}
 .sabit .dugme{flex:1;justify-content:center}
+.sabit.sabit-gorunur{opacity:1;pointer-events:auto;transform:translateY(0)}
 @media (max-width:720px){
   .sabit{display:flex}
   body{padding-bottom:88px}

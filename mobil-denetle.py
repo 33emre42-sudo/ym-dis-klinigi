@@ -171,7 +171,10 @@ ORTAK = (
     (".sabit kurali", ".sabit{"),
     (".dugme.ikincil", ".dugme.ikincil"),
     ("dil kodu rozeti kurali", ".dil-simdi"),
-    ("mobilde telefon ikon-only", ".serit-tel span{display:none}"),
+    # Numara anonim metin dugumu; eski `.serit-tel span` secicisi HICBIR
+    # seyle eslesmiyordu. Ikon-only davranis font-size:0 ile mekanik.
+    ("mobilde telefon ikon-only", ".serit-tel{font-size:0;gap:0"),
+    ("CTA okuma modu", ".sabit.sabit-gorunur"),
 )
 for ad, desen in ORTAK:
     v_ih, v_bc = desen in ih, desen in bc

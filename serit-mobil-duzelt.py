@@ -16,7 +16,7 @@ tek kaynak burasi.
    62px kaliyor; "YM Dis Klinigi" iki satira, "BAGCILAR · KIRAZLI" ise
    10,5px fontla UC satira boluniyor (38px).
    Cozum: dar ekranda alt satiri gizle, adi tek satira sabitle, telefon
-   dugmesini biraz daralt. Konum bilgisi zaten baslikta, adreste ve
+   dugmesini 44px ikon hedefi yap. Konum bilgisi zaten baslikta, adreste ve
    alt bilgide var — seritte tekrar sart degil.
 
 2) DIL BUTONU YALNIZCA "▼" GOSTERIYOR
@@ -78,10 +78,10 @@ _CSS_DAR = (
     '    .dil-sec>summary .dil-simdi{display:inline-flex}\n'
     '    /* ⚠️ Marka metni seridin disina tasiyordu (olculdu: 78px icerik,\n'
     '       64px serit). Alt satir gizleniyor, ad tek satira sabitleniyor,\n'
-    '       telefon dugmesi daraltiliyor ki ad bolunmesin. */\n'
-    '    .marka-metin span{display:none}\n'
+    '       telefon 44px ikon hedefi oluyor ki marka adi da gorunsun. */\n'
+    '    .marka-metin>span{display:none}\n'
     '    .marka b{white-space:nowrap;font-size:15px}\n'
-    '    .serit-tel{font-size:14px;padding:8px 13px}\n'
+    '    .serit-tel{font-size:0;gap:0;padding:8px 12px}\n'
 )
 
 
