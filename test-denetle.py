@@ -1475,10 +1475,17 @@ else:
 from defusedxml import ElementTree as _ET
 from defusedxml.common import DefusedXmlException as _DefusedXmlException
 
+_sitemap_sari = []
 _sitemap_ns = {
     "ET": _ET,
     "DefusedXmlException": _DefusedXmlException,
     "os": _os,
+    # sitemap_hatalari üretim kodunda SARI bulgusunu global toplayıcıya
+    # yollar. Fonksiyonu tek başına çıkaran bu test aynı bağımlılığı da
+    # enjekte etmeli; aksi halde kapının kendisi değil eksik test kafesi
+    # NameError verir.
+    "sari": lambda baslik, ayrinti="": _sitemap_sari.append(
+        (baslik, ayrinti)),
 }
 try:
     _b = _seo_kaynak.index("def sitemap_hatalari(canli_url, disk_yolu):")
@@ -1498,6 +1505,14 @@ else:
                 bool(_sitemap_hatalari(set(), _disk)))
         kontrol("seo-denetle: eş sitemap temiz",
                 _sitemap_hatalari({"https://ymdisklinigi.com/"}, _disk) == [])
+        io.open(_disk, "w", encoding="utf-8").write(
+            '<urlset><url><loc>https://ymdisklinigi.com/</loc></url>'
+            '<url><loc>https://ymdisklinigi.com/yeni.html</loc></url></urlset>')
+        _sitemap_sari.clear()
+        kontrol("seo-denetle: yalnız diskteki yeni URL kırmızı değil, SARI",
+                (_sitemap_hatalari({"https://ymdisklinigi.com/"}, _disk) == []
+                 and len(_sitemap_sari) == 1
+                 and "bekleyen yeni URL" in _sitemap_sari[0][0]))
         kontrol("seo-denetle: sitemap farkı kırmızı",
                 bool(_sitemap_hatalari(
                     {"https://ymdisklinigi.com/baska.html"}, _disk)))
@@ -1916,6 +1931,14 @@ else:
         "ayni sayfada YINELENEN id yok",
         hedef="gizlilik.html")
     kontrol("yinelenen id yayin kapisini DURDURUR", _ok7, _a7)
+
+# Heartbeat adapteri başarıyı yalnız exit 0 ve bu exact tek satırla kabul
+# eder. İnsan için kelime ayrıntısı ayrı satırda kalabilir; marker süslenemez.
+kontrol(
+    "denetle exact heartbeat basari marker'i basiyor",
+    '\nprint("*** HEPSI GECTI ***")\n' in _kaynak,
+    "exact marker ayri satir olmali",
+)
 
 print("=" * 70)
 print("DENETCI TESTI — denetle.py gercekten yakaliyor mu?")

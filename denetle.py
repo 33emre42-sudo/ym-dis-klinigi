@@ -114,6 +114,7 @@ BILGI = ["nobetci-dis-hekimi-acil-dis.html",
          "hamilelikte-dis-sagligi.html", "cocukta-ilk-dis.html",
          "dis-dolgusu.html", "dis-cekimi.html", "protez-kaplama.html",
          "dis-tasi-temizligi.html", "dis-cekimi-sonrasi-sislik.html",
+         "dis-cekimi-sonrasi-beslenme.html",
          "dis-hekimi-korkusu.html", "bagcilarda-dis-klinigi-secerken.html",
          "agiz-kokusu.html",
          "dis-hassasiyeti.html", "curuk-nasil-olusur.html",
@@ -3084,4 +3085,5 @@ print("=" * 74)
 if hata:
     print("*** %d HATA ***" % hata)
     sys.exit(1)
-print("*** HEPSI GECTI  ·  ana sayfa %d kelime ***" % kelime)
+print("*** HEPSI GECTI ***")
+print("ana sayfa %d kelime" % kelime)
