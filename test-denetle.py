@@ -678,6 +678,19 @@ klinik_bekle("klinik esigi: kutuda 112 VARKEN ikinci belirti klinige -> YAKALANI
 klinik_bekle("klinik esigi: 'kliniği arayabilirsiniz' YAKALANIR",
              '<p>Nefes güçlüğü varsa kliniği arayabilirsiniz.</p>', True)
 
+# K86 reviewer bulgusu: ayni uyari kutusundaki onceki 112 cumlesi,
+# "tekrarlayan ... suren kanama"yi yalniz kliniğe yonlendiren sonraki
+# cumleyi ortmemeli. Iyelik eki "kliniğinizi" de klinik yonlendirmesidir.
+klinik_bekle(
+    "klinik esigi: K86 suren kanama + kliniginizi YAKALANIR",
+    '<div class="uyari">'
+    '<p>Nefes almakta zorlanıyorsanız 112\'yi arayın.</p>'
+    '<p><strong>Beslenme sırasında belirgin biçimde artan ağrı, '
+    'tekrarlayan baskıya rağmen süren kanama, giderek artan şişlik '
+    'veya ağız açmada zorlanma varsa:</strong> planlanan kontrolü '
+    'beklemeden kliniğinizi arayın.</p></div>',
+    True)
+
 klinik_bekle("klinik esigi: 'kliniğe gelin' YAKALANIR",
              '<p>Ağız tabanında şişlik varsa kliniğe gelin.</p>', True)
 
