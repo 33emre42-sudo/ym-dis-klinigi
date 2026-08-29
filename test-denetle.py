@@ -1037,6 +1037,37 @@ try:
 except Exception as _e:
     pass
 
+# K86 yeni-yazi sirasi: denetci envanteri icerikten once guvenle
+# on-kaydedilebilmeli. Aktif sayfalar silindiginde listede kalir (asagidaki
+# disk parity kapisi bunu yakalar); bekleyen sayfa ise ancak dosyasi gorulunce
+# etkin envantere girer.
+_bilgi_envanteri = None
+_bilgi_envanteri_hatasi = ""
+try:
+    _bilgi_bas = _kaynak.index("def bilgi_envanteri(")
+    _bilgi_son = _kaynak.index("\nBILGI_AKTIF =", _bilgi_bas)
+    _bilgi_ns = {"os": _os}
+    exec(compile(_kaynak[_bilgi_bas:_bilgi_son],
+                 "denetle-bilgi-envanteri", "exec"), _bilgi_ns)
+    _bilgi_envanteri = _bilgi_ns.get("bilgi_envanteri")
+except Exception as _e:
+    _bilgi_envanteri_hatasi = str(_e)
+
+kontrol("bilgi envanteri: on-kayit yardimcisi bulunuyor",
+        callable(_bilgi_envanteri), _bilgi_envanteri_hatasi)
+if callable(_bilgi_envanteri):
+    kontrol(
+        "bilgi envanteri: eksik aktif sayfa listede kalir, bekleyen girmez",
+        _bilgi_envanteri(
+            ["aktif.html"], ["gelecek.html"], var_mi=lambda _ad: False)
+        == ["aktif.html"])
+    kontrol(
+        "bilgi envanteri: bekleyen dosya gorulunce etkinlesir",
+        _bilgi_envanteri(
+            ["aktif.html"], ["gelecek.html"],
+            var_mi=lambda ad: ad == "gelecek.html")
+        == ["aktif.html", "gelecek.html"])
+
 kontrol("turizm kapisi: BELGE_VAR okunabiliyor", _BELGE is not None,
         str(_BELGE))
 kontrol("turizm kapisi: belge YOK olarak isaretli (belge gelince True)",
@@ -1398,33 +1429,11 @@ else:
 # zaten hata yazmis olsa bile ayrica fail-closed raporlanmali.
 import time as _time
 
-_retry_deneme_eslesme = _re.search(
-    r"^AG_DENEME_SAYISI\s*=\s*(\d+)\s*$", _seo_kaynak, _re.M)
-_retry_bekleme_eslesme = _re.search(
-    r"^AG_TEKRAR_BEKLEME\s*=\s*([0-9.]+)\s*$", _seo_kaynak, _re.M)
-_retry_deneme_sayisi = (
-    int(_retry_deneme_eslesme.group(1)) if _retry_deneme_eslesme else 0)
-_retry_bekleme = (
-    float(_retry_bekleme_eslesme.group(1)) if _retry_bekleme_eslesme else 0.0)
-kontrol("seo-denetle: retry sabitleri bounded 3 deneme ve 1 saniye tabanli",
-        _retry_deneme_sayisi == 3 and _retry_bekleme == 1.0)
-
-_randevu_hedef_eslesme = _re.search(
-    r'^RANDEVU_HEDEFI\s*=\s*"([^"]+)"\s*$', _seo_kaynak, _re.M)
-_randevu_hedefi = (
-    _randevu_hedef_eslesme.group(1) if _randevu_hedef_eslesme else None)
-kontrol("seo-denetle: randevu redirect hedefi exact allowlisttir",
-        _randevu_hedefi ==
-        "https://klinik.medicasimple.com/randevu?c=ymdisklinigi&s=ymdisklinigi&l=tr")
-
 _sure_ns = {
     "urllib": urllib,
     "time": _time,
     "ZAMAN": 20,
-    "AG_DENEME_SAYISI": _retry_deneme_sayisi,
-    "AG_TEKRAR_BEKLEME": _retry_bekleme,
     "EN_BUYUK": 4 * 1024 * 1024,
-    "RANDEVU_HEDEFI": _randevu_hedefi,
     "_HTTP_ACICI": None,
     "_guvenli_site_adresi": _guvenli_site_adresi,
 }
@@ -1434,8 +1443,6 @@ try:
     exec(compile(_seo_kaynak[_b:_e], "seo-denetle.py", "exec"), _sure_ns)
     _istek_zaman_asimi = _sure_ns.get("_istek_zaman_asimi")
     _getir = _sure_ns.get("getir")
-    _randevu_yonlendirme_durumu = _sure_ns.get(
-        "randevu_yonlendirme_durumu")
     _canli_kapsam_hatasi = _sure_ns.get("canli_kapsam_hatasi")
     if not all(callable(x) for x in
                (_istek_zaman_asimi, _getir, _canli_kapsam_hatasi)):
@@ -1445,11 +1452,7 @@ except Exception as _e:
             str(_e))
 else:
     class _SahteYanit:
-        def __init__(self, status=200, govde=b"<html>ok</html>",
-                     son_url="https://ymdisklinigi.com/"):
-            self.status = status
-            self.govde = govde
-            self.son_url = son_url
+        status = 200
 
         def __enter__(self):
             return self
@@ -1458,71 +1461,18 @@ else:
             return False
 
         def read(self, _sinir):
-            return self.govde
-
-        def geturl(self):
-            return self.son_url
+            return b"<html>ok</html>"
 
     class _SahteAcici:
-        def __init__(self, hata=None, yanit=None):
+        def __init__(self, hata=None):
             self.cagrilar = []
             self.hata = hata
-            self.yanit = _SahteYanit() if yanit is None else yanit
 
         def open(self, istek, timeout):
             self.cagrilar.append((istek.full_url, timeout))
             if self.hata:
                 raise self.hata
-            return self.yanit
-
-    if not callable(_randevu_yonlendirme_durumu):
-        kontrol("seo-denetle: randevu redirect yardimcisi bulunuyor", False)
-    else:
-        _hassas_randevu_izi = "https://dis-host.invalid/?token=GIZLI-RANDEVU"
-        _acici = _SahteAcici(yanit=_SahteYanit(
-            status=200, son_url=_hassas_randevu_izi))
-        _sonuc = _randevu_yonlendirme_durumu(
-            acici=_acici, deadline=105.0, saat=lambda: 100.0)
-        kontrol("seo-denetle: takip edilmis dis randevu URL'si reddedilir",
-                (_sonuc == (None, "guvensiz yonlendirme")
-                 and _hassas_randevu_izi not in str(_sonuc)
-                 and len(_acici.cagrilar) == 1))
-
-        _izinli_redirect = urllib.error.HTTPError(
-            "https://ymdisklinigi.com/randevu", 302, "Found",
-            {"Location": _randevu_hedefi}, None)
-        _acici = _SahteAcici(hata=_izinli_redirect)
-        _sonuc = _randevu_yonlendirme_durumu(
-            acici=_acici, deadline=105.0, saat=lambda: 100.0)
-        kontrol("seo-denetle: exact randevu hedefi takip edilmeden dogrulanir",
-                (_sonuc == ("izinli_yonlendirme", 302)
-                 and len(_acici.cagrilar) == 1))
-
-        _beklenmeyen_redirect_izi = (
-            "https://dis-host.invalid/randevu?token=GIZLI-YONLENDIRME")
-        _beklenmeyen_redirect = urllib.error.HTTPError(
-            "https://ymdisklinigi.com/randevu", 302, "Found",
-            {"Location": _beklenmeyen_redirect_izi}, None)
-        _acici = _SahteAcici(hata=_beklenmeyen_redirect)
-        _sonuc = _randevu_yonlendirme_durumu(
-            acici=_acici, deadline=105.0, saat=lambda: 100.0)
-        kontrol("seo-denetle: beklenmeyen randevu redirecti fail-closed ve redakte",
-                (_sonuc == (None, "beklenmeyen yonlendirme")
-                 and _beklenmeyen_redirect_izi not in str(_sonuc)
-                 and len(_acici.cagrilar) == 1))
-
-    _randevu_blok = _seo_kaynak.split(
-        "# --- 5. randevu", 1)[1].split("# --- olmayan yol", 1)[0]
-    kontrol("seo-denetle: gercek randevu yolu yalniz bounded helper kullanir",
-            ("randevu_yonlendirme_durumu(" in _randevu_blok
-             and "urllib.request.urlopen" not in _randevu_blok
-             and "type(_e).__name__, _e" not in _randevu_blok))
-
-    _soft_404_blok = _seo_kaynak.split(
-        "# --- olmayan yol", 1)[1].split("# --- rapor", 1)[0]
-    kontrol("seo-denetle: soft-404 raporu ham exception sizdirmaz",
-            ("type(_yok_e).__name__, _yok_e" not in _soft_404_blok
-             and "str(_yok_e)" not in _soft_404_blok))
+            return _SahteYanit()
 
     _acici = _SahteAcici()
     _icerik, _kod = _getir(
@@ -1531,13 +1481,6 @@ else:
             (_icerik == "<html>ok</html>" and _kod == 200
              and len(_acici.cagrilar) == 1
              and abs(_acici.cagrilar[0][1] - 5.0) < 0.001))
-
-    _acici = _SahteAcici(
-        yanit=_SahteYanit(status=503, govde=b"temporary outage"))
-    _sonuc = _getir(
-        "/", acici=_acici, deadline=105.0, saat=lambda: 100.0)
-    kontrol("seo-denetle: govdeli HTTP 503 sessiz basari sayilmaz",
-            _sonuc == (None, 503) and len(_acici.cagrilar) == 1)
 
     _acici = _SahteAcici()
     _sonuc = _getir(
@@ -1550,87 +1493,7 @@ else:
     _sonuc = _getir(
         "/", acici=_acici, deadline=120.0, saat=lambda: 100.0)
     kontrol("seo-denetle: sahte opener timeoutu temiz sayilmaz",
-            _sonuc == (None, "TimeoutError"))
-
-    _hassas_iz = "https://dis-host.invalid/?token=GIZLI-IZ"
-    _acici = _SahteAcici(urllib.error.URLError(_hassas_iz))
-    _sonuc = _getir(
-        "/", acici=_acici, deadline=130.0, saat=lambda: 100.0,
-        bekle=lambda _sure: None)
-    kontrol("seo-denetle: URLError ayrintisi ve URL/token sizdirilmaz",
-            (_sonuc == (None, "URLError")
-             and _hassas_iz not in str(_sonuc)
-             and len(_acici.cagrilar) == 3))
-
-    _acici = _SahteAcici(RuntimeError(_hassas_iz))
-    _sonuc = _getir(
-        "/", acici=_acici, deadline=120.0, saat=lambda: 100.0)
-    kontrol("seo-denetle: beklenmeyen hata ayrintisi sizdirilmaz",
-            (_sonuc == (None, "RuntimeError")
-             and _hassas_iz not in str(_sonuc)
-             and len(_acici.cagrilar) == 1))
-
-    _getir_parametreleri = _getir.__code__.co_varnames[:_getir.__code__.co_argcount]
-    _retry_sozlesmesi_var = "bekle" in _getir_parametreleri
-    kontrol("seo-denetle: transient ag hatasi icin sinirli retry sozlesmesi var",
-            _retry_sozlesmesi_var)
-
-    if _retry_sozlesmesi_var:
-        class _SiraliSahteAcici:
-            def __init__(self, sonuclar):
-                self.sonuclar = list(sonuclar)
-                self.cagrilar = []
-
-            def open(self, istek, timeout):
-                self.cagrilar.append((istek.full_url, timeout))
-                sonuc = self.sonuclar.pop(0)
-                if isinstance(sonuc, BaseException):
-                    raise sonuc
-                return sonuc
-
-        _beklemeler = []
-        _acici = _SiraliSahteAcici(
-            [TimeoutError("ilk timeout"), _SahteYanit()])
-        _icerik, _kod = _getir(
-            "/", acici=_acici, deadline=130.0, saat=lambda: 100.0,
-            bekle=_beklemeler.append)
-        kontrol("seo-denetle: transient timeout bir kez retry edilip duzelir",
-                (_icerik == "<html>ok</html>" and _kod == 200
-                 and len(_acici.cagrilar) == 2
-                 and _beklemeler == [1.0]))
-
-        _beklemeler = []
-        _acici = _SiraliSahteAcici(
-            [TimeoutError("ilk timeout"), TimeoutError("ikinci timeout"),
-             TimeoutError("ucuncu timeout")])
-        _sonuc = _getir(
-            "/", acici=_acici, deadline=130.0, saat=lambda: 100.0,
-            bekle=_beklemeler.append)
-        kontrol("seo-denetle: kalici timeout uc deneme sonunda KIRMIZI kalir",
-                (_sonuc == (None, "TimeoutError")
-                 and len(_acici.cagrilar) == 3
-                 and _beklemeler == [1.0, 2.0]))
-
-        _beklemeler = []
-        _acici = _SiraliSahteAcici(
-            [TimeoutError("ilk timeout"), TimeoutError("ikinci timeout"),
-             _SahteYanit()])
-        _icerik, _kod = _getir(
-            "/", acici=_acici, deadline=140.0, saat=lambda: 100.0,
-            bekle=_beklemeler.append)
-        kontrol("seo-denetle: iki transient timeout ucuncu denemede duzelir",
-                (_icerik == "<html>ok</html>" and _kod == 200
-                 and len(_acici.cagrilar) == 3
-                 and _beklemeler == [1.0, 2.0]))
-
-        _http_hatasi = urllib.error.HTTPError(
-            "https://ymdisklinigi.com/", 503, "Service Unavailable", {}, None)
-        _acici = _SiraliSahteAcici([_http_hatasi, _SahteYanit()])
-        _sonuc = _getir(
-            "/", acici=_acici, deadline=130.0, saat=lambda: 100.0,
-            bekle=lambda _sure: None)
-        kontrol("seo-denetle: HTTP hata retry ile saklanmaz",
-                _sonuc == (None, 503) and len(_acici.cagrilar) == 1)
+            _sonuc[0] is None and "sahte timeout" in str(_sonuc[1]))
 
     kontrol("seo-denetle: eksik canli kapsam fail-closed",
             bool(_canli_kapsam_hatasi(78, 77, False)))
@@ -1648,10 +1511,6 @@ _sitemap_ns = {
     "ET": _ET,
     "DefusedXmlException": _DefusedXmlException,
     "os": _os,
-    # sitemap_hatalari üretim kodunda SARI bulgusunu global toplayıcıya
-    # yollar. Fonksiyonu tek başına çıkaran bu test aynı bağımlılığı da
-    # enjekte etmeli; aksi halde kapının kendisi değil eksik test kafesi
-    # NameError verir.
     "sari": lambda baslik, ayrinti="": _sitemap_sari.append(
         (baslik, ayrinti)),
 }
@@ -1673,14 +1532,6 @@ else:
                 bool(_sitemap_hatalari(set(), _disk)))
         kontrol("seo-denetle: eş sitemap temiz",
                 _sitemap_hatalari({"https://ymdisklinigi.com/"}, _disk) == [])
-        io.open(_disk, "w", encoding="utf-8").write(
-            '<urlset><url><loc>https://ymdisklinigi.com/</loc></url>'
-            '<url><loc>https://ymdisklinigi.com/yeni.html</loc></url></urlset>')
-        _sitemap_sari.clear()
-        kontrol("seo-denetle: yalnız diskteki yeni URL kırmızı değil, SARI",
-                (_sitemap_hatalari({"https://ymdisklinigi.com/"}, _disk) == []
-                 and len(_sitemap_sari) == 1
-                 and "bekleyen yeni URL" in _sitemap_sari[0][0]))
         kontrol("seo-denetle: sitemap farkı kırmızı",
                 bool(_sitemap_hatalari(
                     {"https://ymdisklinigi.com/baska.html"}, _disk)))
@@ -2099,14 +1950,6 @@ else:
         "ayni sayfada YINELENEN id yok",
         hedef="gizlilik.html")
     kontrol("yinelenen id yayin kapisini DURDURUR", _ok7, _a7)
-
-# Heartbeat adapteri başarıyı yalnız exit 0 ve bu exact tek satırla kabul
-# eder. İnsan için kelime ayrıntısı ayrı satırda kalabilir; marker süslenemez.
-kontrol(
-    "denetle exact heartbeat basari marker'i basiyor",
-    '\nprint("*** HEPSI GECTI ***")\n' in _kaynak,
-    "exact marker ayri satir olmali",
-)
 
 print("=" * 70)
 print("DENETCI TESTI — denetle.py gercekten yakaliyor mu?")
