@@ -103,28 +103,36 @@ except FileNotFoundError:
     print("index.html bulunamadi — betigi site klasorunde calistirin.")
     sys.exit(1)
 
-# Sayfa listeleri — tek kaynak
-BILGI = ["nobetci-dis-hekimi-acil-dis.html",
-         "gece-dis-agrisi.html", "gece-hafta-sonu-dis-hekimi.html",
-         "kirilan-dis-ne-yapmali.html",
-         "dis-apsesi.html", "dolgu-kaplama-dustu.html", "yirmi-yas-disi.html",
-         "kanal-tedavisi.html", "kanal-tedavisi-sonrasi-agri.html",
-         "implant-sureci.html",
-         "diseti-kanamasi.html", "dis-sikma-gece-plagi.html",
-         "hamilelikte-dis-sagligi.html", "cocukta-ilk-dis.html",
-         "dis-dolgusu.html", "dis-cekimi.html", "protez-kaplama.html",
-         "dis-tasi-temizligi.html", "dis-cekimi-sonrasi-sislik.html",
-         "dis-hekimi-korkusu.html", "bagcilarda-dis-klinigi-secerken.html",
-         "agiz-kokusu.html",
-         "dis-hassasiyeti.html", "curuk-nasil-olusur.html",
-         "florur-nedir.html", "agiz-yarasi-aft.html",
-         "sigara-ve-agiz-sagligi.html", "dis-ipi-kullanimi.html",
-         "dis-beyazlatma-gercekleri.html",
-         "dis-teli-ortodonti.html", "seffaf-plak.html",
-         "dis-rontgeni.html", "diseti-cekilmesi.html",
-         "agiz-kurulugu.html", "diyabet-ve-agiz-sagligi.html",
-         "kan-sulandirici-dis-tedavisi.html",
-         "sut-disi-curugu.html"]
+# Sayfa listeleri — tek kaynak. Yeni K81 sayfasi once BEKLEYEN'e kaydedilir;
+# dosya geldigi anda ayni kosuda tam BILGI denetimine girer. Aktif liste ise
+# dosya silinse bile korunur; asagidaki disk parity kapisi eksigi yakalar.
+def bilgi_envanteri(aktif, bekleyen, var_mi=os.path.isfile):
+    return list(aktif) + [ad for ad in bekleyen if var_mi(ad)]
+
+
+BILGI_AKTIF = ["nobetci-dis-hekimi-acil-dis.html",
+               "gece-dis-agrisi.html", "gece-hafta-sonu-dis-hekimi.html",
+               "kirilan-dis-ne-yapmali.html",
+               "dis-apsesi.html", "dolgu-kaplama-dustu.html", "yirmi-yas-disi.html",
+               "kanal-tedavisi.html", "kanal-tedavisi-sonrasi-agri.html",
+               "implant-sureci.html",
+               "diseti-kanamasi.html", "dis-sikma-gece-plagi.html",
+               "hamilelikte-dis-sagligi.html", "cocukta-ilk-dis.html",
+               "dis-dolgusu.html", "dis-cekimi.html", "protez-kaplama.html",
+               "dis-tasi-temizligi.html", "dis-cekimi-sonrasi-sislik.html",
+               "dis-hekimi-korkusu.html", "bagcilarda-dis-klinigi-secerken.html",
+               "agiz-kokusu.html",
+               "dis-hassasiyeti.html", "curuk-nasil-olusur.html",
+               "florur-nedir.html", "agiz-yarasi-aft.html",
+               "sigara-ve-agiz-sagligi.html", "dis-ipi-kullanimi.html",
+               "dis-beyazlatma-gercekleri.html",
+               "dis-teli-ortodonti.html", "seffaf-plak.html",
+               "dis-rontgeni.html", "diseti-cekilmesi.html",
+               "agiz-kurulugu.html", "diyabet-ve-agiz-sagligi.html",
+               "kan-sulandirici-dis-tedavisi.html",
+               "sut-disi-curugu.html"]
+BILGI_BEKLEYEN = ["dis-cekimi-sonrasi-beslenme.html"]
+BILGI = bilgi_envanteri(BILGI_AKTIF, BILGI_BEKLEYEN)
 ALT_SAYFA = ["hekimlerimiz.html", "sik-sorulan-sorular.html",
              "bilgi-yazilari.html", "ulasim-ve-hizmet-bolgesi.html",
              "tedaviler.html", "iletisim.html"]

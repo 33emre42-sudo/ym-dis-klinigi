@@ -1037,6 +1037,37 @@ try:
 except Exception as _e:
     pass
 
+# K86 yeni-yazi sirasi: denetci envanteri icerikten once guvenle
+# on-kaydedilebilmeli. Aktif sayfalar silindiginde listede kalir (asagidaki
+# disk parity kapisi bunu yakalar); bekleyen sayfa ise ancak dosyasi gorulunce
+# etkin envantere girer.
+_bilgi_envanteri = None
+_bilgi_envanteri_hatasi = ""
+try:
+    _bilgi_bas = _kaynak.index("def bilgi_envanteri(")
+    _bilgi_son = _kaynak.index("\nBILGI_AKTIF =", _bilgi_bas)
+    _bilgi_ns = {"os": _os}
+    exec(compile(_kaynak[_bilgi_bas:_bilgi_son],
+                 "denetle-bilgi-envanteri", "exec"), _bilgi_ns)
+    _bilgi_envanteri = _bilgi_ns.get("bilgi_envanteri")
+except Exception as _e:
+    _bilgi_envanteri_hatasi = str(_e)
+
+kontrol("bilgi envanteri: on-kayit yardimcisi bulunuyor",
+        callable(_bilgi_envanteri), _bilgi_envanteri_hatasi)
+if callable(_bilgi_envanteri):
+    kontrol(
+        "bilgi envanteri: eksik aktif sayfa listede kalir, bekleyen girmez",
+        _bilgi_envanteri(
+            ["aktif.html"], ["gelecek.html"], var_mi=lambda _ad: False)
+        == ["aktif.html"])
+    kontrol(
+        "bilgi envanteri: bekleyen dosya gorulunce etkinlesir",
+        _bilgi_envanteri(
+            ["aktif.html"], ["gelecek.html"],
+            var_mi=lambda ad: ad == "gelecek.html")
+        == ["aktif.html", "gelecek.html"])
+
 kontrol("turizm kapisi: BELGE_VAR okunabiliyor", _BELGE is not None,
         str(_BELGE))
 kontrol("turizm kapisi: belge YOK olarak isaretli (belge gelince True)",
@@ -1475,10 +1506,13 @@ else:
 from defusedxml import ElementTree as _ET
 from defusedxml.common import DefusedXmlException as _DefusedXmlException
 
+_sitemap_sari = []
 _sitemap_ns = {
     "ET": _ET,
     "DefusedXmlException": _DefusedXmlException,
     "os": _os,
+    "sari": lambda baslik, ayrinti="": _sitemap_sari.append(
+        (baslik, ayrinti)),
 }
 try:
     _b = _seo_kaynak.index("def sitemap_hatalari(canli_url, disk_yolu):")
