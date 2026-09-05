@@ -39,7 +39,7 @@ Genel diş hekimliği alanında çalışmaktadır; kliniğimizde uygulanan tedav
 Genel diş hekimliği alanında çalışmaktadır; kliniğimizde uygulanan tedavilerin tamamını yürütmektedir.
 Hekimlerimizi ve muayene sürecinin nasıl işlediğini okuyun
 ### Bilgi yazıları
-Hastalarımızın en çok karşılaştığı durumlar için hazırladığımız bilgilendirme yazıları — toplam otuz yedi başlık. Şikâyetiniz varsa yine de muayene gereklidir; bu yazılar hekim muayenesinin yerine geçmez.
+Hastalarımızın en çok karşılaştığı durumlar için hazırladığımız bilgilendirme yazıları — toplam otuz sekiz başlık. Şikâyetiniz varsa yine de muayene gereklidir; bu yazılar hekim muayenesinin yerine geçmez.
 **Nöbetçi diş hekimi ve acil diş** Hangi şikâyet beklemez, hangisi sabahı bekleyebilir; gece ne yapılabilir ve hangi belirtide 112 aranır. **Gece ya da hafta sonu diş hekimine gitmeli miyim?** Nöbetçi klinikte gece neler yapılır, neler yapılmaz; hangi şikâyet sabahı bekleyebilir, hangisi bekleyemez. **Gece diş ağrısı: evde ne yapabilirsiniz?** Ağrı neden geceleri artar, sabaha kadar ne yapılabilir, hangi yöntemler zarar verir ve ne zaman beklememek gerekir. **Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** Düşen dişi nasıl tutmalı, neyin içinde saklamalı ve hangi hata dişi kurtarılamaz hâle getirir. **Diş apsesi: neden ertelenmemeli?** Belirtileri, ağrı geçtiğinde neden iyileşme sayılmadığı ve antibiyotiğin neden tek başına yetmediği. **Kanal tedavisi: dişi çekmeden kurtarmak** Ne zaman gerekir, ağrının geçmesi neden iyileşme değildir ve sonrasında neden kaplama yapılır. **Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** Sağlıklı dişeti kanar mı, kanayan bölgeyi fırçalamamak neden hata ve hangi bulgularda beklenmemeli. **Diş sıkma ve gece plağı** Sabah çene ağrısı, aşınan dişler, kırılan dolgular ve gece plağının gerçekte ne yaptığı. **Diş çekimi sonrası şişlik: ne zaman olağan?** Şişliğin günlere göre seyri, soğuk-sıcak uygulamanın sırası ve hangi bulguda beklenmeden aranmalı. **Diş hekimi korkusu: ilk randevu nasıl ilerler?** Korkuyu önceden söylemenin ne değiştirdiği, durma işareti ve yıllardır ertelemiş olanlar için izlenen yol.
 On altı bilgi yazısının tamamını görün
 ### Ulaşım
@@ -901,7 +901,7 @@ Yazıların hiçbiri muayenenin yerine geçmez. Bir şikâyetiniz varsa okuduğu
 ### Acil durumlar
 **Nöbetçi diş hekimi ve acil diş** Hangi şikâyet acildir, gece ne yapılabilir, hangi belirtide 112 aranır? **Gece ya da hafta sonu diş hekimine gitmeli miyim?** Nöbetçi klinikte gece neler yapılır, neler yapılmaz; hangi şikâyet sabahı bekleyebilir, hangisi bekleyemez. **Gece diş ağrısı: evde ne yapabilirsiniz?** Ağrı neden geceleri artar, sabaha kadar ne yapılabilir, hangi yöntemler zarar verir ve ne zaman beklememek gerekir. **Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** Düşen dişi nasıl tutmalı, neyin içinde saklamalı ve hangi hata dişi kurtarılamaz hâle getirir. **Diş apsesi: neden ertelenmemeli?** Belirtileri, ağrı geçtiğinde neden iyileşme sayılmadığı ve antibiyotiğin neden tek başına yetmediği. **Diş çekimi sonrası şişlik: ne zaman olağan?** Şişliğin günlere göre seyri, soğuk-sıcak uygulamanın sırası ve hangi bulguda beklenmeden aranmalı. **Dolgu veya kaplama düştü: acil mi, ne yapmalı?** İlk yapılacaklar, ne zaman beklenip ne zaman klinik aranmalı ve kendi kendine yapıştırmanın neden risk taşıdığı.
 ### Tedaviler
-**Diş dolgusu: ne zaman gerekir, işlem nasıl yapılır?** Çürük hangi aşamada dolguyla durur, işlem sırasında ne hissedilir ve sonrasındaki hassasiyet ne kadar sürer. **Kanal tedavisi: dişi çekmeden kurtarmak** Ne zaman gerekir, kaç seans sürer, ağrının geçmesi neden iyileşme değildir ve sonrasında neden kaplama yapılır. **Kanal tedavisi sonrası ağrı: ne zaman hekime danışmalı?** İşlem sonrası hassasiyet neden görülebilir, evde nelere dikkat edilir ve hangi belirtiler kontrole götürmeli. **Diş çekimi: işlem öncesi, çekim ve sonrası** Hangi durumda çekim kaçınılmaz olur, işlem nasıl ilerler ve ilk 24 saatte nelere dikkat edilir. **Diş protezi ve kaplama: seçenekler ve süreç** Kaplama, köprü, hareketli protez ve implant üstü protez arasındaki farklar ve alışma dönemi. **İmplant tedavisi adım adım** Adımların sırası, iyileşme süresinin neye göre değiştiği, kemik yetersizliği ve implant sonrası bakım. **20 yaş dişi her zaman çekilir mi?** Hangi bulgular çekim gerektirir, hangi durumda diş yerinde bırakılır ve çekim sonrası neler olağandır. **Diş beyazlatma: gerçekte ne yapar, ne yapmaz?** Dolgu ve kaplamaların neden beyazlamadığı, sonucun neden kalıcı olmadığı ve ev yöntemlerinin mineye verdiği zarar. **Diş teli tedavisi: süreç nasıl işler?** Adımların sırası, ilk günlerde hissedilenler, süreyi belirleyen etkenler ve pekiştirme döneminin neden atlanmaması gerektiği. **Şeffaf plak: diş teline alternatif mi?** Nasıl çalıştığı, günlük kullanım süresinin neden belirleyici olduğu ve hangi durumlarda uygun olmadığı. **Diş röntgeni: neden çekilir, güvenli midir?** Gözle görülemeyen sorunlar, alınan korunma önlemleri, hamilelikte ve çocuklarda yaklaşım.
+**Diş dolgusu: ne zaman gerekir, işlem nasıl yapılır?** Çürük hangi aşamada dolguyla durur, işlem sırasında ne hissedilir ve sonrasındaki hassasiyet ne kadar sürer. **Kanal tedavisi: dişi çekmeden kurtarmak** Ne zaman gerekir, kaç seans sürer, ağrının geçmesi neden iyileşme değildir ve sonrasında neden kaplama yapılır. **Kanal tedavisi sonrası ağrı: ne zaman hekime danışmalı?** İşlem sonrası hassasiyet neden görülebilir, evde nelere dikkat edilir ve hangi belirtiler kontrole götürmeli. **Diş çekimi: işlem öncesi, çekim ve sonrası** Hangi durumda çekim kaçınılmaz olur, işlem nasıl ilerler ve ilk 24 saatte nelere dikkat edilir. **Diş çekimi sonrası beslenme: ilk günlerde ne yenebilir?** İlk saatlerde ve ilk günlerde yiyecek seçimi, sıvı tüketimi ve hangi belirtilerde hekime danışılması gerektiği. **Diş protezi ve kaplama: seçenekler ve süreç** Kaplama, köprü, hareketli protez ve implant üstü protez arasındaki farklar ve alışma dönemi. **İmplant tedavisi adım adım** Adımların sırası, iyileşme süresinin neye göre değiştiği, kemik yetersizliği ve implant sonrası bakım. **20 yaş dişi her zaman çekilir mi?** Hangi bulgular çekim gerektirir, hangi durumda diş yerinde bırakılır ve çekim sonrası neler olağandır. **Diş beyazlatma: gerçekte ne yapar, ne yapmaz?** Dolgu ve kaplamaların neden beyazlamadığı, sonucun neden kalıcı olmadığı ve ev yöntemlerinin mineye verdiği zarar. **Diş teli tedavisi: süreç nasıl işler?** Adımların sırası, ilk günlerde hissedilenler, süreyi belirleyen etkenler ve pekiştirme döneminin neden atlanmaması gerektiği. **Şeffaf plak: diş teline alternatif mi?** Nasıl çalıştığı, günlük kullanım süresinin neden belirleyici olduğu ve hangi durumlarda uygun olmadığı. **Diş röntgeni: neden çekilir, güvenli midir?** Gözle görülemeyen sorunlar, alınan korunma önlemleri, hamilelikte ve çocuklarda yaklaşım.
 ### Günlük bakım ve korunma
 **Diş ipi ve arayüz fırçası: doğru kullanım** Fırçanın ulaşamadığı yüzey, adım adım kullanım ve ilk günlerdeki kanamanın neden bırakma sebebi olmadığı. **Çürük nasıl oluşur ve nasıl önlenir?** Şekerin miktarı değil temas sıklığı neden belirleyici, erken evre nasıl geri döndürülebilir. **Diş taşı temizliği: ne zaman gerekir?** Diş taşı nasıl oluşur, temizlik dişleri aşındırır mı ve sonrasındaki boşluk hissi neden olur. **Florür nedir, zararlı mı?** Dişte ne yaptığı, güvenlik sınırları, florozis ve çocuklarda macun miktarının neden önemsendiği. **Diş sıkma ve gece plağı** Sabah çene ağrısı, aşınan dişler, kırılan dolgular ve gece plağının gerçekte ne yaptığı.
 ### Ağız içi şikâyetler
@@ -1972,7 +1972,7 @@ Seçenekler:
 - ** Protez ** — birden fazla diş eksikse ya da diğer seçenekler uygun değilse.
 Hangisinin uygun olduğu kemik durumu, genel sağlık ve komşu dişlerin durumuna göre değişir. Bazı hastalarda bir seçenek uygun olmayabilir; karar muayene ve görüntüleme sonrasında birlikte verilir.
 ### Sık sorulanlar
-**"Çekimden sonra ne zaman normal yemek yiyebilirim?"** İlk gün yumuşak ve ılık besinler tercih edilir. Normal beslenmeye dönüş, çekimin zorluğuna ve iyileşmenin gidişatına göre kişiden kişiye değişir; hekiminiz size özel bilgi verir.
+**"Çekimden sonra ne zaman normal yemek yiyebilirim?"** İlk gün yumuşak ve ılık besinler tercih edilir. Normal beslenmeye dönüş, çekimin zorluğuna ve iyileşmenin gidişatına göre kişiden kişiye değişir; hekiminiz size özel bilgi verir. Yiyecek ve içecek seçimi için diş çekimi sonrası beslenme sayfasında genel bilgi var.
 **"Çekilen dişin yerine mutlaka bir şey yaptırmalı mıyım?"** Boşluk bırakıldığında komşu dişler zamanla yer değiştirebilir ve karşıt diş uzayabilir. Yerine ne yapılacağı (implant, köprü, protez) muayenede değerlendirilir.
 **"Kan sulandırıcı kullanıyorum, ilacı kesmeli miyim?"** İlacınızı **kendi kararınızla kesmeyin.** Kullandığınız ilaçları işlemden önce mutlaka bildirin; gerekirse ilgili hekiminizle görüşülerek plan yapılır. Ayrıntı: kan sulandırıcı kullananlarda diş tedavisi .
 Bu tedavi kliniğimizde uygulanmaktadır. Adres: Kirazlı Mah. Mevlana Cad. No: 47 D, Bağcılar / İstanbul — Kirazlı Metro yakınında, her gün 24 saat açık.
@@ -2183,6 +2183,60 @@ TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON G�
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
 **Diş çekimi: öncesi, işlem ve sonrası** **Diş apsesi: neden ertelenmemeli?** **Tüm bilgi yazıları**
+
+---
+
+## Diş Çekimi Sonrası Beslenme: İlk Günlerde Ne Yenebilir?
+URL: https://ymdisklinigi.com/dis-cekimi-sonrasi-beslenme.html
+
+ANA SAYFA · BİLGİ YAZILARI
+Diş çekimi sonrası beslenme: ilk günlerde ne yenebilir?
+Çekimden sonraki günlerde ne yiyip ne içeceğiniz, çekim bölgesinin korunmasında rol oynar. Bu yazıda ilk saatlerde ve ilk günlerde beslenmeyi nasıl planlayabileceğinizi, nelerden kaçınmanın rahatlatıcı olabileceğini ve hangi belirtilerde **beklemeden hekimle görüşmeniz** gerektiğini anlattık.
+**Önce şunları okuyun — bunlarda beklemeyin** Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
+- Nefes almakta ya da yutkunmakta zorlanma
+- Göze, boyna ya da göğse doğru yayılan şişlik
+- Yüksek ateşle birlikte olan şişlik, titreme
+- Bilinç bulanıklığı ya da bayılma
+- Çene kırığı şüphesi ya da kafa travması sonrası baygınlık
+- Tekrarlanan baskıya rağmen durmayan ya da ağzı hızla dolduran kanama
+**Beslenme sırasında belirgin biçimde artan ağrı, giderek artan şişlik veya ağız açmada zorlanma varsa:** planlanan kontrolü beklemeden kliniğinizi arayın.
+Diş çekiminden sonraki beslenme, çekim bölgesinin korunmasına yardımcı olacak şekilde planlanmalıdır. Her çekimin zorluğu, uygulanan işlem ve kişinin genel sağlık durumu farklıdır. Bu nedenle size işlem sonunda verilen yazılı veya sözlü hekim önerileri her zaman bu genel bilgilerin önündedir.
+İlk günlerde amaç, çekim alanını zorlamadan yeterli sıvı ve besin alabilmektir. Çok sıcak, çok sert veya küçük taneli yiyecekler bazı kişilerde rahatsızlık verebilir. Rahat beslenememek, artan ağrı ya da başka bir şikâyet olduğunda kendi kendinize çözüm aramak yerine hekiminize danışın.
+### İlk saatlerde neden dikkatli beslenmek gerekir?
+Çekimden sonra bölgede iyileşme süreci başlar. İlk saatlerde uyuşukluk devam edebilir; bu sırada yanak, dudak veya dili fark etmeden ısırma riski vardır. Uyuşukluk geçene kadar çiğnemeyi gerektiren yiyeceklerden kaçınmak daha güvenli olabilir.
+Çekim alanında oluşan pıhtının korunması da önemlidir. Bölgeyi sürekli kontrol etmek, sert gıdalarla zorlamak veya kuvvetli çalkalamak iyileşme sürecini olumsuz etkileyebilir. Yemek sonrası ne yapmanız gerektiği konusunda hekiminizin verdiği talimatı uygulayın. Çekim sürecinin bütünü hakkında genel bilgi diş çekimi sayfasında.
+#### Ne zaman yemek yenebilir?
+Bu süre yapılan işlemin türüne ve hekiminizin yönlendirmesine göre değişir. Uyuşukluk azaldıktan sonra, rahatsız etmeyecek yumuşak seçeneklerle başlamak birçok kişi için daha kolay olabilir. Aç kalmak veya yalnızca tek tür besin tüketmek yerine, tolere edebildiğiniz yumuşak seçenekleri gün içine dağıtmayı değerlendirin.
+### İlk günlerde hangi yiyecekler daha rahat olabilir?
+Yumuşak, ılık ya da serin ve kolay çiğnenebilen yiyecekler ilk günlerde tercih edilebilir. Yoğurt, püre kıvamındaki sebzeler, yumuşak çorbalar, yumurta, muz ezmesi veya yulaf lapası bazı kişiler için örnek olabilir. Ancak sıcaklık ve kıvam konusunda kişisel durumunuzla birlikte hekiminizin önerisini esas alın.
+Çekimin yapıldığı tarafı kullanmadan çiğnemek ilk günlerde daha rahat gelebilir. Yiyecekleri küçük lokmalar hâlinde tüketmek, acele etmemek ve ağzınızı zorlamamak da yardımcı olabilir. Özellikle iki tarafta işlem yapıldıysa, günlük beslenmeyi nasıl sürdüreceğinizi işlemden önce veya sonra hekiminizle konuşun.
+#### Sıvı tüketiminde nelere dikkat edilmeli?
+Yeterli sıvı almak genel iyilik hâli için önemlidir. Su içmek çoğu kişi için uygun bir başlangıçtır. Pipet kullanımı bazı çekimlerde uygun olmayabilir; emme hareketi çekim bölgesini etkileyebileceğinden bu konuda hekiminizin talimatına uyun. Çok sıcak içeceklerin zamanlamasını da hekiminize sorun.
+### Hangi yiyecek ve alışkanlıklardan kaçınmak gerekebilir?
+Sert kabuklu, kırıntılı, çok yapışkan veya çekim alanına kolayca kaçabilecek yiyecekler ilk günlerde rahatsızlık yaratabilir. Cips, kuruyemiş, sert ekmek parçaları ve küçük taneli gıdalar buna örnek olabilir. Bu tür yiyeceklerin ne zaman yeniden tüketilebileceği kişiye ve işlemin seyrine göre değişir.
+Aşırı sıcak yiyecek ve içecekler de çekimden sonraki erken dönemde uygun olmayabilir. Sigara kullanımı iyileşmeyi olumsuz etkileyebilir; bırakma veya ara verme konusunda hekiminizle konuşun. Alkol, kullanılan ilaçlar veya genel sağlık durumunuzla etkileşebileceği için yine hekim önerisi olmadan değerlendirilmemelidir.
+### Yemekten sonra ağız bakımı nasıl ele alınmalı?
+Yemekten sonra çekim alanını kurcalamamak önemlidir. Hekiminizin tarif ettiği bakım adımlarını ve önerdiği zamanlamayı uygulayın. İlk günlerde güçlü şekilde gargara yapmak ya da ağzı kuvvetle çalkalamak bazı durumlarda uygun olmayabilir.
+Dişleri fırçalamaya ne zaman ve çekim alanına ne kadar yaklaşarak devam edeceğiniz, işlemin türüne göre değişebilir. Düzenli ağız bakımını tamamen bırakmak yerine, hekiminizin gösterdiği hassas yöntemi izleyin. Dikiş varsa veya ağız açmak zorlaşıyorsa, bakım ve beslenme planını kliniğinizle teyit edin.
+### Ne zaman hekime danışılmalı?
+Beslenme sırasında ağrının belirgin biçimde artması, giderek artan şişlik veya ağız açmada zorlanma gibi durumlarda kliniğinizle görüşün. Nefes alma ya da yutma güçlüğü, şişliğin hızla yayılması, tekrarlayan baskıya rağmen süren kanama veya ağzı hızla dolduran kanama gibi acil belirtilerde beklemeyin; 112'yi arayın veya en yakın acil servise başvurun. Şişliğin seyriyle ilgili ayrıntılı bilgi diş çekimi sonrası şişlik sayfasında; hangi şikâyetin bekleyemeyeceği konusunda nöbetçi diş hekimi sayfası da yol gösterir.
+Bu yazı genel bilgi içindir. Diyabet, kan sulandırıcı kullanımı, hamilelik, bağışıklık sistemiyle ilgili durumlar veya düzenli ilaç kullanımı varsa beslenme ve bakım önerilerinizi kişisel sağlık durumunuzu bilen hekiminizle netleştirin.
+### Sık sorulanlar
+**"Diş çekiminden sonra ilk gün ne yiyebilirim?"** Uyuşukluk geçtikten sonra yumuşak ve sizi zorlamayan seçenekler tercih edilebilir. En doğru seçim, çekimin türüne göre hekiminizin verdiği talimattır.
+**"Çekimden sonra sıcak çorba içebilir miyim?"** Sıcak yiyecek ve içeceklerin erken dönemde uygunluğu işleme göre değişebilir. Ilık veya serin seçenekler konusunda da hekiminizin önerisini izleyin.
+**"Pipetle içmek uygun mudur?"** Pipet kullanımı emme hareketi gerektirir ve bazı çekimlerden sonra önerilmeyebilir. Kişisel durumunuz için hekiminize danışın.
+**"Çekim alanına yemek kaçarsa ne yapmalıyım?"** Bölgeyi cisimle kurcalamayın ve kuvvetli çalkalamayın. Hekiminizin önerdiği bakım yöntemini uygulayın; rahatsızlık sürerse kliniğinizle görüşün.
+**"Ne zaman normal beslenmeye dönebilirim?"** Normal beslenmeye dönüş zamanı çekimin zorluğuna ve iyileşmenin gidişine göre değişir. Ağrı, şişlik ve çiğneme rahatlığınız için hekiminizden kişisel yönlendirme alın.
+### Çekim sonrası beslenme sorunuz mu var?
+Durumu yazın ya da arayın; kontrol gerekip gerekmediğini birlikte değerlendirelim. Yutma veya nefes güçlüğünde **112**.
+0541 732 43 76 WhatsApp'tan yazın
+### Kaynaklar
+Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlantılar yeni sekmede açılır ve kliniğimizle ilgisi yoktur.
+- Wisdom tooth removal — NHS
+TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 28 AĞUSTOS 2026 · SON GÜNCELLEME: 28 AĞUSTOS 2026
+BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
+### Diğer bilgi yazıları
+**Diş çekimi: işlem öncesi, çekim ve sonrası** **Diş çekimi sonrası şişlik: hangisi olağan?** **Gece diş ağrısı: evde ne yapabilirsiniz?** **Tüm bilgi yazıları**
 
 ---
 

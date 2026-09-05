@@ -3092,4 +3092,5 @@ print("=" * 74)
 if hata:
     print("*** %d HATA ***" % hata)
     sys.exit(1)
-print("*** HEPSI GECTI  ·  ana sayfa %d kelime ***" % kelime)
+print("*** HEPSI GECTI ***")
+print("ana sayfa %d kelime" % kelime)
