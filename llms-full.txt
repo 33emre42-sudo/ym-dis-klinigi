@@ -2192,8 +2192,14 @@ URL: https://ymdisklinigi.com/dis-cekimi-sonrasi-beslenme.html
 ANA SAYFA · BİLGİ YAZILARI
 Diş çekimi sonrası beslenme: ilk günlerde ne yenebilir?
 Çekimden sonraki günlerde ne yiyip ne içeceğiniz, çekim bölgesinin korunmasında rol oynar. Bu yazıda ilk saatlerde ve ilk günlerde beslenmeyi nasıl planlayabileceğinizi, nelerden kaçınmanın rahatlatıcı olabileceğini ve hangi belirtilerde **beklemeden hekimle görüşmeniz** gerektiğini anlattık.
-**Önce şunları okuyun — bunlarda beklemeyin** **Nefes almakta ya da yutkunmakta zorlanıyorsanız, şişlik boynunuza veya gözünüze doğru hızla yayılıyorsa ya da kanama ağzınızı hızla dolduruyorsa: 112'yi arayın veya en yakın acil servise gidin.** Bu belirtiler çevrim içi içerikle izlenmemelidir.
-**Beslenme sırasında belirgin biçimde artan ağrı, tekrarlayan baskıya rağmen süren kanama, giderek artan şişlik veya ağız açmada zorlanma varsa:** planlanan kontrolü beklemeden kliniğinizi arayın.
+**Önce şunları okuyun — bunlarda beklemeyin** Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
+- Nefes almakta ya da yutkunmakta zorlanma
+- Göze, boyna ya da göğse doğru yayılan şişlik
+- Yüksek ateşle birlikte olan şişlik, titreme
+- Bilinç bulanıklığı ya da bayılma
+- Çene kırığı şüphesi ya da kafa travması sonrası baygınlık
+- Tekrarlanan baskıya rağmen durmayan ya da ağzı hızla dolduran kanama
+**Beslenme sırasında belirgin biçimde artan ağrı, giderek artan şişlik veya ağız açmada zorlanma varsa:** planlanan kontrolü beklemeden kliniğinizi arayın.
 Diş çekiminden sonraki beslenme, çekim bölgesinin korunmasına yardımcı olacak şekilde planlanmalıdır. Her çekimin zorluğu, uygulanan işlem ve kişinin genel sağlık durumu farklıdır. Bu nedenle size işlem sonunda verilen yazılı veya sözlü hekim önerileri her zaman bu genel bilgilerin önündedir.
 İlk günlerde amaç, çekim alanını zorlamadan yeterli sıvı ve besin alabilmektir. Çok sıcak, çok sert veya küçük taneli yiyecekler bazı kişilerde rahatsızlık verebilir. Rahat beslenememek, artan ağrı ya da başka bir şikâyet olduğunda kendi kendinize çözüm aramak yerine hekiminize danışın.
 ### İlk saatlerde neden dikkatli beslenmek gerekir?
@@ -2213,7 +2219,7 @@ Aşırı sıcak yiyecek ve içecekler de çekimden sonraki erken dönemde uygun 
 Yemekten sonra çekim alanını kurcalamamak önemlidir. Hekiminizin tarif ettiği bakım adımlarını ve önerdiği zamanlamayı uygulayın. İlk günlerde güçlü şekilde gargara yapmak ya da ağzı kuvvetle çalkalamak bazı durumlarda uygun olmayabilir.
 Dişleri fırçalamaya ne zaman ve çekim alanına ne kadar yaklaşarak devam edeceğiniz, işlemin türüne göre değişebilir. Düzenli ağız bakımını tamamen bırakmak yerine, hekiminizin gösterdiği hassas yöntemi izleyin. Dikiş varsa veya ağız açmak zorlaşıyorsa, bakım ve beslenme planını kliniğinizle teyit edin.
 ### Ne zaman hekime danışılmalı?
-Beslenme sırasında ağrının belirgin biçimde artması, tekrarlayan baskıya rağmen kanamanın sürmesi, giderek artan şişlik veya ağız açmada zorlanma gibi durumlarda kliniğinizle görüşün. Nefes alma ya da yutma güçlüğü, şişliğin hızla yayılması veya ağzı hızla dolduran kanama gibi acil belirtilerde beklemeyin; 112'yi arayın veya en yakın acil servise başvurun. Şişliğin seyriyle ilgili ayrıntılı bilgi diş çekimi sonrası şişlik sayfasında; hangi şikâyetin bekleyemeyeceği konusunda nöbetçi diş hekimi sayfası da yol gösterir.
+Beslenme sırasında ağrının belirgin biçimde artması, giderek artan şişlik veya ağız açmada zorlanma gibi durumlarda kliniğinizle görüşün. Nefes alma ya da yutma güçlüğü, şişliğin hızla yayılması, tekrarlayan baskıya rağmen süren kanama veya ağzı hızla dolduran kanama gibi acil belirtilerde beklemeyin; 112'yi arayın veya en yakın acil servise başvurun. Şişliğin seyriyle ilgili ayrıntılı bilgi diş çekimi sonrası şişlik sayfasında; hangi şikâyetin bekleyemeyeceği konusunda nöbetçi diş hekimi sayfası da yol gösterir.
 Bu yazı genel bilgi içindir. Diyabet, kan sulandırıcı kullanımı, hamilelik, bağışıklık sistemiyle ilgili durumlar veya düzenli ilaç kullanımı varsa beslenme ve bakım önerilerinizi kişisel sağlık durumunuzu bilen hekiminizle netleştirin.
 ### Sık sorulanlar
 **"Diş çekiminden sonra ilk gün ne yiyebilirim?"** Uyuşukluk geçtikten sonra yumuşak ve sizi zorlamayan seçenekler tercih edilebilir. En doğru seçim, çekimin türüne göre hekiminizin verdiği talimattır.
@@ -2221,13 +2227,12 @@ Bu yazı genel bilgi içindir. Diyabet, kan sulandırıcı kullanımı, hamileli
 **"Pipetle içmek uygun mudur?"** Pipet kullanımı emme hareketi gerektirir ve bazı çekimlerden sonra önerilmeyebilir. Kişisel durumunuz için hekiminize danışın.
 **"Çekim alanına yemek kaçarsa ne yapmalıyım?"** Bölgeyi cisimle kurcalamayın ve kuvvetli çalkalamayın. Hekiminizin önerdiği bakım yöntemini uygulayın; rahatsızlık sürerse kliniğinizle görüşün.
 **"Ne zaman normal beslenmeye dönebilirim?"** Normal beslenmeye dönüş zamanı çekimin zorluğuna ve iyileşmenin gidişine göre değişir. Ağrı, şişlik ve çiğneme rahatlığınız için hekiminizden kişisel yönlendirme alın.
-### Çekim sonrası beslenme sorunuz mu var?
-Durumu yazın ya da arayın; kontrol gerekip gerekmediğini birlikte değerlendirelim. Yutma veya nefes güçlüğünde **112**.
-0541 732 43 76 WhatsApp'tan yazın
+### Ne zaman değerlendirme gerekir?
+Yukarıdaki 112/acil belirtilerinden herhangi birinde mesaj yanıtını beklemeyin; **112'yi arayın veya en yakın acil servise başvurun.** Bu belirtiler yoksa çekim sonrası sorularınız için sizi tedavi eden diş hekimine başvurun.
 ### Kaynaklar
 Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlantılar yeni sekmede açılır ve kliniğimizle ilgisi yoktur.
 - Wisdom tooth removal — NHS
-TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 28 AĞUSTOS 2026 · SON GÜNCELLEME: 28 AĞUSTOS 2026
+TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN · SON GÖZDEN GEÇİRME: 5 EYLÜL 2026 · SON GÜNCELLEME: 5 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
 **Diş çekimi: işlem öncesi, çekim ve sonrası** **Diş çekimi sonrası şişlik: hangisi olağan?** **Gece diş ağrısı: evde ne yapabilirsiniz?** **Tüm bilgi yazıları**

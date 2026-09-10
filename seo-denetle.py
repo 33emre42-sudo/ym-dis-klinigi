@@ -44,7 +44,10 @@ KOK = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ymdisklinigi.com"
 ZAMAN = 20
 TOPLAM_ZAMAN = 300
+AG_DENEME_SAYISI = 3
+AG_TEKRAR_BEKLEME = 1.0
 EN_BUYUK = 4 * 1024 * 1024        # tek sayfa icin fazlasiyla yeterli
+RANDEVU_HEDEFI = "https://klinik.medicasimple.com/randevu?c=ymdisklinigi&s=ymdisklinigi&l=tr"
 
 # Google aciklamayi ~158 karakterde kesiyor; baslikta ~60 pikselden
 # sonra "..." koyuyor. Kesilen metin tiklama oranini dusuruyor.
@@ -106,27 +109,80 @@ def _istek_zaman_asimi(deadline=None, tek_istek_suresi=ZAMAN, saat=None):
     return min(float(tek_istek_suresi), kalan)
 
 
-def getir(yol, acici=None, deadline=None, saat=None):
+def getir(yol, acici=None, deadline=None, saat=None, bekle=None):
     """Canli sayfayi indirir. (metin, http_kodu) ya da (None, hata)."""
     adres = _guvenli_site_adresi(yol)
     if adres is None:
         return None, "guvensiz URL"
-    zaman_asimi = _istek_zaman_asimi(deadline, ZAMAN, saat)
+    acici = _HTTP_ACICI if acici is None else acici
+    saat = time.monotonic if saat is None else saat
+    bekle = time.sleep if bekle is None else bekle
+    son_hata = "ag istegi basarisiz"
+
+    for deneme in range(AG_DENEME_SAYISI):
+        zaman_asimi = _istek_zaman_asimi(deadline, ZAMAN, saat)
+        if zaman_asimi is None:
+            return None, "toplam sure doldu"
+        istek = urllib.request.Request(
+            adres, headers={"User-Agent": "YM-SEO-Denetim/1.0"})
+        try:
+            with acici.open(istek, timeout=zaman_asimi) as c:
+                if c.status != 200:
+                    return None, c.status
+                # Boyut sinirli okuma: kendi sunucumuz da olsa disaridan
+                # gelen icerik once XML ayristiricisina giriyor. Ucuz
+                # koruma, bagimlilik gerektirmiyor.
+                return c.read(EN_BUYUK).decode("utf-8", "replace"), c.status
+        except urllib.error.HTTPError as e:
+            return None, e.code
+        except (TimeoutError, urllib.error.URLError, ConnectionError) as e:
+            son_hata = type(e).__name__
+            if deneme + 1 >= AG_DENEME_SAYISI:
+                return None, son_hata
+            bekleme = AG_TEKRAR_BEKLEME * (2 ** deneme)
+            if deadline is not None:
+                kalan = float(deadline) - float(saat())
+                if kalan <= 0:
+                    return None, "toplam sure doldu"
+                bekleme = min(float(bekleme), kalan)
+            if bekleme > 0:
+                bekle(bekleme)
+        except Exception as e:
+            return None, type(e).__name__
+
+    return None, son_hata
+
+
+def randevu_yonlendirme_durumu(acici=None, deadline=None, saat=None):
+    """Randevu URL'sini dis origin'e gitmeden fail-closed denetler."""
+    adres = _guvenli_site_adresi("/randevu")
+    if adres is None:
+        return None, "guvensiz URL"
+    saat = time.monotonic if saat is None else saat
+    zaman_asimi = _istek_zaman_asimi(deadline, 25, saat)
     if zaman_asimi is None:
         return None, "toplam sure doldu"
     acici = _HTTP_ACICI if acici is None else acici
     istek = urllib.request.Request(
-        adres, headers={"User-Agent": "YM-SEO-Denetim/1.0"})
+        adres, headers={"User-Agent": "YM-SEO-denetim"})
     try:
-        with acici.open(istek, timeout=zaman_asimi) as c:
-            # Boyut sinirli okuma: kendi sunucumuz da olsa disaridan
-            # gelen icerik once XML ayristiricisina giriyor. Ucuz
-            # koruma, bagimlilik gerektirmiyor.
-            return c.read(EN_BUYUK).decode("utf-8", "replace"), c.status
+        with acici.open(istek, timeout=zaman_asimi) as cevap:
+            if cevap.geturl() != adres:
+                return None, "guvensiz yonlendirme"
+            if cevap.status != 200:
+                return None, cevap.status
+            return "same_origin", 200
     except urllib.error.HTTPError as e:
+        konum = e.headers.get("Location") if e.headers is not None else None
+        if e.code in (301, 302, 303, 307, 308):
+            if konum == RANDEVU_HEDEFI:
+                return "izinli_yonlendirme", e.code
+            return None, "beklenmeyen yonlendirme"
         return None, e.code
+    except (TimeoutError, urllib.error.URLError, ConnectionError) as e:
+        return None, type(e).__name__
     except Exception as e:
-        return None, str(e)
+        return None, type(e).__name__
 
 
 def canli_kapsam_hatasi(beklenen, okunan, toplam_sure_doldu):
@@ -401,34 +457,23 @@ for _dosya in ("llms.txt", "llms-full.txt"):
         print("  TAMAM  %-22s %d tarayici da 200 aliyor"
               % (_dosya, len(_AI_TARAYICILAR)))
 
-# --- 5. randevu ucu canli mi --------------------------------------
-# ⚠️ Semadaki `ReserveAction` hedefi ve GBP'deki "Web sitesi" alani
-# ayni adrese bakiyor. 9 Agu'da olculdu: 302 ile ucuncu tarafa
-# yonleniyor. Yonlendirmenin KENDISI sorun degil — HEDEFIN OLMESI
-# sorun. O zaman hem randevu ucu kaybolur hem GBP'den gelen hasta
-# bos sayfaya duser, ve hicbiri siteyi bozmadigi icin FARK EDILMEZ.
+# --- 5. randevu yonlendirmesi dogru mu -----------------------------
+# Semadaki `ReserveAction` hedefi ve GBP'deki "Web sitesi" alani ayni
+# kendi-origin adresine bakiyor. Ucuncu taraf hedefe ag istegi atilmaz;
+# yalniz 302 `Location` degeri exact allowlist ile dogrulanir.
 print()
 print("--- randevu ucu ---")
-try:
-    # ⚠️ Burada `_HTTP_ACICI` KULLANILMIYOR ve bu BILINCLI: randevu ucu
-    # ucuncu tarafa yonleniyor, olcmek istedigimiz sey tam da hedefin
-    # canli olup olmadigi. Ote yandan adres yine ak listeden geciyor.
-    _radres = _guvenli_site_adresi("/randevu")
-    _timeout = _istek_zaman_asimi(
-        _denetim_deadline, tek_istek_suresi=25)
-    if _timeout is None:
+_randevu_durumu, _randevu_kodu = randevu_yonlendirme_durumu(
+    deadline=_denetim_deadline)
+if _randevu_durumu is None:
+    if _randevu_kodu == "toplam sure doldu":
         _toplam_sure_doldu = True
-        raise TimeoutError("toplam sure doldu")
-    _rq = urllib.request.Request(_radres,
-                                 headers={"User-Agent": "YM-SEO-denetim"})
-    with urllib.request.urlopen(_rq, timeout=_timeout) as _rc:
-        _son = _rc.geturl()
-        if _rc.status != 200:
-            kirmizi("randevu ucu HTTP %d" % _rc.status, _son)
-        else:
-            print("  TAMAM  randevu ucu 200  -> %s" % _son[:60])
-except Exception as _e:
-    kirmizi("randevu ucu ACILMIYOR", "%s: %s" % (type(_e).__name__, _e))
+    kirmizi("randevu yonlendirmesi DOGRULANAMADI", str(_randevu_kodu))
+elif _randevu_durumu == "izinli_yonlendirme":
+    print("  TAMAM  randevu redirect %d (hedef takip edilmedi)"
+          % _randevu_kodu)
+else:
+    print("  TAMAM  randevu ucu same-origin 200")
 
 # --- olmayan yol GERCEKTEN 404 mu? (soft-404 kapisi) ---------------
 # ⚠️ 18 Agu 2026 — 20 rakip taranirken IKI sitede olculdu: olmayan HER
@@ -467,8 +512,7 @@ else:
             sari("olmayan yol 404 degil (HTTP %d)" % _yok_h.code, _yok_yolu)
     except Exception as _yok_e:
         # ⛔ Olculemeyen sey TEMIZ degildir (LESSONS §2) — sari, yesil degil.
-        sari("soft-404 OLCULEMEDI",
-             "%s: %s" % (type(_yok_e).__name__, _yok_e))
+        sari("soft-404 OLCULEMEDI", type(_yok_e).__name__)
 
 if _istek_zaman_asimi(_denetim_deadline) is None:
     _toplam_sure_doldu = True

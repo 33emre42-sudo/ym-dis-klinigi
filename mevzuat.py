@@ -239,7 +239,8 @@ _ACIL_BELIRTI = (
 _ACIL_BELIRTI += (
     r"|durdurulamayan(?: yo[ğg]un)? kanama"
     r"|kontrol alt[ıi]na al[ıi]namayan kanama"
-    r"|(?:tekrarlanan )?bask[ıi]ya ra[ğg]men durmayan(?: yo[ğg]un)? kanama"
+    r"|(?:tekrarla(?:nan|yan) )?bask[ıi]ya ra[ğg]men "
+    r"(?:durmayan|s[üu]ren)(?: yo[ğg]un)? kanama"
     r"|kanama(?:\s+\S+){0,6}\s+durmuyorsa"
     r"|a[ğg]z[ıi](?:n[ıi]z[ıi])?\s+h[ıi]zla dolduruyorsa")
 _ACIL_BELIRTI_RE = re.compile(_ACIL_BELIRTI, re.I)
@@ -313,7 +314,8 @@ _ACIL_KESIN_BAG_TERS = re.compile(
 # "kliniğe başvurun" (tedaviler). Emir kipi kadar rica kipi de sayilir;
 # hasta icin ikisi de "acile degil, buraya gel" demektir.
 _ACIL_KLINIK = re.compile(
-    r"klini[ğg]i\s+(?:hemen\s+|aci(?:len|l)\s+|ayn[ıi] g[üu]n\s+)?"
+    r"klini[ğg]i(?:nizi)?\s+"
+    r"(?:hemen\s+|aci(?:len|l)\s+|ayn[ıi] g[üu]n\s+)?"
     r"aray(?:[ıi]n|abilirsiniz|[ıi]n[ıi]z)"
     r"|klini[ğg]e\s+(?:hemen\s+)?(?:gelin|ba[şs]vurun|ula[şs][ıi]n"
     r"|gelmeniz|ba[şs]vurman[ıi]z)"
