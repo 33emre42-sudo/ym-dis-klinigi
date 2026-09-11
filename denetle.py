@@ -103,11 +103,136 @@ except FileNotFoundError:
     print("index.html bulunamadi — betigi site klasorunde calistirin.")
     sys.exit(1)
 
-# Sayfa listeleri — tek kaynak. Yeni K81 sayfasi once BEKLEYEN'e kaydedilir;
-# dosya geldigi anda ayni kosuda tam BILGI denetimine girer. Aktif liste ise
-# dosya silinse bile korunur; asagidaki disk parity kapisi eksigi yakalar.
-def bilgi_envanteri(aktif, bekleyen, var_mi=os.path.isfile):
-    return list(aktif) + [ad for ad in bekleyen if var_mi(ad)]
+# Sabit aktif liste silinme bariyeridir; yeni K81 kayitlari mevcut bilgi
+# dizininden gelir ve ayni kosuda tam BILGI denetimine girer.
+def bilgi_envanteri(aktif, bekleyen, var_mi=os.path.isfile, dizin_html=None):
+    """Sabit tabani koru; yeni kayitlari dizinden alip TAM denetime dahil et.
+
+    Dizin bir onay degildir. Eksik dosya dahil her kayit sonraki tum kapilara
+    girer; bozuk/belirsiz dizin bos liste veya eski listeye dusurulmez.
+    """
+    taban = list(aktif) + [ad for ad in bekleyen if var_mi(ad)]
+    if dizin_html is None:  # Eski saf hesap cagrilari icin uyumluluk.
+        return taban
+    import json
+    import re
+    import stat
+    from html.parser import HTMLParser
+
+    if not isinstance(dizin_html, str) or len(dizin_html) > 2_000_000:
+        raise ValueError('dizin boyutu/turu gecersiz')
+
+    class DizinParser(HTMLParser):
+        def __init__(self):
+            super().__init__(convert_charrefs=True)
+            self.script = None
+            self.blocks = []
+            self.links = set()
+            self.body = False
+
+        def handle_starttag(self, tag, attrs):
+            if tag == 'body':
+                self.body = True
+            if tag == 'script':
+                types = [v for k, v in attrs if k == 'type']
+                if len(types) > 1:
+                    raise ValueError('cift script tipi')
+                self.script = [] if types == ['application/ld+json'] else None
+            if tag == 'a' and self.body:
+                hrefs = [v for k, v in attrs if k == 'href']
+                if len(hrefs) != 1:
+                    raise ValueError('belirsiz dizin baglantisi')
+                self.links.add(hrefs[0])
+
+        def handle_data(self, data):
+            if self.script is not None:
+                self.script.append(data)
+
+        def handle_endtag(self, tag):
+            if tag == 'script' and self.script is not None:
+                self.blocks.append(''.join(self.script))
+                self.script = None
+            if tag == 'body':
+                self.body = False
+
+    def unique_object(pairs):
+        obj = {}
+        for key, value in pairs:
+            if key in obj:
+                raise ValueError('cift JSON anahtari')
+            obj[key] = value
+        return obj
+
+    def reject_constant(value):
+        raise ValueError('sonlu olmayan JSON sayisi')
+
+    parser = DizinParser()
+    parser.feed(dizin_html)
+    parser.close()
+    if parser.script is not None:
+        raise ValueError('kapanmamis JSON script')
+    registries = []
+    for raw in parser.blocks:
+        data = json.loads(raw, object_pairs_hook=unique_object,
+                          parse_constant=reject_constant)
+        pending = [data]
+        visited = 0
+        while pending:
+            node = pending.pop()
+            visited += 1
+            if visited > 4096:
+                raise ValueError('JSON dugum siniri asildi')
+            if isinstance(node, list):
+                pending.extend(node)
+            elif isinstance(node, dict):
+                kind = node.get('@type')
+                if kind == 'CollectionPage' or (isinstance(kind, list)
+                                                and 'CollectionPage' in kind):
+                    if (node is not data or kind != 'CollectionPage'
+                            or node.get('url') != 'https://ymdisklinigi.com/bilgi-yazilari.html'):
+                        raise ValueError('belirsiz veya gecersiz dizin kimligi')
+                    registries.append(node.get('mainEntity'))
+                pending.extend(node.values())
+    if len(registries) != 1 or not isinstance(registries[0], dict):
+        raise ValueError('tek anlamli dizin bulunamadi')
+    registry = registries[0]
+    entries = registry.get('itemListElement')
+    count = registry.get('numberOfItems')
+    if (registry.get('@type') != 'ItemList' or not isinstance(entries, list)
+            or not 1 <= len(entries) <= 256 or type(count) is not int
+            or count != len(entries)):
+        raise ValueError('dizin sayimi gecersiz')
+    reserved = {'index.html', 'gizlilik.html', '404.html', 'hasta-haklari.html',
+                'hekimlerimiz.html', 'sik-sorulan-sorular.html', 'bilgi-yazilari.html',
+                'ulasim-ve-hizmet-bolgesi.html', 'tedaviler.html', 'iletisim.html'}
+    names = []
+    for position, entry in enumerate(entries, 1):
+        if (not isinstance(entry, dict) or entry.get('@type') != 'ListItem'
+                or type(entry.get('position')) is not int
+                or entry['position'] != position):
+            raise ValueError('dizin sirasi gecersiz')
+        url = entry.get('url')
+        match = re.fullmatch(r'https://ymdisklinigi\.com/([a-z0-9]+(?:-[a-z0-9]+)*\.html)',
+                             url) if isinstance(url, str) else None
+        if match is None:
+            raise ValueError('dizin yolu gecersiz')
+        name = match[1]
+        if name in reserved or name in names:
+            raise ValueError('yasak veya yinelenen dizin kaydi')
+        try:
+            target = os.lstat(name)
+        except FileNotFoundError:
+            pass  # Eksik dosya listede kalir; tam denetim onu reddeder.
+        else:
+            if (not stat.S_ISREG(target.st_mode)
+                    or getattr(target, 'st_file_attributes', 0) & 0x400):
+                raise ValueError('dizin hedefi normal yerel dosya degil')
+        if not ({url, name, '/' + name} & parser.links):
+            raise ValueError('dizin kart baglantisi eksik')
+        names.append(name)
+    if not set(taban).issubset(names):
+        raise ValueError('mevcut zorunlu yazi dizinden cikarilmis')
+    return taban + [name for name in names if name not in taban]
 
 
 BILGI_AKTIF = ["nobetci-dis-hekimi-acil-dis.html",
@@ -132,7 +257,13 @@ BILGI_AKTIF = ["nobetci-dis-hekimi-acil-dis.html",
                "kan-sulandirici-dis-tedavisi.html",
                "sut-disi-curugu.html"]
 BILGI_BEKLEYEN = ["dis-cekimi-sonrasi-beslenme.html"]
-BILGI = bilgi_envanteri(BILGI_AKTIF, BILGI_BEKLEYEN)
+try:
+    with open('bilgi-yazilari.html', encoding='utf-8') as _dizin_file:
+        _dizin_html = _dizin_file.read(2_000_001)
+    BILGI = bilgi_envanteri(BILGI_AKTIF, BILGI_BEKLEYEN, dizin_html=_dizin_html)
+except (OSError, ValueError, RecursionError) as _envanter_hatasi:
+    print('HATA: bilgi dizini envanteri dogrulanamadi: %s' % _envanter_hatasi)
+    sys.exit(1)
 ALT_SAYFA = ["hekimlerimiz.html", "sik-sorulan-sorular.html",
              "bilgi-yazilari.html", "ulasim-ve-hizmet-bolgesi.html",
              "tedaviler.html", "iletisim.html"]
