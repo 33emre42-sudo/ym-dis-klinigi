@@ -41,8 +41,8 @@ Genel diş hekimliği alanında çalışmaktadır; kliniğimizde uygulanan tedav
 Genel diş hekimliği alanında çalışmaktadır; kliniğimizde uygulanan tedavilerin tamamını yürütmektedir.
 Hekimlerimizi ve muayene sürecinin nasıl işlediğini okuyun
 ### Bilgi yazıları
-Hastalarımızın en çok karşılaştığı durumlar için hazırladığımız bilgilendirme yazıları — toplam kırk bir başlık. Şikâyetiniz varsa yine de muayene gereklidir; bu yazılar hekim muayenesinin yerine geçmez.
-**Nöbetçi diş hekimi ve acil diş** Hangi şikâyet beklemez, hangisi sabahı bekleyebilir; gece ne yapılabilir ve hangi belirtide 112 aranır. **Gece açık dişçi: gece diş sorununda ne yapılır?** Gece açık dişçi arayanlar için: evde ne yapılabilir, gelirken ne bildirilmeli ve Kirazlı'ya gece ulaşım nasıl sağlanır? **Aynı gün diş hekimi: hangi şikâyet beklemez?** Beklemeden gelinmesi önerilen durumlar, evde ilk yapılabilecekler ve Kirazlı'ya ulaşım. **Güneşli'den nöbetçi dişçi: gece açık diş kliniği** Güneşli ve Mahmutbey çevresinden ulaşım, çalışma saatleri ve gece gelmeden önce bilinmesi gerekenler. **Gece ya da hafta sonu diş hekimine gitmeli miyim?** Nöbetçi klinikte gece neler yapılır, neler yapılmaz; hangi şikâyet sabahı bekleyebilir, hangisi bekleyemez. **Gece diş ağrısı: evde ne yapabilirsiniz?** Ağrı neden geceleri artar, sabaha kadar ne yapılabilir, hangi yöntemler zarar verir ve ne zaman beklememek gerekir. **Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** Düşen dişi nasıl tutmalı, neyin içinde saklamalı ve hangi hata dişi kurtarılamaz hâle getirir. **Diş apsesi: neden ertelenmemeli?** Belirtileri, ağrı geçtiğinde neden iyileşme sayılmadığı ve antibiyotiğin neden tek başına yetmediği. **Kanal tedavisi: dişi çekmeden kurtarmak** Ne zaman gerekir, ağrının geçmesi neden iyileşme değildir ve sonrasında neden kaplama yapılır. **Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** Sağlıklı dişeti kanar mı, kanayan bölgeyi fırçalamamak neden hata ve hangi bulgularda beklenmemeli. **Diş sıkma ve gece plağı** Sabah çene ağrısı, aşınan dişler, kırılan dolgular ve gece plağının gerçekte ne yaptığı. **Diş çekimi sonrası şişlik: ne zaman olağan?** Şişliğin günlere göre seyri, soğuk-sıcak uygulamanın sırası ve hangi bulguda beklenmeden aranmalı. **Diş hekimi korkusu: ilk randevu nasıl ilerler?** Korkuyu önceden söylemenin ne değiştirdiği, durma işareti ve yıllardır ertelemiş olanlar için izlenen yol.
+Hastalarımızın en çok karşılaştığı durumlar için hazırladığımız bilgilendirme yazıları — toplam kırk iki başlık. Şikâyetiniz varsa yine de muayene gereklidir; bu yazılar hekim muayenesinin yerine geçmez.
+**Nöbetçi diş hekimi ve acil diş** Hangi şikâyet beklemez, hangisi sabahı bekleyebilir; gece ne yapılabilir ve hangi belirtide 112 aranır. **Gece açık dişçi: gece diş sorununda ne yapılır?** Gece açık dişçi arayanlar için: evde ne yapılabilir, gelirken ne bildirilmeli ve Kirazlı'ya gece ulaşım nasıl sağlanır? **Aynı gün diş hekimi: hangi şikâyet beklemez?** Beklemeden gelinmesi önerilen durumlar, evde ilk yapılabilecekler ve Kirazlı'ya ulaşım. **Güneşli'den nöbetçi dişçi: gece açık diş kliniği** Güneşli ve Mahmutbey çevresinden ulaşım, çalışma saatleri ve gece gelmeden önce bilinmesi gerekenler. **Bahçelievler'den nöbetçi dişçi: gece açık diş kliniği** Bahçelievler ve çevresinden ulaşım, çalışma saatleri. **Gece ya da hafta sonu diş hekimine gitmeli miyim?** Nöbetçi klinikte gece neler yapılır, neler yapılmaz; hangi şikâyet sabahı bekleyebilir, hangisi bekleyemez. **Gece diş ağrısı: evde ne yapabilirsiniz?** Ağrı neden geceleri artar, sabaha kadar ne yapılabilir, hangi yöntemler zarar verir ve ne zaman beklememek gerekir. **Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** Düşen dişi nasıl tutmalı, neyin içinde saklamalı ve hangi hata dişi kurtarılamaz hâle getirir. **Diş apsesi: neden ertelenmemeli?** Belirtileri, ağrı geçtiğinde neden iyileşme sayılmadığı ve antibiyotiğin neden tek başına yetmediği. **Kanal tedavisi: dişi çekmeden kurtarmak** Ne zaman gerekir, ağrının geçmesi neden iyileşme değildir ve sonrasında neden kaplama yapılır. **Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** Sağlıklı dişeti kanar mı, kanayan bölgeyi fırçalamamak neden hata ve hangi bulgularda beklenmemeli. **Diş sıkma ve gece plağı** Sabah çene ağrısı, aşınan dişler, kırılan dolgular ve gece plağının gerçekte ne yaptığı. **Diş çekimi sonrası şişlik: ne zaman olağan?** Şişliğin günlere göre seyri, soğuk-sıcak uygulamanın sırası ve hangi bulguda beklenmeden aranmalı. **Diş hekimi korkusu: ilk randevu nasıl ilerler?** Korkuyu önceden söylemenin ne değiştirdiği, durma işareti ve yıllardır ertelemiş olanlar için izlenen yol.
 On altı bilgi yazısının tamamını görün
 ### Ulaşım
 Kirazlı Mah. Mevlana Cad. No: 47 D — Bağcılar / İstanbul. Kirazlı metro istasyonuna yürüme mesafesindeyiz. Esenler, Güngören, Bahçelievler, Küçükçekmece ve Başakşehir'den de kolay ulaşılır.
@@ -901,7 +901,7 @@ Bu sayfadaki yazılar beş başlıkta toplanıyor. **Acil durumlar**, gece yarı
 Hepsinde aynı yaklaşımı izledik: kesin sonuç sözü vermek yerine neyin kişiden kişiye değiştiğini söylemek, komplikasyon ihtimalini **önceden** anlatmak ve teknik terim kullanmak gerekiyorsa yanına açıklamasını koymak.
 Yazıların hiçbiri muayenenin yerine geçmez. Bir şikâyetiniz varsa okuduğunuzla yetinmeyin; klinik her gün 24 saat açık ve gece saatlerinde de mesajınıza karşılık alırsınız.
 ### Acil durumlar
-**Nöbetçi diş hekimi ve acil diş** Hangi şikâyet acildir, gece ne yapılabilir, hangi belirtide 112 aranır? **Gece açık dişçi: gece diş sorununda ne yapılır?** Gece başlayan diş ağrısında evde ne yapılabilir, gelirken ne bildirilmeli, Kirazlı'ya gece ulaşım ve 112 gerektiren belirtiler. **Aynı gün diş hekimi: hangi şikâyet beklemez?** Beklemeden gelinmesi önerilen durumlar, evde ilk yapılabilecekler ve kliniğe ulaşım. **Güneşli'den nöbetçi dişçi: gece açık diş kliniği** Güneşli ve Mahmutbey çevresinden ulaşım, çalışma saatleri ve gece gelmeden önce bilinmesi gerekenler. **Gece ya da hafta sonu diş hekimine gitmeli miyim?** Nöbetçi klinikte gece neler yapılır, neler yapılmaz; hangi şikâyet sabahı bekleyebilir, hangisi bekleyemez. **Gece diş ağrısı: evde ne yapabilirsiniz?** Ağrı neden geceleri artar, sabaha kadar ne yapılabilir, hangi yöntemler zarar verir ve ne zaman beklememek gerekir. **Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** Düşen dişi nasıl tutmalı, neyin içinde saklamalı ve hangi hata dişi kurtarılamaz hâle getirir. **Diş apsesi: neden ertelenmemeli?** Belirtileri, ağrı geçtiğinde neden iyileşme sayılmadığı ve antibiyotiğin neden tek başına yetmediği. **Diş çekimi sonrası şişlik: ne zaman olağan?** Şişliğin günlere göre seyri, soğuk-sıcak uygulamanın sırası ve hangi bulguda beklenmeden aranmalı. **Dolgu veya kaplama düştü: acil mi, ne yapmalı?** İlk yapılacaklar, ne zaman beklenip ne zaman klinik aranmalı ve kendi kendine yapıştırmanın neden risk taşıdığı.
+**Nöbetçi diş hekimi ve acil diş** Hangi şikâyet acildir, gece ne yapılabilir, hangi belirtide 112 aranır? **Gece açık dişçi: gece diş sorununda ne yapılır?** Gece başlayan diş ağrısında evde ne yapılabilir, gelirken ne bildirilmeli, Kirazlı'ya gece ulaşım ve 112 gerektiren belirtiler. **Aynı gün diş hekimi: hangi şikâyet beklemez?** Beklemeden gelinmesi önerilen durumlar, evde ilk yapılabilecekler ve kliniğe ulaşım. **Güneşli'den nöbetçi dişçi: gece açık diş kliniği** Güneşli ve Mahmutbey çevresinden ulaşım, çalışma saatleri ve gece gelmeden önce bilinmesi gerekenler. **Bahçelievler'den nöbetçi dişçi: gece açık diş kliniği** Bahçelievler ve çevresinden ulaşım, çalışma saatleri ve gece gelmeden önce bilinmesi gerekenler. **Gece ya da hafta sonu diş hekimine gitmeli miyim?** Nöbetçi klinikte gece neler yapılır, neler yapılmaz; hangi şikâyet sabahı bekleyebilir, hangisi bekleyemez. **Gece diş ağrısı: evde ne yapabilirsiniz?** Ağrı neden geceleri artar, sabaha kadar ne yapılabilir, hangi yöntemler zarar verir ve ne zaman beklememek gerekir. **Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** Düşen dişi nasıl tutmalı, neyin içinde saklamalı ve hangi hata dişi kurtarılamaz hâle getirir. **Diş apsesi: neden ertelenmemeli?** Belirtileri, ağrı geçtiğinde neden iyileşme sayılmadığı ve antibiyotiğin neden tek başına yetmediği. **Diş çekimi sonrası şişlik: ne zaman olağan?** Şişliğin günlere göre seyri, soğuk-sıcak uygulamanın sırası ve hangi bulguda beklenmeden aranmalı. **Dolgu veya kaplama düştü: acil mi, ne yapmalı?** İlk yapılacaklar, ne zaman beklenip ne zaman klinik aranmalı ve kendi kendine yapıştırmanın neden risk taşıdığı.
 ### Tedaviler
 **Diş dolgusu: ne zaman gerekir, işlem nasıl yapılır?** Çürük hangi aşamada dolguyla durur, işlem sırasında ne hissedilir ve sonrasındaki hassasiyet ne kadar sürer. **Kanal tedavisi: dişi çekmeden kurtarmak** Ne zaman gerekir, kaç seans sürer, ağrının geçmesi neden iyileşme değildir ve sonrasında neden kaplama yapılır. **Kanal tedavisi sonrası ağrı: ne zaman hekime danışmalı?** İşlem sonrası hassasiyet neden görülebilir, evde nelere dikkat edilir ve hangi belirtiler kontrole götürmeli. **Diş çekimi: işlem öncesi, çekim ve sonrası** Hangi durumda çekim kaçınılmaz olur, işlem nasıl ilerler ve ilk 24 saatte nelere dikkat edilir. **Diş çekimi sonrası beslenme: ilk günlerde ne yenebilir?** İlk saatlerde ve ilk günlerde yiyecek seçimi, sıvı tüketimi ve hangi belirtilerde hekime danışılması gerektiği. **Diş protezi ve kaplama: seçenekler ve süreç** Kaplama, köprü, hareketli protez ve implant üstü protez arasındaki farklar ve alışma dönemi. **İmplant tedavisi adım adım** Adımların sırası, iyileşme süresinin neye göre değiştiği, kemik yetersizliği ve implant sonrası bakım. **20 yaş dişi her zaman çekilir mi?** Hangi bulgular çekim gerektirir, hangi durumda diş yerinde bırakılır ve çekim sonrası neler olağandır. **Diş beyazlatma: gerçekte ne yapar, ne yapmaz?** Dolgu ve kaplamaların neden beyazlamadığı, sonucun neden kalıcı olmadığı ve ev yöntemlerinin mineye verdiği zarar. **Diş teli tedavisi: süreç nasıl işler?** Adımların sırası, ilk günlerde hissedilenler, süreyi belirleyen etkenler ve pekiştirme döneminin neden atlanmaması gerektiği. **Şeffaf plak: diş teline alternatif mi?** Nasıl çalıştığı, günlük kullanım süresinin neden belirleyici olduğu ve hangi durumlarda uygun olmadığı. **Diş röntgeni: neden çekilir, güvenli midir?** Gözle görülemeyen sorunlar, alınan korunma önlemleri, hamilelikte ve çocuklarda yaklaşım.
 ### Günlük bakım ve korunma
@@ -1086,6 +1086,59 @@ TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN · SON GÖZDEN GEÇİRME: 25 
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
 **Tedaviler ve hizmet alanları** **Ulaşım ve hizmet bölgesi** **Tüm bilgi yazıları**
+
+---
+
+## Bahçelievler Nöbetçi Dişçi — Gece Açık Diş Kliniği (Bağcılar)
+URL: https://ymdisklinigi.com/bahcelievler-nobetci-disci.html
+
+ANA SAYFA
+Bahçelievler'de nöbetçi dişçi: gece de açık diş kliniği
+Bahçelievler ve çevresinde gece diş sorunu yaşayan hastalar için kliniğimiz **Bağcılar Kirazlı'da, her gün 24 saat açıktır**. Bu sayfada Bahçelievler'den ulaşımı, gece hangi durumlarda gelinmesinin önerildiğini ve gelmeden önce bilinmesi gerekenleri topladık.
+**Önce şunları okuyun — bunlarda beklemeyin** Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
+- Nefes almakta ya da yutkunmakta zorlanma
+- Göze, boyna ya da göğse doğru yayılan şişlik
+- Yüksek ateşle birlikte olan şişlik, titreme
+- Bilinç bulanıklığı ya da bayılma
+- Çene kırığı şüphesi ya da kafa travması sonrası baygınlık
+- Tekrarlanan baskıya rağmen durmayan ya da ağzı hızla dolduran kanama
+### Bahçelievler'den kliniğe ulaşım
+Klinik, Kirazlı Mah. Mevlana Cad. No: 47 D adresinde ve **Kirazlı Metro durağına yürüme mesafesindedir**. Bahçelievler yönünden gelen hastalarımız araçla ya da toplu taşımayla ulaşmaktadır; gece saatlerinde taksi ya da kendi aracınızla gelmeniz daha uygun olabilir. İlçe ilçe tarif ulaşım ve hizmet bölgesi sayfamızdadır.
+### Gece hangi durumlarda gelmek önerilir?
+- Ağrının uykudan uyandırması ya da sürekli hale gelmesi.
+- Yüzde ya da çenede belirgin şişlik oluşması.
+- Ağzı açmakta zorlanma.
+- Dişin kırılması ya da keskin kenar bırakması.
+### Çalışma saatleri ve randevu
+Klinik **her gün 24 saat açıktır**; hafta sonu ve resmî tatiller dahil. Randevusuz gelebilirsiniz; gelmeden önce iletişim sayfamızdaki numarayı arayıp şikâyetinizi söylemeniz hazırlık için yararlıdır. Komşu ilçelerden (Bağcılar, Güngören, Küçükçekmece, Esenler) gelen hastalarımız da bulunmaktadır.
+### Gelirken bildirmeniz gerekenler
+- Sürekli kullandığınız ilaçlar ve bilinen alerjiler.
+- Kalp, tansiyon, diyabet gibi tanılar ve kan sulandırıcı kullanımı ( ilgili yazı ).
+- Hamilelik ya da hamilelik olasılığı.
+0541 732 43 76 — hemen arayın WhatsApp'tan yazın
+### Sık sorulan sorular
+**Bahçelievler'den kliniğe nasıl gelirim?**
+Klinik Kirazlı Mahallesi Mevlana Caddesi No: 47 D adresinde ve Kirazlı Metro durağına yürüme mesafesindedir. Bahçelievler yönünden araçla ya da toplu taşımayla ulaşılır; gece saatlerinde taksi daha uygun olabilir.
+**Bahçelievler'de nöbetçi dişçi var mı?**
+Klinik Bağcılar Kirazlı'da hizmet verir ve her gün 24 saat açıktır; komşu ilçelerden gelen hastalarımız bulunmaktadır. Yola çıkmadan önce 0541 732 43 76'yı arayabilirsiniz.
+**Gece geldiğimde ne yapılır?**
+Önce şikâyetiniz dinlenir ve ağız içi muayene yapılır. O saatte yapılabilecek işlem, durumunuzun gerektirdiğine ve hekim değerlendirmesine göre belirlenir; bazı tedaviler gündüz seansına bırakılır.
+**Randevu almam gerekiyor mu?**
+Randevusuz da gelebilirsiniz. Ancak arayıp şikâyetinizi söylemeniz, o saatte sizi bekleyecek düzeni kurmamıza yardımcı olur.
+**Hafta sonu ve tatillerde açık mısınız?**
+Evet. Klinik her gün 24 saat açıktır; hafta sonu ve resmî tatiller dahil.
+### İlgili bilgi yazıları
+- Gece açık dişçi: gece sorununda ne yapılır?
+- Güneşli'den nöbetçi dişçi
+- Aynı gün diş hekimi: hangi şikâyet beklemez?
+- Ulaşım ve hizmet bölgesi
+### Kaynaklar
+Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlantılar yeni sekmede açılır ve kliniğimizle ilgisi yoktur.
+- Toothache &mdash; NHS
+TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN &middot; SON GÖZDEN GEÇİRME: 18 EYLÜL 2026 &middot; SON GÜNCELLEME: 18 EYLÜL 2026
+BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
+### Diğer bilgi yazıları
+**Gece ya da hafta sonu diş hekimine gitmeli miyim?** **Gece açık dişçi: gece diş sorununda ne yapılır?** **Güneşli'den nöbetçi dişçi: gece açık diş kliniği** **Bahçelievler'den nöbetçi dişçi: gece açık diş kliniği** **Gece diş ağrısı: evde ne yapabilirsiniz?** **Diş apsesi: neden ertelenmemesi gereken bir durum?** **Dişiniz kırıldı ya da yerinden çıktı** **Tüm bilgi yazıları**
 
 ---
 
