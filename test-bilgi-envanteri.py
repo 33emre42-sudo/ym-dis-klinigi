@@ -136,9 +136,9 @@ class InventoryIntegration(unittest.TestCase):
                 listing = data.get('mainEntity', {})
                 if listing.get('@type') == 'ItemList':
                     listing['itemListElement'].append({
-                        '@type': 'ListItem', 'position': 39, 'name': 'Test fixture',
+                        '@type': 'ListItem', 'position': len(listing['itemListElement']) + 1, 'name': 'Test fixture',
                         'url': 'https://ymdisklinigi.com/test-yeni-yazi.html'})
-                    listing['numberOfItems'] = 39
+                    listing['numberOfItems'] = len(listing['itemListElement'])
                     return match[1] + json.dumps(data, ensure_ascii=False) + match[3]
                 return match[0]
             updated = re.sub(pattern, register, text).replace('</body>',
@@ -151,8 +151,11 @@ class InventoryIntegration(unittest.TestCase):
             result = subprocess.run([sys.executable, '-B', 'denetle.py'], cwd=site,
                 capture_output=True, encoding='utf-8', errors='replace', timeout=90,
                 env={**os.environ, 'PYTHONDONTWRITEBYTECODE': '1'})
-            self.assertTrue('bilgi yazilari (39 sayfa)' in result.stdout,
-                            'New registered article never entered full article validation')
+            _mevcut = max(len(json.loads(_b)["mainEntity"]["itemListElement"]) for _b in re.findall(r'<script type="application/ld\+json">(.*?)</script>', text, re.S) if '"CollectionPage"' in _b)
+            _m = re.search(r'bilgi yazilari \((\d+) sayfa\)', result.stdout)
+            self.assertIsNotNone(_m, 'bilgi yazilari bolum basligi yok')
+            self.assertEqual(int(_m.group(1)), _mevcut + 1,
+                             'kayitli yeni yazi tam denetime girmemis')
             self.assertNotEqual(0, result.returncode)
             self.assertRegex(result.stdout, r'HATA\s+test-yeni-yazi.html')
 
