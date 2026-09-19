@@ -1121,6 +1121,7 @@ Başakşehir ve Mahmutbey çevresinde gece diş sorunu yaşayan hastalar için k
 ### Başakşehir'den kliniğe ulaşım
 Klinik, Kirazlı Mah. Mevlana Cad. No: 47 D adresinde ve **Kirazlı Metro durağına yürüme mesafesindedir**. Metro çıkışından Mevlana Caddesi'ne dönüp cadde boyunca yürümek yeterli; mesafe kısa, yol düz. Başakşehir'den M3 (Bakırköy Sahil–Kayaşehir) hattı Kirazlı'ya doğrudan bağlanır; Başak, Başakşehir merkez ve Kayaşehir yönünden aktarmasız gelinebilir. Gece saatlerinde metro çalışmadığı için taksi ya da kendi aracınız tercih edilir; sürücüye "Kirazlı Metro, Mevlana Caddesi" demeniz yeterlidir. Kliniğe ait özel otopark yoktur; cadde üzeri ve çevre sokaklarda park yeri bulunur, doluluk saate göre değişir ve yakında bir İSPARK otoparkı vardır. İlçe ilçe tarif ulaşım ve hizmet bölgesi sayfamızdadır.
 Başakşehir tarafından M3 hattı aktarmasız bir seçenek sunar; Kayaşehir ve Başakşehir merkez yönünden gelenler genelde doğrudan Kirazlı'da iniyor. Gece metro kapandığında ise araç yolculuğu kısa sürüyor.
+Başakşehir nöbetçi diş kliniği arayanlar için Bağcılar Kirazlı'daki kliniğimiz gece de açıktır ve randevu şartı yoktur.
 ### Gece hangi durumlarda gelmek önerilir?
 Aşağıdakiler gece saatlerinde de değerlendirilmesi önerilen durumlardır. Kesin karar muayenede verilir:
 - Ağrının uykudan uyandırması ya da sürekli hale gelmesi.
@@ -1180,6 +1181,7 @@ Küçükçekmece ve Mahmutbey çevresinde gece diş sorunu yaşayan hastalar iç
 ### Küçükçekmece'den kliniğe ulaşım
 Klinik, Kirazlı Mah. Mevlana Cad. No: 47 D adresinde ve **Kirazlı Metro durağına yürüme mesafesindedir**. Duraktan indikten sonra Mevlana Caddesi boyunca yürürsünüz; klinik 47 D numarada, yürüyüş kısa ve düzdür. Küçükçekmece'den M3 hattı Kirazlı'da M1B ile buluşur; Halkalı, Sefaköy, Cennet ve İkitelli yönünden metro ya da karayolu ile gelinebilir. Gece geç saatlerde metro seferleri kapandığında taksi ya da kendi aracınız daha uygun olur; sürücüye "Kirazlı Metro, Mevlana Caddesi" demeniz yeterlidir. Kliniğe ait kapalı otopark bulunmuyor; cadde ve çevre sokaklarda park alanı var, doluluk saate göre değişir, yakında İSPARK otoparkı da mevcut. İlçe ilçe tarif ulaşım ve hizmet bölgesi sayfamızdadır.
 Küçükçekmece tarafından M3 hattı Kirazlı'da M1B ile buluşuyor; Halkalı, Sefaköy, Cennet ve İkitelli yönünden gelenler tek aktarmayla kliniğe yaklaşabiliyor. Karayolu bağlantısı gece saatlerinde avantajlı oluyor.
+Küçükçekmece nöbetçi diş kliniği arayanlar için M3 hattıyla Kirazlı'ya gelip kliniğimizi her saat açık bulabilir.
 ### Gece hangi durumlarda gelmek önerilir?
 Aşağıdakiler gece saatlerinde de değerlendirilmesi önerilen durumlardır. Kesin karar muayenede verilir:
 - Ağrının uykudan uyandırması ya da sürekli hale gelmesi.
@@ -1239,6 +1241,7 @@ Esenler ve Mahmutbey çevresinde gece diş sorunu yaşayan hastalar için klini�
 ### Esenler'den kliniğe ulaşım
 Klinik, Kirazlı Mah. Mevlana Cad. No: 47 D adresinde ve **Kirazlı Metro durağına yürüme mesafesindedir**. Duraktan indikten sonra Mevlana Caddesi boyunca yürürsünüz; klinik 47 D numarada, yürüyüş kısa ve düzdür. Esenler'den M1B (Yenikapı–Kirazlı) hattı Kirazlı'ya doğrudan bağlanır; Menderes, Oruçreis, Fevzi Çakmak ve Turgut Reis yönünden metro ile gelinebilir. Gece geç saatlerde metro seferleri kapandığında taksi ya da kendi aracınız daha uygun olur; sürücüye "Kirazlı Metro, Mevlana Caddesi" demeniz yeterlidir. Kliniğe ait kapalı otopark bulunmuyor; cadde ve çevre sokaklarda park alanı var, doluluk saate göre değişir, yakında İSPARK otoparkı da mevcut. İlçe ilçe tarif ulaşım ve hizmet bölgesi sayfamızdadır.
 Esenler, kliniğe en yakın komşu ilçelerden biridir; Menderes, Oruçreis, Fevzi Çakmak ve Turgut Reis taraflarından metroya binip Kirazlı'da inmek yeterli. Cadde bağlantısı ise gece saatlerinde daha hızlı olabiliyor.
+Esenler nöbetçi diş kliniği arayan hastalarımız M1B hattıyla Kirazlı'ya gelip kliniğimizi her saat açık bulabilir.
 ### Gece hangi durumlarda gelmek önerilir?
 Aşağıdakiler gece saatlerinde de değerlendirilmesi önerilen durumlardır. Kesin karar muayenede verilir:
 - Ağrının uykudan uyandırması ya da sürekli hale gelmesi.
@@ -1298,6 +1301,7 @@ Güngören ve Mahmutbey çevresinde gece diş sorunu yaşayan hastalar için kli
 ### Güngören'den kliniğe ulaşım
 Klinik, Kirazlı Mah. Mevlana Cad. No: 47 D adresinde ve **Kirazlı Metro durağına yürüme mesafesindedir**. Metro çıkışından Mevlana Caddesi'ne dönüp cadde boyunca yürümek yeterli; mesafe kısa, yol düz. Güngören, Bağcılar'a komşudur; Merter, Haznedar, Tozkoparan ve Gençosman yönünden hem araçla hem toplu taşımayla bağlantı vardır. Gece saatlerinde metro çalışmadığı için taksi ya da kendi aracınız tercih edilir; sürücüye "Kirazlı Metro, Mevlana Caddesi" demeniz yeterlidir. Kliniğe ait özel otopark yoktur; cadde üzeri ve çevre sokaklarda park yeri bulunur, doluluk saate göre değişir ve yakında bir İSPARK otoparkı vardır. İlçe ilçe tarif ulaşım ve hizmet bölgesi sayfamızdadır.
 Güngören'den gelen hastalarımız Merter, Haznedar, Tozkoparan ve Gençosman taraflarından hem toplu taşımayla hem kendi aracıyla ulaşabiliyor. Komşu ilçe olduğu için yolculuk genelde kısa sürüyor; gece saatlerinde taksi de pratik bir seçenek.
+Güngören nöbetçi diş kliniği arayan hastalar için Bağcılar Kirazlı'daki kliniğimiz gece boyunca açıktır.
 ### Gece hangi durumlarda gelmek önerilir?
 Aşağıdakiler gece saatlerinde de değerlendirilmesi önerilen durumlardır. Kesin karar muayenede verilir:
 - Ağrının uykudan uyandırması ya da sürekli hale gelmesi.
@@ -1357,6 +1361,7 @@ Mahmutbey ve çevresinde gece diş sorunu yaşayan hastalar için kliniğimiz **
 ### Mahmutbey'den kliniğe ulaşım
 Klinik, Kirazlı Mah. Mevlana Cad. No: 47 D adresinde ve **Kirazlı Metro durağına yürüme mesafesindedir**. İstasyondan çıktıktan sonra Mevlana Caddesi yönüne dönüp cadde boyunca yürürsünüz; yürüyüş kısa ve düzdür. Mahmutbey'den M3 hattı Kirazlı'ya bağlanır, cadde bağlantısıyla da kısa sürede gelinebilir. Gece metro seferleri durduktan sonra taksi veya kendi aracınızla gelmek daha pratik; sürücüye "Kirazlı Metro, Mevlana Caddesi" demeniz yeterli. Kliniğin kendi otoparkı yoktur; cadde ve çevre sokaklarda park edilebilir, doluluk saatlere göre değişir, yakında bir İSPARK otoparkı bulunur. İlçe ilçe tarif ulaşım ve hizmet bölgesi sayfamızdadır.
 Mahmutbey'den M3 hattı Kirazlı'ya bağlanıyor; cadde bağlantısıyla gelenler için de mesafe kısa. Gece saatlerinde çevre yollar genelde sakin olduğu için araçla ulaşım hızlı ilerliyor.
+Mahmutbey nöbetçi diş kliniği arayan hastalar için Kirazlı'daki kliniğimiz her gün 24 saat hizmet verir.
 ### Gece hangi durumlarda gelmek önerilir?
 Aşağıdakiler gece saatlerinde de değerlendirilmesi önerilen durumlardır. Kesin karar muayenede verilir:
 - Ağrının uykudan uyandırması ya da sürekli hale gelmesi.
@@ -1416,6 +1421,7 @@ Bahçelievler ve çevresinde gece diş sorunu yaşayan hastalar için kliniğimi
 ### Bahçelievler'den kliniğe ulaşım
 Klinik, Kirazlı Mah. Mevlana Cad. No: 47 D adresinde ve **Kirazlı Metro durağına yürüme mesafesindedir**. İstasyondan çıktıktan sonra Mevlana Caddesi yönüne dönüp cadde boyunca yürürsünüz; yürüyüş kısa ve düzdür. Bahçelievler'den M1B (Yenikapı–Kirazlı) hattı ve karayolu bağlantısıyla ulaşılır; Şirinevler, Yenibosna ve Kocasinan yönünden metro ile Kirazlı'ya gelinebilir. Gece metro seferleri durduktan sonra taksi veya kendi aracınızla gelmek daha pratik; sürücüye "Kirazlı Metro, Mevlana Caddesi" demeniz yeterli. Kliniğin kendi otoparkı yoktur; cadde ve çevre sokaklarda park edilebilir, doluluk saatlere göre değişir, yakında bir İSPARK otoparkı bulunur. İlçe ilçe tarif ulaşım ve hizmet bölgesi sayfamızdadır.
 Bahçelievler yönünden gelen hastalarımızın çoğu M1B hattını kullanıyor; Şirinevler ve Yenibosna taraflarından binildiğinde Kirazlı'da inip birkaç dakika yürümek yeterli oluyor. Karayoluyla gelenler için cadde bağlantısı da pratik.
+Bahçelievler nöbetçi diş kliniği arayan hastalar için Kirazlı'daki kliniğimiz her gün 24 saat açıktır; randevusuz gelebilirsiniz.
 ### Gece hangi durumlarda gelmek önerilir?
 - Ağrının uykudan uyandırması ya da sürekli hale gelmesi.
 - Yüzde ya da çenede belirgin şişlik oluşması.
@@ -1474,6 +1480,7 @@ Güneşli ve Mahmutbey çevresinde gece diş sorunu yaşayan hastalar için klin
 ### Güneşli'den kliniğe ulaşım
 Klinik, Kirazlı Mah. Mevlana Cad. No: 47 D adresinde ve **Kirazlı Metro durağına yürüme mesafesindedir**. İstasyondan çıktıktan sonra Mevlana Caddesi yönüne dönüp cadde boyunca yürürsünüz; yürüyüş kısa ve düzdür. Güneşli, Bağcılar'ın mahallelerindendir; kliniğe cadde üzerinden ya da Kirazlı'daki metro aktarmasıyla gelinebilir; cadde üzerindeki otobüs ve minibüs durakları yürüme mesafesindedir. Gece metro seferleri durduktan sonra taksi veya kendi aracınızla gelmek daha pratik; sürücüye "Kirazlı Metro, Mevlana Caddesi" demeniz yeterli. Kliniğin kendi otoparkı yoktur; cadde ve çevre sokaklarda park edilebilir, doluluk saatlere göre değişir, yakında bir İSPARK otoparkı bulunur. İlçe ilçe tarif ulaşım ve hizmet bölgesi sayfamızdadır.
 Güneşli, Bağcılar'ın kendi mahallelerinden biri olduğu için kliniğe en kısa yollardan biri buradan geçiyor; cadde boyunca gelen otobüs ve minibüsler Kirazlı'ya yakın duraklarda duruyor. Gece saatlerinde yol genelde daha boş.
+Güneşli nöbetçi diş kliniği arayanlar için Kirazlı'daki kliniğimiz her gün, resmî tatiller dahil 24 saat açıktır.
 ### Gece hangi durumlarda gelmek önerilir?
 Aşağıdakiler gece saatlerinde de değerlendirilmesi önerilen durumlardır. Kesin karar muayenede verilir:
 - Ağrının uykudan uyandırması ya da sürekli hale gelmesi.
@@ -1755,6 +1762,7 @@ Acil müdahale çoğu zaman **işin sonu değil, başıdır**. Gece rahatlatıla
 İşlem sonrasında birkaç gün süren hafif ağrı ve şişlik olağandır; bunu size işlemden önce söyleriz. Ama şişlik artıyorsa, ateş çıktıysa ya da kanama durmuyorsa bekleyin demiyoruz — tekrar arayın.
 ### Gece nasıl gelinir?
 Adresimiz **Kirazlı Mah. Mevlana Cad. No: 47 D, Bağcılar / İstanbul**. Kirazlı metro istasyonu M1B ve M3 hatlarının aktarma noktası; gündüz metroyla kolayca gelinir. Metronun kapalı olduğu saatlerde taksi ile gelmek gerekir — sürücüye "Kirazlı Metro, Mevlana Caddesi" demeniz yeterli. Ayrıntılı tarif ulaşım sayfasında .
+Bağcılar nöbetçi diş kliniği arayanlar için Kirazlı'daki kliniğimiz her gün 24 saat açıktır; randevusuz gelebilirsiniz.
 Yalnız Bağcılar'dan değil; **Esenler, Güngören, Bahçelievler, Küçükçekmece ve Başakşehir** gibi komşu ilçelerden de gece bize ulaşan hastalar oluyor. İlçe ilçe tarif ulaşım ve hizmet bölgesi sayfasında .
 Yola çıkmadan önce arayın: şikâyetinizi duyduğumuzda hazırlık yapabilir, gerekiyorsa doğrudan acile yönlendirebiliriz.
 0541 732 43 76 — hemen arayın WhatsApp'tan yazın
