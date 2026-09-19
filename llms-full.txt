@@ -4497,6 +4497,10 @@ Mümkünse önceden haber vermek o saati başka bir hastanın kullanabilmesini s
 ### Randevu öncesi hazırlık
 Gelmeden önce şu üç başlığı düşünmek ziyaretin süresini kısaltır: **şikâyetin ne zaman başladığı**, hangi durumların şikâyeti artırdığı ve daha önce denenenler. Kullanılan ilaçlar, bilinen alerjiler ve varsa önceki röntgen ya da tomografi görüntüleri değerlendirmeye yardımcı olur. Kalan dişlerde hassasiyet, hareketlenme ya da renk değişimi varsa bunu not etmek yararlıdır.
 Çocuk hastalarda ilk ziyaret için ayrı bir hazırlık önerilir; ayrıntılar için ilk diş ve ilk randevu yazımıza bakabilirsiniz. Gecikme ya da erteleme gerekirse kliniğe önceden haber vermek, sizin için ayrılan değerlendirme süresinin başka bir hastaya aktarılmasını sağlar.
+### Ziyaret sırasında hangi bilgiler sorulur?
+Muayenede genellikle şikâyetin başlangıcı, süresi ve şiddeti sorulur; ardından ağız içi değerlendirme yapılır. Gerektiğinde röntgen ya da ek görüntüleme istenir. Kullanılan ilaçlar, geçirilmiş müdahaleler ve alerjiler bu tablonun parçasıdır; bu bilgileri paylaşmak değerlendirmeyi doğrudan etkiler.
+### Ziyaret sonrası takip
+Muayene sonunda konuşulan bakım adımlarını günlük rutine eklemek ve önerilen kontrol aralığını not etmek süreci kolaylaştırır. Ağız bakımıyla ilgili ayrıntılar için fırça seçimi ve diş ipi kullanımı yazılarımıza bakabilirsiniz. Bu yazı tedavi vaadi içermez; uygulanacak adımlar muayene sonrası belirlenir.
 ### Beklemeden değerlendirilmesi gereken durumlar
 Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 - Nefes almakta ya da yutkunmakta zorlanma
@@ -4550,6 +4554,10 @@ Koruyucu bakımın temeli **günde iki kez florürlü macunla fırçalamak** ve 
 Derin oluklu süt azı dişleri de değerlendirilebilir; çünkü süt dişi çürüğü ilerlediğinde alttaki kalıcı dişi de etkileyebilir ( süt dişi çürüğü ). Uygunluk her zaman diş bazında ve hekim değerlendirmesiyle belirlenir; bu yazı tedavi vaadi içermez.
 ### Evde nereye bakılır?
 Fırçalama sırasında ayna yardımıyla azı dişlerinin çiğneme yüzeyine bakmak yararlıdır: oluklarda renk değişimi ya da yemek artığı birikimi fark edilirse kontrol zamanı gelmiş olabilir. Düzenli aralıkla yapılan muayene, örtücü aşınmasını da erken gösterir.
+### Uygulama sonrası günlük bakım
+Örtücü uygulandıktan sonra günlük bakım değişmez: florürlü macunla günde iki kez fırçalama ve diş aralarının temizliği sürdürülür. Örtücünün çevresinde birikim olmaması, yapılan işlemin uzun süre işlevini korumasına yardımcı olur. Sert kabuklu gıdaları tek noktada kırmaya çalışmak yeni dişlerde olduğu gibi bu dişlerde de önerilmez.
+### Aile için kontrol notları
+Kardeşlerden birinde derin oluklu dişler ve çürük öyküsü varsa, diğer çocukların da değerlendirilmesi gündeme gelebilir; çürük riski aile içinde benzer beslenme ve bakım alışkanlıklarıyla birlikte değerlendirilir. Okul döneminde kontrolleri aksatmamak için takvime eklemek yararlıdır.
 ### Beklemeden değerlendirilmesi gereken durumlar
 Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 - Nefes almakta ya da yutkunmakta zorlanma
@@ -4725,6 +4733,10 @@ Emzik temiz tutulmalı, **şekerli sıvılara batırılmamalı** ve gece ağızd
 Alışkanlık çoğunlukla uykuya geçişte yoğunlaşır; bu nedenle bırakma planı uyku rutinine birlikte kurulur. Uyku öncesi sırayı (kitap, ışık, sarılma) sabitlemek, emme yerine geçen bir rahatlama yolu sağlar. İlk günlerde uykuya dalma süresi uzayabilir; bu genellikle birkaç hafta içinde yerleşir.
 ### Hekim kontrolünde neler değerlendirilir?
 Kontrolde dişlerin kapanışı, üst ön bölgenin konumu ve çene gelişimi izlenir. Kalıcı dişler sürmeye başladıktan sonra alışkanlık sürüyorsa, ortodontik değerlendirme zamanı konuşulur. Bu değerlendirme kişiye göre yapılır; bu yazı tedavi vaadi içermez.
+### Bırakma sonrası ilk kontrol
+Alışkanlık bırakıldıktan sonra diş dizilimindeki değişim bir süre izlenir; kapanışın yeniden dengelenmesi kişiye göre farklı hızda olur. Bu dönemde kontrol aralığı hekim tarafından belirlenir ve gerekirse ortodontik değerlendirme planlanır; bu yazı tedavi vaadi içermez.
+### Evde başka bir çocuk varsa
+Küçük kardeşler çoğu zaman büyük çocuğu örnek alır; bu nedenle bırakma sürecinde ev içindeki tutumun tutarlı olması işi kolaylaştırır. Emziğin görünür yerlerde bırakılmaması ve çocuğun süreçte desteklenmesi önerilir. Sert ceza ya da suçlayıcı dil, alışkanlığı gizli kullanıma itebilir.
 ### Beklemeden değerlendirilmesi gereken durumlar
 Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 - Nefes almakta ya da yutkunmakta zorlanma
@@ -4774,6 +4786,10 @@ Yüzeyde beyaz ya da sarı görünüm, birikim ve ağız kuruluğu gibi etkenler
 Kontrol için randevu süreci yazımıza bakabilirsiniz.
 ### Tat alma ve yutmadaki rolü
 Dil yüzeyindeki papilla adı verilen küçük çıkıntılar tat tomurcuklarını taşır; yutma sırasında ise dil, lokmayı ağız arkasına yönlendirir. Bu nedenle dildeki bir rahatsızlık yalnız tat almada değil, yutma konforunda da fark edilebilir. Yutma sırasında takılma hissi süreklilik kazanırsa değerlendirme gerekir.
+### Ağız kuruluğu ve dil
+Tükürük azaldığında dil yüzeyi daha kolay kurur ve yüzeydeki birikim belirginleşir. Su içmek, öğün aralarında ağzı nemli tutmak ve kuruluğa yol açan etkenleri hekimle konuşmak yararlıdır ( ağız kuruluğu ). Kuruluk sürekli hâle gelirse değerlendirme önerilir.
+### Görünümü etkileyen alışkanlıklar
+Çay, kahve ve sigara gibi etkenler dil yüzeyinde renk değişimi ve birikimi artırabilir; bu etkiler çoğu zaman geçicidir ancak süreklilik kazanırsa değerlendirilmelidir. Sert fırçalama ya da kürdan benzeri sivri araçlarla dil yüzeyini zorlamak tahrişe yol açabilir; temizlik yumuşak hareketlerle yapılmalıdır.
 ### Beklemeden değerlendirilmesi gereken durumlar
 Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 - Nefes almakta ya da yutkunmakta zorlanma
@@ -4830,6 +4846,10 @@ Tekerlekli sporlarda kask ve ağız koruyucu birbirini tamamlar: kask baş ve y�
 Yeni bir koruyucu ilk günlerde konuşmayı ve su içmeyi biraz zorlaştırabilir. Antrenmanda kısa sürelerle başlayıp alışmak, maç sırasında çıkarma ihtiyacını azaltır. Koruyucuda ağrı ya da uzun süren baskı hissi varsa uyum yeniden değerlendirilmelidir.
 ### Hijyen ve paylaşım
 Koruyucu kişisel kullanım içindir; paylaşılması uygun değildir. Antrenman çantasında kapalı kutuda taşınması, yüzeyde birikim oluşmasını ve şeklinin bozulmasını engeller.
+### Ne zaman yenisi gerekir?
+Koruyucu sert bir darbe aldıysa, kenarlarında yırtık oluştuysa ya da artık yerine oturmuyorsa yenilenmelidir. Büyüme çağındaki çocuklarda çene gelişimi ilerledikçe uyum değişebilir; bu nedenle her sezon başında kontrol edilmesi pratik bir alışkanlıktır.
+### Ağızda sabit aparey varken
+Ortodontik tel ve braketler kullanılıyorsa standart koruyucular basınç yapabilir; bu durumda tel ve braketlere uygun hazırlanmış bir model gerekir. Uygun model belirlenmeden koruyucu kullanmak braketlerde kırılmaya yol açabilir, bu nedenle hekim değerlendirmesi önerilir.
 ### Beklemeden değerlendirilmesi gereken durumlar
 Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 - Nefes almakta ya da yutkunmakta zorlanma
