@@ -1032,6 +1032,28 @@ kontrol("hicbir sayfada birlestirici karakter yok", not birlestirici,
         ("BOZUK: %s" % birlestirici[:2]) if birlestirici
         else "%d sayfa" % (len(BILGI) + len(ALT_SAYFA) + 2))
 
+# --- Gorunur metinde KACIS ARTIGI olmasin (19 Eyl 2026) --------------------
+# ⚠️ Bu kontrol yokken 4 yeni sayfa `Bahçelievler\'den Kirazlı'ya ...` diye
+# YAYINA GITTI. Kaynak: uretim betigi metni tek tirnakli Python dizgesinden
+# yazarken `\'` kacisi dosyaya oldugu gibi kaldi. Tarayici ters boluyu DUZ
+# METIN olarak gosterir; sayfa calisir, 200 doner, hicbir denetim kirmizi
+# vermez — canli okumasinda goruldu. Kapsam bilerek GORUNUR metin: etiket
+# icindeki (`content="..."`) kacaklar da duzeltilmeli ama o satirlar triyaj
+# kelimesi tasiyorsa mekanik kapi duzenlemeyi HOLD ediyor (bkz. LESSONS).
+kacis_artigi = []
+for _kad in sorted(glob.glob("*.html")) + sorted(glob.glob("*/*.html")):
+    with open(_kad, encoding="utf-8", errors="replace") as _kf:
+        _kham = _kf.read()
+    _kgorunur = re.sub(r"(?s)<script.*?</script>", " ", _kham)
+    _kgorunur = re.sub(r"(?s)<style.*?</style>", " ", _kgorunur)
+    _kgorunur = re.sub(r"<[^>]*>", " ", _kgorunur)
+    _km = re.search(r"\\['\"nrt]|\\u[0-9a-fA-F]{4}", _kgorunur)
+    if _km:
+        kacis_artigi.append("%s (%r)" % (_kad, _km.group(0)))
+kontrol("gorunur metinde kacis artigi yok", not kacis_artigi,
+        ("KACIS: %s" % kacis_artigi[:3]) if kacis_artigi
+        else "%d sayfa" % len(glob.glob("*.html")))
+
 # 112 esigi TUM sayfalarda aranir — bilgi yazilarinda ayrica sayfa
 # bazinda raporlaniyor ama ana sayfa, iletisim ve SSS de 112 yaziyor.
 # Kuralin gerekcesi `acil_esik_hatalari` yaninda.
