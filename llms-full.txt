@@ -42,7 +42,7 @@ Genel diş hekimliği alanında çalışmaktadır; kliniğimizde uygulanan tedav
 Genel diş hekimliği alanında çalışmaktadır; kliniğimizde uygulanan tedavilerin tamamını yürütmektedir.
 Hekimlerimizi ve muayene sürecinin nasıl işlediğini okuyun
 ### Bilgi yazıları
-Hastalarımızın en çok karşılaştığı durumlar için hazırladığımız bilgilendirme yazıları — toplam elli bir başlık. Şikâyetiniz varsa yine de muayene gereklidir; bu yazılar hekim muayenesinin yerine geçmez.
+Hastalarımızın en çok karşılaştığı durumlar için hazırladığımız bilgilendirme yazıları — toplam elli iki başlık. Şikâyetiniz varsa yine de muayene gereklidir; bu yazılar hekim muayenesinin yerine geçmez.
 **Nöbetçi diş hekimi ve acil diş** Hangi şikâyet beklemez, hangisi sabahı bekleyebilir; gece ne yapılabilir ve hangi belirtide 112 aranır. **Gece açık dişçi: gece diş sorununda ne yapılır?** Gece açık dişçi arayanlar için: evde ne yapılabilir, gelirken ne bildirilmeli ve Kirazlı'ya gece ulaşım nasıl sağlanır? **Aynı gün diş hekimi: hangi şikâyet beklemez?** Beklemeden gelinmesi önerilen durumlar, evde ilk yapılabilecekler ve Kirazlı'ya ulaşım. **Güneşli'den nöbetçi dişçi: gece açık diş kliniği** Güneşli ve Mahmutbey çevresinden ulaşım, çalışma saatleri ve gece gelmeden önce bilinmesi gerekenler. **Bahçelievler'den nöbetçi dişçi: gece açık diş kliniği** Bahçelievler ve çevresinden ulaşım, çalışma saatleri. **Mahmutbey'den nöbetçi dişçi: gece açık diş kliniği** Mahmutbey ve çevresinden ulaşım, çalışma saatleri. **Güngören'den nöbetçi dişçi: gece açık diş kliniği** Güngören ve çevresinden ulaşım, çalışma saatleri. **Esenler'den nöbetçi dişçi: gece açık diş kliniği** Esenler ve çevresinden ulaşım, çalışma saatleri. **Küçükçekmece'den nöbetçi dişçi: gece açık diş kliniği** Küçükçekmece ve çevresinden ulaşım, çalışma saatleri. **Başakşehir'den nöbetçi dişçi: gece açık diş kliniği** Başakşehir ve çevresinden ulaşım, çalışma saatleri. **Gece ya da hafta sonu diş hekimine gitmeli miyim?** Nöbetçi klinikte gece neler yapılır, neler yapılmaz; hangi şikâyet sabahı bekleyebilir, hangisi bekleyemez. **Gece diş ağrısı: evde ne yapabilirsiniz?** Ağrı neden geceleri artar, sabaha kadar ne yapılabilir, hangi yöntemler zarar verir ve ne zaman beklememek gerekir. **Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** Düşen dişi nasıl tutmalı, neyin içinde saklamalı ve hangi hata dişi kurtarılamaz hâle getirir. **Diş apsesi: neden ertelenmemeli?** Belirtileri, ağrı geçtiğinde neden iyileşme sayılmadığı ve antibiyotiğin neden tek başına yetmediği. **Kanal tedavisi: dişi çekmeden kurtarmak** Ne zaman gerekir, ağrının geçmesi neden iyileşme değildir ve sonrasında neden kaplama yapılır. **Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** Sağlıklı dişeti kanar mı, kanayan bölgeyi fırçalamamak neden hata ve hangi bulgularda beklenmemeli. **Diş sıkma ve gece plağı** Sabah çene ağrısı, aşınan dişler, kırılan dolgular ve gece plağının gerçekte ne yaptığı. **Diş çekimi sonrası şişlik: ne zaman olağan?** Şişliğin günlere göre seyri, soğuk-sıcak uygulamanın sırası ve hangi bulguda beklenmeden aranmalı. **Diş hekimi korkusu: ilk randevu nasıl ilerler?** Korkuyu önceden söylemenin ne değiştirdiği, durma işareti ve yıllardır ertelemiş olanlar için izlenen yol.
 On altı bilgi yazısının tamamını görün
 ### Ulaşım
@@ -4286,6 +4286,52 @@ Erken fark edilen çürüğün çözümü hem daha kısa hem çocuk için daha k
 **"Evde ne rahatlatır?"** Soğutulmuş (buzlu olmayan) bir diş kaşıyıcı ya da temiz, soğuk bir bez işe yarayabilir; temiz parmakla dişetine hafif masaj da rahatlatır. Ağrı kesici ya da jel kullanımı için hekiminize danışın.
 **"Nelere dikkat edilmemeli?"** Kehribar kolye ve benzeri takılar boğulma riski taşıdığı için önerilmez. Buzlu, çok sert ya da kopabilecek nesneler kullanılmamalı; bebek şekerli içecekle uyutulmamalıdır.
 **"İlk diş hekimi kontrolü ne zaman yapılmalı?"** İlk diş çıktıktan sonraki altı ay içinde ya da en geç bir yaşında ilk kontrol önerilir. Amaç, çürük başlamadan koruyucu alışkanlıkları birlikte kurmaktır.
+### Kaynaklar
+Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlantılar yeni sekmede açılır ve kliniğimizle ilgisi yoktur.
+- Taking care of children's teeth — NHS
+- Oral health — Dünya Sağlık Örgütü (WHO)
+TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
+BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
+### Diğer bilgi yazıları
+**Çocukta ilk diş ve ilk diş hekimi randevusu** **Florür nedir, zararlı mı?** **Tüm bilgi yazıları**
+
+---
+
+## Diş Fırçası Nasıl Seçilir, Ne Sıklıkla Değiştirilir?
+URL: https://ymdisklinigi.com/dis-fircasi-secimi.html
+
+ANA SAYFA · BİLGİ YAZILARI
+Diş fırçası nasıl seçilir, ne sıklıkla değiştirilir?
+Diş fırçası seçerken kıl sertliği, baş büyüklüğü ve tutuş önemlidir; manuel ve elektrikli fırçalar doğru teknikle benzer sonuç verir. Bu yazıda fırça seçimini, temizliğini ve değişim sıklığını topladık.
+### Fırça seçerken nelere bakılır?
+- **Yumuşak kıl:** çoğu kişi için uygun olan seçenek; dişetini çizmeden temizler.
+- **Küçük baş:** arka dişlere ve dişeti kenarına ulaşmayı kolaylaştırır.
+- **Rahat tutuş:** uzun süre zorlanmadan fırçalamayı sağlar.
+### Manuel mi, elektrikli fırça mı?
+Doğru teknikle ikisi de etkilidir. Elektrikli fırçalar el becerisi kısıtlı kişilerde, elde sınırlı hareketi olanlarda ve çocuklarda yardımcı olabilir. Önemli olan fırçanın diş-dişeti birleşimine yönlendirilmesi ve dişetini bastırmamasıdır.
+### Sert kıl daha iyi temizler mi?
+Hayır. Sert kıllar daha iyi temizlemez; aksine dişetini çizebilir ve zamanla dişeti çekilmesine katkıda bulunabilir. Dişeti hassasiyeti ya da çekilme varsa fırça seçimini hekiminizle birlikte yapmanız uygun olur.
+### Ne sıklıkla değiştirilir?
+Genel öneri **üç-dört ayda bir** yenilemektir. Kıllar açılmış, yayılmış ya da renk değiştirmişse süre dolmasa da fırça değiştirilir. Hastalık döneminden sonra yeni fırça kullanmak da uygun olur.
+### Fırça nasıl temiz tutulur?
+Kullanımdan sonra akan su altında durulayıp dik konumda kurumaya bırakmak yeterlidir. Kapalı kutuda saklamak nemli kalmasına yol açar; fırçalar birbirine değmeyecek şekilde ayrı tutulur.
+### Çocuklar için fırça seçimi
+Yaşa uygun, küçük başlı ve yumuşak kıllı fırça seçilir; sapı çocuğun eline uygun olmalıdır. İlk dişler çıktığında temizlik başlar; ilk hekimi kontrolü için ilk diş ve ilk randevu yazımıza bakabilirsiniz.
+### Beklemeden değerlendirilmesi gereken durumlar
+Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
+- Nefes almakta ya da yutkunmakta zorlanma
+- Göze, boyna ya da göğse doğru yayılan şişlik
+- Yüksek ateşle birlikte olan şişlik, titreme
+- Bilinç bulanıklığı ya da bayılma
+- Çene kırığı şüphesi ya da kafa travması sonrası baygınlık
+- Tekrarlanan baskıya rağmen durmayan ya da ağzı hızla dolduran kanama
+### Sık sorulanlar
+**"Hangi kıl sertliğinde fırça alınmalı?"** Çoğu kişi için yumuşak kıllı fırça uygundur. Sert kıllar daha iyi temizlemez; dişetini çizebilir ve zamanla dişeti çekilmesine katkıda bulunabilir. Dişeti hassasiyeti varsa hekiminize danışmanız iyi olur.
+**"Manuel mi, elektrikli fırça mı?"** Doğru teknikle ikisi de etkilidir. Elektrikli fırçalar özellikle el becerisi kısıtlı kişilerde ve çocuklarda faydalı olabilir; önemli olan fırçayı dişetine değil diş-dişeti birleşimine yönlendirmektir.
+**"Fırça ne sıklıkla değiştirilmelidir?"** Genel öneri üç-dört ayda bir değiştirmektir. Kıllar açılmış, yayılmış ya da renk değiştirmişse süre dolmasa da yenilenmelidir. Hastalık döneminden sonra da yeni fırça kullanmak uygun olur.
+**"Fırça nasıl temiz tutulur?"** Kullanımdan sonra akan su altında durulayıp dik konumda kurumaya bırakmak yeterlidir. Kapalı kutuda saklamak nemli kalmasına yol açar; fırçalar birbirine değmeyecek şekilde ayrı tutulmalıdır.
+**"Çocuklar için fırça seçerken neye bakılır?"** Yaşa uygun, küçük başlı ve yumuşak kıllı fırça seçilir; sapı çocuğun eline uygun olmalıdır. İlk dişler çıktığında temizlik başlar ve ilk hekimi kontrolü için bir yaş civarı uygun zamandır.
+**"Fırçalama ne kadar sürmeli?"** Günde iki kez, yaklaşık iki dakika fırçalama önerilir; her bölgeye sırayla zaman ayırmak ve diş aralarında diş ipi ya da arayüz fırçası kullanmak temizliği tamamlar.
 ### Kaynaklar
 Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlantılar yeni sekmede açılır ve kliniğimizle ilgisi yoktur.
 - Taking care of children's teeth — NHS
