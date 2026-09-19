@@ -4271,6 +4271,14 @@ Ağrı kesici ya da dişeti jeli kullanımı için **hekiminize danışın**; bu
 - Bebek şekerli içecekle uyutulmamalı; biberon ağızda bırakılmamalıdır.
 ### İlk diş hekimi kontrolü ne zaman?
 İlk diş çıktıktan sonraki **altı ay içinde** ya da en geç **bir yaşında** ilk kontrol önerilir. Amaç çürük başlamadan koruyucu alışkanlıkları birlikte kurmaktır.
+### Diş çıkarma döneminde beslenme
+Bu dönemde iştah dalgalanabilir; soğuk ve yumuşak gıdalar (yoğurt, püre) genellikle daha rahat tüketilir. Şekerli içecek ya da bal gibi yapışkan tatlıları rahatlatma amacıyla kullanmak uygun değildir; bunlar çürük riskini artırır ( süt dişi çürüğü ).
+### Ağız bakımına başlangıç
+İlk diş göründüğünde temizliğe başlanır: temiz bir tülbent ya da bebek fırçasıyla günde bir-iki kez yüzeyin silinmesi yeterlidir. Bebeğin ağzına bakmak ve dişleri görmek, ilerleyen dönemde fırçalama alışkanlığının temelini kurar.
+### Ne zaman hekime başvurulur?
+- İlk diş göründükten sonra ilk kontrol için.
+- Diş yüzeyinde renk değişimi ya da çukur fark edilirse.
+- Çiğneme veya emmede sürekli zorluk varsa.
 ### Beklemeden değerlendirilmesi gereken durumlar
 Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 - Nefes almakta ya da yutkunmakta zorlanma
@@ -4320,6 +4328,15 @@ Genel öneri **üç-dört ayda bir** yenilemektir. Kıllar açılmış, yayılm�
 Kullanımdan sonra akan su altında durulayıp dik konumda kurumaya bırakmak yeterlidir. Kapalı kutuda saklamak nemli kalmasına yol açar; fırçalar birbirine değmeyecek şekilde ayrı tutulur.
 ### Çocuklar için fırça seçimi
 Yaşa uygun, küçük başlı ve yumuşak kıllı fırça seçilir; sapı çocuğun eline uygun olmalıdır. İlk dişler çıktığında temizlik başlar; ilk hekimi kontrolü için ilk diş ve ilk randevu yazımıza bakabilirsiniz.
+### Elektrikli fırça kime uygun?
+Elektrikli fırçalar, kavrama gücü azaldığında ya da el hareketi kısıtlandığında işi kolaylaştırabilir; başlığı doğru açıyla gezdirip bastırmamak yeterlidir. Manuel fırçada ise doğru teknik ve süre belirleyicidir. Hangi seçeneğin uygun olduğu diş eti durumu ve el becerisi değerlendirilerek belirlenir.
+### Değiştirme zamanı nasıl anlaşılır?
+- Kıllar yanlara doğru açılmışsa ve fırça artık dik durmuyorsa.
+- Kılların ucu sertleşmiş ya da renk değiştirmişse.
+- Fırçalama sonrası ağızda temizlik hissi azaldıysa.
+Hastalık sonrası dönemde fırçanın değiştirilmesi de önerilir; genel aralık üç aydır, ancak kullanım şekline göre daha erken gerekebilir.
+### Çocuklarda fırça seçimi
+Çocuklarda küçük baş ve yumuşak kıl tercih edilir; tutamağın ele uygun olması fırçalamayı kolaylaştırır. Çocuğun kendi fırçalaması desteklenirken, küçük yaşlarda bir yetişkinin kontrolü düzeni sürdürmeye yardımcı olur ( ilk diş ve ilk randevu ).
 ### Beklemeden değerlendirilmesi gereken durumlar
 Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 - Nefes almakta ya da yutkunmakta zorlanma
@@ -4423,6 +4440,12 @@ Erken dönemde diş taşı temizliği ve doğru ağız bakımı çoğu kişide i
 - Diş aralarını diş ipi ya da arayüz fırçasıyla temizlemek.
 - Altı ayda bir kontrol; diş taşı oluşmuşsa temizlik.
 - Sigara içmemek; şeker hastalığı varsa kan şekeri kontrolü.
+### İlişkilendirilen durumlar
+Diş eti iltihabı yalnız ağız içi etkenlerle sınırlı değildir: kan şekeri düzeni ve sigara kullanımı diş eti sağlığını etkileyen başlıklar arasındadır ( diyabet ve ağız sağlığı · sigara ve ağız sağlığı ). Ağız bakımı düzeni bu durumlarda daha da önem kazanır.
+### Gebelikte diş eti değişimleri
+Gebelikte hormonal değişimlere bağlı olarak diş etleri daha duyarlı hâle gelebilir. Bu dönemde bakımın sürdürülmesi ve kontrolün aksatılmaması önerilir; ayrıntılar için hamilelikte diş sağlığı yazımıza bakabilirsiniz.
+### Değerlendirme sonrası takip
+Ağız içi değerlendirme sonrası bakım düzeninin sürdürülmesi ve önerilen kontrol aralığına uyulması, iltihabın tekrarlamasını azaltmaya yardımcı olur. Fırça ve diş ipi kullanımı, ara yüz temizliği ve şekerli-asitli gıda sıklığının azaltılması takibin temel parçalarıdır.
 ### Beklemeden değerlendirilmesi gereken durumlar
 Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 - Nefes almakta ya da yutkunmakta zorlanma
@@ -4577,6 +4600,15 @@ Protez zamanla oturmuyor, kayıyor ya da belirli bir noktada vuruk yapıyorsa **
 - Protezde çatlak, kırık ya da eksilen parça.
 - Protez yapıştırıcısına sürekli ihtiyaç duyulması.
 - Kalan dişlerde renk değişimi ya da hareketlilik.
+### Yemek sırasında dikkat edilecekler
+Hareketli protez kullanılırken çok sert kabuklu gıdaları tek taraflı ve hızlı çiğnemek protezde baskı oluşturur. Lokmaları iki taraflı çiğnemek ve küçük parçalara ayırmak, hem konforu hem protezin ömrünü destekler. Yemekten sonra protezi çıkarıp durulamak doku sağlığı açısından yararlıdır.
+### Protezin ömrünü uzatan alışkanlıklar
+- Protezi düşürmemek için temizliği lavabo üzerinde yapmak.
+- Günlük temizliği atlamamak; birikim protez altındaki dokuyu etkiler.
+- Sert temizleyici ve kaynar su kullanmamak.
+- Uyum değişimlerini geciktirmemek; küçük vuruklar zamanla büyür.
+### Tam ve parsiyel protez farkı
+Tam protez dişsiz çenede kullanılır; parsiyel protez kalan doğal dişlerden destek alır. Parsiyel protezde kalan dişlerin bakımı ve destek yüzeylerinin temizliği ayrıca önemlidir; bu nedenle kontrol aralığı hekiminiz tarafından belirlenir.
 ### Beklemeden değerlendirilmesi gereken durumlar
 Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 - Nefes almakta ya da yutkunmakta zorlanma
@@ -4628,6 +4660,15 @@ Fırça seçimi için diş fırçası nasıl seçilir yazımıza bakabilirsiniz.
 Protez her yemekten sonra durulanmalı ve günde en az bir kez özel fırçasıyla temizlenmelidir. Ayrıntılar için protez bakımı ve temizliği yazımıza bakabilirsiniz.
 ### Kontrol ve erken değerlendirme
 Genel öneri altı ayda bir kontroldür. Ağız içinde **iki haftadan uzun süren yara**, renk değişimi, çiğneme zorluğu ya da diş eti sorunlarında beklemeden kliniğe başvurulmalıdır.
+### Bakım verenler için pratik notlar
+- Fırçalama için günün aynı saatini seçmek rutini kolaylaştırır.
+- Oturur pozisyonda, iyi aydınlatılmış bir yerde bakım yapmak güvenlidir.
+- Kullanılan fırça ve protez bakım malzemeleri erişilebilir bir yerde tutulur.
+- Ağız içinde fark edilen değişimler not edilip kontrolde paylaşılır.
+### İlaç listesi ve ağız kuruluğu takibi
+Birden fazla ilaç kullanıldığında ağız kuruluğu daha sık görülebilir. Kullanılan ilaçların listesini güncel tutup kontrol sırasında paylaşmak, nedeni değerlendirmeyi kolaylaştırır. Su tüketimini gün içine yaymak ve tükürük akışını destekleyen önerileri hekimle konuşmak yararlıdır.
+### Çiğneme kolaylığı ve beslenme
+Çiğnemede zorluk, sebze-meyve tüketimini azaltabilir. Gıdaları uygun boyutlara ayırmak, yumuşak pişirme yöntemlerini tercih etmek ve protez uyumunun düzenli kontrol edilmesi beslenme düzeninin sürdürülmesine yardımcı olur.
 ### Beklemeden değerlendirilmesi gereken durumlar
 Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 - Nefes almakta ya da yutkunmakta zorlanma
@@ -4680,6 +4721,10 @@ Emzik temiz tutulmalı, **şekerli sıvılara batırılmamalı** ve gece ağızd
 - Alışkanlık 4 yaştan sonra da sürüyorsa.
 - Çiğneme veya konuşmada zorluk fark edilirse.
 - Diş diziliminde ya da kapanışta değişim görülürse.
+### Bırakma sürecinde uyku düzeni
+Alışkanlık çoğunlukla uykuya geçişte yoğunlaşır; bu nedenle bırakma planı uyku rutinine birlikte kurulur. Uyku öncesi sırayı (kitap, ışık, sarılma) sabitlemek, emme yerine geçen bir rahatlama yolu sağlar. İlk günlerde uykuya dalma süresi uzayabilir; bu genellikle birkaç hafta içinde yerleşir.
+### Hekim kontrolünde neler değerlendirilir?
+Kontrolde dişlerin kapanışı, üst ön bölgenin konumu ve çene gelişimi izlenir. Kalıcı dişler sürmeye başladıktan sonra alışkanlık sürüyorsa, ortodontik değerlendirme zamanı konuşulur. Bu değerlendirme kişiye göre yapılır; bu yazı tedavi vaadi içermez.
 ### Beklemeden değerlendirilmesi gereken durumlar
 Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 - Nefes almakta ya da yutkunmakta zorlanma
@@ -4779,6 +4824,12 @@ Hangi seçeneğin uygun olduğu hekim değerlendirmesiyle belirlenir. Diş teli 
 - Şekli bozulmuş, incelmiş ya da yırtılmış koruyucuları yenileyin.
 ### Diş travması olduğunda
 Darbe sonrası dişte kırık, yer değiştirme ya da tam çıkma olabilir. Böyle bir durumda **beklemeden kliniğe gelinmelidir**; çıkan dişin tutulma şekli ve taşınması ile ilgili yönlendirme, değerlendirme sırasında yapılır. Ağız içi yaralanmalarda randevu süreci yazımıza bakabilirsiniz.
+### Kaskla birlikte kullanım
+Tekerlekli sporlarda kask ve ağız koruyucu birbirini tamamlar: kask baş ve yüz bölgesini, koruyucu ise dişleri ve çene eklemini darbeye karşı destekler. Kaskın çene kayışı kapalı olmadığında koruyucunun yerinde kalması zorlaşır; bu nedenle ikisinin birlikte ve doğru takılması önemlidir.
+### İlk kullanımda alışma
+Yeni bir koruyucu ilk günlerde konuşmayı ve su içmeyi biraz zorlaştırabilir. Antrenmanda kısa sürelerle başlayıp alışmak, maç sırasında çıkarma ihtiyacını azaltır. Koruyucuda ağrı ya da uzun süren baskı hissi varsa uyum yeniden değerlendirilmelidir.
+### Hijyen ve paylaşım
+Koruyucu kişisel kullanım içindir; paylaşılması uygun değildir. Antrenman çantasında kapalı kutuda taşınması, yüzeyde birikim oluşmasını ve şeklinin bozulmasını engeller.
 ### Beklemeden değerlendirilmesi gereken durumlar
 Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 - Nefes almakta ya da yutkunmakta zorlanma
