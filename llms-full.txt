@@ -42,7 +42,7 @@ Genel diş hekimliği alanında çalışmaktadır; kliniğimizde uygulanan tedav
 Genel diş hekimliği alanında çalışmaktadır; kliniğimizde uygulanan tedavilerin tamamını yürütmektedir.
 Hekimlerimizi ve muayene sürecinin nasıl işlediğini okuyun
 ### Bilgi yazıları
-Hastalarımızın en çok karşılaştığı durumlar için hazırladığımız bilgilendirme yazıları — toplam altmış başlık. Şikâyetiniz varsa yine de muayene gereklidir; bu yazılar hekim muayenesinin yerine geçmez.
+Hastalarımızın en çok karşılaştığı durumlar için hazırladığımız bilgilendirme yazıları — toplam altmış bir başlık. Şikâyetiniz varsa yine de muayene gereklidir; bu yazılar hekim muayenesinin yerine geçmez.
 **Nöbetçi diş hekimi ve acil diş** Hangi şikâyet beklemez, hangisi sabahı bekleyebilir; gece ne yapılabilir ve hangi belirtide 112 aranır. **Gece açık dişçi: gece diş sorununda ne yapılır?** Gece açık dişçi arayanlar için: evde ne yapılabilir, gelirken ne bildirilmeli ve Kirazlı'ya gece ulaşım nasıl sağlanır? **Aynı gün diş hekimi: hangi şikâyet beklemez?** Beklemeden gelinmesi önerilen durumlar, evde ilk yapılabilecekler ve Kirazlı'ya ulaşım. **Güneşli'den nöbetçi dişçi: gece açık diş kliniği** Güneşli ve Mahmutbey çevresinden ulaşım, çalışma saatleri ve gece gelmeden önce bilinmesi gerekenler. **Bahçelievler'den nöbetçi dişçi: gece açık diş kliniği** Bahçelievler ve çevresinden ulaşım, çalışma saatleri. **Mahmutbey'den nöbetçi dişçi: gece açık diş kliniği** Mahmutbey ve çevresinden ulaşım, çalışma saatleri. **Güngören'den nöbetçi dişçi: gece açık diş kliniği** Güngören ve çevresinden ulaşım, çalışma saatleri. **Esenler'den nöbetçi dişçi: gece açık diş kliniği** Esenler ve çevresinden ulaşım, çalışma saatleri. **Küçükçekmece'den nöbetçi dişçi: gece açık diş kliniği** Küçükçekmece ve çevresinden ulaşım, çalışma saatleri. **Başakşehir'den nöbetçi dişçi: gece açık diş kliniği** Başakşehir ve çevresinden ulaşım, çalışma saatleri. **Gece ya da hafta sonu diş hekimine gitmeli miyim?** Nöbetçi klinikte gece neler yapılır, neler yapılmaz; hangi şikâyet sabahı bekleyebilir, hangisi bekleyemez. **Gece diş ağrısı: evde ne yapabilirsiniz?** Ağrı neden geceleri artar, sabaha kadar ne yapılabilir, hangi yöntemler zarar verir ve ne zaman beklememek gerekir. **Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** Düşen dişi nasıl tutmalı, neyin içinde saklamalı ve hangi hata dişi kurtarılamaz hâle getirir. **Diş apsesi: neden ertelenmemeli?** Belirtileri, ağrı geçtiğinde neden iyileşme sayılmadığı ve antibiyotiğin neden tek başına yetmediği. **Kanal tedavisi: dişi çekmeden kurtarmak** Ne zaman gerekir, ağrının geçmesi neden iyileşme değildir ve sonrasında neden kaplama yapılır. **Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** Sağlıklı dişeti kanar mı, kanayan bölgeyi fırçalamamak neden hata ve hangi bulgularda beklenmemeli. **Diş sıkma ve gece plağı** Sabah çene ağrısı, aşınan dişler, kırılan dolgular ve gece plağının gerçekte ne yaptığı. **Diş çekimi sonrası şişlik: ne zaman olağan?** Şişliğin günlere göre seyri, soğuk-sıcak uygulamanın sırası ve hangi bulguda beklenmeden aranmalı. **Diş hekimi korkusu: ilk randevu nasıl ilerler?** Korkuyu önceden söylemenin ne değiştirdiği, durma işareti ve yıllardır ertelemiş olanlar için izlenen yol.
 On altı bilgi yazısının tamamını görün
 ### Ulaşım
@@ -2377,7 +2377,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 1 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**İmplant tedavisi adım adım** **Kanal tedavisi: dişi çekmeden kurtarmak** **Tüm bilgi yazıları**
+**İmplant tedavisi adım adım** **Kanal tedavisi: dişi çekmeden kurtarmak** **Tüm bilgi yazıları** **Ağız koruyucu (spor): neden gerekli, nasıl seçilir?**
 
 ---
 
@@ -3263,7 +3263,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Ağız kokusu: neden geçmiyor, ne yapılabilir?** **Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Tüm bilgi yazıları**
+**Ağız kokusu: neden geçmiyor, ne yapılabilir?** **Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Tüm bilgi yazıları** **Ağız koruyucu (spor): neden gerekli, nasıl seçilir?**
 
 ---
 
@@ -4439,7 +4439,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Çocukta ilk diş ve ilk diş hekimi randevusu** **Florür nedir, zararlı mı?** **Tüm bilgi yazıları** **Yaşlılarda ağız sağlığı: bakım ve dikkat edilecekler** **Dil sağlığı: bakım ve dikkat edilecekler**
+**Çocukta ilk diş ve ilk diş hekimi randevusu** **Florür nedir, zararlı mı?** **Tüm bilgi yazıları** **Yaşlılarda ağız sağlığı: bakım ve dikkat edilecekler** **Dil sağlığı: bakım ve dikkat edilecekler** **Ağız koruyucu (spor): neden gerekli, nasıl seçilir?**
 
 ---
 
@@ -4487,7 +4487,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Çocukta ilk diş ve ilk diş hekimi randevusu** **Florür nedir, zararlı mı?** **Tüm bilgi yazıları** **Dil sağlığı: bakım ve dikkat edilecekler**
+**Çocukta ilk diş ve ilk diş hekimi randevusu** **Florür nedir, zararlı mı?** **Tüm bilgi yazıları** **Dil sağlığı: bakım ve dikkat edilecekler** **Ağız koruyucu (spor): neden gerekli, nasıl seçilir?**
 
 ---
 
@@ -4727,6 +4727,56 @@ Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 **"Ağız kokusunda dilin rolü var mı?"** Dil yüzeyinde biriken bakteriler ağız kokusunun kaynaklarından biridir. Diş fırçalama, diş ipi ve dil temizliği kokuyu azaltmaya yardımcı olabilir.
 **"Dilde yara çıktığında ne yapılmalı?"** Küçük yaralar genellikle kısa sürede iyileşir. İki haftadan uzun süren, büyüyen ya da iyileşmeyen yaralarda beklemeden hekim değerlendirmesi gerekir.
 **"Hangi değişimlerde hemen başvurulmalı?"** İki haftayı geçen yara veya renk değişimi, yutma zorluğu, sürekli yanma-ağrı ve dilde hareket kısıtlılığı durumlarında beklemeden kliniğe başvurulmalıdır.
+### Kaynaklar
+Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlantılar yeni sekmede açılır ve kliniğimizle ilgisi yoktur.
+- Taking care of children's teeth — NHS
+- Oral health — Dünya Sağlık Örgütü (WHO)
+TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
+BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
+### Diğer bilgi yazıları
+**Çocukta ilk diş ve ilk diş hekimi randevusu** **Florür nedir, zararlı mı?** **Tüm bilgi yazıları** **Bebeklerde diş çıkarma** **Fissür örtücü ve koruyucu uygulamalar** **Emzik ve parmak emme: diş gelişimini etkiler mi?**
+
+---
+
+## Ağız Koruyucu (Spor): Neden Gerekli, Nasıl Seçilir?
+URL: https://ymdisklinigi.com/agiz-koruyucu-spor.html
+
+ANA SAYFA · BİLGİ YAZILARI
+Ağız koruyucu (spor): neden gerekli, nasıl seçilir?
+Temas sporlarında dişlere gelen darbeler diş kırığı ve yumuşak doku yaralanmasına yol açabilir. Ağız koruyucu, darbe enerjisini dağıtmayı hedefler. Bu yazıda koruyucu çeşitlerini, bakımını ve yenileme zamanını topladık.
+### Ağız koruyucu ne işe yarar?
+Koruyucu, çeneye ve dişlere gelen darbenin enerjisini dağıtmaya yardımcı olur. Amaç diş kırığı, dudak-yanak kesiği ve çene yaralanması riskinin azaltılmasıdır. Tüm yaralanmaları engellediği söylenemez; bu nedenle koruyucunun uyumu ve düzenli kullanımı önemlidir.
+### Hangi sporlarda önerilir?
+- Temas ve çarpışma riski olan sporlar (basketbol, futbol, boks gibi).
+- Tekerlekli sporlar (kaykay, paten, bisiklet) — kaskla birlikte.
+- Düşme riski taşıyan diğer aktiviteler.
+### Koruyucu çeşitleri
+- **Hazır (mağazadan):** pratik, fakat uyum her ağız için aynı değildir.
+- **Kaynar suda uyarlanan:** kısmen uyum sağlanabilir.
+- **Hekim tarafından ölçüye göre hazırlanan:** genellikle daha iyi uyum ve rahat kullanım sağlar.
+Hangi seçeneğin uygun olduğu hekim değerlendirmesiyle belirlenir. Diş teli kullananlarda modelin braketlere uygun hazırlanması gerekir.
+### Temizlik ve saklama
+- Her kullanımdan sonra soğuk su ve yumuşak fırça ile yıkayın.
+- Kuruduktan sonra delikli kutusunda, serin bir yerde saklayın.
+- **Sıcak su, araç içi ve doğrudan güneş** şekli bozabilir.
+- Şekli bozulmuş, incelmiş ya da yırtılmış koruyucuları yenileyin.
+### Diş travması olduğunda
+Darbe sonrası dişte kırık, yer değiştirme ya da tam çıkma olabilir. Böyle bir durumda **beklemeden kliniğe gelinmelidir**; çıkan dişin tutulma şekli ve taşınması ile ilgili yönlendirme, değerlendirme sırasında yapılır. Ağız içi yaralanmalarda randevu süreci yazımıza bakabilirsiniz.
+### Beklemeden değerlendirilmesi gereken durumlar
+Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
+- Nefes almakta ya da yutkunmakta zorlanma
+- Göze, boyna ya da göğse doğru yayılan şişlik
+- Yüksek ateşle birlikte olan şişlik, titreme
+- Bilinç bulanıklığı ya da bayılma
+- Çene kırığı şüphesi ya da kafa travması sonrası baygınlık
+- Tekrarlanan baskıya rağmen durmayan ya da ağzı hızla dolduran kanama
+### Sık sorulanlar
+**"Ağız koruyucu ne işe yarar?"** Çeneye ve dişlere gelen darbenin enerjisini dağıtmaya yardımcı olur. Böylece diş kırığı, dudak-yanak kesiği ve çene yaralanması riskinin azaltılması hedeflenir; tüm yaralanmaları engellediği söylenemez.
+**"Hangi sporlarda önerilir?"** Temas ve çarpışma riski olan sporlarda (örneğin basketbol, futbol, boks, kaykay, paten, bisiklet) önerilir. Kask kullanılan sporlarda ağız koruyucu ile birlikte değerlendirilir.
+**"Koruyucu çeşitleri arasındaki fark nedir?"** Mağazadan hazır alınanlar, kaynar suda yumuşatılıp uyarlananlar ve diş hekimi tarafından ağız ölçüsüne göre hazırlananlar vardır. Ölçüye göre hazırlananlar genellikle daha iyi uyum sağlar; uygun seçim hekim değerlendirmesiyle yapılır.
+**"Diş teli kullanırken koruyucu takılabilir mi?"** Evet; ortodontik tedavi sürecinde de koruyucu kullanılabilir. Tel ve braketlerin konumuna uygun bir model gerekir, bu nedenle hekim değerlendirmesiyle hazırlanması önerilir.
+**"Koruyucu nasıl temizlenir ve saklanır?"** Her kullanımdan sonra soğuk su ve yumuşak fırça ile yıkanmalı, kuruduktan sonra delikli kutusunda serin bir yerde saklanmalıdır. Sıcak su, araç içi ya da doğrudan güneş, şeklini bozabilir.
+**"Ne zaman yenilenmelidir?"** Şekli bozulmuş, incelmiş ya da yırtılmış koruyucular yenilenmelidir. Büyüme dönemindeki çocuklarda ve ortodontik tedavi değişimlerinde uyum yeniden değerlendirilir.
 ### Kaynaklar
 Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlantılar yeni sekmede açılır ve kliniğimizle ilgisi yoktur.
 - Taking care of children's teeth — NHS
