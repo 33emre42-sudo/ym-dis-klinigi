@@ -3334,6 +3334,52 @@ kontrol("SSS bolumu olan sayfada FAQPage semasi + sorular metinde BIREBIR",
         ("%d sayfa: %s" % (len(_sss_faq_sorun), "; ".join(_sss_faq_sorun[:2]))) if _sss_faq_sorun
         else "SSS bolumu olan tum sayfalarda uyumlu")
 
+
+# --- TEDAVI SAYFASI MAKINE-OKUR HIZMET LISTESI ------------------------------
+# tedaviler.html tedavi alanlarini gorunur sekilde listeler; ayni liste
+# makine-okur de olmali (ItemList/MedicalProcedure). Adlar gorunur metinde
+# BIREBIR bulunmali ve her hedef sayfa diskte olmali.
+_ted_sorun = []
+_tp = "tedaviler.html"
+try:
+    _tc = open(_tp, encoding="utf-8").read()
+except OSError:
+    _tc = None
+if _tc is None:
+    _ted_sorun.append("tedaviler.html yok")
+else:
+    _liste = None
+    for _b in re.findall(r'(?s)<script[^>]*application/ld\+json[^>]*>(.*?)</script>', _tc):
+        try:
+            _d = json.loads(_b)
+        except ValueError:
+            continue
+        if isinstance(_d, dict) and _d.get("@type") == "ItemList" and "hizmetler" in str(_d.get("@id", "")):
+            _liste = _d
+    if _liste is None:
+        _ted_sorun.append("makine-okur hizmet listesi (ItemList) yok")
+    else:
+        _duz = re.sub(r"\s+", " ", _html_mod.unescape(re.sub(r"<[^>]+>", " ", _tc)))
+        _ogr = _liste.get("itemListElement")
+        if not isinstance(_ogr, list) or len(_ogr) < 5:
+            _ted_sorun.append("hizmet listesi eksik/bos")
+        else:
+            if _liste.get("numberOfItems") != len(_ogr):
+                _ted_sorun.append("numberOfItems uyusmuyor")
+            for _o in _ogr:
+                _ad = ((_o or {}).get("item") or {}).get("name") if isinstance(_o, dict) else None
+                _ur = ((_o or {}).get("item") or {}).get("url") if isinstance(_o, dict) else None
+                if not isinstance(_ad, str) or re.sub(r"\s+", " ", _ad) not in _duz:
+                    _ted_sorun.append("hizmet adi metinde yok: %s" % str(_ad)[:32])
+                    break
+                _yol = str(_ur or "").rsplit("/", 1)[-1]
+                if not _yol.endswith(".html") or not os.path.exists(_yol):
+                    _ted_sorun.append("hedef sayfa diskte yok: %s" % _yol)
+                    break
+kontrol("tedaviler.html makine-okur hizmet listesi + adlar metinde BIREBIR",
+        not _ted_sorun,
+        ("; ".join(_ted_sorun[:2])) if _ted_sorun else "7 hizmet alani tutarli")
+
 print("=" * 74)
 if hata:
     print("*** %d HATA ***" % hata)
