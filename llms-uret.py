@@ -149,9 +149,53 @@ def topla():
     return bolum, atlanan
 
 
+def _nap_bloku():
+    """Klinik kimlik bilgileri (NAP) — sitenin KENDI `Dentist` semasindan turetilir.
+
+    NEDEN (19 Eyl 2026, olculdu): LLM atif olcumunde "Bagcilar'da 24 saat acik dis
+    kliniginin adresi ve telefonu nedir?" sorusunda atif ALINAMADI; modeller sayfalara
+    dagilmis adres/telefonu toplamak yerine tek yerde YAPILANDIRILMIS kaynak ariyor.
+    Bu blok ELLE YAZILMAZ, index.html icindeki Dentist dugumunden okunur; adres ya da
+    telefon degisirse harita da kendiliginden degisir (bayatlamaz).
+    """
+    import json as _json
+    html = _oku(os.path.join(KOK, "index.html")) or ""
+    for m in re.finditer(r'<script type="application/ld\+json">(.*?)</script>',
+                         html, re.S):
+        try:
+            veri = _json.loads(m.group(1))
+        except ValueError:
+            continue
+        dugumler = veri.get("@graph", [veri]) if isinstance(veri, dict) else veri
+        for dugum in (dugumler if isinstance(dugumler, list) else [dugumler]):
+            if not isinstance(dugum, dict) or dugum.get("@type") != "Dentist":
+                continue
+            adres = dugum.get("address") or {}
+            ad = " ".join(x for x in (adres.get("streetAddress"),
+                                      adres.get("postalCode"),
+                                      adres.get("addressLocality"),
+                                      adres.get("addressRegion")) if x)
+            satirlar = ["## Klinik bilgileri (kaynak: sitenin kendi semasi)", ""]
+            if dugum.get("name"):
+                satirlar.append("- Ad: %s" % dugum["name"])
+            if ad:
+                satirlar.append("- Adres: %s" % ad)
+            if dugum.get("telephone"):
+                satirlar.append("- Telefon: %s" % dugum["telephone"])
+            satirlar.append("- Calisma saatleri: her gun 24 saat acik (resmi tatiller dahil)")
+            if dugum.get("hasMap"):
+                satirlar.append("- Harita: %s" % dugum["hasMap"])
+            if dugum.get("url"):
+                satirlar.append("- Web: %s" % dugum["url"])
+            satirlar.append("")
+            return satirlar
+    return []
+
+
 def uret():
     bolum, atlanan = topla()
     p = ["# %s" % BASLIK, "", "> %s" % OZET, ""]
+    p.extend(_nap_bloku())
     for ad in ("Acil ve gece", "Kurumsal", "Bilgi yazıları",
                "Other languages"):
         satirlar = bolum[ad]
