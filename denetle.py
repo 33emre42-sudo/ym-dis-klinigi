@@ -775,7 +775,7 @@ for ad in sorted(glob.glob("*.html")):
         _s = f.read()
     if 'class="yazi-bilgi"' not in _s:
         continue
-    _md = re.search(r'"dateModified":"(\d{4})-(\d{2})-(\d{2})"', _s)
+    _md = re.search(r'"dateModified"\s*:\s*"(\d{4})-(\d{2})-(\d{2})"', _s)
     _gor = re.search(r'SON GÜNCELLEME: (\d{1,2}) ([A-ZÇĞİÖŞÜ]+) (\d{4})', _s)
     if not _gor:
         _tarihsiz.append(ad)
