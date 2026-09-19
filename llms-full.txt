@@ -42,7 +42,7 @@ Genel diş hekimliği alanında çalışmaktadır; kliniğimizde uygulanan tedav
 Genel diş hekimliği alanında çalışmaktadır; kliniğimizde uygulanan tedavilerin tamamını yürütmektedir.
 Hekimlerimizi ve muayene sürecinin nasıl işlediğini okuyun
 ### Bilgi yazıları
-Hastalarımızın en çok karşılaştığı durumlar için hazırladığımız bilgilendirme yazıları — toplam elli altı başlık. Şikâyetiniz varsa yine de muayene gereklidir; bu yazılar hekim muayenesinin yerine geçmez.
+Hastalarımızın en çok karşılaştığı durumlar için hazırladığımız bilgilendirme yazıları — toplam elli yedi başlık. Şikâyetiniz varsa yine de muayene gereklidir; bu yazılar hekim muayenesinin yerine geçmez.
 **Nöbetçi diş hekimi ve acil diş** Hangi şikâyet beklemez, hangisi sabahı bekleyebilir; gece ne yapılabilir ve hangi belirtide 112 aranır. **Gece açık dişçi: gece diş sorununda ne yapılır?** Gece açık dişçi arayanlar için: evde ne yapılabilir, gelirken ne bildirilmeli ve Kirazlı'ya gece ulaşım nasıl sağlanır? **Aynı gün diş hekimi: hangi şikâyet beklemez?** Beklemeden gelinmesi önerilen durumlar, evde ilk yapılabilecekler ve Kirazlı'ya ulaşım. **Güneşli'den nöbetçi dişçi: gece açık diş kliniği** Güneşli ve Mahmutbey çevresinden ulaşım, çalışma saatleri ve gece gelmeden önce bilinmesi gerekenler. **Bahçelievler'den nöbetçi dişçi: gece açık diş kliniği** Bahçelievler ve çevresinden ulaşım, çalışma saatleri. **Mahmutbey'den nöbetçi dişçi: gece açık diş kliniği** Mahmutbey ve çevresinden ulaşım, çalışma saatleri. **Güngören'den nöbetçi dişçi: gece açık diş kliniği** Güngören ve çevresinden ulaşım, çalışma saatleri. **Esenler'den nöbetçi dişçi: gece açık diş kliniği** Esenler ve çevresinden ulaşım, çalışma saatleri. **Küçükçekmece'den nöbetçi dişçi: gece açık diş kliniği** Küçükçekmece ve çevresinden ulaşım, çalışma saatleri. **Başakşehir'den nöbetçi dişçi: gece açık diş kliniği** Başakşehir ve çevresinden ulaşım, çalışma saatleri. **Gece ya da hafta sonu diş hekimine gitmeli miyim?** Nöbetçi klinikte gece neler yapılır, neler yapılmaz; hangi şikâyet sabahı bekleyebilir, hangisi bekleyemez. **Gece diş ağrısı: evde ne yapabilirsiniz?** Ağrı neden geceleri artar, sabaha kadar ne yapılabilir, hangi yöntemler zarar verir ve ne zaman beklememek gerekir. **Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** Düşen dişi nasıl tutmalı, neyin içinde saklamalı ve hangi hata dişi kurtarılamaz hâle getirir. **Diş apsesi: neden ertelenmemeli?** Belirtileri, ağrı geçtiğinde neden iyileşme sayılmadığı ve antibiyotiğin neden tek başına yetmediği. **Kanal tedavisi: dişi çekmeden kurtarmak** Ne zaman gerekir, ağrının geçmesi neden iyileşme değildir ve sonrasında neden kaplama yapılır. **Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** Sağlıklı dişeti kanar mı, kanayan bölgeyi fırçalamamak neden hata ve hangi bulgularda beklenmemeli. **Diş sıkma ve gece plağı** Sabah çene ağrısı, aşınan dişler, kırılan dolgular ve gece plağının gerçekte ne yaptığı. **Diş çekimi sonrası şişlik: ne zaman olağan?** Şişliğin günlere göre seyri, soğuk-sıcak uygulamanın sırası ve hangi bulguda beklenmeden aranmalı. **Diş hekimi korkusu: ilk randevu nasıl ilerler?** Korkuyu önceden söylemenin ne değiştirdiği, durma işareti ve yıllardır ertelemiş olanlar için izlenen yol.
 On altı bilgi yazısının tamamını görün
 ### Ulaşım
@@ -2215,7 +2215,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 1 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Kanal tedavisi: dişi çekmeden kurtarmak** **Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Tüm bilgi yazıları** **Bağcılar'da diş kliniği seçerken nelere bakılır?**
+**Kanal tedavisi: dişi çekmeden kurtarmak** **Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Tüm bilgi yazıları** **Bağcılar'da diş kliniği seçerken nelere bakılır?** **Protez bakımı ve temizliği**
 
 ---
 
@@ -2708,7 +2708,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 1 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**İmplant tedavisi adım adım** **Diş çekimi: öncesi, işlem ve sonrası** **Tüm bilgi yazıları** **Bağcılar'da diş kliniği seçerken nelere bakılır?**
+**İmplant tedavisi adım adım** **Diş çekimi: öncesi, işlem ve sonrası** **Tüm bilgi yazıları** **Bağcılar'da diş kliniği seçerken nelere bakılır?** **Protez bakımı ve temizliği**
 
 ---
 
@@ -2773,7 +2773,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 1 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Diş dolgusu: ne zaman gerekir?** **Tüm bilgi yazıları** **Diş eti hastalığı: belirtiler ve korunma** **Diş fırçası nasıl seçilir?**
+**Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Diş dolgusu: ne zaman gerekir?** **Tüm bilgi yazıları** **Diş eti hastalığı: belirtiler ve korunma** **Diş fırçası nasıl seçilir?** **Protez bakımı ve temizliği**
 
 ---
 
@@ -3028,7 +3028,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Diş taşı temizliği: ne zaman gerekir?** **Tüm bilgi yazıları**
+**Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Diş taşı temizliği: ne zaman gerekir?** **Tüm bilgi yazıları** **Protez bakımı ve temizliği**
 
 ---
 
@@ -3960,7 +3960,7 @@ Süt dişi tedavileri ve çürüğü önlemeye yönelik koruyucu uygulamalar.
 Muayene ve gerekiyorsa görüntüleme sonrasında seçenekler birlikte değerlendirilir. Klinik her gün 24 saat açık.
 0541 732 43 76 WhatsApp'tan yazın
 ### İlgili bilgi yazıları
-**Nöbetçi diş hekimi ve acil diş** **Diş dolgusu: ne zaman gerekir?** **Kanal tedavisi: dişi çekmeden kurtarmak** **Tüm bilgi yazıları** **Bağcılar'da diş kliniği seçerken nelere bakılır?**
+**Nöbetçi diş hekimi ve acil diş** **Diş dolgusu: ne zaman gerekir?** **Kanal tedavisi: dişi çekmeden kurtarmak** **Tüm bilgi yazıları** **Bağcılar'da diş kliniği seçerken nelere bakılır?** **Protez bakımı ve temizliği**
 
 ---
 
@@ -4535,3 +4535,53 @@ TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON G�
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
 **Çocukta ilk diş ve ilk diş hekimi randevusu** **Florür nedir, zararlı mı?** **Tüm bilgi yazıları**
+
+---
+
+## Protez Bakımı ve Temizliği: Günlük Kullanım Önerileri
+URL: https://ymdisklinigi.com/protez-bakimi.html
+
+ANA SAYFA · BİLGİ YAZILARI
+Protez bakımı ve temizliği: günlük kullanım önerileri
+Hareketli protezler düzenli temizlik ve doğru alışkanlıklarla daha uzun süre rahat kullanılır. Bu yazıda günlük bakımı, temizlikte kullanılacakları ve hangi durumda hekime başvurulacağını topladık.
+### Protez neden temiz tutulmalı?
+Protez yüzeyinde ve altındaki dokuda gıda artığı ile plak birikir. Bu birikim ağız kokusu , diş eti iltihabı ve mantar kaynaklı rahatsızlıklara zemin hazırlayabilir. Temizlik yalnız protez için değil, kalan dokular için de önemlidir.
+### Günlük temizlik nasıl yapılır?
+- Her yemekten sonra protezi çıkarıp **ılık suyla** durulayın.
+- Günde en az bir kez **özel protez fırçası ya da yumuşak fırça** ile temizleyin.
+- Çok sıcak su, aşındırıcı toz ve çamaşır suyu gibi maddelerden kaçının; bunlar yüzeye zarar verir.
+- Temizlik sırasında protezi düşürmemek için lavaboyu su ile doldurmak veya havlu sermek pratik olur.
+### Gece çıkarılmalı mı?
+Genellikle gece çıkarılıp temiz su içinde bekletilmesi önerilir; böylece protez altındaki dokular dinlenir. Kullanım düzeninizin kişiye göre belirlenmesi gerekir; bu yazı kişiye özel öneri içermez.
+### Protez altındaki dokular ve kalan dişler
+Protez çıkarıldığında protez altındaki doku ile kalan doğal dişler de yumuşak fırçayla temizlenmelidir. Kalan dişlerde diş taşı birikimi varsa diş taşı temizliği değerlendirilir.
+### Uyum ve vuruk
+Protez zamanla oturmuyor, kayıyor ya da belirli bir noktada vuruk yapıyorsa **kendi başınıza zımparalamayın**; kliniğe gelin. Uyum sorunları ağız içi değerlendirme ile çözülür. Kontrol için randevu süreci yazımıza bakabilirsiniz.
+### Ne zaman hekime başvurulur?
+- Uzun süren vuruk, ağrı ya da dokuda yara.
+- Protezde çatlak, kırık ya da eksilen parça.
+- Protez yapıştırıcısına sürekli ihtiyaç duyulması.
+- Kalan dişlerde renk değişimi ya da hareketlilik.
+### Beklemeden değerlendirilmesi gereken durumlar
+Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
+- Nefes almakta ya da yutkunmakta zorlanma
+- Göze, boyna ya da göğse doğru yayılan şişlik
+- Yüksek ateşle birlikte olan şişlik, titreme
+- Bilinç bulanıklığı ya da bayılma
+- Çene kırığı şüphesi ya da kafa travması sonrası baygınlık
+- Tekrarlanan baskıya rağmen durmayan ya da ağzı hızla dolduran kanama
+### Sık sorulanlar
+**"Protez ne sıklıkla temizlenmelidir?"** Her yemekten sonra durulamak ve günde en az bir kez özel fırçasıyla temizlemek önerilir. Düzenli temizlik, plak birikimini ve ağız kokusunu azaltmaya yardımcı olur.
+**"Temizlikte ne kullanılmalı?"** Protez için üretilmiş fırça ya da yumuşak kıllı bir fırça ve ılık su uygundur. Aşındırıcı temizleyiciler, çok sıcak su ya da çamaşır suyu gibi maddeler protezin yüzeyine zarar verir.
+**"Protez gece çıkarılmalı mı?"** Genellikle gece çıkarılması ve temiz su içinde bekletilmesi önerilir; böylece protez altındaki dokular dinlenir. Ancak en uygun düzen sizin durumunuza göre hekiminiz tarafından belirlenir.
+**"Protez altındaki diş eti de temizlenmeli mi?"** Evet. Protez çıkarıldığında protez altındaki doku ile kalan doğal dişler de yumuşak fırçayla temizlenmelidir. Böylece iltihap ve koku oluşumu azalır.
+**"Protez vuruk yaparsa ne yapmalıyım?"** Uzun süren vuruk, ağrı ya da yara varsa protezi kendi başınıza zımparalamayın; kliniğe gelin. Protezin uyumu hekim tarafından değerlendirilir.
+**"Protez yapıştırıcısı kullanılabilir mi?"** Zorunlu durumlarda kısa süreli kullanılabilir; ancak sürekli ihtiyaç duyuluyorsa protezin uyumu gözden geçirilmelidir. Uygunluk için hekiminize danışın.
+### Kaynaklar
+Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlantılar yeni sekmede açılır ve kliniğimizle ilgisi yoktur.
+- Taking care of children's teeth — NHS
+- Oral health — Dünya Sağlık Örgütü (WHO)
+TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
+BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
+### Diğer bilgi yazıları
+**Çocukta ilk diş ve ilk diş hekimi randevusu** **Florür nedir, zararlı mı?** **Tüm bilgi yazıları** **Bebeklerde diş çıkarma** **Fissür örtücü ve koruyucu uygulamalar**
