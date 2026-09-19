@@ -4365,6 +4365,12 @@ Sık atıştırmak tükürüğün dengeyi toparlamasına fırsat bırakmaz. Öğ
 Bu öneriler genel bilgilendirme amaçlıdır; kişiye özel beslenme planı hekim değerlendirmesi gerektirir.
 ### Çocuklarda şekerli içecek
 Şekerli içeceğin **biberonla** ve özellikle uyku sırasında verilmesi ön dişlerde hızlı çürüğe yol açabilir. Ayrıntı için süt dişi çürüğü ve bebeklerde diş çıkarma yazılarımıza bakabilirsiniz.
+### Etiket okuma: şeker kaç isimle yazılır?
+Ürün etiketlerinde şeker her zaman "şeker" adıyla görünmez: glukoz, fruktoz, mısır şurubu, pekmez ve benzeri adlar da şeker kaynağıdır. İçindekiler listesinde bu adların ilk sıralarda yer aldığı ürünlerde toplam miktar yüksek olabilir. Diş sağlığı açısından asıl belirleyici olan, bu ürünlerin **gün içinde kaç kez** tüketildiğidir.
+### Kuru meyve ve asitli içecekler
+Kuru meyveler lifli olsa da yapışkan yapıda ve yoğun şeker içerir; diş yüzeyinde uzun süre kalabildiği için ara öğünde sık tüketimi uygun değildir. Asitli içecekler mine yüzeyini yumuşatabilir; bu içecekten hemen sonra fırçalamak yerine ağzı suyla çalkalamak ve fırçalamayı biraz geciktirmek daha uygun kabul edilir. Beslenme düzeninizle ilgili kişisel öneriler için hekiminize danışabilirsiniz.
+### Su ve tükürük
+Tükürük, ağız içindeki asidi nötralize eden ve yüzeyleri temizleyen doğal korumadır. Su içmek tükürük akışını destekler; ağız kuruluğu olduğunda bu koruma azalır ( ağız kuruluğu ). Öğün aralarında su içmek hem şekerli içecek tüketimini azaltır hem de ağız ortamının dengelenmesine yardımcı olur.
 ### Beklemeden değerlendirilmesi gereken durumlar
 Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 - Nefes almakta ya da yutkunmakta zorlanma
@@ -4465,6 +4471,9 @@ Plan; muayene bulguları, şikâyetinizin önceliği ve sizin tercihleriniz birl
 Evet; klinik 24 saat açıktır ve randevusuz hasta kabul edilir. Ancak **arayıp geleceğinizi bildirmeniz** bekleme süresini kısaltır. Hangi durumun beklemeden görülmesi gerektiği hekim değerlendirmesine bağlıdır.
 ### Randevuya gelemeyeceksem
 Mümkünse önceden haber vermek o saati başka bir hastanın kullanabilmesini sağlar. Gecikmelerde de aramanız planlamayı kolaylaştırır.
+### Randevu öncesi hazırlık
+Gelmeden önce şu üç başlığı düşünmek ziyaretin süresini kısaltır: **şikâyetin ne zaman başladığı**, hangi durumların şikâyeti artırdığı ve daha önce denenenler. Kullanılan ilaçlar, bilinen alerjiler ve varsa önceki röntgen ya da tomografi görüntüleri değerlendirmeye yardımcı olur. Kalan dişlerde hassasiyet, hareketlenme ya da renk değişimi varsa bunu not etmek yararlıdır.
+Çocuk hastalarda ilk ziyaret için ayrı bir hazırlık önerilir; ayrıntılar için ilk diş ve ilk randevu yazımıza bakabilirsiniz. Gecikme ya da erteleme gerekirse kliniğe önceden haber vermek, sizin için ayrılan değerlendirme süresinin başka bir hastaya aktarılmasını sağlar.
 ### Beklemeden değerlendirilmesi gereken durumlar
 Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 - Nefes almakta ya da yutkunmakta zorlanma
@@ -4512,6 +4521,12 @@ Koruyucu bakımın temeli **günde iki kez florürlü macunla fırçalamak** ve 
 Şekerli ve asitli gıdaların **sıklığı** azaltıldığında asit atakları da azalır. Günlük düzen önerileri için beslenme ve diş sağlığı yazımıza bakabilirsiniz.
 ### Kontrol ve takip
 Örtücüler zamanla aşınabilir; düzenli kontrolde değerlendirilir ve gerekiyorsa yenilenir. Genel öneri altı ayda bir kontroldür; hekiminiz risk durumuna göre aralığı değiştirebilir.
+### Fissür örtücü ile florür arasındaki fark
+İkisi farklı işler yapar: örtücü, oluğun **fiziksel olarak kapatılmasıdır**; florür ise diş yüzeyinin aside karşı dayanıklılığını destekler. Bu nedenle koruyucu programda genellikle ikisi birlikte düşünülür. Hangi uygulamanın hangi dişte yapılacağı, dişin sürme durumu ve çürük riski değerlendirilerek belirlenir.
+### Süt dişlerinde örtücü
+Derin oluklu süt azı dişleri de değerlendirilebilir; çünkü süt dişi çürüğü ilerlediğinde alttaki kalıcı dişi de etkileyebilir ( süt dişi çürüğü ). Uygunluk her zaman diş bazında ve hekim değerlendirmesiyle belirlenir; bu yazı tedavi vaadi içermez.
+### Evde nereye bakılır?
+Fırçalama sırasında ayna yardımıyla azı dişlerinin çiğneme yüzeyine bakmak yararlıdır: oluklarda renk değişimi ya da yemek artığı birikimi fark edilirse kontrol zamanı gelmiş olabilir. Düzenli aralıkla yapılan muayene, örtücü aşınmasını da erken gösterir.
 ### Beklemeden değerlendirilmesi gereken durumlar
 Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 - Nefes almakta ya da yutkunmakta zorlanma
@@ -4712,6 +4727,8 @@ Yüzeyde beyaz ya da sarı görünüm, birikim ve ağız kuruluğu gibi etkenler
 - Sürekli yanma ya da ağrı.
 - Diş eti ve diş kaynaklı şikâyetlerin eşlik etmesi.
 Kontrol için randevu süreci yazımıza bakabilirsiniz.
+### Tat alma ve yutmadaki rolü
+Dil yüzeyindeki papilla adı verilen küçük çıkıntılar tat tomurcuklarını taşır; yutma sırasında ise dil, lokmayı ağız arkasına yönlendirir. Bu nedenle dildeki bir rahatsızlık yalnız tat almada değil, yutma konforunda da fark edilebilir. Yutma sırasında takılma hissi süreklilik kazanırsa değerlendirme gerekir.
 ### Beklemeden değerlendirilmesi gereken durumlar
 Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 - Nefes almakta ya da yutkunmakta zorlanma
