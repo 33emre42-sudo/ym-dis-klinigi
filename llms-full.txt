@@ -42,7 +42,7 @@ Genel diş hekimliği alanında çalışmaktadır; kliniğimizde uygulanan tedav
 Genel diş hekimliği alanında çalışmaktadır; kliniğimizde uygulanan tedavilerin tamamını yürütmektedir.
 Hekimlerimizi ve muayene sürecinin nasıl işlediğini okuyun
 ### Bilgi yazıları
-Hastalarımızın en çok karşılaştığı durumlar için hazırladığımız bilgilendirme yazıları — toplam elli yedi başlık. Şikâyetiniz varsa yine de muayene gereklidir; bu yazılar hekim muayenesinin yerine geçmez.
+Hastalarımızın en çok karşılaştığı durumlar için hazırladığımız bilgilendirme yazıları — toplam elli sekiz başlık. Şikâyetiniz varsa yine de muayene gereklidir; bu yazılar hekim muayenesinin yerine geçmez.
 **Nöbetçi diş hekimi ve acil diş** Hangi şikâyet beklemez, hangisi sabahı bekleyebilir; gece ne yapılabilir ve hangi belirtide 112 aranır. **Gece açık dişçi: gece diş sorununda ne yapılır?** Gece açık dişçi arayanlar için: evde ne yapılabilir, gelirken ne bildirilmeli ve Kirazlı'ya gece ulaşım nasıl sağlanır? **Aynı gün diş hekimi: hangi şikâyet beklemez?** Beklemeden gelinmesi önerilen durumlar, evde ilk yapılabilecekler ve Kirazlı'ya ulaşım. **Güneşli'den nöbetçi dişçi: gece açık diş kliniği** Güneşli ve Mahmutbey çevresinden ulaşım, çalışma saatleri ve gece gelmeden önce bilinmesi gerekenler. **Bahçelievler'den nöbetçi dişçi: gece açık diş kliniği** Bahçelievler ve çevresinden ulaşım, çalışma saatleri. **Mahmutbey'den nöbetçi dişçi: gece açık diş kliniği** Mahmutbey ve çevresinden ulaşım, çalışma saatleri. **Güngören'den nöbetçi dişçi: gece açık diş kliniği** Güngören ve çevresinden ulaşım, çalışma saatleri. **Esenler'den nöbetçi dişçi: gece açık diş kliniği** Esenler ve çevresinden ulaşım, çalışma saatleri. **Küçükçekmece'den nöbetçi dişçi: gece açık diş kliniği** Küçükçekmece ve çevresinden ulaşım, çalışma saatleri. **Başakşehir'den nöbetçi dişçi: gece açık diş kliniği** Başakşehir ve çevresinden ulaşım, çalışma saatleri. **Gece ya da hafta sonu diş hekimine gitmeli miyim?** Nöbetçi klinikte gece neler yapılır, neler yapılmaz; hangi şikâyet sabahı bekleyebilir, hangisi bekleyemez. **Gece diş ağrısı: evde ne yapabilirsiniz?** Ağrı neden geceleri artar, sabaha kadar ne yapılabilir, hangi yöntemler zarar verir ve ne zaman beklememek gerekir. **Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** Düşen dişi nasıl tutmalı, neyin içinde saklamalı ve hangi hata dişi kurtarılamaz hâle getirir. **Diş apsesi: neden ertelenmemeli?** Belirtileri, ağrı geçtiğinde neden iyileşme sayılmadığı ve antibiyotiğin neden tek başına yetmediği. **Kanal tedavisi: dişi çekmeden kurtarmak** Ne zaman gerekir, ağrının geçmesi neden iyileşme değildir ve sonrasında neden kaplama yapılır. **Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** Sağlıklı dişeti kanar mı, kanayan bölgeyi fırçalamamak neden hata ve hangi bulgularda beklenmemeli. **Diş sıkma ve gece plağı** Sabah çene ağrısı, aşınan dişler, kırılan dolgular ve gece plağının gerçekte ne yaptığı. **Diş çekimi sonrası şişlik: ne zaman olağan?** Şişliğin günlere göre seyri, soğuk-sıcak uygulamanın sırası ve hangi bulguda beklenmeden aranmalı. **Diş hekimi korkusu: ilk randevu nasıl ilerler?** Korkuyu önceden söylemenin ne değiştirdiği, durma işareti ve yıllardır ertelemiş olanlar için izlenen yol.
 On altı bilgi yazısının tamamını görün
 ### Ulaşım
@@ -2773,7 +2773,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 1 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Diş dolgusu: ne zaman gerekir?** **Tüm bilgi yazıları** **Diş eti hastalığı: belirtiler ve korunma** **Diş fırçası nasıl seçilir?** **Protez bakımı ve temizliği**
+**Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Diş dolgusu: ne zaman gerekir?** **Tüm bilgi yazıları** **Diş eti hastalığı: belirtiler ve korunma** **Diş fırçası nasıl seçilir?** **Protez bakımı ve temizliği** **Yaşlılarda ağız sağlığı: bakım ve dikkat edilecekler**
 
 ---
 
@@ -4342,7 +4342,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Çocukta ilk diş ve ilk diş hekimi randevusu** **Florür nedir, zararlı mı?** **Tüm bilgi yazıları**
+**Çocukta ilk diş ve ilk diş hekimi randevusu** **Florür nedir, zararlı mı?** **Tüm bilgi yazıları** **Yaşlılarda ağız sağlığı: bakım ve dikkat edilecekler**
 
 ---
 
@@ -4439,7 +4439,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Çocukta ilk diş ve ilk diş hekimi randevusu** **Florür nedir, zararlı mı?** **Tüm bilgi yazıları**
+**Çocukta ilk diş ve ilk diş hekimi randevusu** **Florür nedir, zararlı mı?** **Tüm bilgi yazıları** **Yaşlılarda ağız sağlığı: bakım ve dikkat edilecekler**
 
 ---
 
@@ -4577,6 +4577,57 @@ Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 **"Protez altındaki diş eti de temizlenmeli mi?"** Evet. Protez çıkarıldığında protez altındaki doku ile kalan doğal dişler de yumuşak fırçayla temizlenmelidir. Böylece iltihap ve koku oluşumu azalır.
 **"Protez vuruk yaparsa ne yapmalıyım?"** Uzun süren vuruk, ağrı ya da yara varsa protezi kendi başınıza zımparalamayın; kliniğe gelin. Protezin uyumu hekim tarafından değerlendirilir.
 **"Protez yapıştırıcısı kullanılabilir mi?"** Zorunlu durumlarda kısa süreli kullanılabilir; ancak sürekli ihtiyaç duyuluyorsa protezin uyumu gözden geçirilmelidir. Uygunluk için hekiminize danışın.
+### Kaynaklar
+Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlantılar yeni sekmede açılır ve kliniğimizle ilgisi yoktur.
+- Taking care of children's teeth — NHS
+- Oral health — Dünya Sağlık Örgütü (WHO)
+TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
+BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
+### Diğer bilgi yazıları
+**Çocukta ilk diş ve ilk diş hekimi randevusu** **Florür nedir, zararlı mı?** **Tüm bilgi yazıları** **Bebeklerde diş çıkarma** **Fissür örtücü ve koruyucu uygulamalar** **Yaşlılarda ağız sağlığı: bakım ve dikkat edilecekler**
+
+---
+
+## Yaşlılarda Ağız Sağlığı: Bakım ve Dikkat Edilecekler
+URL: https://ymdisklinigi.com/yaslilarda-agiz-sagligi.html
+
+ANA SAYFA · BİLGİ YAZILARI
+Yaşlılarda ağız sağlığı: bakım ve dikkat edilecekler
+İlerleyen yaşta ağız bakımı bazı değişiklikler gerektirir: tükürük akışı azalabilir, diş eti çekilmesi ve kök yüzeyi çürükleri daha sık görülür. Bu yazıda günlük bakımı kolaylaştıran yolları ve dikkat edilecek durumları topladık.
+### Yaşla birlikte neler değişir?
+- **Ağız kuruluğu:** tükürük akışı azalabilir.
+- **Diş eti çekilmesi** ve buna bağlı kök yüzeyi çürükleri.
+- Çiğneme güçlüğü ve tat alma değişimleri.
+- Kullanılan ilaçlara bağlı ağız içi değişimler.
+### Ağız kuruluğu ve ilaçlar
+Ağız kuruluğu, diş çürüğü ve diş eti sorunları için zemin hazırlayabilir. Sık su içmek, şekersiz sakız kullanmak ve ağzı nemli tutmak yardımcı olabilir. Kuruluğa yol açan ilaçlar varsa bunu **hekiminiz ya da eczacınızla** değerlendirmek gerekir; ilaç düzeni kendi başınıza değiştirilmemelidir.
+### Kök yüzeyi çürükleri ve diş eti çekilmesi
+Diş eti çekilince açığa çıkan kök yüzeyi mine kadar sert olmadığı için daha kolay çürür. Florürlü macunla düzenli fırçalama ve düzenli kontrol bu riski azaltmaya yardımcı olur. Diş eti sorunları için diş eti hastalığı yazımıza bakabilirsiniz.
+### Evde bakımı kolaylaştırmak
+- Kalın tutamaklı fırça ya da elektrikli fırça.
+- Diş ipi tutucu (kavrama güçlüğü varsa).
+- İyi ışık ve büyüteçli ayna.
+- Bakım veren kişinin desteği ve sabit bir günlük rutin.
+Fırça seçimi için diş fırçası nasıl seçilir yazımıza bakabilirsiniz.
+### Protez kullananlarda bakım
+Protez her yemekten sonra durulanmalı ve günde en az bir kez özel fırçasıyla temizlenmelidir. Ayrıntılar için protez bakımı ve temizliği yazımıza bakabilirsiniz.
+### Kontrol ve erken değerlendirme
+Genel öneri altı ayda bir kontroldür. Ağız içinde **iki haftadan uzun süren yara**, renk değişimi, çiğneme zorluğu ya da diş eti sorunlarında beklemeden kliniğe başvurulmalıdır.
+### Beklemeden değerlendirilmesi gereken durumlar
+Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
+- Nefes almakta ya da yutkunmakta zorlanma
+- Göze, boyna ya da göğse doğru yayılan şişlik
+- Yüksek ateşle birlikte olan şişlik, titreme
+- Bilinç bulanıklığı ya da bayılma
+- Çene kırığı şüphesi ya da kafa travması sonrası baygınlık
+- Tekrarlanan baskıya rağmen durmayan ya da ağzı hızla dolduran kanama
+### Sık sorulanlar
+**"Yaşlandıkça ağızda neler değişir?"** Tükürük akışı azalabilir, diş eti çekilmesi ve kök yüzeyi çürükleri daha sık görülür. Çiğneme ve tat alma duyusu da değişebilir. Bu değişimler düzenli bakım ve kontrollerle yönetilir.
+**"Ağız kuruluğu için ne yapılabilir?"** Sık su içmek, şekersiz sakız kullanmak ve ağzı nemli tutmak yardımcı olabilir. Kuruluk yapan ilaçlar varsa hekiminiz ya da eczacınızla değerlendirmek gerekir; ilaç düzeni kendi başınıza değiştirilmemelidir.
+**"Evde bakım nasıl kolaylaştırılır?"** Tutamak kısmı kalın fırçalar, elektrikli fırçalar ve diş ipi tutucuları kavrama güçlüğü olan kişilerde işi kolaylaştırır. Bakım veren kişinin desteği de düzeni sürdürmeye yardımcı olur.
+**"Kök yüzeyi çürüğü nedir?"** Diş eti çekilince açığa çıkan kök yüzeyi, mine kadar sert olmadığı için daha kolay çürüyebilir. Florürlü macunla düzenli fırçalama ve düzenli kontrol bu riski azaltmaya yardımcı olur.
+**"Protez kullanılıyorsa bakım nasıl olmalı?"** Protez her yemekten sonra durulanmalı, günde en az bir kez özel fırçasıyla temizlenmelidir. Ayrıntılar için protez bakımı ve temizliği yazımıza bakabilirsiniz.
+**"Ne sıklıkla kontrol önerilir?"** Genel öneri altı ayda bir kontroldür. Ağız içinde uzun süren yara, renk değişimi, çiğneme zorluğu ya da diş eti sorunlarında beklemeden kliniğe başvurulmalıdır.
 ### Kaynaklar
 Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlantılar yeni sekmede açılır ve kliniğimizle ilgisi yoktur.
 - Taking care of children's teeth — NHS
