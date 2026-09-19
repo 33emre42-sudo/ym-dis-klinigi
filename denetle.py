@@ -3242,6 +3242,41 @@ kontrol("her yerel varlik referansinin diskte karsiligi var",
         ("%d eksik: %s" % (len(_eksik_varlik), "; ".join(_eksik_varlik[:3])))
         if _eksik_varlik else "%d sayfa tarandi" % len(_tum))
 
+
+# --- SEMA 'about' SABLON MIRASI DENETIMI ------------------------------------
+_about = {}
+for _p in glob.glob("*.html"):
+    try:
+        _c = open(_p, encoding="utf-8").read()
+    except OSError:
+        continue
+    _m = re.search(r'"about"\s*:\s*\{\s*"@type"\s*:\s*"MedicalCondition"\s*,\s*"name"\s*:\s*"([^"]+)"', _c)
+    if _m:
+        _about[_p] = _m.group(1)
+
+
+def _about_ortusur(_sayfa, _ad):
+    _katla = str.maketrans({"\u00e7": "c", "\u011f": "g", "\u0131": "i", "\u0130": "i",
+                               "\u00f6": "o", "\u015f": "s", "\u00fc": "u", "\u00c7": "C",
+                               "\u011e": "G", "\u00d6": "O", "\u015e": "S", "\u00dc": "U"})
+    def _tok(_s):
+        _s = _s.translate(_katla).lower()
+        return set(_w for _w in re.split(r"[^a-z]+", _s) if len(_w) >= 4)
+    return bool(_tok(_sayfa.replace(".html", "").replace("-", " ")) & _tok(_ad))
+
+
+# Sablon kaynagi: yeni sayfalar bu dosyadan uretiliyor. Bir sayfa, kaynagin
+# konu adini tasiyip KENDI konusuyla ortusmuyorsa ad SABLONDAN miras alinmistir.
+_SABLON_ABOUT_KAYNAK = "sut-disi-curugu.html"
+_sablon_about_ad = _about.get(_SABLON_ABOUT_KAYNAK)
+_miras = [_p for _p, _ad in _about.items()
+          if (_p != _SABLON_ABOUT_KAYNAK and _sablon_about_ad and _ad == _sablon_about_ad
+              and not _about_ortusur(_p, _ad))]
+kontrol("sema 'about' sablon mirasi DEGIL (sayfa kendi konusunu tasiyor)",
+        not _miras,
+        ("%d sayfa: %s" % (len(_miras), "; ".join(_miras[:3]))) if _miras
+        else "%d sayfada about konusu tutarli" % len(_about))
+
 print("=" * 74)
 if hata:
     print("*** %d HATA ***" % hata)
