@@ -42,7 +42,7 @@ Genel diş hekimliği alanında çalışmaktadır; kliniğimizde uygulanan tedav
 Genel diş hekimliği alanında çalışmaktadır; kliniğimizde uygulanan tedavilerin tamamını yürütmektedir.
 Hekimlerimizi ve muayene sürecinin nasıl işlediğini okuyun
 ### Bilgi yazıları
-Hastalarımızın en çok karşılaştığı durumlar için hazırladığımız bilgilendirme yazıları — toplam elli iki başlık. Şikâyetiniz varsa yine de muayene gereklidir; bu yazılar hekim muayenesinin yerine geçmez.
+Hastalarımızın en çok karşılaştığı durumlar için hazırladığımız bilgilendirme yazıları — toplam elli üç başlık. Şikâyetiniz varsa yine de muayene gereklidir; bu yazılar hekim muayenesinin yerine geçmez.
 **Nöbetçi diş hekimi ve acil diş** Hangi şikâyet beklemez, hangisi sabahı bekleyebilir; gece ne yapılabilir ve hangi belirtide 112 aranır. **Gece açık dişçi: gece diş sorununda ne yapılır?** Gece açık dişçi arayanlar için: evde ne yapılabilir, gelirken ne bildirilmeli ve Kirazlı'ya gece ulaşım nasıl sağlanır? **Aynı gün diş hekimi: hangi şikâyet beklemez?** Beklemeden gelinmesi önerilen durumlar, evde ilk yapılabilecekler ve Kirazlı'ya ulaşım. **Güneşli'den nöbetçi dişçi: gece açık diş kliniği** Güneşli ve Mahmutbey çevresinden ulaşım, çalışma saatleri ve gece gelmeden önce bilinmesi gerekenler. **Bahçelievler'den nöbetçi dişçi: gece açık diş kliniği** Bahçelievler ve çevresinden ulaşım, çalışma saatleri. **Mahmutbey'den nöbetçi dişçi: gece açık diş kliniği** Mahmutbey ve çevresinden ulaşım, çalışma saatleri. **Güngören'den nöbetçi dişçi: gece açık diş kliniği** Güngören ve çevresinden ulaşım, çalışma saatleri. **Esenler'den nöbetçi dişçi: gece açık diş kliniği** Esenler ve çevresinden ulaşım, çalışma saatleri. **Küçükçekmece'den nöbetçi dişçi: gece açık diş kliniği** Küçükçekmece ve çevresinden ulaşım, çalışma saatleri. **Başakşehir'den nöbetçi dişçi: gece açık diş kliniği** Başakşehir ve çevresinden ulaşım, çalışma saatleri. **Gece ya da hafta sonu diş hekimine gitmeli miyim?** Nöbetçi klinikte gece neler yapılır, neler yapılmaz; hangi şikâyet sabahı bekleyebilir, hangisi bekleyemez. **Gece diş ağrısı: evde ne yapabilirsiniz?** Ağrı neden geceleri artar, sabaha kadar ne yapılabilir, hangi yöntemler zarar verir ve ne zaman beklememek gerekir. **Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** Düşen dişi nasıl tutmalı, neyin içinde saklamalı ve hangi hata dişi kurtarılamaz hâle getirir. **Diş apsesi: neden ertelenmemeli?** Belirtileri, ağrı geçtiğinde neden iyileşme sayılmadığı ve antibiyotiğin neden tek başına yetmediği. **Kanal tedavisi: dişi çekmeden kurtarmak** Ne zaman gerekir, ağrının geçmesi neden iyileşme değildir ve sonrasında neden kaplama yapılır. **Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** Sağlıklı dişeti kanar mı, kanayan bölgeyi fırçalamamak neden hata ve hangi bulgularda beklenmemeli. **Diş sıkma ve gece plağı** Sabah çene ağrısı, aşınan dişler, kırılan dolgular ve gece plağının gerçekte ne yaptığı. **Diş çekimi sonrası şişlik: ne zaman olağan?** Şişliğin günlere göre seyri, soğuk-sıcak uygulamanın sırası ve hangi bulguda beklenmeden aranmalı. **Diş hekimi korkusu: ilk randevu nasıl ilerler?** Korkuyu önceden söylemenin ne değiştirdiği, durma işareti ve yıllardır ertelemiş olanlar için izlenen yol.
 On altı bilgi yazısının tamamını görün
 ### Ulaşım
@@ -4332,6 +4332,51 @@ Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 **"Fırça nasıl temiz tutulur?"** Kullanımdan sonra akan su altında durulayıp dik konumda kurumaya bırakmak yeterlidir. Kapalı kutuda saklamak nemli kalmasına yol açar; fırçalar birbirine değmeyecek şekilde ayrı tutulmalıdır.
 **"Çocuklar için fırça seçerken neye bakılır?"** Yaşa uygun, küçük başlı ve yumuşak kıllı fırça seçilir; sapı çocuğun eline uygun olmalıdır. İlk dişler çıktığında temizlik başlar ve ilk hekimi kontrolü için bir yaş civarı uygun zamandır.
 **"Fırçalama ne kadar sürmeli?"** Günde iki kez, yaklaşık iki dakika fırçalama önerilir; her bölgeye sırayla zaman ayırmak ve diş aralarında diş ipi ya da arayüz fırçası kullanmak temizliği tamamlar.
+### Kaynaklar
+Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlantılar yeni sekmede açılır ve kliniğimizle ilgisi yoktur.
+- Taking care of children's teeth — NHS
+- Oral health — Dünya Sağlık Örgütü (WHO)
+TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
+BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
+### Diğer bilgi yazıları
+**Çocukta ilk diş ve ilk diş hekimi randevusu** **Florür nedir, zararlı mı?** **Tüm bilgi yazıları**
+
+---
+
+## Beslenme ve Diş Sağlığı: Şeker, Asit ve Ara Öğünler
+URL: https://ymdisklinigi.com/beslenme-ve-dis-sagligi.html
+
+ANA SAYFA · BİLGİ YAZILARI
+Beslenme ve diş sağlığı: şeker, asit ve ara öğünler
+Çürük yalnız tatlı miktarıyla değil, gün içinde kaç kez şeker ve asitle karşılaşıldığıyla ilgilidir. Bu yazıda asit ataklarının nasıl oluştuğunu ve günlük beslenmede nelere dikkat edilebileceğini topladık.
+### Şeker neden çürük yapar?
+Ağızdaki bakteriler şekeri kullanıp **asit** üretir; asit diş yüzeyini aşındırır ve tekrarladıkça çürük başlar. Belirleyici olan tek seferde alınan miktar değil, gün içinde **kaç kez** asit atağı oluştuğudur.
+### Asitli içecekler ve aşınma
+Asitli içecekler mine yüzeyini geçici olarak yumuşatır; bu sırada fırçalamak aşınmayı artırabilir. Bu nedenle asitli bir içecekten sonra hemen değil, kısa bir süre sonra fırçalamak daha uygun olur.
+### Ara öğün alışkanlığı
+Sık atıştırmak tükürüğün dengeyi toparlamasına fırsat bırakmaz. Öğün aralarını uzatmak ve atıştırmayı öğünle birlikte yapmak, gün boyu süren küçük asit ataklarını azaltır.
+### Günlük düzende ne yardımcı olur?
+- Öğün aralarında **su** içmek: ağzı temizler, asidi seyreltir.
+- Lifli gıdalar ve peynir gibi öğün yanı ürünleri; tatlıyı tek başına ve sık tüketmemek.
+- Günde iki kez **florürlü diş macunuyla** fırçalamak; diş aralarını diş ipiyle temizlemek.
+Bu öneriler genel bilgilendirme amaçlıdır; kişiye özel beslenme planı hekim değerlendirmesi gerektirir.
+### Çocuklarda şekerli içecek
+Şekerli içeceğin **biberonla** ve özellikle uyku sırasında verilmesi ön dişlerde hızlı çürüğe yol açabilir. Ayrıntı için süt dişi çürüğü ve bebeklerde diş çıkarma yazılarımıza bakabilirsiniz.
+### Beklemeden değerlendirilmesi gereken durumlar
+Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
+- Nefes almakta ya da yutkunmakta zorlanma
+- Göze, boyna ya da göğse doğru yayılan şişlik
+- Yüksek ateşle birlikte olan şişlik, titreme
+- Bilinç bulanıklığı ya da bayılma
+- Çene kırığı şüphesi ya da kafa travması sonrası baygınlık
+- Tekrarlanan baskıya rağmen durmayan ya da ağzı hızla dolduran kanama
+### Sık sorulanlar
+**"Şeker neden çürük yapar?"** Ağızdaki bakteriler şekeri kullanıp asit üretir; bu asit dişin yüzeyini zamanla aşındırır. Belirleyici olan tek seferde alınan miktar değil, gün içinde kaç kez asit atağı olduğudur.
+**"Asitli içecekler dişlere ne yapar?"** Asitli içecekler mine yüzeyini yumuşatır; bu sırada fırçalamak aşınmayı artırabilir. Bu yüzden asitli bir şey içtikten sonra hemen değil, kısa bir süre sonra fırçalamak daha uygun olur.
+**"Ara öğün alışkanlığı neden önemli?"** Sık atıştırmak tükürüğün dengelenmesine fırsat bırakmaz; gün boyu süren küçük asit atakları çürük riskini artırır. Öğün aralarını uzatmak, dişler için en basit korumadır.
+**"Hangi içecek dişler için daha uygundur?"** Su en uygun seçenektir; öğün aralarında su içmek ağzı temizler ve asidi seyreltir. Şekerli ve asitli içeceklerin sık tüketilmesi çürük ve aşınma riskini yükseltir.
+**"Çocuklarda biberonla şekerli içecek verilmeli mi?"** Önerilmez. Şekerli içeceğin biberonla ve özellikle uyku sırasında verilmesi ön dişlerde hızlı çürüğe yol açabilir. Ayrıntılar için süt dişi çürüğü yazımıza bakabilirsiniz.
+**"Yemekten sonra ne yapılmalı?"** Yemekten sonra ağzı su ile çalkalamak yeterlidir. Şekerli ya da asitli bir şey yendiğinde fırçalamayı kısa bir süre ertelemek; günde iki kez florürlü diş macunuyla fırçalamak temel alışkanlıktır.
 ### Kaynaklar
 Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlantılar yeni sekmede açılır ve kliniğimizle ilgisi yoktur.
 - Taking care of children's teeth — NHS
