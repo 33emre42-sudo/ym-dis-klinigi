@@ -42,7 +42,7 @@ Genel diş hekimliği alanında çalışmaktadır; kliniğimizde uygulanan tedav
 Genel diş hekimliği alanında çalışmaktadır; kliniğimizde uygulanan tedavilerin tamamını yürütmektedir.
 Hekimlerimizi ve muayene sürecinin nasıl işlediğini okuyun
 ### Bilgi yazıları
-Hastalarımızın en çok karşılaştığı durumlar için hazırladığımız bilgilendirme yazıları — toplam elli dört başlık. Şikâyetiniz varsa yine de muayene gereklidir; bu yazılar hekim muayenesinin yerine geçmez.
+Hastalarımızın en çok karşılaştığı durumlar için hazırladığımız bilgilendirme yazıları — toplam elli beş başlık. Şikâyetiniz varsa yine de muayene gereklidir; bu yazılar hekim muayenesinin yerine geçmez.
 **Nöbetçi diş hekimi ve acil diş** Hangi şikâyet beklemez, hangisi sabahı bekleyebilir; gece ne yapılabilir ve hangi belirtide 112 aranır. **Gece açık dişçi: gece diş sorununda ne yapılır?** Gece açık dişçi arayanlar için: evde ne yapılabilir, gelirken ne bildirilmeli ve Kirazlı'ya gece ulaşım nasıl sağlanır? **Aynı gün diş hekimi: hangi şikâyet beklemez?** Beklemeden gelinmesi önerilen durumlar, evde ilk yapılabilecekler ve Kirazlı'ya ulaşım. **Güneşli'den nöbetçi dişçi: gece açık diş kliniği** Güneşli ve Mahmutbey çevresinden ulaşım, çalışma saatleri ve gece gelmeden önce bilinmesi gerekenler. **Bahçelievler'den nöbetçi dişçi: gece açık diş kliniği** Bahçelievler ve çevresinden ulaşım, çalışma saatleri. **Mahmutbey'den nöbetçi dişçi: gece açık diş kliniği** Mahmutbey ve çevresinden ulaşım, çalışma saatleri. **Güngören'den nöbetçi dişçi: gece açık diş kliniği** Güngören ve çevresinden ulaşım, çalışma saatleri. **Esenler'den nöbetçi dişçi: gece açık diş kliniği** Esenler ve çevresinden ulaşım, çalışma saatleri. **Küçükçekmece'den nöbetçi dişçi: gece açık diş kliniği** Küçükçekmece ve çevresinden ulaşım, çalışma saatleri. **Başakşehir'den nöbetçi dişçi: gece açık diş kliniği** Başakşehir ve çevresinden ulaşım, çalışma saatleri. **Gece ya da hafta sonu diş hekimine gitmeli miyim?** Nöbetçi klinikte gece neler yapılır, neler yapılmaz; hangi şikâyet sabahı bekleyebilir, hangisi bekleyemez. **Gece diş ağrısı: evde ne yapabilirsiniz?** Ağrı neden geceleri artar, sabaha kadar ne yapılabilir, hangi yöntemler zarar verir ve ne zaman beklememek gerekir. **Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** Düşen dişi nasıl tutmalı, neyin içinde saklamalı ve hangi hata dişi kurtarılamaz hâle getirir. **Diş apsesi: neden ertelenmemeli?** Belirtileri, ağrı geçtiğinde neden iyileşme sayılmadığı ve antibiyotiğin neden tek başına yetmediği. **Kanal tedavisi: dişi çekmeden kurtarmak** Ne zaman gerekir, ağrının geçmesi neden iyileşme değildir ve sonrasında neden kaplama yapılır. **Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** Sağlıklı dişeti kanar mı, kanayan bölgeyi fırçalamamak neden hata ve hangi bulgularda beklenmemeli. **Diş sıkma ve gece plağı** Sabah çene ağrısı, aşınan dişler, kırılan dolgular ve gece plağının gerçekte ne yaptığı. **Diş çekimi sonrası şişlik: ne zaman olağan?** Şişliğin günlere göre seyri, soğuk-sıcak uygulamanın sırası ve hangi bulguda beklenmeden aranmalı. **Diş hekimi korkusu: ilk randevu nasıl ilerler?** Korkuyu önceden söylemenin ne değiştirdiği, durma işareti ve yıllardır ertelemiş olanlar için izlenen yol.
 On altı bilgi yazısının tamamını görün
 ### Ulaşım
@@ -4429,6 +4429,54 @@ Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 **"Diş eti çekilmesi geri döner mi?"** Çekilmiş diş eti kendiliğinden geri gelmez; ancak ilerlemesi durdurulabilir. Bu yüzden fırçalama baskısını azaltmak ve hekim takibi önemlidir.
 **"Ne sıklıkla kontrol gerekir?"** Genel öneri altı ayda bir kontroldür. Diş eti hastalığı öyküsü, sigara kullanımı ya da şeker hastalığı varsa hekiminiz takip aralığını daha kısa tutabilir.
 **"Korunmak için ne yapılabilir?"** Günde iki kez florürlü diş macunuyla fırçalamak, diş aralarını diş ipi ya da arayüz fırçasıyla temizlemek ve düzenli kontrol en temel adımlardır. Sigara içmek diş eti hastalığı riskini artırır.
+### Kaynaklar
+Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlantılar yeni sekmede açılır ve kliniğimizle ilgisi yoktur.
+- Taking care of children's teeth — NHS
+- Oral health — Dünya Sağlık Örgütü (WHO)
+TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
+BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
+### Diğer bilgi yazıları
+**Çocukta ilk diş ve ilk diş hekimi randevusu** **Florür nedir, zararlı mı?** **Tüm bilgi yazıları**
+
+---
+
+## Diş Hekimi Randevusu Nasıl Alınır? Adım Adım Süreç
+URL: https://ymdisklinigi.com/randevu-sureci.html
+
+ANA SAYFA · BİLGİ YAZILARI
+Diş hekimi randevusu nasıl alınır? Adım adım süreç
+Randevu almak, ilk muayenede ne olduğunu bilmek ve gelirken hazırlıklı olmak süreci hızlandırır. Bu yazıda adım adım ilerleyişi ve sık sorulanları topladık.
+### Randevu nasıl alınır?
+Kliniğimiz **her gün 24 saat** açıktır. Randevu için **0541 732 43 76**'yı arayabilir ya da WhatsApp üzerinden yazabilirsiniz; iletişim bilgileri iletişim sayfamızdadır . Şikâyetinizi kısaca anlatmanız uygun zamanı planlamayı kolaylaştırır.
+### Gelirken ne hazırlanır?
+- Kullandığınız **ilaçların listesi** ve bilinen alerjiler.
+- Varsa **önceki röntgenler** ve diş hekimi notları.
+- Protez, plak ya da gece plağı gibi malzemeleriniz.
+- Kimlik belgesi (istenebilir).
+Telefonda ne sorulacağı ve yanınızda ne bulunmasının yararlı olacağı için gece açık dişçi ararken kontrol listesi yazımıza bakabilirsiniz.
+### İlk muayenede ne olur?
+Önce şikâyetiniz dinlenir ve geçmişiniz sorulur; ardından ağız içi muayene yapılır. Gerekli görülürse röntgen istenir. Bulgular anlatılır, seçenekler ve izlenecek yol konuşulur.
+### Tedavi planı nasıl konuşulur?
+Plan; muayene bulguları, şikâyetinizin önceliği ve sizin tercihleriniz birlikte değerlendirilerek konuşulur. Uygulanacak yöntem kişiye göre değişir; bu yazı işlem vaadi içermez.
+### Randevusuz gelebilir miyim?
+Evet; klinik 24 saat açıktır ve randevusuz hasta kabul edilir. Ancak **arayıp geleceğinizi bildirmeniz** bekleme süresini kısaltır. Hangi durumun beklemeden görülmesi gerektiği hekim değerlendirmesine bağlıdır.
+### Randevuya gelemeyeceksem
+Mümkünse önceden haber vermek o saati başka bir hastanın kullanabilmesini sağlar. Gecikmelerde de aramanız planlamayı kolaylaştırır.
+### Beklemeden değerlendirilmesi gereken durumlar
+Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
+- Nefes almakta ya da yutkunmakta zorlanma
+- Göze, boyna ya da göğse doğru yayılan şişlik
+- Yüksek ateşle birlikte olan şişlik, titreme
+- Bilinç bulanıklığı ya da bayılma
+- Çene kırığı şüphesi ya da kafa travması sonrası baygınlık
+- Tekrarlanan baskıya rağmen durmayan ya da ağzı hızla dolduran kanama
+### Sık sorulanlar
+**"Randevu almak için ne yapmam gerekiyor?"** Telefonla 0541 732 43 76'yı arayabilir ya da WhatsApp üzerinden yazabilirsiniz. Şikâyetinizi kısaca anlatmanız, uygun zamanı planlamayı kolaylaştırır.
+**"Randevusuz gelebilir miyim?"** Kliniğimiz her gün 24 saat açıktır ve randevusuz hasta kabul edilir. Yine de arayıp geleceğinizi bildirmeniz bekleme süresini kısaltır.
+**"İlk muayenede neler yapılır?"** Önce şikâyetiniz dinlenir, ağız içi muayene yapılır ve gerekirse röntgen istenir. Ardından seçenekler ve izlenecek yol konuşulur; kararı muayene bulguları belirler.
+**"Gelirken yanımda ne getirmeliyim?"** Kullandığınız ilaçların listesi, bilinen alerjileriniz, varsa önceki röntgenler ve protez/plak gibi malzemeleriniz faydalı olur. Kimlik belgesi de istenebilir.
+**"Tedavi planı nasıl belirlenir?"** Plan; muayene bulguları, şikâyetinizin aciliyeti ve sizin tercihleriniz birlikte değerlendirilerek konuşulur. Uygulanacak yöntem kişiye göre değişir.
+**"Randevuma gelemeyeceksem ne yapmalıyım?"** Mümkünse önceden haber vermeniz, o saati başka bir hastanın kullanabilmesini sağlar. Gecikme durumunda da aramanız süreci kolaylaştırır.
 ### Kaynaklar
 Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlantılar yeni sekmede açılır ve kliniğimizle ilgisi yoktur.
 - Taking care of children's teeth — NHS
