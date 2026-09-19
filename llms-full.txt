@@ -42,7 +42,7 @@ Genel diş hekimliği alanında çalışmaktadır; kliniğimizde uygulanan tedav
 Genel diş hekimliği alanında çalışmaktadır; kliniğimizde uygulanan tedavilerin tamamını yürütmektedir.
 Hekimlerimizi ve muayene sürecinin nasıl işlediğini okuyun
 ### Bilgi yazıları
-Hastalarımızın en çok karşılaştığı durumlar için hazırladığımız bilgilendirme yazıları — toplam elli üç başlık. Şikâyetiniz varsa yine de muayene gereklidir; bu yazılar hekim muayenesinin yerine geçmez.
+Hastalarımızın en çok karşılaştığı durumlar için hazırladığımız bilgilendirme yazıları — toplam elli dört başlık. Şikâyetiniz varsa yine de muayene gereklidir; bu yazılar hekim muayenesinin yerine geçmez.
 **Nöbetçi diş hekimi ve acil diş** Hangi şikâyet beklemez, hangisi sabahı bekleyebilir; gece ne yapılabilir ve hangi belirtide 112 aranır. **Gece açık dişçi: gece diş sorununda ne yapılır?** Gece açık dişçi arayanlar için: evde ne yapılabilir, gelirken ne bildirilmeli ve Kirazlı'ya gece ulaşım nasıl sağlanır? **Aynı gün diş hekimi: hangi şikâyet beklemez?** Beklemeden gelinmesi önerilen durumlar, evde ilk yapılabilecekler ve Kirazlı'ya ulaşım. **Güneşli'den nöbetçi dişçi: gece açık diş kliniği** Güneşli ve Mahmutbey çevresinden ulaşım, çalışma saatleri ve gece gelmeden önce bilinmesi gerekenler. **Bahçelievler'den nöbetçi dişçi: gece açık diş kliniği** Bahçelievler ve çevresinden ulaşım, çalışma saatleri. **Mahmutbey'den nöbetçi dişçi: gece açık diş kliniği** Mahmutbey ve çevresinden ulaşım, çalışma saatleri. **Güngören'den nöbetçi dişçi: gece açık diş kliniği** Güngören ve çevresinden ulaşım, çalışma saatleri. **Esenler'den nöbetçi dişçi: gece açık diş kliniği** Esenler ve çevresinden ulaşım, çalışma saatleri. **Küçükçekmece'den nöbetçi dişçi: gece açık diş kliniği** Küçükçekmece ve çevresinden ulaşım, çalışma saatleri. **Başakşehir'den nöbetçi dişçi: gece açık diş kliniği** Başakşehir ve çevresinden ulaşım, çalışma saatleri. **Gece ya da hafta sonu diş hekimine gitmeli miyim?** Nöbetçi klinikte gece neler yapılır, neler yapılmaz; hangi şikâyet sabahı bekleyebilir, hangisi bekleyemez. **Gece diş ağrısı: evde ne yapabilirsiniz?** Ağrı neden geceleri artar, sabaha kadar ne yapılabilir, hangi yöntemler zarar verir ve ne zaman beklememek gerekir. **Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** Düşen dişi nasıl tutmalı, neyin içinde saklamalı ve hangi hata dişi kurtarılamaz hâle getirir. **Diş apsesi: neden ertelenmemeli?** Belirtileri, ağrı geçtiğinde neden iyileşme sayılmadığı ve antibiyotiğin neden tek başına yetmediği. **Kanal tedavisi: dişi çekmeden kurtarmak** Ne zaman gerekir, ağrının geçmesi neden iyileşme değildir ve sonrasında neden kaplama yapılır. **Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** Sağlıklı dişeti kanar mı, kanayan bölgeyi fırçalamamak neden hata ve hangi bulgularda beklenmemeli. **Diş sıkma ve gece plağı** Sabah çene ağrısı, aşınan dişler, kırılan dolgular ve gece plağının gerçekte ne yaptığı. **Diş çekimi sonrası şişlik: ne zaman olağan?** Şişliğin günlere göre seyri, soğuk-sıcak uygulamanın sırası ve hangi bulguda beklenmeden aranmalı. **Diş hekimi korkusu: ilk randevu nasıl ilerler?** Korkuyu önceden söylemenin ne değiştirdiği, durma işareti ve yıllardır ertelemiş olanlar için izlenen yol.
 On altı bilgi yazısının tamamını görün
 ### Ulaşım
@@ -4377,6 +4377,58 @@ Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 **"Hangi içecek dişler için daha uygundur?"** Su en uygun seçenektir; öğün aralarında su içmek ağzı temizler ve asidi seyreltir. Şekerli ve asitli içeceklerin sık tüketilmesi çürük ve aşınma riskini yükseltir.
 **"Çocuklarda biberonla şekerli içecek verilmeli mi?"** Önerilmez. Şekerli içeceğin biberonla ve özellikle uyku sırasında verilmesi ön dişlerde hızlı çürüğe yol açabilir. Ayrıntılar için süt dişi çürüğü yazımıza bakabilirsiniz.
 **"Yemekten sonra ne yapılmalı?"** Yemekten sonra ağzı su ile çalkalamak yeterlidir. Şekerli ya da asitli bir şey yendiğinde fırçalamayı kısa bir süre ertelemek; günde iki kez florürlü diş macunuyla fırçalamak temel alışkanlıktır.
+### Kaynaklar
+Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlantılar yeni sekmede açılır ve kliniğimizle ilgisi yoktur.
+- Taking care of children's teeth — NHS
+- Oral health — Dünya Sağlık Örgütü (WHO)
+TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
+BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
+### Diğer bilgi yazıları
+**Çocukta ilk diş ve ilk diş hekimi randevusu** **Florür nedir, zararlı mı?** **Tüm bilgi yazıları**
+
+---
+
+## Diş Eti Hastalığı (Periodontitis): Belirtiler ve Korunma
+URL: https://ymdisklinigi.com/dis-eti-hastaligi.html
+
+ANA SAYFA · BİLGİ YAZILARI
+Diş eti hastalığı (periodontitis): belirtiler ve korunma
+Diş eti hastalığı, dişi destekleyen dokuların iltihabıdır ve çoğu zaman kanama gibi küçük bir işaretle başlar. Bu yazıda belirtileri, nedenlerini ve erken dönemde neler yapılabileceğini topladık.
+### Diş eti hastalığı nedir?
+Diş eti hastalığı, diş yüzeyinde biriken plağın yol açtığı iltihapla başlar. Erken dönemde yalnız diş eti etkilenir; ilerlediğinde dişi destekleyen dokular da etkilenir ve diş sallanmasına kadar gidebilir. Erken fark edilmesi tedavi şansını artırır.
+### Hangi belirtiler görülür?
+- Fırçalarken ya da diş ipi kullanırken **kanama**.
+- Diş etinde kızarıklık, şişlik ya da hassasiyet.
+- Ağız kokusu ve ağızda sürekli kötü tat.
+- Diş eti çekilmesi, dişlerin uzamış görünmesi.
+- Çiğnemede rahatsızlık ya da dişlerde sallanma.
+Ayrıntılar için diş eti kanaması ve diş eti çekilmesi yazılarımıza bakabilirsiniz.
+### Neden olur?
+En sık neden, düzenli temizlenmeyen plak ve diş taşıdır. Sigara kullanımı, kontrolsüz şeker hastalığı, bazı ilaçlar ve genetik yatkınlık da riski artırır. Diş eti hastalığı ile şeker hastalığı arasındaki ilişki iki yönlüdür: şeker hastalığı ve ağız sağlığı yazımızda anlattık.
+### Erken dönemde ne yapılır?
+Erken dönemde diş taşı temizliği ve doğru ağız bakımı çoğu kişide iltihabın gerilemesini sağlar. Fırçalamada aşırı baskıdan kaçınmak, diş aralarını temizlemek ve kontrol aralığını hekimin belirlemesi önemlidir.
+### İleri dönemde yaklaşım
+İlerlemiş durumlarda diş eti dokusunun altındaki birikintilerin temizlenmesi ve düzenli takip gerekebilir. Hangi yöntemin uygun olduğu, muayene ve gerekirse görüntüleme sonrası hekim değerlendirmesiyle belirlenir; bu yazı tedavi vaadi içermez.
+### Nasıl korunur?
+- Günde iki kez florürlü diş macunuyla fırçalamak.
+- Diş aralarını diş ipi ya da arayüz fırçasıyla temizlemek.
+- Altı ayda bir kontrol; diş taşı oluşmuşsa temizlik.
+- Sigara içmemek; şeker hastalığı varsa kan şekeri kontrolü.
+### Beklemeden değerlendirilmesi gereken durumlar
+Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
+- Nefes almakta ya da yutkunmakta zorlanma
+- Göze, boyna ya da göğse doğru yayılan şişlik
+- Yüksek ateşle birlikte olan şişlik, titreme
+- Bilinç bulanıklığı ya da bayılma
+- Çene kırığı şüphesi ya da kafa travması sonrası baygınlık
+- Tekrarlanan baskıya rağmen durmayan ya da ağzı hızla dolduran kanama
+### Sık sorulanlar
+**"Diş eti kanaması normal mi?"** Sağlıklı diş eti fırçalarken ya da diş ipi kullanırken kanamaz. Kanama çoğu zaman diş eti iltihabının ilk işaretidir; diş taşı temizliği ve düzenli bakım çoğu kişide gerilemesini sağlar. Kararı muayene verir.
+**"Diş eti hastalığı sadece dişleri mi etkiler?"** Dişi destekleyen dokuları etkiler; ilerlediğinde diş eti çekilmesi ve diş sallanması görülebilir. Ayrıca bazı sistemik hastalıklarla (örneğin şeker hastalığı) karşılıklı ilişkisi olduğu bilinir.
+**"Diş taşı temizliği dişe zarar verir mi?"** Doğru uygulandığında diş yüzeyine zarar vermez; dişin üzerinde tutunan taşı uzaklaştırır. Temizlik sonrası kısa süreli hassasiyet görülebilir ve genelde birkaç gün içinde azalır.
+**"Diş eti çekilmesi geri döner mi?"** Çekilmiş diş eti kendiliğinden geri gelmez; ancak ilerlemesi durdurulabilir. Bu yüzden fırçalama baskısını azaltmak ve hekim takibi önemlidir.
+**"Ne sıklıkla kontrol gerekir?"** Genel öneri altı ayda bir kontroldür. Diş eti hastalığı öyküsü, sigara kullanımı ya da şeker hastalığı varsa hekiminiz takip aralığını daha kısa tutabilir.
+**"Korunmak için ne yapılabilir?"** Günde iki kez florürlü diş macunuyla fırçalamak, diş aralarını diş ipi ya da arayüz fırçasıyla temizlemek ve düzenli kontrol en temel adımlardır. Sigara içmek diş eti hastalığı riskini artırır.
 ### Kaynaklar
 Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlantılar yeni sekmede açılır ve kliniğimizle ilgisi yoktur.
 - Taking care of children's teeth — NHS
