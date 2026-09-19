@@ -4337,6 +4337,10 @@ Elektrikli fırçalar, kavrama gücü azaldığında ya da el hareketi kısıtla
 Hastalık sonrası dönemde fırçanın değiştirilmesi de önerilir; genel aralık üç aydır, ancak kullanım şekline göre daha erken gerekebilir.
 ### Çocuklarda fırça seçimi
 Çocuklarda küçük baş ve yumuşak kıl tercih edilir; tutamağın ele uygun olması fırçalamayı kolaylaştırır. Çocuğun kendi fırçalaması desteklenirken, küçük yaşlarda bir yetişkinin kontrolü düzeni sürdürmeye yardımcı olur ( ilk diş ve ilk randevu ).
+### Fırça ve macun ilişkisi
+Fırça seçimi kadar macun seçimi de bakımın parçasıdır: yetişkinlerde florür içeren macun önerilir; küçük çocuklarda ise miktar ve uygunluk yaşa göre hekim tarafından belirlenir. Aşındırıcılığı yüksek macunlar uzun vadede yüzeyde aşınmaya yol açabileceği için tercih edilmez.
+### Hijyen ve paylaşım
+Diş fırçası kişisel kullanım içindir; aile içinde paylaşılmamalıdır. Fırçayı dik konumda, birbirine değmeyecek şekilde saklamak ve kapalı kutuda nemli bırakmamak yüzeyde birikim oluşumunu azaltır.
 ### Beklemeden değerlendirilmesi gereken durumlar
 Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 - Nefes almakta ya da yutkunmakta zorlanma
@@ -4501,6 +4505,10 @@ Gelmeden önce şu üç başlığı düşünmek ziyaretin süresini kısaltır: 
 Muayenede genellikle şikâyetin başlangıcı, süresi ve şiddeti sorulur; ardından ağız içi değerlendirme yapılır. Gerektiğinde röntgen ya da ek görüntüleme istenir. Kullanılan ilaçlar, geçirilmiş müdahaleler ve alerjiler bu tablonun parçasıdır; bu bilgileri paylaşmak değerlendirmeyi doğrudan etkiler.
 ### Ziyaret sonrası takip
 Muayene sonunda konuşulan bakım adımlarını günlük rutine eklemek ve önerilen kontrol aralığını not etmek süreci kolaylaştırır. Ağız bakımıyla ilgili ayrıntılar için fırça seçimi ve diş ipi kullanımı yazılarımıza bakabilirsiniz. Bu yazı tedavi vaadi içermez; uygulanacak adımlar muayene sonrası belirlenir.
+### Kontrol sıklığı kime göre değişir?
+Kontrol aralığı; çürük öyküsü, diş eti durumu, protez ya da ortodontik tedavi varlığı ve genel sağlık durumuna göre belirlenir. Genel öneri altı ayda bir olsa da bazı kişilerde üç aylık izlem, bazılarında daha uzun aralık uygun olabilir. Bu karar muayene bulgularıyla verilir.
+### Kayıt ve hatırlatma
+Kliniğe kaydınızı güncel tutmak ve randevu öncesi hatırlatmaları takip etmek, planlanan değerlendirmelerin aksamamasını sağlar. Adres, telefon ve çalışma saatleri için iletişim sayfamıza bakabilirsiniz; kliniğimiz her gün 24 saat açıktır.
 ### Beklemeden değerlendirilmesi gereken durumlar
 Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 - Nefes almakta ya da yutkunmakta zorlanma
@@ -4617,6 +4625,10 @@ Hareketli protez kullanılırken çok sert kabuklu gıdaları tek taraflı ve h�
 - Uyum değişimlerini geciktirmemek; küçük vuruklar zamanla büyür.
 ### Tam ve parsiyel protez farkı
 Tam protez dişsiz çenede kullanılır; parsiyel protez kalan doğal dişlerden destek alır. Parsiyel protezde kalan dişlerin bakımı ve destek yüzeylerinin temizliği ayrıca önemlidir; bu nedenle kontrol aralığı hekiminiz tarafından belirlenir.
+### Uyum zamanla neden değişir?
+Protez altındaki kemik ve doku yıllar içinde az da olsa değişir; bu nedenle başlangıçta rahat olan bir protez bir süre sonra kayabilir ya da baskı yapabilir. Bu değişim kendi başına zımparalanarak düzeltilmez; ağız içi değerlendirme ve gerekirse protezde uyarlama yapılır.
+### Protez ile kalan dişler arasındaki bölge
+Parsiyel protezde kroşe (tutucu) bölgeleri ve komşu dişler gıda tutmaya elverişlidir; bu bölgelerin diş ipi ya da arayüz fırçasıyla temizlenmesi protezin uyumunu ve kalan dişlerin sağlığını destekler ( diş ipi kullanımı ).
 ### Beklemeden değerlendirilmesi gereken durumlar
 Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 - Nefes almakta ya da yutkunmakta zorlanma
@@ -4677,6 +4689,13 @@ Genel öneri altı ayda bir kontroldür. Ağız içinde **iki haftadan uzun sür
 Birden fazla ilaç kullanıldığında ağız kuruluğu daha sık görülebilir. Kullanılan ilaçların listesini güncel tutup kontrol sırasında paylaşmak, nedeni değerlendirmeyi kolaylaştırır. Su tüketimini gün içine yaymak ve tükürük akışını destekleyen önerileri hekimle konuşmak yararlıdır.
 ### Çiğneme kolaylığı ve beslenme
 Çiğnemede zorluk, sebze-meyve tüketimini azaltabilir. Gıdaları uygun boyutlara ayırmak, yumuşak pişirme yöntemlerini tercih etmek ve protez uyumunun düzenli kontrol edilmesi beslenme düzeninin sürdürülmesine yardımcı olur.
+### Görme ve el becerisi desteği
+Görme ya da el becerisi azaldığında fırçalama süresi ve etkinliği düşebilir. Büyüteçli ayna, kalın tutamaklı ya da elektrikli fırça ve diş ipi tutucu bu zorluğu azaltır. Fırçalamayı günün aynı saatine yerleştirmek ve gerekirse bakım veren desteğiyle yapmak düzeni sürdürür.
+### Kontrolde sorulabilecekler
+- Kullanılan ilaçlar ve kuruluk şikâyeti.
+- Protezde vuruk, kayma ya da kırık olup olmadığı.
+- Çiğnemede zorluk ve beslenme düzeni.
+- Ağız içinde uzun süren yara ya da renk değişimi.
 ### Beklemeden değerlendirilmesi gereken durumlar
 Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 - Nefes almakta ya da yutkunmakta zorlanma
@@ -4790,6 +4809,10 @@ Dil yüzeyindeki papilla adı verilen küçük çıkıntılar tat tomurcukların
 Tükürük azaldığında dil yüzeyi daha kolay kurur ve yüzeydeki birikim belirginleşir. Su içmek, öğün aralarında ağzı nemli tutmak ve kuruluğa yol açan etkenleri hekimle konuşmak yararlıdır ( ağız kuruluğu ). Kuruluk sürekli hâle gelirse değerlendirme önerilir.
 ### Görünümü etkileyen alışkanlıklar
 Çay, kahve ve sigara gibi etkenler dil yüzeyinde renk değişimi ve birikimi artırabilir; bu etkiler çoğu zaman geçicidir ancak süreklilik kazanırsa değerlendirilmelidir. Sert fırçalama ya da kürdan benzeri sivri araçlarla dil yüzeyini zorlamak tahrişe yol açabilir; temizlik yumuşak hareketlerle yapılmalıdır.
+### Yüzeyin kendini yenilemesi
+Dil yüzeyi hızlı döngüsü olan bir dokudur; çıkıntılar arasındaki girintilerde birikim arttığında yüzey daha belirgin ve pürüzlü görünebilir. Düzenli ve nazik temizlik, su tüketimi ve öğün aralarında ağzı nemli tutmak bu birikimi azaltmaya yardımcı olur. Yüzeyde uzun süreli beyazlık ya da ağrı varsa nedenin değerlendirilmesi gerekir.
+### Muayenede dil ne için kontrol edilir?
+Ağız içi değerlendirmede dil de gözden geçirilir: yüzey görünümü, hareket serbestliği ve iki haftayı geçen değişimler not edilir. Diş eti ve diş kaynaklı şikâyetlerle birlikte değerlendirildiğinde tablo daha net olur; bu yazı tanı koymaz.
 ### Beklemeden değerlendirilmesi gereken durumlar
 Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:
 - Nefes almakta ya da yutkunmakta zorlanma
