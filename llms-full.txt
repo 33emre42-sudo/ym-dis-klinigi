@@ -395,7 +395,7 @@ URL: https://ymdisklinigi.com/en/root-canal-and-general-dentistry.html
 HOME · ROOT CANAL AND GENERAL DENTISTRY
 Root canal treatment and general dentistry
 Root canal treatment is used when the pulp inside a tooth is inflamed or infected. The aim is to keep the tooth rather than remove it.
-#### Pain stopping is not the same as healing
+### Pain stopping is not the same as healing
 An infected tooth can stop hurting while the infection continues. If your pain went away on its own, that is still a reason to be examined.
 ### During treatment
 A rubber dam is used during root canal treatment. This is standard practice, not an optional extra.
@@ -414,7 +414,7 @@ URL: https://ymdisklinigi.com/es/endodoncia-y-odontologia-general.html
 INICIO · ENDODONCIA Y ODONTOLOGÍA GENERAL
 Endodoncia y odontología general
 La endodoncia se realiza cuando la pulpa del interior del diente está inflamada o infectada. El objetivo es conservar el diente en lugar de extraerlo.
-#### Que el dolor pare no es lo mismo que curarse
+### Que el dolor pare no es lo mismo que curarse
 Un diente infectado puede dejar de doler mientras la infección continúa. Si el dolor desapareció por sí solo, eso sigue siendo motivo para una exploración.
 ### Durante el tratamiento
 En la endodoncia se utiliza un dique de goma. Es la práctica habitual, no un añadido opcional.
@@ -433,7 +433,7 @@ URL: https://ymdisklinigi.com/fr/traitement-de-racine-et-dentisterie-generale.ht
 ACCUEIL · TRAITEMENT DE RACINE ET DENTISTERIE GÉNÉRALE
 Traitement de racine et dentisterie générale
 Le traitement de racine est réalisé lorsque la pulpe à l'intérieur de la dent est enflammée ou infectée. L'objectif est de conserver la dent plutôt que de l'extraire.
-#### L'arrêt de la douleur n'est pas la guérison
+### L'arrêt de la douleur n'est pas la guérison
 Une dent infectée peut cesser de faire mal alors que l'infection se poursuit. Si votre douleur a disparu d'elle-même, cela reste une raison de consulter.
 ### Pendant le traitement
 Une digue en caoutchouc est utilisée lors du traitement de racine. C'est la pratique standard, non une option supplémentaire.
@@ -452,7 +452,7 @@ URL: https://ymdisklinigi.com/de/wurzelbehandlung-und-allgemeine-zahnmedizin.htm
 STARTSEITE · WURZELBEHANDLUNG UND ALLGEMEINE ZAHNMEDIZIN
 Wurzelbehandlung und allgemeine Zahnmedizin
 Eine Wurzelbehandlung wird durchgeführt, wenn das Zahnmark im Inneren des Zahns entzündet oder infiziert ist. Ziel ist es, den Zahn zu erhalten statt ihn zu entfernen.
-#### Nachlassender Schmerz ist keine Heilung
+### Nachlassender Schmerz ist keine Heilung
 Ein infizierter Zahn kann aufhören wehzutun, während die Infektion weitergeht. Wenn Ihr Schmerz von selbst verschwunden ist, ist das trotzdem ein Grund für eine Untersuchung.
 ### Während der Behandlung
 Bei der Wurzelbehandlung wird Kofferdam verwendet. Das ist übliche Praxis, kein zusätzliches Extra.
@@ -471,7 +471,7 @@ URL: https://ymdisklinigi.com/ru/lechenie-kanalov-i-obshchaya-stomatologiya.html
 ГЛАВНАЯ · ЛЕЧЕНИЕ КАНАЛОВ И ОБЩАЯ СТОМАТОЛОГИЯ
 Лечение каналов и общая стоматология
 Лечение каналов проводится, когда пульпа внутри зуба воспалена или инфицирована. Цель — сохранить зуб, а не удалять его.
-#### Прекращение боли — не выздоровление
+### Прекращение боли — не выздоровление
 Инфицированный зуб может перестать болеть, пока инфекция продолжается. Если боль прошла сама, это всё равно повод для осмотра.
 ### Во время лечения
 При лечении каналов используется коффердам. Это стандартная практика, а не дополнительная опция.
