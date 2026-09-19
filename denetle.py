@@ -3277,6 +3277,63 @@ kontrol("sema 'about' sablon mirasi DEGIL (sayfa kendi konusunu tasiyor)",
         ("%d sayfa: %s" % (len(_miras), "; ".join(_miras[:3]))) if _miras
         else "%d sayfada about konusu tutarli" % len(_about))
 
+
+# --- SSS BOLUMU OLAN SAYFADA FAQPage SARTI ----------------------------------
+# Gorunur "Sik sorulan sorular" bolumu olan her sayfa, o soru-cevaplari
+# makine-okur sekilde de tasimali (FAQPage). Sorular gorunur metinde BIREBIR
+# bulunmali; sema ile gorunur icerik ayrisirsa AI/arama motoru yaniltilir.
+import html as _html_mod
+_sss_faq_sorun = []
+for _p in glob.glob("*.html"):
+    try:
+        _c = open(_p, encoding="utf-8").read()
+    except OSError:
+        continue
+    _m = re.search(r"(?is)<h2[^>]*>[^<]*S[\u0131i]k sorulan sorular.*?</h2>(.*?)(?=<h2|\Z)", _c)
+    if not _m:
+        continue
+    # Yalniz GERCEK soru-cevap blogu olan bolum: <details> icinde "?" tasiyan
+    # <summary>. Yalniz baslik gecen (baglanti/onizleme) bolum bu kapsamda degil.
+    _sorular = []
+    for _b in re.findall(r"(?s)<details[^>]*>(.*?)</details>", _m.group(1)):
+        _s = re.search(r"(?s)<summary[^>]*>(.*?)</summary>", _b)
+        if not _s:
+            continue
+        _metin = _html_mod.unescape(re.sub(r"<[^>]+>", " ", _s.group(1))).strip()
+        if "?" in _metin:
+            _sorular.append(_metin)
+    if not _sorular:
+        continue
+    _bloklar = re.findall(r'(?s)<script[^>]*application/ld\+json[^>]*>(.*?)</script>', _c)
+    _faq = None
+    for _b in _bloklar:
+        try:
+            _d = json.loads(_b)
+        except ValueError:
+            continue
+        if isinstance(_d, dict) and _d.get("@type") == "FAQPage":
+            _faq = _d
+    if _faq is None:
+        _sss_faq_sorun.append("%s -> FAQPage yok" % _p)
+        continue
+    _duz = re.sub(r"\s+", " ", _html_mod.unescape(re.sub(r"<[^>]+>", " ", _c)))
+    _main = _faq.get("mainEntity")
+    if not isinstance(_main, list) or not _main:
+        _sss_faq_sorun.append("%s -> bos FAQPage" % _p)
+        continue
+    for _q in _main:
+        _ad = (_q or {}).get("name") if isinstance(_q, dict) else None
+        if not isinstance(_ad, str) or not _ad.strip():
+            _sss_faq_sorun.append("%s -> sorusuz kayit" % _p)
+            break
+        if re.sub(r"\s+", " ", _ad.strip()) not in _duz:
+            _sss_faq_sorun.append("%s -> sema sorusu metinde yok: %s" % (_p, _ad[:40]))
+            break
+kontrol("SSS bolumu olan sayfada FAQPage semasi + sorular metinde BIREBIR",
+        not _sss_faq_sorun,
+        ("%d sayfa: %s" % (len(_sss_faq_sorun), "; ".join(_sss_faq_sorun[:2]))) if _sss_faq_sorun
+        else "SSS bolumu olan tum sayfalarda uyumlu")
+
 print("=" * 74)
 if hata:
     print("*** %d HATA ***" % hata)
