@@ -1051,7 +1051,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 1 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** **Diş apsesi: neden ertelenmemesi gereken bir durum?** **Kanal tedavisi: dişi çekmeden kurtarmak** **Gece ya da hafta sonu diş hekimine gitmeli miyim?** **Nöbetçi diş hekimi ve acil diş** **Tüm bilgi yazıları**
+**Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** **Diş apsesi: neden ertelenmemesi gereken bir durum?** **Kanal tedavisi: dişi çekmeden kurtarmak** **Gece ya da hafta sonu diş hekimine gitmeli miyim?** **Nöbetçi diş hekimi ve acil diş** **Tüm bilgi yazıları** **Randevu süreci: adım adım ne olur?**
 
 ---
 
@@ -1335,6 +1335,7 @@ Evet. Klinik her gün 24 saat açıktır; hafta sonu ve resmî tatiller dahil.
 - Bahçelievler nöbetçi dişçi
 - Esenler nöbetçi dişçi
 - Gece açık dişçi ararken: telefonda ne sorulur, yanınızda ne bulunsun?
+- Güngören'de aynı gün değerlendirme
 ### Kaynaklar
 Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlantılar yeni sekmede açılır ve kliniğimizle ilgisi yoktur.
 - Toothache &mdash; NHS
@@ -1454,6 +1455,7 @@ Evet. Klinik her gün 24 saat açıktır; hafta sonu ve resmî tatiller dahil.
 - Güngören nöbetçi dişçi
 - Küçükçekmece nöbetçi dişçi
 - Gece açık dişçi ararken: telefonda ne sorulur, yanınızda ne bulunsun?
+- Bahçelievler'de aynı gün değerlendirme
 ### Kaynaklar
 Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlantılar yeni sekmede açılır ve kliniğimizle ilgisi yoktur.
 - Toothache &mdash; NHS
@@ -1704,6 +1706,7 @@ Hangi ilacı ne zaman aldığınızı hekime söyleyin. Ağrının geçmemesi te
 - Kırılan diş ya da yerinden çıkan diş
 - Gece açık dişçi: gece sorununda ne yapılır?
 - Nöbetçi diş hekimi ve acil diş
+- Randevu süreci: adım adım ne olur?
 ### Kaynaklar
 Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlantılar yeni sekmede açılır ve kliniğimizle ilgisi yoktur.
 - Toothache &mdash; NHS
@@ -1908,7 +1911,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 1 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Gece diş ağrısı: evde ne yapabilirsiniz?** **Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** **Kanal tedavisi: dişi çekmeden kurtarmak** **Gece ya da hafta sonu diş hekimine gitmeli miyim?** **Nöbetçi diş hekimi ve acil diş** **Tüm bilgi yazıları**
+**Gece diş ağrısı: evde ne yapabilirsiniz?** **Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** **Kanal tedavisi: dişi çekmeden kurtarmak** **Gece ya da hafta sonu diş hekimine gitmeli miyim?** **Nöbetçi diş hekimi ve acil diş** **Tüm bilgi yazıları** **Diş eti hastalığı: belirtiler ve korunma**
 
 ---
 
@@ -2294,7 +2297,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 1 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Hamilelikte diş sağlığı: neler yapılabilir?** **Diş apsesi: neden ertelenmemesi gereken bir durum?** **Tüm bilgi yazıları**
+**Hamilelikte diş sağlığı: neler yapılabilir?** **Diş apsesi: neden ertelenmemesi gereken bir durum?** **Tüm bilgi yazıları** **Diş eti hastalığı: belirtiler ve korunma**
 
 ---
 
@@ -2429,7 +2432,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 1 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Çocukta ilk diş ve ilk diş hekimi randevusu** **Tüm bilgi yazıları**
+**Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Çocukta ilk diş ve ilk diş hekimi randevusu** **Tüm bilgi yazıları** **Diş eti hastalığı: belirtiler ve korunma**
 
 ---
 
@@ -2499,7 +2502,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 1 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** **Hamilelikte diş tedavisi: neler yapılabilir?** **Tüm bilgi yazıları**
+**Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** **Hamilelikte diş tedavisi: neler yapılabilir?** **Tüm bilgi yazıları** **Bebeklerde diş çıkarma** **Diş fırçası nasıl seçilir?**
 
 ---
 
@@ -2770,7 +2773,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 1 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Diş dolgusu: ne zaman gerekir?** **Tüm bilgi yazıları**
+**Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Diş dolgusu: ne zaman gerekir?** **Tüm bilgi yazıları** **Diş eti hastalığı: belirtiler ve korunma** **Diş fırçası nasıl seçilir?**
 
 ---
 
@@ -2962,7 +2965,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 1 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Hekimlerimiz ve muayene süreci** **Çocukta ilk diş ve ilk randevu** **Tüm bilgi yazıları**
+**Hekimlerimiz ve muayene süreci** **Çocukta ilk diş ve ilk randevu** **Tüm bilgi yazıları** **Randevu süreci: adım adım ne olur?**
 
 ---
 
@@ -3092,7 +3095,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Kanal tedavisi: dişi çekmeden kurtarmak** **Diş sıkma ve gece plağı** **Tüm bilgi yazıları**
+**Kanal tedavisi: dişi çekmeden kurtarmak** **Diş sıkma ve gece plağı** **Tüm bilgi yazıları** **Diş fırçası nasıl seçilir?**
 
 ---
 
@@ -3147,7 +3150,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Diş dolgusu: ne zaman gerekir, işlem nasıl yapılır?** **Diş hassasiyeti: soğuk ve sıcakta neden ağrır?** **Tüm bilgi yazıları**
+**Diş dolgusu: ne zaman gerekir, işlem nasıl yapılır?** **Diş hassasiyeti: soğuk ve sıcakta neden ağrır?** **Tüm bilgi yazıları** **Beslenme ve diş sağlığı** **Fissür örtücü ve koruyucu uygulamalar**
 
 ---
 
@@ -3201,7 +3204,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Çürük nasıl oluşur ve nasıl önlenir?** **Çocukta ilk diş ve ilk diş hekimi randevusu** **Tüm bilgi yazıları**
+**Çürük nasıl oluşur ve nasıl önlenir?** **Çocukta ilk diş ve ilk diş hekimi randevusu** **Tüm bilgi yazıları** **Fissür örtücü ve koruyucu uygulamalar** **Beslenme ve diş sağlığı**
 
 ---
 
@@ -3314,7 +3317,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Ağız yarası (aft): ne zaman ciddiye alınmalı?** **Tüm bilgi yazıları**
+**Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Ağız yarası (aft): ne zaman ciddiye alınmalı?** **Tüm bilgi yazıları** **Diş eti hastalığı: belirtiler ve korunma**
 
 ---
 
@@ -3364,7 +3367,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Diş taşı temizliği: ne zaman gerekir?** **Tüm bilgi yazıları**
+**Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Diş taşı temizliği: ne zaman gerekir?** **Tüm bilgi yazıları** **Diş fırçası nasıl seçilir, ne sıklıkla değiştirilir?**
 
 ---
 
@@ -3654,7 +3657,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Diş hassasiyeti: soğuk ve sıcakta neden ağrır?** **Tüm bilgi yazıları**
+**Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Diş hassasiyeti: soğuk ve sıcakta neden ağrır?** **Tüm bilgi yazıları** **Diş eti hastalığı: belirtiler ve korunma**
 
 ---
 
@@ -3778,7 +3781,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Kan sulandırıcı kullananlarda diş tedavisi** **Tüm bilgi yazıları**
+**Dişeti kanaması: neden olur, ne zaman ciddiye alınmalı?** **Kan sulandırıcı kullananlarda diş tedavisi** **Tüm bilgi yazıları** **Diş eti hastalığı: belirtiler ve korunma**
 
 ---
 
@@ -3899,7 +3902,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Çocukta ilk diş ve ilk diş hekimi randevusu** **Florür nedir, zararlı mı?** **Tüm bilgi yazıları**
+**Çocukta ilk diş ve ilk diş hekimi randevusu** **Florür nedir, zararlı mı?** **Tüm bilgi yazıları** **Bebeklerde diş çıkarma** **Fissür örtücü ve koruyucu uygulamalar**
 
 ---
 
@@ -4045,7 +4048,7 @@ Bu sayfadaki bilgiler aşağıdaki kurumların yayınlarıyla uyumludur. Bağlan
 TIBBİ İÇERİK KONTROLÜ: DT. YUNUS EMRE ÇETİN VE DT. MERT DAŞTAN · SON GÖZDEN GEÇİRME: 2 AĞUSTOS 2026 · SON GÜNCELLEME: 19 EYLÜL 2026
 BU YAZI GENEL BİLGİLENDİRME AMAÇLIDIR, HEKİM MUAYENESİNİN YERİNE GEÇMEZ.
 ### Diğer bilgi yazıları
-**Gece diş ağrısı: evde ne yapabilirsiniz?** **Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** **Diş apsesi: neden ertelenmemesi gereken bir durum?** **Nöbetçi diş hekimi ve acil diş** **Tüm bilgi yazıları**
+**Gece diş ağrısı: evde ne yapabilirsiniz?** **Dişiniz kırıldı ya da yerinden çıktı: ilk 30 dakika** **Diş apsesi: neden ertelenmemesi gereken bir durum?** **Nöbetçi diş hekimi ve acil diş** **Tüm bilgi yazıları** **Randevu süreci: adım adım ne olur?**
 
 ---
 
