@@ -352,7 +352,7 @@ def _sayfa_getir(item):
 # Ağ beklemeleri birbirini bloklamasın; sonuçlar aşağıda sıra numarasıyla
 # işlendiği için rapor deterministik kalır. Bu yalnızca sensör kapasitesidir,
 # SEO kararı veya kapsam seçimi değildir.
-with concurrent.futures.ThreadPoolExecutor(max_workers=8) as _havuz:
+with concurrent.futures.ThreadPoolExecutor(max_workers=16) as _havuz:
     _sonuclar = list(_havuz.map(_sayfa_getir,
                                 enumerate(sorted(canli_url), 1)))
 
