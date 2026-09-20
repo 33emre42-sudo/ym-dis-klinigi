@@ -14,7 +14,7 @@ Harita: © OpenStreetMap katkıcıları · Etkileşimli harita yalnızca siz tı
 **Adres:** Kirazlı Mah. Mevlana Cad. No: 47 D, Bağcılar / İstanbul &middot; **Telefon:** 0541 732 43 76 &middot; **Çalışma saatleri:** her gün 24 saat açık (resmî tatiller dahil) &middot; **Ulaşım:** Kirazlı Metro durağına yürüme mesafesinde.
 ### Merak ettikleriniz
 Bir soruyu seçtiğinizde WhatsApp yazışması o soruyla başlar. Gece saatlerinde de karşılık alırsınız — yola çıkmadan önce yazabilirsiniz.
-Dişim çok ağrıyor, bugün gelebilir miyim? Şu anda açık mısınız, gelsem hekim bulur muyum? Gece geldiğimde farklı bir uygulama yapılıyor mu? Yüzüm şişti, apse olabilir mi? Dişim kırıldı, hemen ne yapmalıyım? 20 yaş dişim ağrıyor, çekilmesi gerekir mi? Çocuğum için ilk muayene randevusu alabilir miyim? Diş hekiminden çok korkuyorum, bana nasıl yardımcı olursunuz?
+Dişim çok ağrıyor, bugün gelebilir miyim? Şu anda açık mısınız, gelsem hekim bulur muyum? Gece geldiğimde farklı bir uygulama yapılıyor mu? Yüzüm şişti, apse olabilir mi? Dişim kırıldı, hemen ne yapmalıyım? 20 yaş dişim ağrıyor, çekilmesi gerekir mi? Çocuğum için ilk muayene randevusu alabilir miyim?
 Bu soruların bazılarını ayrıntılı anlattığımız yazılar var: 20 yaş dişi · yüz şişmesi ve apse · kırılan diş · çocukta ilk muayene
 Telefonla görüşmeyi tercih ederseniz 0541 732 43 76 numarasından ulaşabilirsiniz.
 İMPLANT TEDAVİSİ
@@ -1507,7 +1507,7 @@ Randevuya giderken daha önce yapılmış tedaviler, mevcut protez veya dolgular
 Çocuklar, yaşlı bireyler ya da günlük bakımında desteğe ihtiyaç duyan kişiler için randevuya eşlik edecek kişinin sorularını önceden not alması da faydalı olabilir. İşlem sonrası önerileri, ilaç kullanımını ve kontrol zamanını mutlaka hekiminizden netleştirin. Beklenmeyen bir belirti, artan ağrı veya endişe durumunda genel internet bilgisini esas almak yerine kliniğe ya da hekiminize başvurun.
 ### İnternetteki bilgiyi doğru çerçevede kullanın
 Arama sonuçları, sosyal medya içerikleri ve genel bilgilendirme sayfaları sık karşılaşılan sorulara başlangıç yanıtı sağlayabilir. Ancak bu içerikler muayenenin ve kişisel tedavi planının yerine geçmez. İnternette gördüğünüz bir belirti veya uygulama sizin durumunuzla aynı görünse bile dişin yapısı, ağız hijyeni, mevcut restorasyonlar ve genel sağlık koşulları farklı olabilir.
-Klinik seçerken tek bir iddiaya veya tek bir çevrim içi yoruma dayanmak yerine, muayenede size sunulan bilgileri değerlendirin. Gerektiğinde ikinci bir hekim görüşü almak da karar sürecinin doğal bir parçası olabilir. Amaç, ihtiyaçlarınıza uygun bilgiye ulaşmak ve hekimle birlikte anlaşılır bir plan oluşturmaktır.
+Klinik seçerken tek bir iddiaya veya tek bir çevrim içi değerlendirmeye dayanmak yerine, muayenede size sunulan bilgileri değerlendirin. Gerektiğinde ikinci bir hekim görüşü almak da karar sürecinin doğal bir parçası olabilir. Amaç, ihtiyaçlarınıza uygun bilgiye ulaşmak ve hekimle birlikte anlaşılır bir plan oluşturmaktır.
 ### İlgili sayfalar
 - Tedaviler : Klinik hizmet alanlarına genel geçiş.
 - Kanal tedavisi : İlgili şikâyet ve tedavi hakkında genel bilgi.
