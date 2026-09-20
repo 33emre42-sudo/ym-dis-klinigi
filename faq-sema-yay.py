@@ -173,6 +173,12 @@ def isle(dosya, uygula):
             korunan += 1
     if not ciftler:
         return "atlandi-soru-yok"
+    # ICERIK AYNIYSA YAZMA: kume esitse dosyaya hic dokunulmaz. Aksi halde
+    # ayni sema yalniz bicim farkiyla yeniden yazilir; diff'te "silinen"
+    # satirlar cogalir ve kapi bunu zayiflatma sanir (bkz. ates 2->1).
+    _eski = set((_duz_metin(a), _duz_metin(b)) for a, b in mevcut_ciftler(metin))
+    if _eski and _eski == set((_duz_metin(a), _duz_metin(b)) for a, b in ciftler):
+        return "guncel"
     dugum = faq_dugumu(sayfa_url(dosya), ciftler)
     script = (ISARET + '\n<script type="application/ld+json">\n' +
               json.dumps(dugum, ensure_ascii=False,
