@@ -956,7 +956,7 @@ Kliniğimiz **İstanbul'un Avrupa yakasında**, Kirazlı metro aktarma noktasın
 **Bu ilçelerde şubemiz yoktur;** hepsi tek adresimize, Kirazlı'daki kliniğe gelmektedir. Semt adlarını yazmamızın sebebi yol tarifini kolaylaştırmak — o semtlerde ayrı bir muayenehanemiz olduğu anlamına gelmez.
 Trafik ve toplu taşıma saatleri değiştiği için süre vermiyoruz; yola çıkmadan önce güncel durumu kontrol edin. Geç saatte metro kapalı olabilir.
 ### Gece gelirken
-Klinik her gün 24 saat açıktır, resmî tatiller dahil. Gece gelmeyi düşünüyorsanız iki öneri:
+Klinik her gün 24 saat açıktır, resmî tatiller dahil. Gece gelmeyi düşünüyorsanız üç öneri:
 - **Önce acil belirti var mı bakın.** Aşağıdakilerden herhangi biri varsa **112'yi arayın** ya da en yakın acile başvurun — mesaj yanıtını beklemeyin:
 - Nefes almakta ya da yutkunmakta zorlanma
 - Göze, boyna ya da göğse doğru yayılan şişlik

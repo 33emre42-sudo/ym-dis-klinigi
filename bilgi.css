@@ -73,6 +73,7 @@ a{color:inherit}
 .serit-tel:hover{filter:brightness(1.06)}
 @media (max-width:520px){
   .serit-tel{font-size:0;gap:0;padding:9px 12px}
+  .serit-tel::after{content:"Ara";font-size:12px;letter-spacing:0}
   .marka-metin{display:flex}
   .marka-metin>span{display:none}
 }
