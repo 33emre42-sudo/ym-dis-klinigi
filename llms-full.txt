@@ -1392,6 +1392,7 @@ Randevusuz da gelebilirsiniz. Ancak arayıp şikâyetinizi söylemeniz, o saatte
 **Hafta sonu ve tatillerde açık mısınız?**
 Evet. Klinik her gün 24 saat açıktır; hafta sonu ve resmî tatiller dahil.
 ### İlgili bilgi yazıları
+- Bağcılar nöbetçi dişçi: gece açık diş kliniği
 - Gece açık dişçi: gece sorununda ne yapılır?
 - Aynı gün diş hekimi: hangi şikâyet beklemez?
 - Nöbetçi diş hekimi ve acil diş
