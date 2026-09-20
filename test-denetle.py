@@ -1030,6 +1030,47 @@ import os as _os
 import re as _re
 _KOK = _os.path.dirname(_os.path.abspath(__file__))
 
+def _eski_kapi_sandboxlarini_temizle(min_yas_sn=7200):
+    """Bu betigin urettigi gecici test kopyalarindan yasli olanlari supurur.
+
+    Neden: `tempfile.TemporaryDirectory` Windows'ta kilitli dosya yuzunden
+    sessizce temizlenemeyebiliyor. 20 Eyl 2026 olcumunde depo kokunde 39
+    kalinti klasor ve 265 MB yer vardi (27 Agu - 20 Eyl, ~1,6 klasor/gun).
+    Supurge YALNIZCA bu betigin on eklerini ve min_yas_sn'den eski
+    klasorleri hedefler; site deposuna, git nesnelerine veya calisma
+    agacina dokunmaz. Silinen icerik `klinik-sitesi`nin kopyasidir.
+    """
+    import shutil as _sh
+    import time as _tz
+    onekler = ("kontrast-kapi-", "varlik-kapi-", "kaynak-kapi-", "denetim-testi-")
+    kok = _os.path.dirname(_KOK)
+    simdi = _tz.time()
+    adet = 0
+    try:
+        girdiler = _os.listdir(kok)
+    except OSError:
+        return 0
+    for ad in girdiler:
+        if not ad.startswith(onekler):
+            continue
+        yol = _os.path.join(kok, ad)
+        try:
+            if _os.path.islink(yol) or not _os.path.isdir(yol):
+                continue
+            if simdi - _os.path.getmtime(yol) < min_yas_sn:
+                continue
+        except OSError:
+            continue
+        _sh.rmtree(yol, ignore_errors=True)
+        if not _os.path.isdir(yol):
+            adet += 1
+    return adet
+
+
+_KAPI_ARTIK = _eski_kapi_sandboxlarini_temizle()
+if _KAPI_ARTIK:
+    print("TEST SANDBOX SUPURGESI: %d eski klasor temizlendi" % _KAPI_ARTIK)
+
 
 def kontrol(ad, gecti, not_=""):
     sonuc.append((ad, bool(gecti), not_))
