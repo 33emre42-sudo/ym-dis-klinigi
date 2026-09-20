@@ -25,6 +25,7 @@ Calistirma:  python seo-denetle.py
 Cikis kodu:  0 temiz · 1 KIRMIZI bulgu var
 """
 import collections
+import concurrent.futures
 import os
 import re
 import ssl
@@ -337,7 +338,19 @@ okunan = 0
 denenen = 0
 toplam_sayfa = len(canli_url)
 
-for sira, adres in enumerate(sorted(canli_url), 1):
+def _sayfa_getir(item):
+    sira, adres = item
+    return sira, adres, getir(adres, deadline=_denetim_deadline)
+
+
+# Ağ beklemeleri birbirini bloklamasın; sonuçlar aşağıda sıra numarasıyla
+# işlendiği için rapor deterministik kalır. Bu yalnızca sensör kapasitesidir,
+# SEO kararı veya kapsam seçimi değildir.
+with concurrent.futures.ThreadPoolExecutor(max_workers=8) as _havuz:
+    _sonuclar = list(_havuz.map(_sayfa_getir,
+                                enumerate(sorted(canli_url), 1)))
+
+for sira, adres, (_html, _kod) in _sonuclar:
     kisa = adres.replace(SITE, "") or "/"
     if _istek_zaman_asimi(_denetim_deadline) is None:
         _toplam_sure_doldu = True
@@ -345,7 +358,7 @@ for sira, adres in enumerate(sorted(canli_url), 1):
     denenen += 1
     print("  sayfa             : %d/%d %s"
           % (sira, toplam_sayfa, kisa), flush=True)
-    html, kod = getir(adres, deadline=_denetim_deadline)
+    html, kod = _html, _kod
     if html is None:
         if kod == "toplam sure doldu":
             _toplam_sure_doldu = True
