@@ -168,24 +168,30 @@ def randevu_yonlendirme_durumu(acici=None, deadline=None, saat=None):
     acici = _HTTP_ACICI if acici is None else acici
     istek = urllib.request.Request(
         adres, headers={"User-Agent": "YM-SEO-denetim"})
-    try:
-        with acici.open(istek, timeout=zaman_asimi) as cevap:
-            if cevap.geturl() != adres:
-                return None, "guvensiz yonlendirme"
-            if cevap.status != 200:
-                return None, cevap.status
-            return "same_origin", 200
-    except urllib.error.HTTPError as e:
-        konum = e.headers.get("Location") if e.headers is not None else None
-        if e.code in (301, 302, 303, 307, 308):
-            if konum == RANDEVU_HEDEFI:
-                return "izinli_yonlendirme", e.code
-            return None, "beklenmeyen yonlendirme"
-        return None, e.code
-    except (TimeoutError, urllib.error.URLError, ConnectionError) as e:
-        return None, type(e).__name__
-    except Exception as e:
-        return None, type(e).__name__
+    son_hata = "ag istegi basarisiz"
+    for deneme in range(3):
+        try:
+            with acici.open(istek, timeout=zaman_asimi) as cevap:
+                if cevap.geturl() != adres:
+                    return None, "guvensiz yonlendirme"
+                if cevap.status != 200:
+                    return None, cevap.status
+                return "same_origin", 200
+        except urllib.error.HTTPError as e:
+            konum = e.headers.get("Location") if e.headers is not None else None
+            if e.code in (301, 302, 303, 307, 308):
+                if konum == RANDEVU_HEDEFI:
+                    return "izinli_yonlendirme", e.code
+                return None, "beklenmeyen yonlendirme"
+            return None, e.code
+        except (TimeoutError, urllib.error.URLError, ConnectionError) as e:
+            son_hata = type(e).__name__
+            if deneme < 2:
+                time.sleep(1)
+                continue
+        except Exception as e:
+            return None, type(e).__name__
+    return None, son_hata
 
 
 def canli_kapsam_hatasi(beklenen, okunan, toplam_sure_doldu):
