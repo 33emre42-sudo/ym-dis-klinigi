@@ -1492,7 +1492,13 @@ Klinikteki hizmet alanlarını incelemek için tedaviler sayfası başlangıç n
 ### Hijyen ve hasta güvenliği hakkında bilgi alın
 Diş hekimliğinde kullanılan araçların ve ortamın hijyeni, hasta güvenliğinin temel parçalarındandır. Başvurduğunuz klinikte sterilizasyon süreçleri, tek kullanımlık malzemelerin kullanımı ve işlem öncesi bilgilendirme hakkında soru sorabilirsiniz. Muayene alanında temiz ve düzenli bir çalışma akışı görmek tek başına tüm klinik süreçleri değerlendirmeye yetmez; yine de merak ettiğiniz uygulamaları sormanız, sürece bilinçli katılmanıza yardımcı olur.
 İşlemden önce sağlık geçmişinizin sorulması ve onam sürecinin açıklanması da önemlidir. Yapılacak işlemin neden önerildiğini, sonrasında hangi belirtilerde yeniden kliniğe başvurmanız gerektiğini hekiminizden öğrenin. Ani gelişen, şiddetli veya sizi endişelendiren bir belirti varsa çevrim içi içerikle beklemeyin; hekiminize danışın.
-**Acil belirtilerde beklemeyin.** Nefes alma veya yutma güçlüğü, hızla yayılan şişlik, ağzı hızla dolduran kanama ya da bilinç değişikliği gibi durumlarda **112**'yi arayın veya en yakın acil servise başvurun.
+**Kliniğe gelmeyi beklemeyin, 112'yi arayın ya da en yakın acile gidin:**
+- Nefes almakta ya da yutkunmakta zorlanma
+- Göze, boyna ya da göğse doğru yayılan şişlik
+- Yüksek ateşle birlikte olan şişlik, titreme
+- Bilinç bulanıklığı ya da bayılma
+- Çene kırığı şüphesi ya da kafa travması sonrası baygınlık
+- Tekrarlanan baskıya rağmen durmayan ya da ağzı hızla dolduran kanama
 ### Ulaşım ve takip planını değerlendirin
 Diş tedavilerinde ilk ziyaretin ardından kontrol veya birden fazla seans gerekebilir. Bu yüzden kliniğin konumu, ulaşım seçenekleri ve randevu düzeni günlük yaşamınız açısından önem taşıyabilir. Bağcılar ve çevresinden gelirken ulaşım planınızı önceden yapmak, randevu saatine daha rahat ulaşmanıza yardımcı olur.
 Adres ve ulaşım bilgilerini ulaşım ve hizmet bölgesi sayfasından kontrol edebilirsiniz. Randevu öncesinde ulaşım, refakatçi gereksinimi veya işlem sonrası günlük düzeninizle ilgili tereddütünüz varsa kliniğe danışın. Özellikle sedasyon gerektiren bir işlem veya özel bir sağlık durumunuz söz konusuysa, size özel yönlendirme için hekiminizin önerisini esas alın.
@@ -1508,7 +1514,7 @@ Klinik seçerken tek bir iddiaya veya tek bir çevrim içi yoruma dayanmak yerin
 - İmplant süreci : Eksik diş değerlendirmesi hakkında genel bilgi.
 - Diş çekimi : Çekim öncesi ve sonrası genel bilgi.
 - Ulaşım ve hizmet bölgesi : Konum ve ulaşım bilgisi.
-Bağcılar ve çevresinden geliyorsanız ulaşım, randevu ve tedavi planı hakkındaki sorularınızı birlikte değerlendirelim. Ani gelişen şiddetli belirtilerde **112**.
+Bağcılar ve çevresinden geliyorsanız ulaşım, randevu ve tedavi planı hakkındaki sorularınızı birlikte değerlendirelim.
 0541 732 43 76 WhatsApp'tan yazın
 ### Sık sorulanlar
 **"Bağcılar'da diş kliniği seçerken ilk olarak ne sormalıyım?"** Şikâyetiniz için nasıl bir muayene ve inceleme gerektiğini, planlanan yaklaşımın aşamalarını ve kontrol ihtiyacını sorabilirsiniz. Kişisel sağlık durumunuz için hekiminize danışın.
