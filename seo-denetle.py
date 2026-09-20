@@ -43,7 +43,9 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace",
 KOK = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://ymdisklinigi.com"
 ZAMAN = 20
-TOPLAM_ZAMAN = 300
+# 105 URL'lik canlı kapsam, 300 saniyede yalnızca 62 sayfaya ulaşabiliyor;
+# kapsamı düşürmek yerine tam ölçüm için toplam bütçeyi genişletiyoruz.
+TOPLAM_ZAMAN = 600
 AG_DENEME_SAYISI = 3
 AG_TEKRAR_BEKLEME = 1.0
 EN_BUYUK = 4 * 1024 * 1024        # tek sayfa icin fazlasiyla yeterli
