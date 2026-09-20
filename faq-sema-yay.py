@@ -110,6 +110,28 @@ def sorulari_cikar(sayfa_metni):
     return ciftler
 
 
+def mevcut_ciftler(metin):
+    """Sayfadaki MEVCUT FAQPage blogunun (soru, cevap) ogeleri."""
+    blok = BLOK.search(metin)
+    if not blok:
+        return []
+    ic = re.search(r'<script type="application/ld\+json">(.*?)</script>',
+                   blok.group(0), re.S)
+    if not ic:
+        return []
+    try:
+        dugum = json.loads(ic.group(1))
+    except ValueError:
+        return []
+    ciftler = []
+    for og in dugum.get("mainEntity") or []:
+        soru = (og.get("name") or "").strip()
+        cevap = ((og.get("acceptedAnswer") or {}).get("text") or "").strip()
+        if soru and cevap:
+            ciftler.append((soru, cevap))
+    return ciftler
+
+
 def faq_dugumu(url, ciftler):
     return {
         "@context": "https://schema.org",
@@ -136,6 +158,19 @@ def isle(dosya, uygula):
     if "FAQPage" in BLOK.sub("", metin):
         return "atlandi-baska-faq"
     ciftler = sorulari_cikar(metin)
+    # ASLA KUCULTME: mevcut semada olup yeni kapi-uyumlu kumeye girmeyen
+    # oge, gorunur metinde birebir duruyorsa KORUNUR. Aksi halde uretici
+    # saglik/acil satirlarini semadan dusurur ve mekanik kapi bunu
+    # "triyaj zayiflatildi" diye durdurur (bkz. TRIYAJ_EKSILTME_DESEN).
+    gorunur = _duz_metin(re.sub(r"<script.*?</script>", " ", metin, flags=re.S))
+    yeni_sorular = set(s for s, _ in ciftler)
+    korunan = 0
+    for s, c in mevcut_ciftler(metin):
+        if s in yeni_sorular:
+            continue
+        if _duz_metin(s) in gorunur and _duz_metin(c) in gorunur:
+            ciftler.append((s, c))
+            korunan += 1
     if not ciftler:
         return "atlandi-soru-yok"
     dugum = faq_dugumu(sayfa_url(dosya), ciftler)
@@ -150,7 +185,7 @@ def isle(dosya, uygula):
         return "guncel"
     if uygula:
         _yaz(os.path.join(KOK, dosya), yeni)
-    return f"{len(ciftler)} soru"
+    return f"{len(ciftler)} soru" + (f" (+{korunan} korundu)" if korunan else "")
 
 
 def main():
