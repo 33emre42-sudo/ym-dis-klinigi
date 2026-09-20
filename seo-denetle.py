@@ -365,6 +365,10 @@ for sira, adres, (_html, _kod) in _sonuclar:
     print("  sayfa             : %d/%d %s"
           % (sira, toplam_sayfa, kisa), flush=True)
     html, kod = _html, _kod
+    if html is None and kod in ("URLError", "TimeoutError", "ConnectionError"):
+        # Paralel dalga anlık bağlantı yarışına takılırsa, kapsamı düşürmeden
+        # yalnız başarısız URL'yi seri olarak bir kez daha ölç.
+        html, kod = getir(adres, deadline=_denetim_deadline)
     if html is None:
         if kod == "toplam sure doldu":
             _toplam_sure_doldu = True
